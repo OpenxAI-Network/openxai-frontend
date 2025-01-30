@@ -1,8 +1,8 @@
-## OEP frontend
+## Deeplink frontend
 
-https://oep.openmesh.network/
+https://deeplink.network/
 
-Website interface to participate in the Openmesh Expansion Program (OEP) 2024.
+Website interface to participate in the Deeplink AI Initiative 2025.
 
 ## Commands
 
