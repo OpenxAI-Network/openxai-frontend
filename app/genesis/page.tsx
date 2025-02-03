@@ -62,7 +62,7 @@ export default function GenesisPage() {
           </div>
 
           <div className="mt-6 rounded-xl bg-[#0B1120] p-6">
-            <div className="mb-2 flex items-center justify-between text-base">
+            <div className="mb-6 flex items-center justify-between text-base">
               <div className="relative w-full">
                 <span 
                   className="absolute whitespace-nowrap bg-gradient-to-r from-white via-[#6B8DE6] to-[#8AB4FF] bg-clip-text text-transparent"
@@ -74,7 +74,7 @@ export default function GenesisPage() {
               </div>
             </div>
             
-            <div className="relative">
+            <div className="relative mb-6">
               {/* Current progress indicator */}
               <div 
                 className="absolute top-0 h-6 w-0.5 bg-white" 
@@ -107,7 +107,7 @@ export default function GenesisPage() {
             </div>
 
             {/* Milestone information box */}
-            <div className="mx-auto mt-6 w-4/5">
+            <div className="mx-auto mb-6 w-4/5">
               <div className="min-h-[100px] rounded-lg border border-white/10 bg-[#1a1f2e] p-4 text-center transition-all">
                 <div className="flex h-[100px] items-center justify-center">
                   {selectedMilestone !== null ? (
@@ -128,7 +128,7 @@ export default function GenesisPage() {
               </div>
             </div>
 
-            <div className="mt-8 grid grid-cols-4 gap-2">
+            <div className="mb-6 grid grid-cols-4 gap-2">
               {PAYMENT_METHODS.map((method) => (
                 <button
                   key={method.id}
@@ -144,14 +144,14 @@ export default function GenesisPage() {
               ))}
             </div>
 
-            <div className="mt-4 inline-block rounded-lg bg-gray-800 px-4 py-2">
+            <div className="mb-6 inline-block rounded-lg bg-gray-800 px-4 py-2">
               <span className="text-gray-300">Current balance: </span>
               <span className="text-white">1.2 ETH</span>
             </div>
 
-            <div className="mt-6">
-              <div className="mb-4">
-                <div className="text-base text-gray-500">Your deposit</div>
+            <div className="mb-6">
+              <div className="mb-6">
+                <div className="mb-2 text-base text-gray-500">Your deposit</div>
                 <div className="flex items-center justify-between rounded-lg bg-[#1a1f2e] p-4">
                   <div className="text-lg text-white">
                     0.35 ETH
@@ -159,22 +159,22 @@ export default function GenesisPage() {
                   </div>
                   <div className="rounded-lg bg-gray-800 px-4 py-2">
                     <span className="text-gray-300">Max Amount</span>
-                    <span className="text-white">$1,000</span>
+                    <span className="ml-2 text-white">$1,000</span>
                   </div>
                 </div>
               </div>
 
               <div>
-                <div className="text-base text-gray-500">You will receive</div>
-                  <div className="mb-4">
-                    <div className="flex items-center rounded-lg bg-[#1a1f2e] p-4">
-                      <span className="text-lg text-white">316,438 OPENX</span>
-                    </div>
-                  </div>              
-                </div>
+                <div className="mb-2 text-base text-gray-500">You will receive</div>
+                <div className="mb-6">
+                  <div className="flex items-center rounded-lg bg-[#1a1f2e] p-4">
+                    <span className="text-lg text-white">316,438 OPENX</span>
+                  </div>
+                </div>              
+              </div>
             </div>
 
-            <div className="mt-6 flex justify-center">
+            <div className="flex justify-center">
               <Button 
                 className="w-[300px] bg-gradient-to-r from-blue-600 to-green-400 text-white hover:opacity-90"
               >
