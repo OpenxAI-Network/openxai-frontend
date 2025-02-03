@@ -42,7 +42,7 @@ export function SideMenu() {
   const pathname = usePathname()
 
   return (
-    <div className="fixed left-0 top-0 h-full w-48 bg-black p-4 pt-24">
+    <div className="fixed left-0 top-0 h-full w-48 bg-black p-4 pt-40">
       {SIDE_MENU_ITEMS.map((item) => (
         <Link
           key={item.name}

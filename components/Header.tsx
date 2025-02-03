@@ -22,15 +22,15 @@ export function Header() {
     <header className="fixed top-0 z-50 w-full bg-white py-4 shadow-sm">
       <div className="container mx-auto flex items-center justify-between">
         <div className="flex items-center">
-          <Link href="/" className="mr-8 text-xl font-bold text-black">
+          <Link href="/" className="mr-16 text-xl font-bold text-black">
             OpenXAI
           </Link>
-          <nav className="flex items-center space-x-8">
+          <nav className="flex items-center space-x-12">
             {MENU_ITEMS.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-sm text-gray-600 hover:text-gray-900"
+                className="text-base text-gray-600 hover:text-gray-900"
               >
                 {item.name}
               </Link>
