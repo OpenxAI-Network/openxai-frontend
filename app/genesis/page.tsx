@@ -14,14 +14,15 @@ const MILESTONES = [
 ]
 
 const PAYMENT_METHODS = [
-  { id: 'eth', name: 'ETH', icon: 'fa-brands fa-ethereum' },
-  { id: 'usdc', name: 'USDC', icon: 'fa-regular fa-circle-dollar' },
-  { id: 'usdt', name: 'USDT', icon: 'fa-regular fa-circle-dollar' },
-  { id: 'sol', name: 'SOL', icon: 'fa-regular fa-circle-s' },
+  { id: 'eth', name: 'ETH' },
+  { id: 'weth', name: 'WETH' },
+  { id: 'usdc', name: 'USDC' },
+  { id: 'usdt', name: 'USDT' },
 ]
 
 export default function GenesisPage() {
   const [selectedMilestone, setSelectedMilestone] = React.useState<number | null>(null)
+  const [selectedPayment, setSelectedPayment] = React.useState('eth')
 
   return (
     <>
@@ -73,11 +74,16 @@ export default function GenesisPage() {
               </div>
             </div>
             
-            <div className="relative mb-2">
+            <div className="relative">
               {/* Current progress indicator */}
               <div 
                 className="absolute top-0 h-6 w-0.5 bg-white" 
                 style={{ left: '15%', zIndex: 20 }}
+              />
+              {/* Vertical connecting line */}
+              <div 
+                className="absolute bottom-full h-4 w-0.5 bg-white/30"
+                style={{ left: '15%' }}
               />
               <Progress 
                 value={15} 
@@ -126,14 +132,21 @@ export default function GenesisPage() {
               {PAYMENT_METHODS.map((method) => (
                 <button
                   key={method.id}
-                  className={`rounded-lg p-3 text-center text-base ${
-                    method.id === 'eth' ? 'bg-blue-600' : 'bg-[#1a1f2e]'
-                  }`}
+                  onClick={() => setSelectedPayment(method.id)}
+                  className={`rounded-md p-3 text-center text-lg font-bold text-white transition-all
+                    ${method.id === selectedPayment 
+                      ? 'border-2 border-white bg-blue-600' 
+                      : 'bg-[#1a1f2e] hover:border-2 hover:border-white'
+                    }`}
                 >
-                  <i className={`${method.icon} mr-2`}></i>
                   {method.name}
                 </button>
               ))}
+            </div>
+
+            <div className="mt-4 inline-block rounded-lg bg-gray-800 px-4 py-2">
+              <span className="text-gray-300">Current balance: </span>
+              <span className="text-white">1.2 ETH</span>
             </div>
 
             <div className="mt-6">
