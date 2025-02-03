@@ -152,16 +152,26 @@ export default function GenesisPage() {
             <div className="mt-6">
               <div className="mb-4">
                 <div className="text-base text-gray-500">Your deposit</div>
-                <div className="flex items-center justify-between">
-                  <div className="text-lg text-white">0.35 ETH</div>
-                  <div className="text-base text-gray-500">Max Amount $1,000</div>
+                <div className="flex items-center justify-between rounded-lg bg-[#1a1f2e] p-4">
+                  <div className="text-lg text-white">
+                    0.35 ETH
+                    <span className="text-sm text-gray-400"> ($950.13)</span>
+                  </div>
+                  <div className="rounded-lg bg-gray-800 px-4 py-2">
+                    <span className="text-gray-300">Max Amount</span>
+                    <span className="text-white">$1,000</span>
+                  </div>
                 </div>
               </div>
 
               <div>
                 <div className="text-base text-gray-500">You will receive</div>
-                <div className="text-lg text-white">316,438 OPENX</div>
-              </div>
+                  <div className="mb-4">
+                    <div className="flex items-center rounded-lg bg-[#1a1f2e] p-4">
+                      <span className="text-lg text-white">316,438 OPENX</span>
+                    </div>
+                  </div>              
+                </div>
             </div>
 
             <div className="mt-6 flex justify-center">
