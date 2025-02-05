@@ -5,6 +5,7 @@ import { SideMenu } from "@/components/genesis/SideMenu"
 import { Header } from "@/components/Header"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
+import SuccessModal from "@/components/genesis/Success"
 
 const MILESTONES = [
   { position: 25, title: "Community Launch", description: "Initial community token distribution" },
@@ -14,14 +15,16 @@ const MILESTONES = [
 ]
 
 const PAYMENT_METHODS = [
-  { id: 'eth', name: 'ETH', icon: 'fa-brands fa-ethereum' },
-  { id: 'usdc', name: 'USDC', icon: 'fa-regular fa-circle-dollar' },
-  { id: 'usdt', name: 'USDT', icon: 'fa-regular fa-circle-dollar' },
-  { id: 'sol', name: 'SOL', icon: 'fa-regular fa-circle-s' },
+  { id: 'eth', name: 'ETH' },
+  { id: 'weth', name: 'WETH' },
+  { id: 'usdc', name: 'USDC' },
+  { id: 'usdt', name: 'USDT' },
 ]
 
 export default function GenesisPage() {
   const [selectedMilestone, setSelectedMilestone] = React.useState<number | null>(null)
+  const [selectedPayment, setSelectedPayment] = React.useState('eth')
+  const [showSuccessModal, setShowSuccessModal] = React.useState(false)
 
   return (
     <>
@@ -61,7 +64,7 @@ export default function GenesisPage() {
           </div>
 
           <div className="mt-6 rounded-xl bg-[#0B1120] p-6">
-            <div className="mb-2 flex items-center justify-between text-base">
+            <div className="mb-6 flex items-center justify-between text-base">
               <div className="relative w-full">
                 <span 
                   className="absolute whitespace-nowrap bg-gradient-to-r from-white via-[#6B8DE6] to-[#8AB4FF] bg-clip-text text-transparent"
@@ -73,11 +76,16 @@ export default function GenesisPage() {
               </div>
             </div>
             
-            <div className="relative mb-2">
+            <div className="relative mb-6">
               {/* Current progress indicator */}
               <div 
                 className="absolute top-0 h-6 w-0.5 bg-white" 
                 style={{ left: '15%', zIndex: 20 }}
+              />
+              {/* Vertical connecting line */}
+              <div 
+                className="absolute bottom-full h-4 w-0.5 bg-white/30"
+                style={{ left: '15%' }}
               />
               <Progress 
                 value={15} 
@@ -101,7 +109,7 @@ export default function GenesisPage() {
             </div>
 
             {/* Milestone information box */}
-            <div className="mx-auto mt-6 w-4/5">
+            <div className="mx-auto mb-6 w-4/5">
               <div className="min-h-[100px] rounded-lg border border-white/10 bg-[#1a1f2e] p-4 text-center transition-all">
                 <div className="flex h-[100px] items-center justify-center">
                   {selectedMilestone !== null ? (
@@ -122,38 +130,56 @@ export default function GenesisPage() {
               </div>
             </div>
 
-            <div className="mt-8 grid grid-cols-4 gap-2">
+            <div className="mb-6 grid grid-cols-4 gap-2">
               {PAYMENT_METHODS.map((method) => (
                 <button
                   key={method.id}
-                  className={`rounded-lg p-3 text-center text-base ${
-                    method.id === 'eth' ? 'bg-blue-600' : 'bg-[#1a1f2e]'
-                  }`}
+                  onClick={() => setSelectedPayment(method.id)}
+                  className={`rounded-md p-3 text-center text-lg font-bold text-white transition-all
+                    ${method.id === selectedPayment 
+                      ? 'border-2 border-white bg-blue-600' 
+                      : 'bg-[#1a1f2e] hover:border-2 hover:border-white'
+                    }`}
                 >
-                  <i className={`${method.icon} mr-2`}></i>
                   {method.name}
                 </button>
               ))}
             </div>
 
-            <div className="mt-6">
-              <div className="mb-4">
-                <div className="text-base text-gray-500">Your deposit</div>
-                <div className="flex items-center justify-between">
-                  <div className="text-lg text-white">0.35 ETH</div>
-                  <div className="text-base text-gray-500">Max Amount $1,000</div>
+            <div className="mb-6 inline-block rounded-lg bg-gray-800 px-4 py-2">
+              <span className="text-gray-300">Current balance: </span>
+              <span className="text-white">1.2 ETH</span>
+            </div>
+
+            <div className="mb-6">
+              <div className="mb-6">
+                <div className="mb-2 text-base text-gray-500">Your deposit</div>
+                <div className="flex items-center justify-between rounded-lg bg-[#1a1f2e] p-4">
+                  <div className="text-lg text-white">
+                    0.35 ETH
+                    <span className="text-sm text-gray-400"> ($950.13)</span>
+                  </div>
+                  <div className="rounded-lg bg-gray-800 px-4 py-2">
+                    <span className="text-gray-300">Max Amount</span>
+                    <span className="ml-2 text-white">$1,000</span>
+                  </div>
                 </div>
               </div>
 
               <div>
-                <div className="text-base text-gray-500">You will receive</div>
-                <div className="text-lg text-white">316,438 OPENX</div>
+                <div className="mb-2 text-base text-gray-500">You will receive</div>
+                <div className="mb-6">
+                  <div className="flex items-center rounded-lg bg-[#1a1f2e] p-4">
+                    <span className="text-lg text-white">316,438 OPENX</span>
+                  </div>
+                </div>              
               </div>
             </div>
 
-            <div className="mt-6 flex justify-center">
+            <div className="flex justify-center">
               <Button 
                 className="w-[300px] bg-gradient-to-r from-blue-600 to-green-400 text-white hover:opacity-90"
+                onClick={() => setShowSuccessModal(true)}
               >
                 WalletConnect
               </Button>
@@ -161,6 +187,9 @@ export default function GenesisPage() {
           </div>
         </main>
       </div>
+      {showSuccessModal && (
+        <SuccessModal onClose={() => setShowSuccessModal(false)} />
+      )}
     </>
   )
 }
