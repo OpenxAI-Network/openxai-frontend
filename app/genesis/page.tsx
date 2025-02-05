@@ -6,6 +6,9 @@ import { Header } from "@/components/Header"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import SuccessModal from "@/components/genesis/Success"
+import { useWeb3Modal } from "@web3modal/wagmi/react"
+import { useAccount, useBalance } from "wagmi"
+import { formatUnits } from "viem"
 
 const MILESTONES = [
   { position: 25, title: "Community Launch", description: "Initial community token distribution" },
@@ -25,7 +28,11 @@ export default function GenesisPage() {
   const [selectedMilestone, setSelectedMilestone] = React.useState<number | null>(null)
   const [selectedPayment, setSelectedPayment] = React.useState('eth')
   const [showSuccessModal, setShowSuccessModal] = React.useState(false)
+  const {address} = useAccount();
+  const {open} = useWeb3Modal();
 
+  const {data: ethBalance} = useBalance({address})
+  
   return (
     <>
       <Header />
@@ -146,10 +153,10 @@ export default function GenesisPage() {
               ))}
             </div>
 
-            <div className="mb-6 inline-block rounded-lg bg-gray-800 px-4 py-2">
+            {ethBalance && <div className="mb-6 inline-block rounded-lg bg-gray-800 px-4 py-2">
               <span className="text-gray-300">Current balance: </span>
-              <span className="text-white">1.2 ETH</span>
-            </div>
+              <span className="text-white">{formatUnits(ethBalance.value, ethBalance.decimals).substring(0, 5)} ETH</span>
+            </div>}
 
             <div className="mb-6">
               <div className="mb-6">
@@ -179,7 +186,7 @@ export default function GenesisPage() {
             <div className="flex justify-center">
               <Button 
                 className="w-[300px] bg-gradient-to-r from-blue-600 to-green-400 text-white hover:opacity-90"
-                onClick={() => setShowSuccessModal(true)}
+                onClick={() => {if (address) {setShowSuccessModal(true)} else {open()}}}
               >
                 WalletConnect
               </Button>
