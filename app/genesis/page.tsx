@@ -5,6 +5,7 @@ import { SideMenu } from "@/components/genesis/SideMenu"
 import { Header } from "@/components/Header"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
+import SuccessModal from "@/components/genesis/Success"
 
 const MILESTONES = [
   { position: 25, title: "Community Launch", description: "Initial community token distribution" },
@@ -23,6 +24,7 @@ const PAYMENT_METHODS = [
 export default function GenesisPage() {
   const [selectedMilestone, setSelectedMilestone] = React.useState<number | null>(null)
   const [selectedPayment, setSelectedPayment] = React.useState('eth')
+  const [showSuccessModal, setShowSuccessModal] = React.useState(false)
 
   return (
     <>
@@ -177,6 +179,7 @@ export default function GenesisPage() {
             <div className="flex justify-center">
               <Button 
                 className="w-[300px] bg-gradient-to-r from-blue-600 to-green-400 text-white hover:opacity-90"
+                onClick={() => setShowSuccessModal(true)}
               >
                 WalletConnect
               </Button>
@@ -184,6 +187,9 @@ export default function GenesisPage() {
           </div>
         </main>
       </div>
+      {showSuccessModal && (
+        <SuccessModal onClose={() => setShowSuccessModal(false)} />
+      )}
     </>
   )
 }

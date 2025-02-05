@@ -18,22 +18,22 @@ const SIDE_MENU_ITEMS = [
   },
   { 
     name: "Claims", 
-    href: "/genesis/claims", 
+    href: "/claims", 
     icon: <FontAwesomeIcon icon={faFlagCheckered} className="size-4" />
   },
   { 
     name: "Stake", 
-    href: "/genesis/stake", 
+    href: "/stake", 
     icon: <FontAwesomeIcon icon={faCoins} className="size-4" />
   },
   { 
     name: "Earn", 
-    href: "/genesis/earn", 
+    href: "/earn", 
     icon: <FontAwesomeIcon icon={faDollarSign} className="size-4" />
   },
   { 
     name: "Governance", 
-    href: "/genesis/governance", 
+    href: "/governance", 
     icon: <FontAwesomeIcon icon={faScaleBalanced} className="size-4" />
   },
 ]
