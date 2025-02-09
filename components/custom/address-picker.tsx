@@ -193,7 +193,7 @@ function Logo({ src }: { src?: string }) {
     <div>
       {src && (
         <Image
-          className="w-[20px] h-[20px]"
+          className="size-[20px]"
           alt="logo"
           src={src}
           width={20}

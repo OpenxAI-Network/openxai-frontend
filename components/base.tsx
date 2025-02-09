@@ -1,6 +1,6 @@
 import NextLink from "next/link"
 
-export function Title({ children, id }: { children: any; id?: string }) {
+export function Title({ children, id }: { children: React.ReactNode; id?: string }) {
   return (
     <span id={id} className="pt-12 text-3xl font-bold">
       {children}
@@ -25,7 +25,7 @@ export function Text({
 export function Link({ href, children }: { href: string; children: any }) {
   return (
     <NextLink
-      className="text-blue-600 hover:text-blue-800 underline"
+      className="text-blue-600 underline hover:text-blue-800"
       href={href}
       target="_blank"
     >

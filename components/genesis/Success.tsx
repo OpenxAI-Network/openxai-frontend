@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Check } from 'lucide-react';
+import { Button } from "@/components/ui/button"
 
 interface SuccessModalProps {
   depositAmount?: string;
@@ -55,10 +56,14 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
         
         <p className="text-sm text-gray-500">
           Auto redirect in {countdown} seconds or{' '}
-          <Link href="/claims" className="underline text-blue-500">
+          <Link href="/claims" className="text-blue-500 underline">
             go to your dashboard
           </Link>
         </p>
+
+        <Button className="mt-4 rounded bg-blue-600 px-4 py-2 text-white">
+          Close
+        </Button>
       </div>
     </div>
   );

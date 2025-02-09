@@ -1,8 +1,8 @@
-## Deeplink frontend
+## OpenxAI Frontend
 
-https://deeplink.network/
+https://openxai.org
 
-Website interface to participate in the Deeplink AI Initiative 2025.
+Website interface to participate in the OpenxAI Initiative 2025.
 
 ## Commands
 

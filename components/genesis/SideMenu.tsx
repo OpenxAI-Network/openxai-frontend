@@ -1,5 +1,6 @@
 "use client"
-import Link from "next/link"
+import React from "react"
+import NextLink from "next/link"
 import { usePathname } from "next/navigation"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { 
@@ -9,6 +10,9 @@ import {
   faDollarSign,
   faScaleBalanced
 } from "@fortawesome/free-solid-svg-icons"
+import { cn } from "@/lib/utils"
+
+export interface SideMenuProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 const SIDE_MENU_ITEMS = [
   { 
@@ -38,13 +42,16 @@ const SIDE_MENU_ITEMS = [
   },
 ]
 
-export function SideMenu() {
+export function SideMenu({ className, ...props }: SideMenuProps) {
   const pathname = usePathname()
 
   return (
-    <div className="fixed left-0 top-0 h-full w-48 bg-black p-4 pt-40">
+    <div
+      className={cn("fixed left-0 top-0 h-full w-48 bg-black p-4 pt-40", className)}
+      {...props}
+    >
       {SIDE_MENU_ITEMS.map((item) => (
-        <Link
+        <NextLink
           key={item.name}
           href={item.href}
           className={`mb-4 flex items-center space-x-3 rounded-lg p-2 text-gray-300 hover:bg-gray-800 ${
@@ -53,7 +60,7 @@ export function SideMenu() {
         >
           <span className="text-gray-400">{item.icon}</span>
           <span>{item.name}</span>
-        </Link>
+        </NextLink>
       ))}
     </div>
   )
