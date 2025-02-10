@@ -13,8 +13,8 @@ export const defaultChain = mainnet
 
 const appName = siteConfig.name
 const appDescription = siteConfig.description
-const appIcon = "https://oep.openmesh.network/icon.png" as const
-const appUrl = "https://oep.openmesh.network" as const
+const appIcon = "https://openxai.org/icon.png" as const
+const appUrl = "https://openxai.org" as const
 const metadata = {
   name: appName,
   description: appDescription,
@@ -22,7 +22,7 @@ const metadata = {
   icons: [appIcon],
 }
 
-const projectId = "3ad69c69210434294b8af3c0fe806667" as const // WalletConnect
+const projectId = "2bba2b51ffe8712d1e91e599edb7b484" as const // WalletConnect
 const config = defaultWagmiConfig({
   chains,
   projectId,

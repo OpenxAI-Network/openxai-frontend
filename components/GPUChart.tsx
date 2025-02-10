@@ -7,7 +7,7 @@ const costComparisonData = [
   { provider: 'Google Cloud H100', cost: 2.48 },
   { provider: 'Azure H100', cost: 3.05 },
   { provider: 'Vultr Cloud H100', cost: 2.30 },
-  { provider: 'Deeplink H100', cost: 1.85 }
+  { provider: 'OpenxAI H100', cost: 1.85 }
 ];
 
 export function GPUChart() {
@@ -23,7 +23,7 @@ export function GPUChart() {
             {costComparisonData.map((entry, index) => (
               <Cell 
                 key={`cell-${index}`}
-                fill={entry.provider === 'Deeplink H100' ? '#22c55e' : '#1e40af'}
+                fill={entry.provider === 'OpenxAI H100' ? '#22c55e' : '#1e40af'}
               />
             ))}
           </Bar>
