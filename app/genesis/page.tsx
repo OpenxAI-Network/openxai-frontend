@@ -19,10 +19,10 @@ const MILESTONES = [
 ]
 
 const PAYMENT_METHODS = [
-  { id: 'eth', name: 'ETH', icon: '/icon.png' },
-  { id: 'weth', name: 'WETH', icon: '/icon.png' },
-  { id: 'usdc', name: 'USDC', icon: '/icon.png' },
-  { id: 'usdt', name: 'USDT', icon: '/icon.png' },
+  { id: 'eth', name: 'ETH', icon: '/eth.png' },
+  { id: 'weth', name: 'WETH', icon: '/weth.png' },
+  { id: 'usdc', name: 'USDC', icon: '/usdc.png' },
+  { id: 'usdt', name: 'USDT', icon: '/usdt.png' },
 ]
 
 export default function GenesisPage() {
