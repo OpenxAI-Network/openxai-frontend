@@ -13,8 +13,8 @@ export const defaultChain = mainnet
 
 const appName = siteConfig.name
 const appDescription = siteConfig.description
-const appIcon = "https://deeplink-frontend-demo.vercel.app/icon.png" as const
-const appUrl = "https://deeplink-frontend-demo.vercel.app" as const
+const appIcon = "https://openxai.org/icon.png" as const
+const appUrl = "https://openxai.org" as const
 const metadata = {
   name: appName,
   description: appDescription,

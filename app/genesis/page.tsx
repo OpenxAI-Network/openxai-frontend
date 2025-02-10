@@ -1,6 +1,7 @@
 "use client"
 
 import React from "react"
+import Image from "next/image"
 import { SideMenu } from "@/components/genesis/SideMenu"
 import { Header } from "@/components/Header"
 import { Button } from "@/components/ui/button"
@@ -18,10 +19,10 @@ const MILESTONES = [
 ]
 
 const PAYMENT_METHODS = [
-  { id: 'eth', name: 'ETH' },
-  { id: 'weth', name: 'WETH' },
-  { id: 'usdc', name: 'USDC' },
-  { id: 'usdt', name: 'USDT' },
+  { id: 'eth', name: 'ETH', icon: '/eth.png' },
+  { id: 'weth', name: 'WETH', icon: '/weth.png' },
+  { id: 'usdc', name: 'USDC', icon: '/usdc.png' },
+  { id: 'usdt', name: 'USDT', icon: '/usdt.png' },
 ]
 
 export default function GenesisPage() {
@@ -36,41 +37,37 @@ export default function GenesisPage() {
   return (
     <>
       <Header />
-      <div className="flex min-h-screen bg-black">
-        <SideMenu />
+      <div className="flex min-h-screen bg-gradient-to-b from-[#1a1f2e] to-[#0B1120]">
+        <SideMenu className="bg-gray-900" />
         <main className="ml-48 flex-1 p-8 pt-24">
+          {/* Main stats and info container */}
           <div className="grid grid-cols-6 gap-4">
-            {/* Info columns (1-3) */}
-            <div className="col-span-3 grid grid-cols-3 gap-4">
-              <div>
-                <div className="text-gray-500">Ticker</div>
-                <div className="text-white">$OPENX (ERC20)</div>
-              </div>
-              <div>
-                <div className="text-gray-500">Max per wallet</div>
-                <div className="text-white">$1000</div>
-              </div>
-              <div>
-                <div className="text-gray-500">Contract</div>
-                <div className="text-blue-500">0x84...84s4</div>
-              </div>
-            </div>
-
-            {/* Empty columns (4-5) */}
-            <div className="col-span-2"></div>
-
-            {/* Amount column (6) */}
-            <div className="text-right">
-              <h1 className="text-7xl font-bold">
+            {/* Amount section (columns 1-3) */}
+            <div className="col-span-3">
+              <h1 className="inline-flex items-baseline gap-4 text-7xl font-bold">
                 <span className="bg-gradient-to-r from-white via-[#6B8DE6] to-[#8AB4FF] bg-clip-text text-transparent">
                   $111.4K
                 </span>
+                <span className="text-lg text-white">$312.3K remaining</span>
               </h1>
-              <p className="text-lg text-white">$312.3K remaining</p>
+            </div>
+
+            {/* Info boxes (columns 4-6) */}
+            <div className="relative col-span-1 rounded-lg border border-white bg-[#0B1120] p-4">
+              <div className="text-gray-500">Ticker</div>
+              <div className="text-white">$OPENX (ERC20)</div>
+            </div>
+            <div className="relative col-span-1 rounded-lg border border-white bg-[#0B1120] p-4">
+              <div className="text-gray-500">Max per wallet</div>
+              <div className="text-white">$1000</div>
+            </div>
+            <div className="relative col-span-1 rounded-lg border border-white bg-[#0B1120] p-4">
+              <div className="text-gray-500">Contract</div>
+              <a href="https://etherscan.io/#" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-400">0x84...84s4</a>
             </div>
           </div>
 
-          <div className="mt-6 rounded-xl bg-[#0B1120] p-6">
+          <div className="mt-6">
             <div className="mb-6 flex items-center justify-between text-base">
               <div className="relative w-full">
                 <span 
@@ -79,7 +76,7 @@ export default function GenesisPage() {
                 >
                   1 ETH = 1,476,947 OPENX
                 </span>
-                <span className="float-right text-3xl font-bold text-green-500">$500K</span>
+                <span className="float-right text-3xl font-bold text-white">$500K</span>
               </div>
             </div>
             
@@ -96,7 +93,7 @@ export default function GenesisPage() {
               />
               <Progress 
                 value={15} 
-                className="h-6 border border-white bg-[#1a1f2e] [&>div]:bg-gradient-to-r [&>div]:from-white [&>div]:via-white [&>div]:to-green-400" 
+                className="h-6 border border-white bg-[#1a1f2e] [&>div]:bg-gradient-to-r [&>div]:from-white [&>div]:via-[#6B8DE6] [&>div]:to-[#8AB4FF]" 
               />
               {/* Milestone markers */}
               {MILESTONES.map((milestone, index) => (
@@ -142,55 +139,64 @@ export default function GenesisPage() {
                 <button
                   key={method.id}
                   onClick={() => setSelectedPayment(method.id)}
-                  className={`rounded-md p-3 text-center text-lg font-bold text-white transition-all
+                  className={`flex items-center justify-center gap-2 rounded-md p-3 text-center text-lg font-bold text-white transition-all
                     ${method.id === selectedPayment 
                       ? 'border-2 border-white bg-blue-600' 
                       : 'bg-[#1a1f2e] hover:border-2 hover:border-white'
                     }`}
                 >
+                  <Image
+                    src={method.icon}
+                    alt={method.name}
+                    width={24}
+                    height={24}
+                    className="size-6"
+                  />
                   {method.name}
                 </button>
               ))}
             </div>
 
-            {ethBalance && <div className="mb-6 inline-block rounded-lg bg-gray-800 px-4 py-2">
+            <div className="mb-6 inline-block rounded-lg bg-gray-800/50 px-4 py-2">
               <span className="text-gray-300">Current balance: </span>
-              <span className="text-white">{formatUnits(ethBalance.value, ethBalance.decimals).substring(0, 5)} ETH</span>
-            </div>}
+              {address && ethBalance ? (
+                <span className="text-white">{formatUnits(ethBalance.value, ethBalance.decimals).substring(0, 5)} ETH</span>
+              ) : (
+                <span className="text-white">please connect wallet</span>
+              )}
+            </div>
 
             <div className="mb-6">
-              <div className="mb-6">
-                <div className="mb-2 text-base text-gray-500">Your deposit</div>
-                <div className="flex items-center justify-between rounded-lg bg-[#1a1f2e] p-4">
-                  <div className="text-lg text-white">
-                    0.35 ETH
-                    <span className="text-sm text-gray-400"> ($950.13)</span>
-                  </div>
-                  <div className="rounded-lg bg-gray-800 px-4 py-2">
-                    <span className="text-gray-300">Max Amount</span>
-                    <span className="ml-2 text-white">$1,000</span>
-                  </div>
+              <div className="mb-2 text-base text-gray-500">Your deposit</div>
+              <div className="flex items-center justify-between rounded-lg border border-gray-700 bg-[#1a1f2e] p-4">
+                <div className="text-lg text-white">
+                  0.35 ETH
+                  <span className="text-sm text-gray-400"> ($950.13)</span>
+                </div>
+                <div className="rounded-lg bg-gray-800 px-4 py-2">
+                  <span className="text-gray-300">Max Amount</span>
+                  <span className="ml-2 text-white">$1,000</span>
                 </div>
               </div>
-
-              <div>
-                <div className="mb-2 text-base text-gray-500">You will receive</div>
-                <div className="mb-6">
-                  <div className="flex items-center rounded-lg bg-[#1a1f2e] p-4">
-                    <span className="text-lg text-white">316,438 OPENX</span>
-                  </div>
-                </div>              
-              </div>
             </div>
 
-            <div className="flex justify-center">
-              <Button 
-                className="w-[300px] bg-gradient-to-r from-blue-600 to-green-400 text-white hover:opacity-90"
-                onClick={() => {if (address) {setShowSuccessModal(true)} else {open()}}}
-              >
-                WalletConnect
-              </Button>
+            <div>
+              <div className="mb-2 text-base text-gray-500">You will receive</div>
+              <div className="mb-6">
+                <div className="flex items-center rounded-lg border border-gray-700 bg-[#1a1f2e] p-4">
+                  <span className="text-lg text-white">316,438 OPENX</span>
+                </div>
+              </div>              
             </div>
+          </div>
+
+          <div className="flex justify-center">
+            <Button 
+              className="w-[300px] bg-gradient-to-r from-blue-600 to-green-400 text-white hover:opacity-90"
+              onClick={() => {if (address) {setShowSuccessModal(true)} else {open()}}}
+            >
+              WalletConnect
+            </Button>
           </div>
         </main>
       </div>
