@@ -7,7 +7,7 @@ export default function IndexPage() {
       <div className="container flex min-h-screen flex-col items-center">
         <iframe
           src="https://exuberant-deck-437452.framer.app/"
-          title="OpenxAI Initiative Framer Page"
+          title="OpenxAI Initiative"
           loading="lazy"
           style={{ border: 0 }}
           className="h-screen w-full"
