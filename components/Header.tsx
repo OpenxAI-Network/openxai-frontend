@@ -7,11 +7,11 @@ import { usePathname } from "next/navigation"
 
 const MENU_ITEMS = [
   { name: "Vision", href: "/vision" },
-  { name: "Models", href: "https://studio.openxai.org/app-store" },
-  { name: "Community", href: "https://openxai.discourse.group/" },
+  { name: "Model Studio", href: "/models" },
+  { name: "Community", href: "/community" },
   { name: "Contribute & Earn", href: "/contribute" },
   { name: "DAO", href: "/dao" },
-  { name: "Doc", href: "https://openxai-docs.vercel.app/" },
+  { name: "Docs", href: "/docs" },
   { name: "Genesis", href: "/genesis" },
 ]
 
