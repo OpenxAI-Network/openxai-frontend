@@ -7,11 +7,11 @@ import { usePathname } from "next/navigation"
 
 const MENU_ITEMS = [
   { name: "Vision", href: "/vision" },
-  { name: "Models", href: "https://studio.openxai.org/app-store" },
-  { name: "Community", href: "https://openxai.discourse.group/" },
+  { name: "Model Studio", href: "/models" },
+  { name: "Community", href: "/community" },
   { name: "Contribute & Earn", href: "/contribute" },
   { name: "DAO", href: "/dao" },
-  { name: "Doc", href: "https://openxai-docs.vercel.app/" },
+  { name: "Docs", href: "/docs" },
   { name: "Genesis", href: "/genesis" },
 ]
 
@@ -25,7 +25,7 @@ export function Header() {
       <div className="container mx-auto flex items-center justify-between">
         <div className="flex items-center">
           <Link href="/" className="mr-16 text-xl font-bold text-black">
-            OpenXAI
+            OpenxAI
           </Link>
           <nav className="flex items-center space-x-12">
             {MENU_ITEMS.map((item) => (

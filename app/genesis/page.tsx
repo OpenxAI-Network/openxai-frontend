@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useState } from "react"
 import Image from "next/image"
 import { SideMenu } from "@/components/genesis/SideMenu"
 import { Header } from "@/components/Header"
@@ -26,14 +26,70 @@ const PAYMENT_METHODS = [
 ]
 
 export default function GenesisPage() {
-  const [selectedMilestone, setSelectedMilestone] = React.useState<number | null>(null)
-  const [selectedPayment, setSelectedPayment] = React.useState('eth')
-  const [showSuccessModal, setShowSuccessModal] = React.useState(false)
-  const {address} = useAccount();
-  const {open} = useWeb3Modal();
+  const [selectedMilestone, setSelectedMilestone] = useState<number | null>(null)
+  const [selectedPayment, setSelectedPayment] = useState("eth")
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
+  const { address } = useAccount()
+  const { open } = useWeb3Modal()
+  const { data: ethBalance } = useBalance({ address })
 
-  const {data: ethBalance} = useBalance({address})
-  
+  // FAQ Section Data
+  const FAQS = [
+    {
+      question: "What is OpenxAI?",
+      answer:
+        "OpenxAI is a next-generation decentralized AI platform offering a comprehensive ecosystem for AI model deployment, tokenization, and community governance.",
+    },
+    {
+      question: "Why should I choose OpenxAI? (Problems and Solutions)",
+      answer:
+        "OpenxAI addresses challenges in centralized AI—such as scalability, transparency, and cost inefficiency—by providing decentralized solutions with enhanced security and accountability.",
+    },
+    {
+      question: "What are the key features and differentiators of OpenxAI?",
+      answer:
+        "OpenxAI offers tokenized AI models, decentralized governance, milestone-based funding, secure model hosting, and innovative staking mechanisms that set it apart.",
+    },
+    {
+      question: "How does OpenxAI work (end-to-end workflow)?",
+      answer:
+        "From model deployment to monetization, OpenxAI streamlines the entire AI lifecycle with secure transactions, decentralized model hosting, and dynamic governance.",
+    },
+    {
+      question: "What is the OpenxAI ecosystem?",
+      answer:
+        "The ecosystem encompasses AI model hosting, tokenization, staking, governance, and a vibrant marketplace connecting developers, investors, and users.",
+    },
+    {
+      question: "How is tokenization of AI models and datasets managed?",
+      answer:
+        "OpenxAI leverages blockchain technology and standards like ERC-721/1155 to tokenize models and datasets, ensuring robust ownership rights and fair revenue distribution.",
+    },
+    {
+      question: "How do staking, governance, and burn-to-vote mechanisms work?",
+      answer:
+        "Users stake tokens to participate in governance and influence platform decisions; the burn-to-vote mechanism adds accountability by requiring a token sacrifice to vote.",
+    },
+    {
+      question: "What is milestone-based funding?",
+      answer:
+        "Funding is released in stages based on predetermined milestones, ensuring continuous progress, risk reduction, and accountability throughout a project's lifecycle.",
+    },
+    {
+      question: "What is OpenxAI Studio and how do I get started?",
+      answer:
+        "OpenxAI Studio is the platform's integrated development environment where you can deploy and manage your AI models. It offers extensive onboarding documentation and tools.",
+    },
+    {
+      question: "Where can I find further developer resources and API documentation?",
+      answer:
+        "Comprehensive developer resources, API references, and SDKs are available on the official documentation portal and our GitHub repositories.",
+    },
+  ]
+
+  // Set the first FAQ open by default (index 0)
+  const [openFaqIndex, setOpenFaqIndex] = useState<number>(0)
+
   return (
     <>
       <Header />
@@ -186,23 +242,44 @@ export default function GenesisPage() {
                 <div className="flex items-center rounded-lg border border-gray-700 bg-[#1a1f2e] p-4">
                   <span className="text-lg text-white">316,438 OPENX</span>
                 </div>
-              </div>              
+              </div>
             </div>
           </div>
 
-          <div className="flex justify-center">
-            <Button 
-              className="w-[300px] bg-gradient-to-r from-blue-600 to-green-400 text-white hover:opacity-90"
+          <div className="flex justify-center mt-16">
+            <Button
+              className="w-[420px] h-[60px] bg-gradient-to-r from-blue-600 to-green-400 text-white hover:opacity-90"
               onClick={() => {if (address) {setShowSuccessModal(true)} else {open()}}}
             >
               WalletConnect
             </Button>
           </div>
+
+          {/* FAQ Section */}
+          <div className="mt-32 w-full px-4">
+            <h2 className="mb-8 text-center text-3xl font-bold text-white">
+              Frequently Asked Questions
+            </h2>
+            <div className="space-y-4">
+              {FAQS.map((faq, index) => (
+                <div key={index} className="rounded-lg bg-[#1a1f2e] p-4">
+                  <button
+                    onClick={() => setOpenFaqIndex(openFaqIndex === index ? -1 : index)}
+                    className="flex w-full justify-between text-left text-lg font-semibold text-white focus:outline-none"
+                  >
+                    <span>{faq.question}</span>
+                    <span>{openFaqIndex === index ? "-" : "+"}</span>
+                  </button>
+                  {openFaqIndex === index && (
+                    <div className="mt-2 text-base text-gray-300">{faq.answer}</div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
         </main>
       </div>
-      {showSuccessModal && (
-        <SuccessModal onClose={() => setShowSuccessModal(false)} />
-      )}
+      {showSuccessModal && <SuccessModal onClose={() => setShowSuccessModal(false)} />}
     </>
   )
 }

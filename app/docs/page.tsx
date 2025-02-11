@@ -1,13 +1,13 @@
 import { Header } from "@/components/Header"
 
-export default function IndexPage() {
+export default function DocPage() {
   return (
     <>
       <Header />
       <div className="container flex min-h-screen flex-col items-center">
         <iframe
-          src="https://exuberant-deck-437452.framer.app/"
-          title="OpenxAI Initiative"
+          src="https://openxai-docs.vercel.app/"
+          title="OpenxAI Documentation"
           loading="lazy"
           style={{ border: 0 }}
           className="h-screen w-full"
