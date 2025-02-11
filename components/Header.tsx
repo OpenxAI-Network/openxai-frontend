@@ -25,7 +25,7 @@ export function Header() {
       <div className="container mx-auto flex items-center justify-between">
         <div className="flex items-center">
           <Link href="/" className="mr-16 text-xl font-bold text-black">
-            OpenXAI
+            OpenxAI
           </Link>
           <nav className="flex items-center space-x-12">
             {MENU_ITEMS.map((item) => (

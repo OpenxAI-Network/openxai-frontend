@@ -7,7 +7,7 @@ export default function DocPage() {
       <div className="container flex min-h-screen flex-col items-center">
         <iframe
           src="https://openxai-docs.vercel.app/"
-          title="OpenXAI Documentation"
+          title="OpenxAI Documentation"
           loading="lazy"
           style={{ border: 0 }}
           className="h-screen w-full"

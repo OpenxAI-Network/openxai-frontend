@@ -7,8 +7,8 @@ import { Button } from "@/components/ui/button"
 import { ChevronDown } from "lucide-react"
 
 const SIMPLE_TASKS = [
-  { platform: "X", action: "Follow @OpenXAI", reward: "500 OPENX" },
-  { platform: "Telegram", action: "Join @OpenXAI", reward: "500 OPENX" },
+  { platform: "X", action: "Follow @OpenxAI", reward: "500 OPENX" },
+  { platform: "Telegram", action: "Join @OpenxAI", reward: "500 OPENX" },
   { platform: "Video", action: "Create a short video about..", reward: "500 OPENX" },
   { platform: "Video", action: "Create a short video", reward: "500 OPENX" },
   { platform: "Video", action: "Create a short video", reward: "500 OPENX" },
@@ -16,9 +16,9 @@ const SIMPLE_TASKS = [
 
 const LONG_TERM_TASKS = [
   { name: "Token Generation Event (Genesis)", reward: "500 OPENX" },
-  { name: "Follow OpenXAI", reward: "500 OPENX" },
-  { name: "Follow OpenXAI", reward: "500 OPENX" },
-  { name: "In-Person OpenXAI Conference", reward: "500 OPENX" },
+  { name: "Follow OpenxAI", reward: "500 OPENX" },
+  { name: "Follow OpenxAI", reward: "500 OPENX" },
+  { name: "In-Person OpenxAI Conference", reward: "500 OPENX" },
 ]
 
 const TOP_EARNERS = Array(10).fill({
