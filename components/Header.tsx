@@ -12,7 +12,6 @@ const MENU_ITEMS = [
   { name: "Contribute & Earn", href: "/contribute" },
   { name: "DAO", href: "/dao" },
   { name: "Docs", href: "/docs" },
-  { name: "Genesis", href: "/genesis" },
 ]
 
 export function Header() {

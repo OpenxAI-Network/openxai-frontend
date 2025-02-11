@@ -5,14 +5,16 @@ export default function IndexPage() {
     <>
       <Header />
       <div className="container flex min-h-screen flex-col items-center">
-        <iframe
-          src="https://exuberant-deck-437452.framer.app/"
-          title="OpenxAI Initiative"
-          loading="lazy"
-          style={{ border: 0 }}
-          className="h-screen w-full"
-          sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-        />
+        <div className="h-screen w-full overflow-hidden">
+          <iframe
+            src="https://exuberant-deck-437452.framer.app/"
+            title="OpenxAI Vision"
+            loading="lazy"
+            style={{ border: 0, marginTop: '-70px' }}
+            className="h-[calc(100%+50px)] w-full"
+            sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+          />
+        </div>
       </div>
     </>
   )
