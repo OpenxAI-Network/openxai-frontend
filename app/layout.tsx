@@ -23,9 +23,9 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   icons: {
-    icon: "/icon.png",
-    shortcut: "/icon.png",
-    apple: "/icon.png",
+    icon: "/openxai-logo.png",
+    shortcut: "/openxai-logo.png",
+    apple: "/openxai-logo.png",
   },
 }
 
