@@ -60,7 +60,7 @@ const EXCHANGE_RATES = {
 
 export default function GenesisPage() {
   const [selectedMilestone, setSelectedMilestone] = useState<number | null>(null)
-  const [selectedPayment, setSelectedPayment] = useState("eth")
+  const [selectedPayment, setSelectedPayment] = useState<"eth" | "weth" | "usdc" | "usdt">("eth")
   const [showSuccessModal, setShowSuccessModal] = useState(false)
   const { address } = useAccount()
   const { open } = useWeb3Modal()
@@ -127,7 +127,7 @@ export default function GenesisPage() {
     <>
       <Header />
       <div className="flex min-h-screen bg-[radial-gradient(ellipse_at_center_top,_rgba(20,28,43,0.9)_0%,_#0B0B0B_100%)]">
-        <SideMenu className="bg-[radial-gradient(100%_100%_at_50%_50%,_#5C5C5C_0%,_#242424_100%)] bg-[length:100vw_100vh] bg-[position:0_0]" />
+        <SideMenu className="bg-[radial-gradient(100%_100%_at_50%_50%,_#5C5C5C_0%,_#242424_100%)] bg-[length:100vw_100vh]" />
         <main className="ml-48 flex-1 p-8 pt-24">
           {/* Main stats and info container */}
           <div className="grid grid-cols-6 gap-4">
@@ -142,19 +142,19 @@ export default function GenesisPage() {
             </div>
 
             {/* Info boxes (columns 4-6) */}
-            <div className="relative col-span-1 flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:-inset-[0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-['']">
+            <div className="relative col-span-1 flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:inset-[-0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-['']">
               <div className="relative z-10 flex w-full flex-col justify-center text-center">
                 <div className="text-white">Ticker</div>
                 <div className="text-white">$OPENX (ERC20)</div>
               </div>
             </div>
-            <div className="relative col-span-1 flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:-inset-[0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-['']">
+            <div className="relative col-span-1 flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:inset-[-0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-['']">
               <div className="relative z-10 flex w-full flex-col justify-center text-center">
                 <div className="text-white">Max per wallet</div>
                 <div className="text-white">$1,000</div>
               </div>
             </div>
-            <div className="relative col-span-1 flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:-inset-[0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-['']">
+            <div className="relative col-span-1 flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:inset-[-0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-['']">
               <div className="relative z-10 flex w-full flex-col justify-center text-center">
                 <div className="text-white">Contract</div>
                 <a href="https://etherscan.io/#" target="_blank" rel="noopener noreferrer" className="text-white underline hover:opacity-80">0x84...84s4</a>
@@ -198,7 +198,7 @@ export default function GenesisPage() {
                     onMouseEnter={() => setSelectedMilestone(index)}
                     onMouseLeave={() => setSelectedMilestone(null)}
                   >
-                    <div className="size-0 rotate-90 border-x-[6px] border-b-[8px] border-solid border-x-transparent border-b-white/30" />
+                    <div className="size-0 rotate-90 border-x-[6px] border-b-8 border-solid border-x-transparent border-b-white/30" />
                   </div>
                 </div>
               ))}
@@ -252,7 +252,7 @@ export default function GenesisPage() {
                 {PAYMENT_METHODS.map((method) => (
                   <button
                     key={method.id}
-                    onClick={() => setSelectedPayment(method.id)}
+                    onClick={() => setSelectedPayment(method.id as "eth" | "weth" | "usdc" | "usdt")}
                     className={`relative flex h-10 items-center justify-center rounded-md p-1.5 transition-all
                       ${method.id === selectedPayment 
                         ? 'bg-blue-600' 
