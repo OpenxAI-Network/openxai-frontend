@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState } from "react"
+import Image from "next/image"
 import { Header } from "@/components/Header"
 import { Button } from "@/components/ui/button"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
@@ -376,7 +377,7 @@ export default function ModelPickerPage() {
           {/* Step 1: Pick the model */}
           <div className="mb-12">
             <h2 className="mb-6 flex items-center gap-3">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white">1</span>
+              <span className="flex size-8 items-center justify-center rounded-full bg-blue-600 text-white">1</span>
               <span className="text-xl font-semibold text-blue-600">Pick the model</span>
             </h2>
             <div className="flex gap-4 overflow-x-auto">
@@ -390,7 +391,13 @@ export default function ModelPickerPage() {
                         }`}
                         onClick={() => handleModelSelect(model.id)}
                       >
-                        <img src={model.icon} alt={model.name} className="h-6 w-6" />
+                        <Image
+                          src={model.icon}
+                          alt={model.name}
+                          width={24}
+                          height={24}
+                          className="size-6"
+                        />
                         <span>{model.name}</span>
                       </button>
                     </TooltipTrigger>
@@ -406,7 +413,7 @@ export default function ModelPickerPage() {
          {/* Step 2: Infrastructure */}
          <div className="mb-12">
             <h2 className="mb-6 flex items-center gap-3">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white">2</span>
+              <span className="flex size-8 items-center justify-center rounded-full bg-blue-600 text-white">2</span>
               <span className="text-xl font-semibold text-blue-600">Infrastructure</span>
             </h2>
             <div className="flex gap-4 overflow-x-auto">
@@ -422,11 +429,17 @@ export default function ModelPickerPage() {
                       <button
                         className={`flex items-center gap-2 rounded-lg border p-4 transition-all hover:border-blue-500 
                           ${selectedProviders.includes(provider.id) ? 'border-blue-500 bg-blue-50' : ''}
-                          ${selectedModels.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                          ${selectedModels.length === 0 ? 'cursor-not-allowed opacity-50' : ''}`}
                         onClick={() => handleProviderSelect(provider.id)}
                         disabled={selectedModels.length === 0}
                       >
-                        <img src={provider.icon} alt={provider.name} className="h-6 w-6" />
+                        <Image
+                          src={provider.icon}
+                          alt={provider.name}
+                          width={24}
+                          height={24}
+                          className="size-6"
+                        />
                         <span>{provider.name}</span>
                       </button>
                     </TooltipTrigger>
@@ -442,7 +455,7 @@ export default function ModelPickerPage() {
           {/* Step 3: Monetization model */}
           <div className="mb-12">
             <h2 className="mb-6 flex items-center gap-3">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white">3</span>
+              <span className="flex size-8 items-center justify-center rounded-full bg-blue-600 text-white">3</span>
               <span className="text-xl font-semibold text-blue-600">Monetization model</span>
             </h2>
             <div className="flex gap-4 overflow-x-auto">
@@ -464,7 +477,13 @@ export default function ModelPickerPage() {
                           }
                         }}
                       >
-                        <img src={pricing.icon} alt={pricing.name} className="h-6 w-6" />
+                        <Image
+                          src={pricing.icon}
+                          alt={pricing.name}
+                          width={24}
+                          height={24}
+                          className="size-6"
+                        />
                         <span>{pricing.name}</span>
                       </button>
                     </TooltipTrigger>

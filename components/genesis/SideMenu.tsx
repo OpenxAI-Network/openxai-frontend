@@ -47,14 +47,17 @@ export function SideMenu({ className, ...props }: SideMenuProps) {
 
   return (
     <div
-      className={cn("fixed left-0 top-0 h-full w-48 bg-black p-4 pt-40", className)}
+      className={cn(
+        "fixed left-0 top-0 h-full w-48 bg-[radial-gradient(100%_100%_at_50%_50%,_#5C5C5C_0%,_#242424_100%)_0_0/100vw_100vh] p-4 pt-40",
+        className
+      )}
       {...props}
     >
       {SIDE_MENU_ITEMS.map((item) => (
         <NextLink
           key={item.name}
           href={item.href}
-          className={`mb-4 flex items-center space-x-3 rounded-lg p-2 text-gray-300 hover:bg-gray-800 ${
+          className={`mb-4 flex items-center space-x-3 rounded-lg p-2 text-white hover:bg-gray-800 ${
             pathname === item.href ? "bg-blue-600" : ""
           }`}
         >
