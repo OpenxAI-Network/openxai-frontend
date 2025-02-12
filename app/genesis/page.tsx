@@ -12,10 +12,36 @@ import { useAccount, useBalance } from "wagmi"
 import { formatUnits } from "viem"
 
 const MILESTONES = [
-  { position: 25, title: "Community Launch", description: "Initial community token distribution" },
-  { position: 50, title: "DEX Listing", description: "Token listed on major DEXes" },
-  { position: 75, title: "CEX Integration", description: "Major CEX listings" },
-  { position: 100, title: "Staking Launch", description: "Staking mechanism goes live" },
+  {
+    position: 15,
+    title: "Content Creation",
+    fundingGoal: "$2,500",
+    deadline: "2-20-2025",
+    backersRewards: "10,000 OPENX",
+    flashBonus: "5,000 OPENX",
+    rewardAPY: "1,279%",
+    status: "Funded"
+  },
+  {
+    position: 35,
+    title: "Uniswap Listing & Liquidity",
+    fundingGoal: "$2,500",
+    deadline: "2-20-2025",
+    backersRewards: "10,000 OPENX",
+    flashBonus: "5,000 OPENX",
+    rewardAPY: "1,279%",
+    status: "Funded"
+  },
+  {
+    position: 65,
+    title: "30 Days in 30 Days Campaign",
+    fundingGoal: "$2,500",
+    deadline: "2-20-2025",
+    backersRewards: "10,000 OPENX",
+    flashBonus: "5,000 OPENX",
+    rewardAPY: "1,279%",
+    status: "Funded"
+  }
 ]
 
 const PAYMENT_METHODS = [
@@ -25,9 +51,16 @@ const PAYMENT_METHODS = [
   { id: 'usdt', name: 'USDT', icon: '/usdt.png' },
 ]
 
+const EXCHANGE_RATES = {
+  eth: { amount: 0.35, symbol: 'ETH', usdValue: 920.45, openxValue: 13149 },
+  weth: { amount: 0.35, symbol: 'WETH', usdValue: 920.45, openxValue: 13149 },
+  usdc: { amount: 920.45, symbol: 'USDC', usdValue: 920.45, openxValue: 13149 },
+  usdt: { amount: 920.45, symbol: 'USDT', usdValue: 920.45, openxValue: 13149 }
+}
+
 export default function GenesisPage() {
   const [selectedMilestone, setSelectedMilestone] = useState<number | null>(null)
-  const [selectedPayment, setSelectedPayment] = useState("eth")
+  const [selectedPayment, setSelectedPayment] = useState<"eth" | "weth" | "usdc" | "usdt">("eth")
   const [showSuccessModal, setShowSuccessModal] = useState(false)
   const { address } = useAccount()
   const { open } = useWeb3Modal()
@@ -93,15 +126,15 @@ export default function GenesisPage() {
   return (
     <>
       <Header />
-      <div className="flex min-h-screen bg-gradient-to-b from-[#1a1f2e] to-[#0B1120]">
-        <SideMenu className="bg-gray-900" />
+      <div className="flex min-h-screen bg-[radial-gradient(ellipse_at_center_top,_rgba(20,28,43,0.9)_0%,_#0B0B0B_100%)]">
+        <SideMenu className="bg-[radial-gradient(100%_100%_at_50%_50%,_#5C5C5C_0%,_#242424_100%)] bg-[length:100vw_100vh]" />
         <main className="ml-48 flex-1 p-8 pt-24">
           {/* Main stats and info container */}
           <div className="grid grid-cols-6 gap-4">
             {/* Amount section (columns 1-3) */}
             <div className="col-span-3">
-              <h1 className="inline-flex items-baseline gap-4 text-7xl font-bold">
-                <span className="bg-gradient-to-r from-white via-[#6B8DE6] to-[#8AB4FF] bg-clip-text text-transparent">
+              <h1 className="inline-flex items-baseline gap-4 text-7xl">
+                <span className="text-white">
                   $111.4K
                 </span>
                 <span className="text-lg text-white">$312.3K remaining</span>
@@ -109,27 +142,33 @@ export default function GenesisPage() {
             </div>
 
             {/* Info boxes (columns 4-6) */}
-            <div className="relative col-span-1 rounded-lg border border-white bg-[#0B1120] p-4">
-              <div className="text-gray-500">Ticker</div>
-              <div className="text-white">$OPENX (ERC20)</div>
+            <div className="relative col-span-1 flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:inset-[-0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-['']">
+              <div className="relative z-10 flex w-full flex-col justify-center text-center">
+                <div className="text-white">Ticker</div>
+                <div className="text-white">$OPENX (ERC20)</div>
+              </div>
             </div>
-            <div className="relative col-span-1 rounded-lg border border-white bg-[#0B1120] p-4">
-              <div className="text-gray-500">Max per wallet</div>
-              <div className="text-white">$1000</div>
+            <div className="relative col-span-1 flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:inset-[-0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-['']">
+              <div className="relative z-10 flex w-full flex-col justify-center text-center">
+                <div className="text-white">Max per wallet</div>
+                <div className="text-white">$1,000</div>
+              </div>
             </div>
-            <div className="relative col-span-1 rounded-lg border border-white bg-[#0B1120] p-4">
-              <div className="text-gray-500">Contract</div>
-              <a href="https://etherscan.io/#" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-400">0x84...84s4</a>
+            <div className="relative col-span-1 flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:inset-[-0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-['']">
+              <div className="relative z-10 flex w-full flex-col justify-center text-center">
+                <div className="text-white">Contract</div>
+                <a href="https://etherscan.io/#" target="_blank" rel="noopener noreferrer" className="text-white underline hover:opacity-80">0x84...84s4</a>
+              </div>
             </div>
           </div>
+
+          {/* Horizontal divider */}
+          <div className="my-8 h-px w-full bg-[#505050]" />
 
           <div className="mt-6">
             <div className="mb-6 flex items-center justify-between text-base">
               <div className="relative w-full">
-                <span 
-                  className="absolute whitespace-nowrap bg-gradient-to-r from-white via-[#6B8DE6] to-[#8AB4FF] bg-clip-text text-transparent"
-                  style={{ left: '15%', transform: 'translateX(-50%)' }}
-                >
+                <span className="absolute whitespace-nowrap text-white" style={{ left: '15%', transform: 'translateX(-50%)' }}>
                   1 ETH = 1,476,947 OPENX
                 </span>
                 <span className="float-right text-3xl font-bold text-white">$500K</span>
@@ -137,83 +176,109 @@ export default function GenesisPage() {
             </div>
             
             <div className="relative mb-6">
-              {/* Current progress indicator */}
-              <div 
-                className="absolute top-0 h-6 w-0.5 bg-white" 
-                style={{ left: '15%', zIndex: 20 }}
-              />
-              {/* Vertical connecting line */}
-              <div 
-                className="absolute bottom-full h-4 w-0.5 bg-white/30"
-                style={{ left: '15%' }}
-              />
+              {/* Progress bar */}
               <Progress 
                 value={15} 
-                className="h-6 border border-white bg-[#1a1f2e] [&>div]:bg-gradient-to-r [&>div]:from-white [&>div]:via-[#6B8DE6] [&>div]:to-[#8AB4FF]" 
+                className="h-6 border border-white bg-[#1F2021] [&>div]:bg-gradient-to-r [&>div]:from-white [&>div]:to-[#122BEA]" 
               />
+              
               {/* Milestone markers */}
               {MILESTONES.map((milestone, index) => (
                 <div
-                  key={milestone.position}
-                  onClick={() => setSelectedMilestone(index)}
-                  onMouseEnter={() => setSelectedMilestone(index)}
-                  onMouseLeave={() => setSelectedMilestone(null)}
-                  className="absolute top-1/2 -translate-y-1/2 cursor-pointer transition-all"
+                  key={index}
+                  className="absolute top-0"
                   style={{ left: `${milestone.position}%` }}
                 >
-                  <div className="relative">
-                    <div className="absolute -left-2 -top-2 size-4 rotate-45 border-2 border-white/30 bg-[#1a1f2e] transition-all hover:border-white" />
+                  {/* Vertical dotted line */}
+                  <div className="h-6 w-px border-l border-dotted border-white/30" />
+                  
+                  {/* Play icon triangle - rotated 90 degrees */}
+                  <div 
+                    className="mt-2 cursor-pointer transition-all hover:opacity-80"
+                    onMouseEnter={() => setSelectedMilestone(index)}
+                    onMouseLeave={() => setSelectedMilestone(null)}
+                  >
+                    <div className="size-0 rotate-90 border-x-[6px] border-b-8 border-solid border-x-transparent border-b-white/30" />
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Milestone information box */}
-            <div className="mx-auto mb-6 w-4/5">
-              <div className="min-h-[100px] rounded-lg border border-white/10 bg-[#1a1f2e] p-4 text-center transition-all">
-                <div className="flex h-[100px] items-center justify-center">
-                  {selectedMilestone !== null ? (
-                    <div className="text-center">
-                      <h3 className="text-lg font-medium text-white">
-                        {MILESTONES[selectedMilestone].title}
-                      </h3>
-                      <p className="mt-4 text-base text-gray-400">
-                        {MILESTONES[selectedMilestone].description}
-                      </p>
-                    </div>
-                  ) : (
-                    <p className="text-lg text-gray-400">
-                      <span className="font-bold">Hover</span> or <span className="font-bold">tap</span> milestone markers to learn more about project phases
-                    </p>
-                  )}
-                </div>
+            {/* Milestone table */}
+            <div className="mt-10 overflow-x-auto">
+              <table className="w-full rounded-lg bg-[#1F2021]">
+                <thead>
+                  <tr className="border-b border-gray-700 text-left text-base font-bold text-white">
+                    <th className="rounded-tl-lg p-4">Project Name</th>
+                    <th className="p-4">Funding Goal</th>
+                    <th className="p-4">Deadline</th>
+                    <th className="p-4">Backers Rewards</th>
+                    <th className="p-4">Flash Bonus</th>
+                    <th className="p-4">Reward APY</th>
+                    <th className="rounded-tr-lg p-4">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {MILESTONES.map((milestone, index) => (
+                    <tr 
+                      key={index}
+                      className={`text-sm text-white transition-all
+                        ${selectedMilestone === index ? 'font-bold' : 'font-normal'}
+                        ${index === MILESTONES.length - 1 ? 'last:rounded-b-lg' : ''}
+                      `}
+                    >
+                      <td className="p-4">{milestone.title}</td>
+                      <td className="p-4">{milestone.fundingGoal}</td>
+                      <td className="p-4">{milestone.deadline}</td>
+                      <td className="p-4">{milestone.backersRewards}</td>
+                      <td className="p-4">{milestone.flashBonus}</td>
+                      <td className="p-4">{milestone.rewardAPY}</td>
+                      <td className="p-4">
+                        <span className="bg-gradient-to-r from-white to-green-500 bg-clip-text text-transparent">
+                          {milestone.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Payment method buttons container - 50% width */}
+            <div className="mb-6 w-1/2">
+            <div className="my-10 text-xl font-bold text-white">Your deposit</div>
+
+              <div className="grid grid-cols-4 gap-4">
+                {PAYMENT_METHODS.map((method) => (
+                  <button
+                    key={method.id}
+                    onClick={() => setSelectedPayment(method.id as "eth" | "weth" | "usdc" | "usdt")}
+                    className={`relative flex h-10 items-center justify-center rounded-md p-1.5 transition-all
+                      ${method.id === selectedPayment 
+                        ? 'bg-blue-600' 
+                        : 'bg-[#1F2021] hover:bg-[#2a2a2a]'
+                      }`}
+                  >
+                    <Image
+                      src={method.icon}
+                      alt={method.name}
+                      width={32}
+                      height={32}
+                      className="size-8"
+                    />
+                    {method.id === selectedPayment && (
+                      <div className="absolute -right-1 -top-1 flex size-3.5 items-center justify-center rounded-full bg-green-500">
+                        <svg className="size-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                    )}
+                  </button>
+                ))}
               </div>
             </div>
 
-            <div className="mb-6 grid grid-cols-4 gap-2">
-              {PAYMENT_METHODS.map((method) => (
-                <button
-                  key={method.id}
-                  onClick={() => setSelectedPayment(method.id)}
-                  className={`flex items-center justify-center gap-2 rounded-md p-3 text-center text-lg font-bold text-white transition-all
-                    ${method.id === selectedPayment 
-                      ? 'border-2 border-white bg-blue-600' 
-                      : 'bg-[#1a1f2e] hover:border-2 hover:border-white'
-                    }`}
-                >
-                  <Image
-                    src={method.icon}
-                    alt={method.name}
-                    width={24}
-                    height={24}
-                    className="size-6"
-                  />
-                  {method.name}
-                </button>
-              ))}
-            </div>
-
-            <div className="mb-6 inline-block rounded-lg bg-gray-800/50 px-4 py-2">
+            <div className="mb-16 inline-block rounded-lg bg-[#5C5C5C] px-4 py-2">
               <span className="text-gray-300">Current balance: </span>
               {address && ethBalance ? (
                 <span className="text-white">{formatUnits(ethBalance.value, ethBalance.decimals).substring(0, 5)} ETH</span>
@@ -222,38 +287,47 @@ export default function GenesisPage() {
               )}
             </div>
 
-            <div className="mb-6">
-              <div className="mb-2 text-base text-gray-500">Your deposit</div>
-              <div className="flex items-center justify-between rounded-lg border border-gray-700 bg-[#1a1f2e] p-4">
-                <div className="text-lg text-white">
-                  0.35 ETH
-                  <span className="text-sm text-gray-400"> ($950.13)</span>
+            <div className="mb-6 w-1/2">
+              <div className="flex h-[60px] items-center justify-between rounded-lg border border-gray-700 bg-[#1F2021] p-4">
+                <div className="flex items-center gap-3">
+                  <Image
+                    src={`/${selectedPayment}.png`}
+                    alt={selectedPayment.toUpperCase()}
+                    width={32}
+                    height={32}
+                    className="size-8"
+                  />
+                  <div className="flex flex-col">
+                    <div className="text-xl font-bold text-white">
+                      {EXCHANGE_RATES[selectedPayment].amount} {EXCHANGE_RATES[selectedPayment].symbol}
+                    </div>
+                    <div className="text-sm text-gray-400">
+                      (${EXCHANGE_RATES[selectedPayment].usdValue.toLocaleString()})
+                    </div>
+                  </div>
                 </div>
-                <div className="rounded-lg bg-gray-800 px-4 py-2">
-                  <span className="text-gray-300">Max Amount</span>
-                  <span className="ml-2 text-white">$1,000</span>
+                
+                <div className="flex items-center gap-2">
+                  <span className="text-gray-400">Max Amount:</span>
+                  <span className="rounded-md bg-[#5C5C5C] px-2 py-1 text-white">$1,000</span>
                 </div>
               </div>
             </div>
 
-            <div>
-              <div className="mb-2 text-base text-gray-500">You will receive</div>
-              <div className="mb-6">
-                <div className="flex items-center rounded-lg border border-gray-700 bg-[#1a1f2e] p-4">
-                  <span className="text-lg text-white">316,438 OPENX</span>
-                </div>
+            <div className="w-1/2">
+              <div className="flex h-[60px] items-center rounded-lg border border-gray-700 bg-[#1F2021] p-4">
+                <span className="text-lg text-white">13,149 OPENX</span>
               </div>
             </div>
           </div>
 
-          <div className="flex justify-center mt-16">
-            <Button
-              className="w-[420px] h-[60px] bg-gradient-to-r from-blue-600 to-green-400 text-white hover:opacity-90"
-              onClick={() => {if (address) {setShowSuccessModal(true)} else {open()}}}
-            >
-              WalletConnect
-            </Button>
-          </div>
+          {/* WalletConnect button */}
+          <Button
+            className="mt-10 h-[40px] w-[calc(100%/6)] bg-[#2D63F6] text-xl font-bold text-white hover:opacity-90"
+            onClick={() => {if (address) {setShowSuccessModal(true)} else {open()}}}
+          >
+            WalletConnect
+          </Button>
 
           {/* FAQ Section */}
           <div className="mt-32 w-full px-4">
@@ -262,7 +336,7 @@ export default function GenesisPage() {
             </h2>
             <div className="space-y-4">
               {FAQS.map((faq, index) => (
-                <div key={index} className="rounded-lg bg-[#1a1f2e] p-4">
+                <div key={index} className="rounded-lg bg-[#1F2021] p-4">
                   <button
                     onClick={() => setOpenFaqIndex(openFaqIndex === index ? -1 : index)}
                     className="flex w-full justify-between text-left text-lg font-semibold text-white focus:outline-none"
