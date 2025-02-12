@@ -93,15 +93,15 @@ export default function GenesisPage() {
   return (
     <>
       <Header />
-      <div className="flex min-h-screen bg-gradient-to-b from-[#1a1f2e] to-[#0B1120]">
-        <SideMenu className="bg-gray-900" />
+      <div className="flex min-h-screen bg-[radial-gradient(ellipse_at_center_top,_rgba(27,37,56,0.9)_0%,_#151516_100%)]">
+        <SideMenu className="bg-[radial-gradient(100%_100%_at_50%_50%,_#5C5C5C_0%,_#242424_100%)] bg-[length:100vw_100vh] bg-[position:0_0]" />
         <main className="ml-48 flex-1 p-8 pt-24">
           {/* Main stats and info container */}
           <div className="grid grid-cols-6 gap-4">
             {/* Amount section (columns 1-3) */}
             <div className="col-span-3">
               <h1 className="inline-flex items-baseline gap-4 text-7xl font-bold">
-                <span className="bg-gradient-to-r from-white via-[#6B8DE6] to-[#8AB4FF] bg-clip-text text-transparent">
+                <span className="text-white">
                   $111.4K
                 </span>
                 <span className="text-lg text-white">$312.3K remaining</span>
@@ -246,9 +246,9 @@ export default function GenesisPage() {
             </div>
           </div>
 
-          <div className="flex justify-center mt-16">
+          <div className="mt-16">
             <Button
-              className="w-[420px] h-[60px] bg-gradient-to-r from-blue-600 to-green-400 text-white hover:opacity-90"
+              className="h-[60px] w-[420px] bg-[#2D63F6] text-white hover:opacity-90"
               onClick={() => {if (address) {setShowSuccessModal(true)} else {open()}}}
             >
               WalletConnect
