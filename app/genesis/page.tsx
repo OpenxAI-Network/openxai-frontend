@@ -109,19 +109,19 @@ export default function GenesisPage() {
             </div>
 
             {/* Info boxes (columns 4-6) */}
-            <div className="relative col-span-1 flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:inset-0 before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-[1px] after:rounded-lg after:bg-[#1F2021] after:content-['']">
+            <div className="relative col-span-1 flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:-inset-[0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-[1px] after:rounded-lg after:bg-[#1F2021] after:content-['']">
               <div className="relative z-10 flex w-full flex-col justify-center text-center">
                 <div className="text-white">Ticker</div>
                 <div className="text-white">$OPENX (ERC20)</div>
               </div>
             </div>
-            <div className="relative col-span-1 flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:inset-0 before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-[1px] after:rounded-lg after:bg-[#1F2021] after:content-['']">
+            <div className="relative col-span-1 flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:-inset-[0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-[1px] after:rounded-lg after:bg-[#1F2021] after:content-['']">
               <div className="relative z-10 flex w-full flex-col justify-center text-center">
                 <div className="text-white">Max per wallet</div>
                 <div className="text-white">$1000</div>
               </div>
             </div>
-            <div className="relative col-span-1 flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:inset-0 before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-[1px] after:rounded-lg after:bg-[#1F2021] after:content-['']">
+            <div className="relative col-span-1 flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:inset-[0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-[1px] after:rounded-lg after:bg-[#1F2021] after:content-['']">
               <div className="relative z-10 flex w-full flex-col justify-center text-center">
                 <div className="text-white">Contract</div>
                 <a href="https://etherscan.io/#" target="_blank" rel="noopener noreferrer" className="text-white underline hover:opacity-80">0x84...84s4</a>
@@ -158,7 +158,7 @@ export default function GenesisPage() {
               />
               <Progress 
                 value={15} 
-                className="h-6 border border-white bg-[#1a1f2e] [&>div]:bg-gradient-to-r [&>div]:from-white [&>div]:via-[#6B8DE6] [&>div]:to-[#8AB4FF]" 
+                className="h-6 border border-white bg-[#1F2021] [&>div]:bg-gradient-to-r [&>div]:from-white [&>div]:via-[#6B8DE6] [&>div]:to-[#8AB4FF]" 
               />
               {/* Milestone markers */}
               {MILESTONES.map((milestone, index) => (
@@ -171,7 +171,7 @@ export default function GenesisPage() {
                   style={{ left: `${milestone.position}%` }}
                 >
                   <div className="relative">
-                    <div className="absolute -left-2 -top-2 size-4 rotate-45 border-2 border-white/30 bg-[#1a1f2e] transition-all hover:border-white" />
+                    <div className="absolute -left-2 -top-2 size-4 rotate-45 border-2 border-white/30 bg-[#1F2021] transition-all hover:border-white" />
                   </div>
                 </div>
               ))}
@@ -179,7 +179,7 @@ export default function GenesisPage() {
 
             {/* Milestone information box */}
             <div className="mx-auto mb-6 w-4/5">
-              <div className="min-h-[100px] rounded-lg border border-white/10 bg-[#1a1f2e] p-4 text-center transition-all">
+              <div className="min-h-[100px] rounded-lg border border-white/10 bg-[#1F2021] p-4 text-center transition-all">
                 <div className="flex h-[100px] items-center justify-center">
                   {selectedMilestone !== null ? (
                     <div className="text-center">
@@ -207,7 +207,7 @@ export default function GenesisPage() {
                   className={`flex items-center justify-center gap-2 rounded-md p-3 text-center text-lg font-bold text-white transition-all
                     ${method.id === selectedPayment 
                       ? 'border-2 border-white bg-blue-600' 
-                      : 'bg-[#1a1f2e] hover:border-2 hover:border-white'
+                      : 'bg-[#1F2021] hover:border-2 hover:border-white'
                     }`}
                 >
                   <Image
@@ -233,7 +233,7 @@ export default function GenesisPage() {
 
             <div className="mb-6">
               <div className="mb-2 text-base text-gray-500">Your deposit</div>
-              <div className="flex items-center justify-between rounded-lg border border-gray-700 bg-[#1a1f2e] p-4">
+              <div className="flex items-center justify-between rounded-lg border border-gray-700 bg-[#1F2021] p-4">
                 <div className="text-lg text-white">
                   0.35 ETH
                   <span className="text-sm text-gray-400"> ($950.13)</span>
@@ -248,7 +248,7 @@ export default function GenesisPage() {
             <div>
               <div className="mb-2 text-base text-gray-500">You will receive</div>
               <div className="mb-6">
-                <div className="flex items-center rounded-lg border border-gray-700 bg-[#1a1f2e] p-4">
+                <div className="flex items-center rounded-lg border border-gray-700 bg-[#1F2021] p-4">
                   <span className="text-lg text-white">316,438 OPENX</span>
                 </div>
               </div>
@@ -271,7 +271,7 @@ export default function GenesisPage() {
             </h2>
             <div className="space-y-4">
               {FAQS.map((faq, index) => (
-                <div key={index} className="rounded-lg bg-[#1a1f2e] p-4">
+                <div key={index} className="rounded-lg bg-[#1F2021] p-4">
                   <button
                     onClick={() => setOpenFaqIndex(openFaqIndex === index ? -1 : index)}
                     className="flex w-full justify-between text-left text-lg font-semibold text-white focus:outline-none"
