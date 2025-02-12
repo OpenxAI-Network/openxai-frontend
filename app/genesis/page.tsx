@@ -93,7 +93,7 @@ export default function GenesisPage() {
   return (
     <>
       <Header />
-      <div className="flex min-h-screen bg-[radial-gradient(ellipse_at_center_top,_rgba(27,37,56,0.9)_0%,_#151516_100%)]">
+      <div className="flex min-h-screen bg-[radial-gradient(ellipse_at_center_top,_rgba(20,28,43,0.9)_0%,_#0B0B0B_100%)]">
         <SideMenu className="bg-[radial-gradient(100%_100%_at_50%_50%,_#5C5C5C_0%,_#242424_100%)] bg-[length:100vw_100vh] bg-[position:0_0]" />
         <main className="ml-48 flex-1 p-8 pt-24">
           {/* Main stats and info container */}
@@ -109,19 +109,28 @@ export default function GenesisPage() {
             </div>
 
             {/* Info boxes (columns 4-6) */}
-            <div className="relative col-span-1 rounded-lg border border-white bg-[#0B1120] p-4">
-              <div className="text-gray-500">Ticker</div>
-              <div className="text-white">$OPENX (ERC20)</div>
+            <div className="relative col-span-1 flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:inset-0 before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-[1px] after:rounded-lg after:bg-[#1F2021] after:content-['']">
+              <div className="relative z-10 flex w-full flex-col justify-center text-center">
+                <div className="text-white">Ticker</div>
+                <div className="text-white">$OPENX (ERC20)</div>
+              </div>
             </div>
-            <div className="relative col-span-1 rounded-lg border border-white bg-[#0B1120] p-4">
-              <div className="text-gray-500">Max per wallet</div>
-              <div className="text-white">$1000</div>
+            <div className="relative col-span-1 flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:inset-0 before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-[1px] after:rounded-lg after:bg-[#1F2021] after:content-['']">
+              <div className="relative z-10 flex w-full flex-col justify-center text-center">
+                <div className="text-white">Max per wallet</div>
+                <div className="text-white">$1000</div>
+              </div>
             </div>
-            <div className="relative col-span-1 rounded-lg border border-white bg-[#0B1120] p-4">
-              <div className="text-gray-500">Contract</div>
-              <a href="https://etherscan.io/#" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-400">0x84...84s4</a>
+            <div className="relative col-span-1 flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:inset-0 before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-[1px] after:rounded-lg after:bg-[#1F2021] after:content-['']">
+              <div className="relative z-10 flex w-full flex-col justify-center text-center">
+                <div className="text-white">Contract</div>
+                <a href="https://etherscan.io/#" target="_blank" rel="noopener noreferrer" className="text-white underline hover:opacity-80">0x84...84s4</a>
+              </div>
             </div>
           </div>
+
+          {/* Horizontal divider */}
+          <div className="my-8 h-[1px] w-full bg-[#505050]" />
 
           <div className="mt-6">
             <div className="mb-6 flex items-center justify-between text-base">
