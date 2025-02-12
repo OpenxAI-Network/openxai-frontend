@@ -25,6 +25,13 @@ const PAYMENT_METHODS = [
   { id: 'usdt', name: 'USDT', icon: '/usdt.png' },
 ]
 
+const EXCHANGE_RATES = {
+  eth: { amount: 0.35, symbol: 'ETH', usdValue: 920.45, openxValue: 13149 },
+  weth: { amount: 0.35, symbol: 'WETH', usdValue: 920.45, openxValue: 13149 },
+  usdc: { amount: 920.45, symbol: 'USDC', usdValue: 920.45, openxValue: 13149 },
+  usdt: { amount: 920.45, symbol: 'USDT', usdValue: 920.45, openxValue: 13149 }
+}
+
 export default function GenesisPage() {
   const [selectedMilestone, setSelectedMilestone] = useState<number | null>(null)
   const [selectedPayment, setSelectedPayment] = useState("eth")
@@ -100,7 +107,7 @@ export default function GenesisPage() {
           <div className="grid grid-cols-6 gap-4">
             {/* Amount section (columns 1-3) */}
             <div className="col-span-3">
-              <h1 className="inline-flex items-baseline gap-4 text-7xl font-bold">
+              <h1 className="inline-flex items-baseline gap-4 text-7xl">
                 <span className="text-white">
                   $111.4K
                 </span>
@@ -109,19 +116,19 @@ export default function GenesisPage() {
             </div>
 
             {/* Info boxes (columns 4-6) */}
-            <div className="relative col-span-1 flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:-inset-[0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-[1px] after:rounded-lg after:bg-[#1F2021] after:content-['']">
+            <div className="relative col-span-1 flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:-inset-[0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-['']">
               <div className="relative z-10 flex w-full flex-col justify-center text-center">
                 <div className="text-white">Ticker</div>
                 <div className="text-white">$OPENX (ERC20)</div>
               </div>
             </div>
-            <div className="relative col-span-1 flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:-inset-[0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-[1px] after:rounded-lg after:bg-[#1F2021] after:content-['']">
+            <div className="relative col-span-1 flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:-inset-[0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-['']">
               <div className="relative z-10 flex w-full flex-col justify-center text-center">
                 <div className="text-white">Max per wallet</div>
-                <div className="text-white">$1000</div>
+                <div className="text-white">$10,000</div>
               </div>
             </div>
-            <div className="relative col-span-1 flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:inset-[0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-[1px] after:rounded-lg after:bg-[#1F2021] after:content-['']">
+            <div className="relative col-span-1 flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:-inset-[0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-['']">
               <div className="relative z-10 flex w-full flex-col justify-center text-center">
                 <div className="text-white">Contract</div>
                 <a href="https://etherscan.io/#" target="_blank" rel="noopener noreferrer" className="text-white underline hover:opacity-80">0x84...84s4</a>
@@ -130,15 +137,12 @@ export default function GenesisPage() {
           </div>
 
           {/* Horizontal divider */}
-          <div className="my-8 h-[1px] w-full bg-[#505050]" />
+          <div className="my-8 h-px w-full bg-[#505050]" />
 
           <div className="mt-6">
             <div className="mb-6 flex items-center justify-between text-base">
               <div className="relative w-full">
-                <span 
-                  className="absolute whitespace-nowrap bg-gradient-to-r from-white via-[#6B8DE6] to-[#8AB4FF] bg-clip-text text-transparent"
-                  style={{ left: '15%', transform: 'translateX(-50%)' }}
-                >
+                <span className="absolute whitespace-nowrap text-white" style={{ left: '15%', transform: 'translateX(-50%)' }}>
                   1 ETH = 1,476,947 OPENX
                 </span>
                 <span className="float-right text-3xl font-bold text-white">$500K</span>
@@ -178,7 +182,7 @@ export default function GenesisPage() {
             </div>
 
             {/* Milestone information box */}
-            <div className="mx-auto mb-6 w-4/5">
+            <div className="mb-6 mt-10 w-full">
               <div className="min-h-[100px] rounded-lg border border-white/10 bg-[#1F2021] p-4 text-center transition-all">
                 <div className="flex h-[100px] items-center justify-center">
                   {selectedMilestone !== null ? (
@@ -199,30 +203,41 @@ export default function GenesisPage() {
               </div>
             </div>
 
-            <div className="mb-6 grid grid-cols-4 gap-2">
-              {PAYMENT_METHODS.map((method) => (
-                <button
-                  key={method.id}
-                  onClick={() => setSelectedPayment(method.id)}
-                  className={`flex items-center justify-center gap-2 rounded-md p-3 text-center text-lg font-bold text-white transition-all
-                    ${method.id === selectedPayment 
-                      ? 'border-2 border-white bg-blue-600' 
-                      : 'bg-[#1F2021] hover:border-2 hover:border-white'
-                    }`}
-                >
-                  <Image
-                    src={method.icon}
-                    alt={method.name}
-                    width={24}
-                    height={24}
-                    className="size-6"
-                  />
-                  {method.name}
-                </button>
-              ))}
+            {/* Payment method buttons container - 50% width */}
+            <div className="mb-6 w-1/2">
+            <div className="my-10 text-xl font-bold text-white">Your deposit</div>
+
+              <div className="grid grid-cols-4 gap-4">
+                {PAYMENT_METHODS.map((method) => (
+                  <button
+                    key={method.id}
+                    onClick={() => setSelectedPayment(method.id)}
+                    className={`relative flex h-10 items-center justify-center rounded-md p-1.5 transition-all
+                      ${method.id === selectedPayment 
+                        ? 'bg-blue-600' 
+                        : 'bg-[#1F2021] hover:bg-[#2a2a2a]'
+                      }`}
+                  >
+                    <Image
+                      src={method.icon}
+                      alt={method.name}
+                      width={32}
+                      height={32}
+                      className="size-8"
+                    />
+                    {method.id === selectedPayment && (
+                      <div className="absolute -right-1 -top-1 flex size-3.5 items-center justify-center rounded-full bg-green-500">
+                        <svg className="size-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                    )}
+                  </button>
+                ))}
+              </div>
             </div>
 
-            <div className="mb-6 inline-block rounded-lg bg-gray-800/50 px-4 py-2">
+            <div className="mb-16 inline-block rounded-lg bg-[#5C5C5C] px-4 py-2">
               <span className="text-gray-300">Current balance: </span>
               {address && ethBalance ? (
                 <span className="text-white">{formatUnits(ethBalance.value, ethBalance.decimals).substring(0, 5)} ETH</span>
@@ -231,38 +246,42 @@ export default function GenesisPage() {
               )}
             </div>
 
-            <div className="mb-6">
-              <div className="mb-2 text-base text-gray-500">Your deposit</div>
-              <div className="flex items-center justify-between rounded-lg border border-gray-700 bg-[#1F2021] p-4">
-                <div className="text-lg text-white">
-                  0.35 ETH
-                  <span className="text-sm text-gray-400"> ($950.13)</span>
-                </div>
-                <div className="rounded-lg bg-gray-800 px-4 py-2">
-                  <span className="text-gray-300">Max Amount</span>
-                  <span className="ml-2 text-white">$1,000</span>
+            <div className="mb-6 w-1/2">
+              <div className="flex items-center rounded-lg border border-gray-700 bg-[#1F2021] p-4">
+                <div className="flex items-center gap-3">
+                  <Image
+                    src={`/${selectedPayment}.png`}
+                    alt={selectedPayment.toUpperCase()}
+                    width={32}
+                    height={32}
+                    className="size-8"
+                  />
+                  <div className="flex flex-col">
+                    <div className="text-xl font-bold text-white">
+                      {EXCHANGE_RATES[selectedPayment].amount} {EXCHANGE_RATES[selectedPayment].symbol}
+                    </div>
+                    <div className="text-sm text-gray-400">
+                      (${EXCHANGE_RATES[selectedPayment].usdValue.toLocaleString()})
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div>
-              <div className="mb-2 text-base text-gray-500">You will receive</div>
-              <div className="mb-6">
-                <div className="flex items-center rounded-lg border border-gray-700 bg-[#1F2021] p-4">
-                  <span className="text-lg text-white">316,438 OPENX</span>
-                </div>
+            <div className="w-1/2">
+              <div className="flex items-center rounded-lg border border-gray-700 bg-[#1F2021] p-4">
+                <span className="text-lg text-white">13,149 OPENX</span>
               </div>
             </div>
           </div>
 
-          <div className="mt-16">
-            <Button
-              className="h-[60px] w-[420px] bg-[#2D63F6] text-white hover:opacity-90"
-              onClick={() => {if (address) {setShowSuccessModal(true)} else {open()}}}
-            >
-              WalletConnect
-            </Button>
-          </div>
+          {/* WalletConnect button */}
+          <Button
+            className="mt-10 h-[40px] w-[calc(100%/6)] bg-[#2D63F6] text-xl font-bold text-white hover:opacity-90"
+            onClick={() => {if (address) {setShowSuccessModal(true)} else {open()}}}
+          >
+            WalletConnect
+          </Button>
 
           {/* FAQ Section */}
           <div className="mt-32 w-full px-4">
