@@ -12,10 +12,36 @@ import { useAccount, useBalance } from "wagmi"
 import { formatUnits } from "viem"
 
 const MILESTONES = [
-  { position: 25, title: "Community Launch", description: "Initial community token distribution" },
-  { position: 50, title: "DEX Listing", description: "Token listed on major DEXes" },
-  { position: 75, title: "CEX Integration", description: "Major CEX listings" },
-  { position: 100, title: "Staking Launch", description: "Staking mechanism goes live" },
+  {
+    position: 15,
+    title: "Content Creation",
+    fundingGoal: "$2,500",
+    deadline: "2-20-2025",
+    backersRewards: "10,000 OPENX",
+    flashBonus: "5,000 OPENX",
+    rewardAPY: "1,279%",
+    status: "Funded"
+  },
+  {
+    position: 35,
+    title: "Uniswap Listing & Liquidity",
+    fundingGoal: "$2,500",
+    deadline: "2-20-2025",
+    backersRewards: "10,000 OPENX",
+    flashBonus: "5,000 OPENX",
+    rewardAPY: "1,279%",
+    status: "Funded"
+  },
+  {
+    position: 65,
+    title: "30 Days in 30 Days Campaign",
+    fundingGoal: "$2,500",
+    deadline: "2-20-2025",
+    backersRewards: "10,000 OPENX",
+    flashBonus: "5,000 OPENX",
+    rewardAPY: "1,279%",
+    status: "Funded"
+  }
 ]
 
 const PAYMENT_METHODS = [
@@ -125,7 +151,7 @@ export default function GenesisPage() {
             <div className="relative col-span-1 flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:-inset-[0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-['']">
               <div className="relative z-10 flex w-full flex-col justify-center text-center">
                 <div className="text-white">Max per wallet</div>
-                <div className="text-white">$10,000</div>
+                <div className="text-white">$1,000</div>
               </div>
             </div>
             <div className="relative col-span-1 flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:-inset-[0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-['']">
@@ -150,57 +176,72 @@ export default function GenesisPage() {
             </div>
             
             <div className="relative mb-6">
-              {/* Current progress indicator */}
-              <div 
-                className="absolute top-0 h-6 w-0.5 bg-white" 
-                style={{ left: '15%', zIndex: 20 }}
-              />
-              {/* Vertical connecting line */}
-              <div 
-                className="absolute bottom-full h-4 w-0.5 bg-white/30"
-                style={{ left: '15%' }}
-              />
+              {/* Progress bar */}
               <Progress 
                 value={15} 
-                className="h-6 border border-white bg-[#1F2021] [&>div]:bg-gradient-to-r [&>div]:from-white [&>div]:via-[#6B8DE6] [&>div]:to-[#8AB4FF]" 
+                className="h-6 border border-white bg-[#1F2021] [&>div]:bg-gradient-to-r [&>div]:from-white [&>div]:to-[#122BEA]" 
               />
+              
               {/* Milestone markers */}
               {MILESTONES.map((milestone, index) => (
                 <div
-                  key={milestone.position}
-                  onClick={() => setSelectedMilestone(index)}
-                  onMouseEnter={() => setSelectedMilestone(index)}
-                  onMouseLeave={() => setSelectedMilestone(null)}
-                  className="absolute top-1/2 -translate-y-1/2 cursor-pointer transition-all"
+                  key={index}
+                  className="absolute top-0"
                   style={{ left: `${milestone.position}%` }}
                 >
-                  <div className="relative">
-                    <div className="absolute -left-2 -top-2 size-4 rotate-45 border-2 border-white/30 bg-[#1F2021] transition-all hover:border-white" />
+                  {/* Vertical dotted line */}
+                  <div className="h-6 w-px border-l border-dotted border-white/30" />
+                  
+                  {/* Play icon triangle - rotated 90 degrees */}
+                  <div 
+                    className="mt-2 cursor-pointer transition-all hover:opacity-80"
+                    onMouseEnter={() => setSelectedMilestone(index)}
+                    onMouseLeave={() => setSelectedMilestone(null)}
+                  >
+                    <div className="size-0 rotate-90 border-x-[6px] border-b-[8px] border-solid border-x-transparent border-b-white/30" />
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Milestone information box */}
-            <div className="mb-6 mt-10 w-full">
-              <div className="min-h-[100px] rounded-lg border border-white/10 bg-[#1F2021] p-4 text-center transition-all">
-                <div className="flex h-[100px] items-center justify-center">
-                  {selectedMilestone !== null ? (
-                    <div className="text-center">
-                      <h3 className="text-lg font-medium text-white">
-                        {MILESTONES[selectedMilestone].title}
-                      </h3>
-                      <p className="mt-4 text-base text-gray-400">
-                        {MILESTONES[selectedMilestone].description}
-                      </p>
-                    </div>
-                  ) : (
-                    <p className="text-lg text-gray-400">
-                      <span className="font-bold">Hover</span> or <span className="font-bold">tap</span> milestone markers to learn more about project phases
-                    </p>
-                  )}
-                </div>
-              </div>
+            {/* Milestone table */}
+            <div className="mt-10 overflow-x-auto">
+              <table className="w-full rounded-lg bg-[#1F2021]">
+                <thead>
+                  <tr className="border-b border-gray-700 text-left text-base font-bold text-white">
+                    <th className="rounded-tl-lg p-4">Project Name</th>
+                    <th className="p-4">Funding Goal</th>
+                    <th className="p-4">Deadline</th>
+                    <th className="p-4">Backers Rewards</th>
+                    <th className="p-4">Flash Bonus</th>
+                    <th className="p-4">Reward APY</th>
+                    <th className="rounded-tr-lg p-4">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {MILESTONES.map((milestone, index) => (
+                    <tr 
+                      key={index}
+                      className={`text-sm text-white transition-all
+                        ${selectedMilestone === index ? 'font-bold' : 'font-normal'}
+                        ${index === MILESTONES.length - 1 ? 'last:rounded-b-lg' : ''}
+                      `}
+                    >
+                      <td className="p-4">{milestone.title}</td>
+                      <td className="p-4">{milestone.fundingGoal}</td>
+                      <td className="p-4">{milestone.deadline}</td>
+                      <td className="p-4">{milestone.backersRewards}</td>
+                      <td className="p-4">{milestone.flashBonus}</td>
+                      <td className="p-4">{milestone.rewardAPY}</td>
+                      <td className="p-4">
+                        <span className="bg-gradient-to-r from-white to-green-500 bg-clip-text text-transparent">
+                          {milestone.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
 
             {/* Payment method buttons container - 50% width */}
@@ -247,7 +288,7 @@ export default function GenesisPage() {
             </div>
 
             <div className="mb-6 w-1/2">
-              <div className="flex items-center rounded-lg border border-gray-700 bg-[#1F2021] p-4">
+              <div className="flex h-[60px] items-center justify-between rounded-lg border border-gray-700 bg-[#1F2021] p-4">
                 <div className="flex items-center gap-3">
                   <Image
                     src={`/${selectedPayment}.png`}
@@ -265,11 +306,16 @@ export default function GenesisPage() {
                     </div>
                   </div>
                 </div>
+                
+                <div className="flex items-center gap-2">
+                  <span className="text-gray-400">Max Amount:</span>
+                  <span className="rounded-md bg-[#5C5C5C] px-2 py-1 text-white">$1,000</span>
+                </div>
               </div>
             </div>
 
             <div className="w-1/2">
-              <div className="flex items-center rounded-lg border border-gray-700 bg-[#1F2021] p-4">
+              <div className="flex h-[60px] items-center rounded-lg border border-gray-700 bg-[#1F2021] p-4">
                 <span className="text-lg text-white">13,149 OPENX</span>
               </div>
             </div>
