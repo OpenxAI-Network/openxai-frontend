@@ -52,7 +52,7 @@ export function SideMenu({ className, ...props }: SideMenuProps) {
   return (
     <div
       className={cn(
-        "fixed left-0 top-0 h-full w-[234px] bg-[#2C2626] p-4",
+        "fixed left-0 top-0 h-full w-[234px] p-4 [background:radial-gradient(at_center,_#4C4C4C_0%,_#1C1C1C_100%)_0_0/100vw_100vh]",
         className
       )}
       {...props}
@@ -75,7 +75,7 @@ export function SideMenu({ className, ...props }: SideMenuProps) {
                 <div className="absolute inset-0 flex items-center justify-center">
                   <button 
                     onClick={() => open()}
-                    className="-mt-8 whitespace-nowrap text-center text-[18px] font-bold text-white hover:text-gray-200"
+                    className="-mt-14 whitespace-nowrap text-center text-[16px] font-bold text-white hover:text-gray-200"
                   >
                     Connect Wallet
                   </button>

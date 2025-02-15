@@ -149,7 +149,7 @@ export default function GenesisPage() {
   return (
     <>
       <Header />
-      <div className="flex min-h-screen bg-black">
+      <div className="flex min-h-screen bg-[radial-gradient(ellipse_at_center_top,_rgba(27,37,56,0.9)_0%,_#151516_100%)]">
         <SideMenu />
         <main className="ml-[234px] flex-1 p-8 pt-24">
           {/* Countdown Section */}
@@ -171,7 +171,7 @@ export default function GenesisPage() {
                   className="relative block"
                 >
                   <div className="relative">
-                    <div className="absolute inset-[-0.5px] rounded-lg bg-gradient-to-t from-[#829ED1] to-[#0059FE]" />
+                    <div className="absolute -inset-px rounded-lg bg-gradient-to-t from-[#829ED1] to-[#0059FE]" />
                     <div className="relative flex items-center gap-3 rounded-lg bg-[#1F2021] px-6 py-3 hover:bg-[#2a2a2a]">
                       <svg className="size-5 text-white" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
@@ -301,42 +301,43 @@ export default function GenesisPage() {
 
                 {/* Milestone table */}
                 <div className="mt-10 overflow-x-auto">
-                  <table className="w-full rounded-lg bg-[#1F2021]">
-                    <thead>
-                      <tr className="border-b border-gray-700 text-left text-base font-bold text-white">
-                        <th className="rounded-tl-lg p-4">Project Name</th>
-                        <th className="p-4">Funding Goal</th>
-                        <th className="p-4">Deadline</th>
-                        <th className="p-4">Backers Rewards</th>
-                        <th className="p-4">Flash Bonus</th>
-                        <th className="p-4">Reward APY</th>
-                        <th className="rounded-tr-lg p-4">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {MILESTONES.map((milestone, index) => (
-                        <tr
-                          key={index}
-                          className={`text-sm text-white transition-all
-                            ${selectedMilestone === index ? 'font-bold' : 'font-normal'}
-                            ${index === MILESTONES.length - 1 ? 'last:rounded-b-lg' : ''}
-                          `}
-                        >
-                          <td className="p-4">{milestone.title}</td>
-                          <td className="p-4">{milestone.fundingGoal}</td>
-                          <td className="p-4">{milestone.deadline}</td>
-                          <td className="p-4">{milestone.backersRewards}</td>
-                          <td className="p-4">{milestone.flashBonus}</td>
-                          <td className="p-4">{milestone.rewardAPY}</td>
-                          <td className="p-4">
-                            <span className="bg-gradient-to-r from-white to-green-500 bg-clip-text text-transparent">
-                              {milestone.status}
-                            </span>
-                          </td>
+                  <div className="overflow-hidden rounded-lg border border-[#454545]">
+                    <table className="w-full border-collapse bg-[#1F2021]">
+                      <thead>
+                        <tr>
+                          <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Project Name</th>
+                          <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Funding Goal</th>
+                          <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Deadline</th>
+                          <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Backers Rewards</th>
+                          <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Flash Bonus</th>
+                          <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Reward APY</th>
+                          <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Status</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {MILESTONES.map((milestone, index) => (
+                          <tr
+                            key={index}
+                            className={`text-sm transition-colors hover:bg-white/5
+                              ${selectedMilestone === index ? 'font-bold' : 'font-normal'}
+                            `}
+                          >
+                            <td className="border-0 p-4 text-[#6A6A6A]">{milestone.title}</td>
+                            <td className="border-0 p-4 text-[#6A6A6A]">{milestone.fundingGoal}</td>
+                            <td className="border-0 p-4 text-[#6A6A6A]">{milestone.deadline}</td>
+                            <td className="border-0 p-4 text-[#6A6A6A]">{milestone.backersRewards}</td>
+                            <td className="border-0 p-4 text-[#6A6A6A]">{milestone.flashBonus}</td>
+                            <td className="border-0 p-4 text-[#6A6A6A]">{milestone.rewardAPY}</td>
+                            <td className="border-0 p-4">
+                              <span className="bg-gradient-to-r from-white to-green-500 bg-clip-text text-transparent">
+                                {milestone.status}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
 
                 {/* Payment method buttons container - 50% width */}
