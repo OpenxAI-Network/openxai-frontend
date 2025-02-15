@@ -171,7 +171,7 @@ export default function GenesisPage() {
                   className="relative block"
                 >
                   <div className="relative">
-                    <div className="absolute inset-[-0.5px] rounded-lg bg-gradient-to-t from-[#829ED1] to-[#0059FE]" />
+                    <div className="absolute -inset-px rounded-lg bg-gradient-to-t from-[#829ED1] to-[#0059FE]" />
                     <div className="relative flex items-center gap-3 rounded-lg bg-[#1F2021] px-6 py-3 hover:bg-[#2a2a2a]">
                       <svg className="size-5 text-white" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>

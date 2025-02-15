@@ -42,7 +42,7 @@ export default function ClaimsPage() {
       <Header />
       <div className="flex min-h-screen bg-black">
         <SideMenu />
-        <main className="ml-48 flex-1 p-8 pt-24">
+        <main className="ml-[234px] flex-1 p-8 pt-24">
           <div className="mb-8 flex items-center justify-between">
             <div>
               <h1 className="text-7xl font-bold">

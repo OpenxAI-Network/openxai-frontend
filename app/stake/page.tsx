@@ -11,7 +11,7 @@ export default function StakePage() {
       <Header />
       <div className="flex min-h-screen bg-black">
         <SideMenu />
-        <main className="ml-48 flex-1 space-y-8 p-8 pt-24">
+        <main className="ml-[234px] flex-1 p-8 pt-24">
           {/* SPENX Staking Section */}
           <div>
             <div className="mb-4 flex items-center justify-between">

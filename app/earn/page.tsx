@@ -32,7 +32,7 @@ export default function EarnPage() {
       <Header />
       <div className="flex min-h-screen bg-black">
         <SideMenu />
-        <main className="ml-48 flex-1 p-8 pt-24">
+        <main className="ml-[234px] flex-1 p-8 pt-24">
           <div className="grid grid-cols-2 gap-8">
             {/* Simple Tasks Section */}
             <div>

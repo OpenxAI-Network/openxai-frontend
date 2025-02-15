@@ -75,7 +75,7 @@ export function SideMenu({ className, ...props }: SideMenuProps) {
                 <div className="absolute inset-0 flex items-center justify-center">
                   <button 
                     onClick={() => open()}
-                    className="-mt-8 whitespace-nowrap text-center text-[18px] font-bold text-white hover:text-gray-200"
+                    className="-mt-14 whitespace-nowrap text-center text-[16px] font-bold text-white hover:text-gray-200"
                   >
                     Connect Wallet
                   </button>

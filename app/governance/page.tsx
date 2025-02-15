@@ -53,7 +53,7 @@ export default function GovernancePage() {
       <Header />
       <div className="flex min-h-screen bg-black">
         <SideMenu />
-        <main className="ml-48 flex-1 p-8 pt-24">
+        <main className="ml-[234px] flex-1 p-8 pt-24">
           {/* Stats Grid */}
           <div className="mb-8 grid grid-cols-4 gap-4">
             {GOVERNANCE_STATS.map((stat, index) => (
