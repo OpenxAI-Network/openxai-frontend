@@ -51,15 +51,15 @@ export default function GovernancePage() {
   return (
     <>
       <Header />
-      <div className="flex min-h-screen bg-black">
+      <div className="flex min-h-screen bg-[radial-gradient(ellipse_at_center_top,_rgba(27,37,56,0.9)_0%,_#151516_100%)]">
         <SideMenu />
-        <main className="ml-48 flex-1 p-8 pt-24">
+        <main className="ml-[234px] flex-1 p-8 pt-24">
           {/* Stats Grid */}
           <div className="mb-8 grid grid-cols-4 gap-4">
             {GOVERNANCE_STATS.map((stat, index) => (
               <div 
                 key={index}
-                className="rounded-xl bg-[#0B1120] p-6"
+                className="rounded-xl bg-[#1F2021] p-6"
               >
                 <div className="text-sm text-gray-400">{stat.label}</div>
                 <div className="mt-2 text-2xl font-bold text-white">{stat.value}</div>
@@ -84,7 +84,7 @@ export default function GovernancePage() {
                 {ACTIVE_PROPOSALS.map((proposal) => (
                   <div 
                     key={proposal.id}
-                    className="rounded-xl bg-[#0B1120] p-6"
+                    className="rounded-xl bg-[#1F2021] p-6"
                   >
                     <div className="mb-4 flex items-center justify-between">
                       <div>
@@ -142,7 +142,7 @@ export default function GovernancePage() {
             {/* Sidebar */}
             <div className="space-y-6">
               {/* Voting Power */}
-              <div className="rounded-xl bg-[#0B1120] p-6">
+              <div className="rounded-xl bg-[#1F2021] p-6">
                 <h3 className="mb-4 text-lg font-medium text-white">Your Voting Power</h3>
                 <div className="space-y-4">
                   <div>
@@ -160,7 +160,7 @@ export default function GovernancePage() {
               </div>
 
               {/* Recent Activity */}
-              <div className="rounded-xl bg-[#0B1120] p-6">
+              <div className="rounded-xl bg-[#1F2021] p-6">
                 <h3 className="mb-4 text-lg font-medium text-white">Recent Activity</h3>
                 <div className="space-y-4">
                   <div className="flex cursor-pointer items-center justify-between rounded-lg p-2 transition-colors hover:bg-white/5">
@@ -181,7 +181,7 @@ export default function GovernancePage() {
               </div>
 
               {/* Resources */}
-              <div className="rounded-xl bg-[#0B1120] p-6">
+              <div className="rounded-xl bg-[#1F2021] p-6">
                 <h3 className="mb-4 text-lg font-medium text-white">Resources</h3>
                 <div className="space-y-2">
                   <a 

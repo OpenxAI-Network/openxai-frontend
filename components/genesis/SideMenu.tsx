@@ -11,6 +11,8 @@ import {
   faScaleBalanced
 } from "@fortawesome/free-solid-svg-icons"
 import { cn } from "@/lib/utils"
+import { useWeb3Modal } from "@web3modal/wagmi/react"
+
 
 export interface SideMenuProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -44,15 +46,55 @@ const SIDE_MENU_ITEMS = [
 
 export function SideMenu({ className, ...props }: SideMenuProps) {
   const pathname = usePathname()
+  const { open } = useWeb3Modal()
+  const isConnected = false // todo add wallet state
 
   return (
     <div
       className={cn(
-        "fixed left-0 top-0 h-full w-48 bg-[radial-gradient(100%_100%_at_50%_50%,_#5C5C5C_0%,_#242424_100%)_0_0/100vw_100vh] p-4 pt-40",
+        "fixed left-0 top-0 h-full w-[234px] p-4 [background:radial-gradient(at_center,_#4C4C4C_0%,_#1C1C1C_100%)_0_0/100vw_100vh]",
         className
       )}
       {...props}
     >
+      {/* Wallet Connect Card */}
+      <div className="relative mb-10 mt-24 h-[107px] w-full rounded-lg">
+        {/* Content */}
+        <div className="relative flex h-full flex-col justify-end rounded-lg bg-[#1F2021] p-4">
+          {!isConnected ? (
+            <>
+              {/* Disconnected State */}
+              <div className="relative">
+                {/* Balance Display - Bottom Aligned */}
+                <div className="flex items-end justify-between">
+                  <span className="text-[50px] font-light leading-none text-white/30">0</span>
+                  <span className="text-[13px] font-normal text-white/30">OPENX</span>
+                </div>
+
+                {/* Semi-transparent overlay with Connect Button */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <button 
+                    onClick={() => open()}
+                    className="-mt-14 whitespace-nowrap text-center text-[16px] font-bold text-white hover:text-gray-200"
+                  >
+                    Connect Wallet
+                  </button>
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              {/* Connected State */}
+              <div className="flex items-end justify-between">
+                <span className="text-[50px] font-light leading-none text-white">13.30</span>
+                <span className="text-[13px] font-normal text-white">OPENX</span>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+
+      {/* Menu Items */}
       {SIDE_MENU_ITEMS.map((item) => (
         <NextLink
           key={item.name}
@@ -67,4 +109,4 @@ export function SideMenu({ className, ...props }: SideMenuProps) {
       ))}
     </div>
   )
-} 
+}
