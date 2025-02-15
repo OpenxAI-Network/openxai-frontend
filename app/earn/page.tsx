@@ -30,7 +30,7 @@ export default function EarnPage() {
   return (
     <>
       <Header />
-      <div className="flex min-h-screen bg-black">
+      <div className="flex min-h-screen bg-[radial-gradient(ellipse_at_center_top,_rgba(27,37,56,0.9)_0%,_#151516_100%)]">
         <SideMenu />
         <main className="ml-[234px] flex-1 p-8 pt-24">
           <div className="grid grid-cols-2 gap-8">
@@ -44,7 +44,7 @@ export default function EarnPage() {
                 {SIMPLE_TASKS.map((task, index) => (
                   <div 
                     key={index}
-                    className="rounded-lg border border-white/10 bg-[#0B1120] p-4"
+                    className="rounded-lg border border-white/10 bg-[#1F2021] p-4"
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
@@ -70,7 +70,7 @@ export default function EarnPage() {
                 {LONG_TERM_TASKS.map((task, index) => (
                   <div 
                     key={index}
-                    className="rounded-lg border border-white/10 bg-[#0B1120] p-4"
+                    className="rounded-lg border border-white/10 bg-[#1F2021] p-4"
                   >
                     <div className="flex items-center justify-between">
                       <span className="text-white">{task.name}</span>
@@ -92,7 +92,7 @@ export default function EarnPage() {
           <div className="mt-12">
             <h2 className="mb-6 text-xl font-semibold text-white">Top Earners</h2>
             
-            <div className="overflow-hidden rounded-xl bg-[#0B1120]">
+            <div className="overflow-hidden rounded-xl bg-[#1F2021]">
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-white/10">

@@ -40,7 +40,7 @@ export default function ClaimsPage() {
   return (
     <>
       <Header />
-      <div className="flex min-h-screen bg-black">
+      <div className="flex min-h-screen bg-[radial-gradient(ellipse_at_center_top,_rgba(27,37,56,0.9)_0%,_#151516_100%)]">
         <SideMenu />
         <main className="ml-[234px] flex-1 p-8 pt-24">
           <div className="mb-8 flex items-center justify-between">
@@ -59,7 +59,7 @@ export default function ClaimsPage() {
             </Button>
           </div>
 
-          <div className="overflow-hidden rounded-xl bg-[#0B1120]">
+          <div className="overflow-hidden rounded-xl bg-[#1F2021]">
             <table className="w-full border-collapse">
               <thead>
                 <tr className="border-b border-white/10 text-left">

@@ -9,7 +9,7 @@ export default function StakePage() {
   return (
     <>
       <Header />
-      <div className="flex min-h-screen bg-black">
+      <div className="flex min-h-screen bg-[radial-gradient(ellipse_at_center_top,_rgba(27,37,56,0.9)_0%,_#151516_100%)]">
         <SideMenu />
         <main className="ml-[234px] flex-1 p-8 pt-24">
           {/* SPENX Staking Section */}
@@ -21,7 +21,7 @@ export default function StakePage() {
               </div>
             </div>
             
-            <div className="flex items-center justify-between rounded-xl bg-[#0B1120] p-8">
+            <div className="flex items-center justify-between rounded-xl bg-[#1F2021] p-8">
               <div>
                 <h3 className="text-6xl font-bold text-white">0</h3>
               </div>
@@ -37,7 +37,7 @@ export default function StakePage() {
               </div>
             </div>
             
-            <div className="rounded-xl bg-[#0B1120] p-8">
+            <div className="rounded-xl bg-[#1F2021] p-8">
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-6xl font-bold text-white">0</h3>

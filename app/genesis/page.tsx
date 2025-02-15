@@ -149,7 +149,7 @@ export default function GenesisPage() {
   return (
     <>
       <Header />
-      <div className="flex min-h-screen bg-black">
+      <div className="flex min-h-screen bg-[radial-gradient(ellipse_at_center_top,_rgba(27,37,56,0.9)_0%,_#151516_100%)]">
         <SideMenu />
         <main className="ml-[234px] flex-1 p-8 pt-24">
           {/* Countdown Section */}
