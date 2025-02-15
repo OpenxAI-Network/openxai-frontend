@@ -23,7 +23,7 @@ const PROJECTS = [
     backersRewards: "10,000 OPENX",
     flashBonus: "5,000 OPENX",
     rewardAPY: "1.278%",
-    status: "12 days"
+    status: "Claim Now"
   },
   {
     name: "30 Days or 30 Days Campaign",
@@ -42,56 +42,109 @@ export default function ClaimsPage() {
       <Header />
       <div className="flex min-h-screen bg-[radial-gradient(ellipse_at_center_top,_rgba(27,37,56,0.9)_0%,_#151516_100%)]">
         <SideMenu />
-        <main className="ml-[234px] flex-1 p-8 pt-24">
-          <div className="mb-8 flex items-center justify-between">
-            <div>
-              <h1 className="text-7xl font-bold">
-                <span className="bg-gradient-to-r from-white via-[#6B8DE6] to-[#8AB4FF] bg-clip-text text-transparent">
-                  2,846
-                </span>
-              </h1>
-              <p className="text-lg text-gray-400">OPENX -289MUSD</p>
+        <main className="ml-[234px] flex-1 p-16 pt-24">
+          <div className="mb-8 flex items-end justify-end">
+            <div className="flex flex-col">
+              <div className="flex items-baseline gap-4">
+                <div className="flex flex-col">
+                  <h1 className="text-7xl text-white">2,846</h1>
+                  <div className="mt-2 flex justify-between">
+                    <span className="text-lg text-[#6A6A6A]">OPENX</span>
+                    <span className="text-lg text-[#6A6A6A]">~2,894 USD</span>
+                  </div>
+                </div>
+                <Button className="ml-4 h-[40px] w-[200px] bg-blue-600 text-xl font-bold text-white hover:bg-blue-700">
+                  Claim
+                </Button>
+              </div>
             </div>
-            <Button 
-              className="bg-blue-600 text-white hover:bg-blue-700"
-            >
-              Claim
-            </Button>
           </div>
 
-          <div className="overflow-hidden rounded-xl bg-[#1F2021]">
-            <table className="w-full border-collapse">
+          {/* Horizontal divider */}
+          <div className="my-8 h-px w-full bg-[#505050]" />
+
+          {/* Projects you backed */}
+          <h2 className="my-10 text-xl font-bold text-white">Projects that you backed</h2>
+          <div className="mb-8 overflow-hidden rounded-lg border border-[#454545]">
+            <table className="w-full border-collapse bg-[#1F2021]">
               <thead>
-                <tr className="border-b border-white/10 text-left">
-                  <th className="p-4 text-sm font-medium text-gray-400">Project Name</th>
-                  <th className="p-4 text-sm font-medium text-gray-400">Funding Goal</th>
-                  <th className="p-4 text-sm font-medium text-gray-400">Deadline</th>
-                  <th className="p-4 text-sm font-medium text-gray-400">Backers Rewards</th>
-                  <th className="p-4 text-sm font-medium text-gray-400">Flash Bonus</th>
-                  <th className="p-4 text-sm font-medium text-gray-400">Reward APY</th>
-                  <th className="p-4 text-sm font-medium text-gray-400">Claims</th>
+                <tr>
+                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Project Name</th>
+                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Funding Goal</th>
+                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Deadline</th>
+                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Backers Rewards</th>
+                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Flash Bonus</th>
+                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Reward APY</th>
+                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Claims</th>
                 </tr>
               </thead>
               <tbody>
                 {PROJECTS.map((project, index) => (
                   <tr 
                     key={index}
-                    className="border-b border-white/10 text-white transition-colors hover:bg-white/5"
+                    className="text-sm transition-colors hover:bg-white/5"
                   >
-                    <td className="p-4">{project.name}</td>
-                    <td className="p-4">{project.fundingGoal}</td>
-                    <td className="p-4">{project.deadline}</td>
-                    <td className="p-4">{project.backersRewards}</td>
-                    <td className="p-4">{project.flashBonus}</td>
-                    <td className="p-4">{project.rewardAPY}</td>
-                    <td className="p-4">
+                    <td className="border-0 p-4 text-[#6A6A6A]">{project.name}</td>
+                    <td className="border-0 p-4 text-[#6A6A6A]">{project.fundingGoal}</td>
+                    <td className="border-0 p-4 text-[#6A6A6A]">{project.deadline}</td>
+                    <td className="border-0 p-4 text-[#6A6A6A]">{project.backersRewards}</td>
+                    <td className="border-0 p-4 text-[#6A6A6A]">{project.flashBonus}</td>
+                    <td className="border-0 p-4 text-[#6A6A6A]">{project.rewardAPY}</td>
+                    <td className="border-0 p-4">
                       {project.status === "Claimed" ? (
                         <div className="flex items-center gap-2">
-                          <span className="text-green-500">Claimed</span>
+                          <span className="bg-gradient-to-r from-white to-green-500 bg-clip-text text-transparent">Claimed</span>
                           <span className="text-blue-500">{project.txId}</span>
                         </div>
+                      ) : project.status === "Claim Now" ? (
+                        <span className="bg-gradient-to-r from-white to-blue-500 bg-clip-text text-transparent">Claim Now</span>
                       ) : (
-                        <span>{project.status}</span>
+                        <span className="text-[#6A6A6A]">{project.status}</span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Projects others backed */}
+          <h2 className="my-10 text-xl font-bold text-white">Projects that others backed</h2>
+          <div className="overflow-hidden rounded-lg border border-[#454545]">
+            <table className="w-full border-collapse bg-[#1F2021]">
+              <thead>
+                <tr>
+                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Project Name</th>
+                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Funding Goal</th>
+                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Deadline</th>
+                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Backers Rewards</th>
+                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Flash Bonus</th>
+                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Reward APY</th>
+                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Claims</th>
+                </tr>
+              </thead>
+              <tbody>
+                {PROJECTS.map((project, index) => (
+                  <tr 
+                    key={index}
+                    className="text-sm transition-colors hover:bg-white/5"
+                  >
+                    <td className="border-0 p-4 text-[#6A6A6A]">{project.name}</td>
+                    <td className="border-0 p-4 text-[#6A6A6A]">{project.fundingGoal}</td>
+                    <td className="border-0 p-4 text-[#6A6A6A]">{project.deadline}</td>
+                    <td className="border-0 p-4 text-[#6A6A6A]">{project.backersRewards}</td>
+                    <td className="border-0 p-4 text-[#6A6A6A]">{project.flashBonus}</td>
+                    <td className="border-0 p-4 text-[#6A6A6A]">{project.rewardAPY}</td>
+                    <td className="border-0 p-4">
+                      {project.status === "Claimed" ? (
+                        <div className="flex items-center gap-2">
+                          <span className="bg-gradient-to-r from-white to-green-500 bg-clip-text text-transparent">Claimed</span>
+                          <span className="text-blue-500">{project.txId}</span>
+                        </div>
+                      ) : project.status === "Claim Now" ? (
+                        <span className="bg-gradient-to-r from-white to-blue-500 bg-clip-text text-transparent">Claim Now</span>
+                      ) : (
+                        <span className="text-[#6A6A6A]">{project.status}</span>
                       )}
                     </td>
                   </tr>

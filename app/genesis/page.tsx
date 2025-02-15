@@ -301,42 +301,43 @@ export default function GenesisPage() {
 
                 {/* Milestone table */}
                 <div className="mt-10 overflow-x-auto">
-                  <table className="w-full rounded-lg bg-[#1F2021]">
-                    <thead>
-                      <tr className="border-b border-gray-700 text-left text-base font-bold text-white">
-                        <th className="rounded-tl-lg p-4">Project Name</th>
-                        <th className="p-4">Funding Goal</th>
-                        <th className="p-4">Deadline</th>
-                        <th className="p-4">Backers Rewards</th>
-                        <th className="p-4">Flash Bonus</th>
-                        <th className="p-4">Reward APY</th>
-                        <th className="rounded-tr-lg p-4">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {MILESTONES.map((milestone, index) => (
-                        <tr
-                          key={index}
-                          className={`text-sm text-white transition-all
-                            ${selectedMilestone === index ? 'font-bold' : 'font-normal'}
-                            ${index === MILESTONES.length - 1 ? 'last:rounded-b-lg' : ''}
-                          `}
-                        >
-                          <td className="p-4">{milestone.title}</td>
-                          <td className="p-4">{milestone.fundingGoal}</td>
-                          <td className="p-4">{milestone.deadline}</td>
-                          <td className="p-4">{milestone.backersRewards}</td>
-                          <td className="p-4">{milestone.flashBonus}</td>
-                          <td className="p-4">{milestone.rewardAPY}</td>
-                          <td className="p-4">
-                            <span className="bg-gradient-to-r from-white to-green-500 bg-clip-text text-transparent">
-                              {milestone.status}
-                            </span>
-                          </td>
+                  <div className="overflow-hidden rounded-lg border border-[#454545]">
+                    <table className="w-full border-collapse bg-[#1F2021]">
+                      <thead>
+                        <tr>
+                          <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Project Name</th>
+                          <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Funding Goal</th>
+                          <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Deadline</th>
+                          <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Backers Rewards</th>
+                          <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Flash Bonus</th>
+                          <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Reward APY</th>
+                          <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Status</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {MILESTONES.map((milestone, index) => (
+                          <tr
+                            key={index}
+                            className={`text-sm transition-colors hover:bg-white/5
+                              ${selectedMilestone === index ? 'font-bold' : 'font-normal'}
+                            `}
+                          >
+                            <td className="border-0 p-4 text-[#6A6A6A]">{milestone.title}</td>
+                            <td className="border-0 p-4 text-[#6A6A6A]">{milestone.fundingGoal}</td>
+                            <td className="border-0 p-4 text-[#6A6A6A]">{milestone.deadline}</td>
+                            <td className="border-0 p-4 text-[#6A6A6A]">{milestone.backersRewards}</td>
+                            <td className="border-0 p-4 text-[#6A6A6A]">{milestone.flashBonus}</td>
+                            <td className="border-0 p-4 text-[#6A6A6A]">{milestone.rewardAPY}</td>
+                            <td className="border-0 p-4">
+                              <span className="bg-gradient-to-r from-white to-green-500 bg-clip-text text-transparent">
+                                {milestone.status}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
 
                 {/* Payment method buttons container - 50% width */}

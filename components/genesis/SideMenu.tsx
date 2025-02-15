@@ -52,7 +52,7 @@ export function SideMenu({ className, ...props }: SideMenuProps) {
   return (
     <div
       className={cn(
-        "fixed left-0 top-0 h-full w-[234px] [background:radial-gradient(at_center,_#4C4C4C_0%,_#1C1C1C_100%)_0_0/100vw_100vh] p-4",
+        "fixed left-0 top-0 h-full w-[234px] p-4 [background:radial-gradient(at_center,_#4C4C4C_0%,_#1C1C1C_100%)_0_0/100vw_100vh]",
         className
       )}
       {...props}
