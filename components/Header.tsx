@@ -1,7 +1,6 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { useWeb3Modal } from "@web3modal/wagmi/react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
@@ -16,9 +15,7 @@ const MENU_ITEMS = [
 
 export function Header() {
   const pathname = usePathname()
-  const isGenesisPage = pathname === "/genesis"
-  const {open} = useWeb3Modal();
-
+  
   return (
     <header className="fixed top-0 z-50 w-full bg-white py-4 shadow-sm">
       <div className="container mx-auto flex items-center justify-between">
@@ -39,21 +36,12 @@ export function Header() {
           </nav>
         </div>
         
-        {isGenesisPage ? (
-          <Button
-            className="bg-[#4776E6] hover:bg-[#3665D5]"
-            onClick={() => open()}
-          >
-            Connect Wallet
-          </Button>
-        ) : (
-          <Button
-            className="bg-[#4776E6] hover:bg-[#3665D5]"
-            asChild
-          >
-            <Link href="/genesis">Genesis</Link>
-          </Button>
-        )}
+        <Button
+          className="bg-[#4776E6] hover:bg-[#3665D5]"
+          asChild
+        >
+          <Link href="/genesis">Genesis</Link>
+        </Button>
       </div>
     </header>
   )
