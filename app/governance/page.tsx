@@ -7,44 +7,44 @@ import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { ChevronRight, Timer } from "lucide-react"
 
+const GOVERNANCE_STATS = [
+  { label: "Total locked OPENX", value: "12.5M" },
+  { label: "Your voting power", value: "2,846" },
+  { label: "Proposal created", value: "23" },
+  { label: "Total vote cast", value: "1.2M" }
+]
+
 const ACTIVE_PROPOSALS = [
   {
     id: "OXAI-1",
     title: "Protocol Fee Distribution Update",
     description: "Modify the fee distribution model to allocate 30% to development fund",
     status: "Active",
-    votesFor: 2845923,
-    votesAgainst: 982341,
+    votesFor: 2876888,
+    votesAgainst: 2876888,
     endsIn: "2 days",
     quorum: 75
   },
   {
-    id: "OXAI-2",
+    id: "OXAI-1",
     title: "Treasury Management Framework",
-    description: "Establish a comprehensive framework for managing protocol treasury",
+    description: "Modify the fee distribution model to allocate 30% to development fund",
     status: "Active",
-    votesFor: 1845923,
-    votesAgainst: 782341,
-    endsIn: "5 days",
+    votesFor: 2876888,
+    votesAgainst: 2876888,
+    endsIn: "2 days",
     quorum: 45
   },
   {
-    id: "OXAI-3",
+    id: "OXAI-1",
     title: "Integration Partner Selection",
-    description: "Vote on potential integration partners for Q2 2025",
+    description: "Modify the fee distribution model to allocate 30% to development fund",
     status: "Active",
-    votesFor: 2145923,
-    votesAgainst: 382341,
-    endsIn: "3 days",
+    votesFor: 2876888,
+    votesAgainst: 2876888,
+    endsIn: "2 days",
     quorum: 60
   }
-]
-
-const GOVERNANCE_STATS = [
-  { label: "Total Locked OPENX", value: "12.5M" },
-  { label: "Your Voting Power", value: "2,846" },
-  { label: "Proposals Created", value: "23" },
-  { label: "Total Votes Cast", value: "1.2M" }
 ]
 
 export default function GovernancePage() {
@@ -54,15 +54,12 @@ export default function GovernancePage() {
       <div className="flex min-h-screen bg-[radial-gradient(ellipse_at_center_top,_rgba(27,37,56,0.9)_0%,_#151516_100%)]">
         <SideMenu />
         <main className="ml-[234px] flex-1 p-12 pt-32">
-          {/* Stats Grid */}
-          <div className="mb-8 grid grid-cols-4 gap-4">
+          {/* Stats Grid - Updated without boxes */}
+          <div className="mb-12 grid grid-cols-4 gap-8">
             {GOVERNANCE_STATS.map((stat, index) => (
-              <div 
-                key={index}
-                className="rounded-xl bg-[#1F2021] p-6"
-              >
-                <div className="text-sm text-gray-400">{stat.label}</div>
-                <div className="mt-2 text-2xl font-bold text-white">{stat.value}</div>
+              <div key={index}>
+                <div className="text-sm font-normal text-gray-400">{stat.label}</div>
+                <div className="mt-1 text-[32px] font-medium text-white">{stat.value}</div>
               </div>
             ))}
           </div>
@@ -72,7 +69,7 @@ export default function GovernancePage() {
             {/* Active Proposals */}
             <div className="col-span-2 space-y-6">
               <div className="flex items-center justify-between">
-                <h2 className="text-xl font-semibold text-white">Active Proposals</h2>
+                <h2 className="text-xl font-medium text-white">Active Proposals</h2>
                 <Button 
                   className="bg-blue-600 text-white hover:bg-blue-700"
                 >
@@ -94,9 +91,10 @@ export default function GovernancePage() {
                         </div>
                         <p className="mt-1 text-sm text-gray-400">{proposal.description}</p>
                       </div>
-                      <div className="flex items-center gap-2 rounded-full bg-green-500/20 px-3 py-1 text-sm text-green-500">
-                        <Timer size={14} />
-                        {proposal.endsIn}
+                      <div className="flex h-[30px] items-center justify-center rounded-lg border border-green-500/30 px-3">
+                        <span className="font-inter text-[16px] font-light text-[#4CFF46]">
+                          {proposal.endsIn}
+                        </span>
                       </div>
                     </div>
 
@@ -107,18 +105,18 @@ export default function GovernancePage() {
                       </div>
                       <Progress 
                         value={proposal.quorum} 
-                        className="h-2 bg-[#1a1f2e] [&>div]:bg-green-500" 
+                        className="h-2 bg-[#1a1f2e] [&>div]:bg-gradient-to-r [&>div]:from-white [&>div]:to-[#122BEA]" 
                       />
                     </div>
 
                     <div className="mt-4 flex items-center gap-4">
                       <Button 
-                        className="flex-1 bg-green-600 text-white hover:bg-green-700"
+                        className="flex-1 bg-[#4CFF46] text-white hover:bg-[#4CFF46]/90"
                       >
                         Vote For
                       </Button>
                       <Button 
-                        className="flex-1 bg-red-600 text-white hover:bg-red-700"
+                        className="flex-1 bg-blue-600 text-white hover:bg-blue-700"
                       >
                         Vote Against
                       </Button>
@@ -147,14 +145,14 @@ export default function GovernancePage() {
                 <div className="space-y-4">
                   <div>
                     <div className="text-sm text-gray-400">OPENX Balance</div>
-                    <div className="text-2xl font-bold text-white">2,846</div>
+                    <div className="text-2xl font-medium text-white">2,846</div>
                   </div>
                   <div>
                     <div className="text-sm text-gray-400">Delegated to You</div>
-                    <div className="text-2xl font-bold text-white">0</div>
+                    <div className="text-2xl font-medium text-white">0</div>
                   </div>
                   <Button className="w-full bg-blue-600 text-white hover:bg-blue-700">
-                    Delegate Votes
+                    Delegated Votes
                   </Button>
                 </div>
               </div>
@@ -165,7 +163,7 @@ export default function GovernancePage() {
                 <div className="space-y-4">
                   <div className="flex cursor-pointer items-center justify-between rounded-lg p-2 transition-colors hover:bg-white/5">
                     <div>
-                      <div className="text-sm text-white">Voted on OXAI-1</div>
+                      <div className="text-sm text-white">Voting on OXAI-1</div>
                       <div className="text-xs text-gray-400">2 hours ago</div>
                     </div>
                     <ChevronRight className="text-gray-400" />
@@ -188,13 +186,13 @@ export default function GovernancePage() {
                     href="#" 
                     className="block rounded-lg p-2 text-sm text-gray-400 transition-colors hover:bg-white/5 hover:text-white"
                   >
-                    Governance Documentation
+                    Governance documentation
                   </a>
                   <a 
                     href="#" 
                     className="block rounded-lg p-2 text-sm text-gray-400 transition-colors hover:bg-white/5 hover:text-white"
                   >
-                    Proposal Guidelines
+                    Proposal guidelines
                   </a>
                   <a 
                     href="#" 

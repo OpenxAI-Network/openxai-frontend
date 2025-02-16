@@ -33,8 +33,6 @@ const SIMPLE_TASKS = [
 
 const LONG_TERM_TASKS = [
   { name: "Token Generation Event (Genesis)", reward: "500 OPENX" },
-  { name: "Follow OpenxAI", reward: "500 OPENX" },
-  { name: "Follow OpenxAI", reward: "500 OPENX" },
   { name: "In-Person OpenxAI Conference", reward: "500 OPENX" },
 ]
 
@@ -44,6 +42,8 @@ const TOP_EARNERS = Array(10).fill({
 })
 
 export default function EarnPage() {
+  const [isVideoExpanded, setIsVideoExpanded] = React.useState(false);
+  
   return (
     <>
       <Header />
@@ -88,13 +88,40 @@ export default function EarnPage() {
 
                 {/* Video Task */}
                 <div className="relative">
-                  <div className="absolute -inset-px rounded-lg bg-gradient-to-r from-[#829ED1] to-[#0059FE]" />
-                  <div className="relative flex h-[60px] items-center justify-between rounded-lg bg-[#1F2021] px-6 hover:bg-[#2a2a2a]">
-                    <span className="text-[16px] font-medium text-white">Create a short video about..</span>
-                    <div className="flex items-center gap-2">
-                      <span className="text-[16px] font-medium text-white">500 OPENX</span>
-                      <ChevronDown className="h-5 w-5 text-gray-400" />
+                  <div className="absolute -inset-px rounded-lg bg-gradient-to-b from-[#FF0000] to-[#829ED1]" />
+                  <div className="relative rounded-lg bg-[#1F2021] hover:bg-[#2a2a2a]">
+                    {/* Header */}
+                    <div className="flex h-[60px] items-center justify-between px-6">
+                      <span className="text-[16px] font-medium text-white">Create a short video about..</span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-[16px] font-medium text-white">500 OPENX</span>
+                        <ChevronDown 
+                          className={`h-5 w-5 text-gray-400 cursor-pointer transition-transform ${isVideoExpanded ? 'rotate-180' : ''}`}
+                          onClick={() => setIsVideoExpanded(!isVideoExpanded)}
+                        />
+                      </div>
                     </div>
+                    
+                    {/* Collapsible Content */}
+                    {isVideoExpanded && (
+                      <div className="p-6 pt-2 border-t border-white/10">
+                        <div className="space-y-4">
+                          <input 
+                            type="text" 
+                            placeholder="share your link" 
+                            className="w-full h-12 px-4 bg-[#1F2021] border border-white/10 rounded-lg text-white"
+                          />
+                          <input 
+                            type="text" 
+                            placeholder="your wallet" 
+                            className="w-full h-12 px-4 bg-[#1F2021] border border-white/10 rounded-lg text-white"
+                          />
+                          <button className="w-24 h-12 bg-[#0066FF] text-white rounded-lg ml-auto block">
+                            Submit
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -132,13 +159,13 @@ export default function EarnPage() {
           <div className="mt-12">
             <h2 className="mb-6 text-xl font-semibold text-white">Top Earners</h2>
             
-            <div className="overflow-hidden rounded-xl bg-[#1F2021]">
-              <table className="w-full">
+            <div className="overflow-hidden rounded-lg border border-[#454545]">
+              <table className="w-full border-collapse bg-[#1F2021]">
                 <thead>
-                  <tr className="border-b border-white/10">
-                    <th className="p-4 text-left text-sm font-medium text-gray-400">User Address</th>
-                    <th className="p-4 text-left text-sm font-medium text-gray-400">Rank</th>
-                    <th className="p-4 text-right text-sm font-medium text-gray-400">Total Points (OPENX)</th>
+                  <tr>
+                    <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">User Address</th>
+                    <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Rank</th>
+                    <th className="border-0 border-b border-[#454545] p-4 text-right text-base font-bold text-[#D9D9D9]">Total Points (OPENX)</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -146,20 +173,20 @@ export default function EarnPage() {
                     <tr 
                       key={index}
                       className={`
-                        border-b border-white/10 text-white transition-colors
-                        ${index === 0 && 'bg-gradient-to-r from-[#5E4C24] to-[#B49449]'} 
-                        ${index === 1 && 'bg-gradient-to-r from-[#244D2F] to-[#4CB463]'}
-                        ${index === 2 && 'bg-gradient-to-r from-[#243A4D] to-[#4C8BB4]'}
+                        text-sm transition-colors
+                        ${index === 0 && 'bg-[linear-gradient(90deg,#353535_0%,#FABF58_60%,#353535_98%)]'} 
+                        ${index === 1 && 'bg-[linear-gradient(90deg,#353535_0%,#B8EAA8_60%,#353535_98%)]'}
+                        ${index === 2 && 'bg-[linear-gradient(90deg,#353535_0%,#A8C4EA_60%,#353535_98%)]'}
                         ${index > 2 && 'hover:bg-white/5'}
                       `}
                     >
-                      <td className="p-4 font-mono">{earner.address}</td>
-                      <td className="p-4">
-                        <span className="font-medium">
-                          {index + 1}
+                      <td className="border-0 p-4 font-mono text-white">{earner.address}</td>
+                      <td className="border-0 p-4">
+                        <span className="font-medium text-white">
+                          {index === 0 ? '1st' : index === 1 ? '2nd' : index === 2 ? '3rd' : `${index + 1}`}
                         </span>
                       </td>
-                      <td className="p-4 text-right font-mono">{earner.points}</td>
+                      <td className="border-0 p-4 text-right font-mono text-white">{earner.points}</td>
                     </tr>
                   ))}
                 </tbody>
