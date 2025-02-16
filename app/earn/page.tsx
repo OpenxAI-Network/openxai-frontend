@@ -159,13 +159,13 @@ export default function EarnPage() {
           <div className="mt-12">
             <h2 className="mb-6 text-xl font-semibold text-white">Top Earners</h2>
             
-            <div className="overflow-hidden rounded-xl bg-[#1F2021]">
-              <table className="w-full">
+            <div className="overflow-hidden rounded-lg border border-[#454545]">
+              <table className="w-full border-collapse bg-[#1F2021]">
                 <thead>
-                  <tr className="border-b border-white/10">
-                    <th className="p-4 text-left text-sm font-medium text-gray-400">User Address</th>
-                    <th className="p-4 text-left text-sm font-medium text-gray-400">Rank</th>
-                    <th className="p-4 text-right text-sm font-medium text-gray-400">Total Points (OPENX)</th>
+                  <tr>
+                    <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">User Address</th>
+                    <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Rank</th>
+                    <th className="border-0 border-b border-[#454545] p-4 text-right text-base font-bold text-[#D9D9D9]">Total Points (OPENX)</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -173,20 +173,20 @@ export default function EarnPage() {
                     <tr 
                       key={index}
                       className={`
-                        border-b border-white/10 text-white transition-colors
-                        ${index === 0 && 'bg-gradient-to-r from-[#5E4C24] to-[#B49449]'} 
-                        ${index === 1 && 'bg-gradient-to-r from-[#244D2F] to-[#4CB463]'}
-                        ${index === 2 && 'bg-gradient-to-r from-[#243A4D] to-[#4C8BB4]'}
+                        text-sm transition-colors
+                        ${index === 0 && 'bg-[linear-gradient(90deg,#353535_0%,#FABF58_60%,#353535_98%)]'} 
+                        ${index === 1 && 'bg-[linear-gradient(90deg,#353535_0%,#B8EAA8_60%,#353535_98%)]'}
+                        ${index === 2 && 'bg-[linear-gradient(90deg,#353535_0%,#A8C4EA_60%,#353535_98%)]'}
                         ${index > 2 && 'hover:bg-white/5'}
                       `}
                     >
-                      <td className="p-4 font-mono">{earner.address}</td>
-                      <td className="p-4">
-                        <span className="font-medium">
-                          {index + 1}
+                      <td className="border-0 p-4 font-mono text-white">{earner.address}</td>
+                      <td className="border-0 p-4">
+                        <span className="font-medium text-white">
+                          {index === 0 ? '1st' : index === 1 ? '2nd' : index === 2 ? '3rd' : `${index + 1}`}
                         </span>
                       </td>
-                      <td className="p-4 text-right font-mono">{earner.points}</td>
+                      <td className="border-0 p-4 text-right font-mono text-white">{earner.points}</td>
                     </tr>
                   ))}
                 </tbody>
