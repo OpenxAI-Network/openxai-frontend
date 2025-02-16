@@ -7,12 +7,12 @@ import { useState } from "react"
 import { Menu, X } from "lucide-react"
 
 const MENU_ITEMS = [
-  { name: "Vision", href: "/vision" },
-  { name: "Model Studio", href: "/models" },
-  { name: "Community", href: "/community" },
-  { name: "Contribute & Earn", href: "/contribute" },
-  { name: "DAO", href: "/dao" },
-  { name: "Docs", href: "/docs" },
+  { name: "Vision", href: "https://www.openxai.org/vision", external: true },
+  { name: "Models", href: "https://studio.openxai.org", external: true },
+  { name: "Community", href: "https://openxai.discourse.group/", external: true },
+  { name: "Contribute & Earn", href: "/earn" },
+  { name: "DAO", href: "/governance" },
+  { name: "Docs", href: "https://docs.openxai.org", external: true },
 ]
 
 const SOCIAL_ITEMS = [
@@ -44,7 +44,7 @@ export function Header() {
     <header className="fixed top-0 z-50 w-full bg-white py-4 shadow-sm">
       <div className="container mx-auto flex items-center justify-between px-4">
         <div className="flex-1 lg:flex-none">
-          <Link href="/" className="text-xl font-bold text-black">
+          <Link href="https://openxai.org" className="text-xl font-bold text-black">
             OpenxAI
           </Link>
         </div>
@@ -52,13 +52,25 @@ export function Header() {
         <div className="hidden lg:flex lg:items-center lg:space-x-12">
           <nav className="flex items-center space-x-12">
             {MENU_ITEMS.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="text-[18px] text-gray-600 hover:text-gray-900"
-              >
-                {item.name}
-              </Link>
+              item.external ? (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[18px] text-gray-600 hover:text-gray-900"
+                >
+                  {item.name}
+                </a>
+              ) : (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className="text-[18px] text-gray-600 hover:text-gray-900"
+                >
+                  {item.name}
+                </Link>
+              )
             ))}
           </nav>
         </div>
