@@ -410,8 +410,26 @@ export default function GenesisPage() {
                   </div>
                 </div>
 
+                {/* Gradient Divider with Text */}
+                <div className="my-8 flex items-center gap-4">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#454545] to-transparent" />
+                  <div className="font-inter text-[13px] font-normal text-[#6A6A6A]">You will receive 
+                    <span className="text-lg text-white"> 13,149 </span>
+                    <span className="bg-gradient-to-r from-white to-[#2D63F6] bg-clip-text text-lg font-medium text-transparent">
+                      OPENX
+                    </span>
+                  </div>
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#454545] to-transparent" />
+                </div>
+
                 <div className="w-1/2">
-                  <div className="flex h-[60px] items-center rounded-lg border border-gray-700 bg-[#1F2021] p-4">
+                  <div className="flex h-[60px] items-center gap-3 rounded-lg border border-gray-700 bg-[#1F2021] p-4">
+                    <Image 
+                      src="/openxai-logo.png"
+                      alt="OpenXAI"
+                      width={28}
+                      height={28}
+                    />
                     <span className="text-lg text-white">13,149 OPENX</span>
                   </div>
                 </div>

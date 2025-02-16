@@ -46,7 +46,7 @@ export default function StakePage() {
               </div>
               
               <div className="relative mt-6 flex flex-col items-center">
-                <p className="font-inter text-[30px] font-medium text-[#AEAEAE]">
+                <p className="font-inter mt-[-100px] text-[30px] font-medium text-[#AEAEAE]">
                   You don&apos;t have an NFT
                 </p>
                 <Link 
