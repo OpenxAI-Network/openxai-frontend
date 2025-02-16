@@ -33,8 +33,6 @@ const SIMPLE_TASKS = [
 
 const LONG_TERM_TASKS = [
   { name: "Token Generation Event (Genesis)", reward: "500 OPENX" },
-  { name: "Follow OpenxAI", reward: "500 OPENX" },
-  { name: "Follow OpenxAI", reward: "500 OPENX" },
   { name: "In-Person OpenxAI Conference", reward: "500 OPENX" },
 ]
 
@@ -44,6 +42,8 @@ const TOP_EARNERS = Array(10).fill({
 })
 
 export default function EarnPage() {
+  const [isVideoExpanded, setIsVideoExpanded] = React.useState(false);
+  
   return (
     <>
       <Header />
@@ -88,13 +88,40 @@ export default function EarnPage() {
 
                 {/* Video Task */}
                 <div className="relative">
-                  <div className="absolute -inset-px rounded-lg bg-gradient-to-r from-[#829ED1] to-[#0059FE]" />
-                  <div className="relative flex h-[60px] items-center justify-between rounded-lg bg-[#1F2021] px-6 hover:bg-[#2a2a2a]">
-                    <span className="text-[16px] font-medium text-white">Create a short video about..</span>
-                    <div className="flex items-center gap-2">
-                      <span className="text-[16px] font-medium text-white">500 OPENX</span>
-                      <ChevronDown className="h-5 w-5 text-gray-400" />
+                  <div className="absolute -inset-px rounded-lg bg-gradient-to-b from-[#FF0000] to-[#829ED1]" />
+                  <div className="relative rounded-lg bg-[#1F2021] hover:bg-[#2a2a2a]">
+                    {/* Header */}
+                    <div className="flex h-[60px] items-center justify-between px-6">
+                      <span className="text-[16px] font-medium text-white">Create a short video about..</span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-[16px] font-medium text-white">500 OPENX</span>
+                        <ChevronDown 
+                          className={`h-5 w-5 text-gray-400 cursor-pointer transition-transform ${isVideoExpanded ? 'rotate-180' : ''}`}
+                          onClick={() => setIsVideoExpanded(!isVideoExpanded)}
+                        />
+                      </div>
                     </div>
+                    
+                    {/* Collapsible Content */}
+                    {isVideoExpanded && (
+                      <div className="p-6 pt-2 border-t border-white/10">
+                        <div className="space-y-4">
+                          <input 
+                            type="text" 
+                            placeholder="share your link" 
+                            className="w-full h-12 px-4 bg-[#1F2021] border border-white/10 rounded-lg text-white"
+                          />
+                          <input 
+                            type="text" 
+                            placeholder="your wallet" 
+                            className="w-full h-12 px-4 bg-[#1F2021] border border-white/10 rounded-lg text-white"
+                          />
+                          <button className="w-24 h-12 bg-[#0066FF] text-white rounded-lg ml-auto block">
+                            Submit
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
