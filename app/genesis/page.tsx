@@ -68,7 +68,7 @@ export default function GenesisPage() {
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 })
 
   useEffect(() => {
-    const targetDate = new Date('2025-02-21T00:00:00Z')
+    const targetDate = new Date('2025-02-27T00:00:00Z')
     
     const updateCountdown = () => {
       const now = new Date()
