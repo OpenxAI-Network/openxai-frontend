@@ -46,10 +46,9 @@ export default function EarnPage() {
   
   return (
     <>
-      <Header />
       <div className="flex min-h-screen bg-[radial-gradient(ellipse_at_center_top,_rgba(27,37,56,0.9)_0%,_#151516_100%)]">
         <SideMenu />
-        <main className="ml-[234px] flex-1 p-12 pt-32">
+        <main className="ml-[234px] flex-1 p-12 pt-16">
           <div className="grid grid-cols-2 gap-8">
             {/* Simple Tasks Section */}
             <div>

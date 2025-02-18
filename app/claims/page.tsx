@@ -39,10 +39,9 @@ const PROJECTS = [
 export default function ClaimsPage() {
   return (
     <>
-      <Header />
       <div className="flex min-h-screen bg-[radial-gradient(ellipse_at_center_top,_rgba(27,37,56,0.9)_0%,_#151516_100%)]">
         <SideMenu />
-        <main className="ml-[234px] flex-1 p-16 pt-32">
+        <main className="ml-[234px] flex-1 p-16">
           <div className="mb-8 flex items-end justify-end">
             <div className="flex flex-col">
               <div className="flex items-baseline gap-4">
