@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react"
 import Image from "next/image"
 import { SideMenu } from "@/components/genesis/SideMenu"
-import { Header } from "@/components/Header"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import SuccessModal from "@/components/genesis/Success"
@@ -150,62 +149,89 @@ export default function GenesisPage() {
     <>
       <div className="flex min-h-screen bg-[radial-gradient(ellipse_at_center_top,_rgba(27,37,56,0.9)_0%,_#151516_100%)]">
         <SideMenu />
-        <main className="ml-[234px] flex-1 p-8 pt-16">
+        <main className="flex-1 p-4 pt-28 [@media(max-width:960px)]:pt-48 [@media(max-width:500px)]:pt-36 [@media(min-width:960px)]:p-8 [@media(min-width:960px)]:pt-32 [@media(min-width:960px)]:ml-[234px]">
           {/* Countdown Section */}
           <div className="mb-24 text-center">
-            <div className="mb-2 text-[18px] font-normal text-white">Starting soon</div>
+            <div className="mb-2 text-[18px] font-normal text-white">
+              Starting soon
+            </div>
             <div className="mb-2 text-[60px] font-medium leading-tight text-white">
               {countdown.days}D: {countdown.hours}H: {countdown.minutes}M: {countdown.seconds}S
             </div>
 
-            {/* Social Media Buttons */}
-            <div className="mt-12 flex justify-center gap-12 px-4">
-              {/* Twitter/X Button */}
+            {/* Social Media Buttons - Desktop (≥960px) */}
+            <div className="mt-12 hidden justify-center gap-12 px-4 [@media(min-width:960px)]:flex">
+              {/* Original Twitter/X Button with gradient */}
               <div className="relative flex items-center gap-3">
                 <span className="text-[24px] font-bold text-white">1.</span>
-                <a 
-                  href="https://x.com/OpenxAINetwork" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="relative block"
-                >
+                <a href="https://x.com/OpenxAINetwork" target="_blank" rel="noopener noreferrer" className="relative block">
                   <div className="relative">
                     <div className="absolute -inset-px rounded-lg bg-gradient-to-t from-[#829ED1] to-[#0059FE]" />
                     <div className="relative flex items-center gap-3 rounded-lg bg-[#1F2021] px-6 py-3 hover:bg-[#2a2a2a]">
-                      <svg className="size-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                      </svg>
-                      <div className="flex flex-col items-start">
-                        <span className="text-white">Follow @OpenXAI</span>
-                        <span className="text-sm text-gray-400">500 OPENX (Points)</span>
+                      <div className="flex items-center gap-2">
+                        <svg className="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231z" />
+                        </svg>
+                        <span className="text-lg text-white">Follow @OpenXAI</span>
                       </div>
                     </div>
                   </div>
                 </a>
               </div>
 
-              {/* Telegram Button */}
+              {/* Original Telegram Button with gradient */}
               <div className="relative flex items-center gap-3">
                 <span className="text-[24px] font-bold text-white">2.</span>
-                <a 
-                  href="https://t.me/OpenxAINetwork" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="relative block"
-                >
+                <a href="https://t.me/OpenxAINetwork" target="_blank" rel="noopener noreferrer" className="relative block">
                   <div className="relative">
-                    <div className="absolute -inset-px rounded-lg bg-gradient-to-b from-[#B2FE00] to-[#829ED1]" />
+                    <div className="absolute -inset-px rounded-lg bg-gradient-to-t from-[#B2FE00] to-[#829ED1]" />
                     <div className="relative flex items-center gap-3 rounded-lg bg-[#1F2021] px-6 py-3 hover:bg-[#2a2a2a]">
-                      <svg className="size-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M21.93 3.24l-3.35 17.52A1.51 1.51 0 0117.12 22a1.53 1.53 0 01-1.09-.45l-6.9-6.89-3.35 3.35a.49.49 0 01-.35.15.5.5 0 01-.5-.5v-4.29l12.45-12.46a.5.5 0 01-.7.71L4.55 13.75l-2.85-1a1.51 1.51 0 01.1-2.89l18.59-7.15a1.51 1.51 0 011.54 2.53z"/>
-                      </svg>
-                      <div className="flex flex-col items-start">
-                        <span className="text-white">Join @OpenXAI</span>
-                        <span className="text-sm text-gray-400">500 OPENX (Points)</span>
+                      <div className="flex items-center gap-2">
+                        <svg className="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M21.93 3.24l-3.35 17.52A1.51 1.51 0 0117.12 22a1.53 1.53 0 01-1.09-.45l-6.9-6.89-3.35 3.35a.49.49 0 01-.35.15.5.5 0 01-.5-.5v-4.29l12.45-12.46a.5.5 0 01-.7.71L4.55 13.75l-2.85-1a1.51 1.51 0 01.1-2.89l18.59-7.15a1.51 1.51 0 011.54 2.53z" />
+                        </svg>
+                        <span className="text-lg text-white">Join @OpenXAI</span>
                       </div>
                     </div>
                   </div>
                 </a>
+              </div>
+            </div>
+
+            {/* Social Media Buttons - Mobile (<960px) */}
+            <div className="flex flex-col gap-4 px-4 mx-auto max-w-lg [@media(min-width:960px)]:hidden">
+              {/* Mobile Twitter/X Box */}
+              <div className="relative w-full">
+                <div className="absolute -inset-[1px] rounded-lg bg-gradient-to-t from-[#829ED1] to-[#0059FE]" />
+                <div className="relative flex items-center rounded-lg bg-[#1F2021] p-6">
+                  <span className="absolute left-6 text-2xl font-bold text-white">1.</span>
+                  <div className="flex flex-col items-center justify-center w-full">
+                    <div className="flex items-center gap-2">
+                      <svg className="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231z" />
+                      </svg>
+                      <span className="text-lg text-white">Follow @OpenXAI</span>
+                    </div>
+                    <span className="text-sm text-gray-400">500 OPENX (Points)</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Mobile Telegram Box */}
+              <div className="relative w-full">
+                <div className="absolute -inset-[1px] rounded-lg bg-gradient-to-b from-[#B2FE00] to-[#829ED1]" />
+                <div className="relative flex items-center rounded-lg bg-[#1F2021] p-6">
+                  <span className="absolute left-6 text-2xl font-bold text-white">2.</span>
+                  <div className="flex flex-col items-center justify-center w-full">
+                    <div className="flex items-center gap-2">
+                      <svg className="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M21.93 3.24l-3.35 17.52A1.51 1.51 0 0117.12 22a1.53 1.53 0 01-1.09-.45l-6.9-6.89-3.35 3.35a.49.49 0 01-.35.15.5.5 0 01-.5-.5v-4.29l12.45-12.46a.5.5 0 01-.7.71L4.55 13.75l-2.85-1a1.51 1.51 0 01.1-2.89l18.59-7.15a1.51 1.51 0 011.54 2.53z" />
+                      </svg>
+                      <span className="text-lg text-white">Join @OpenXAI</span>
+                    </div>
+                    <span className="text-sm text-gray-400">500 OPENX (Points)</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -214,41 +240,39 @@ export default function GenesisPage() {
           <div className="relative">
             <div className="absolute -inset-6 z-10 flex cursor-not-allowed bg-black/50" 
                  title="Available after launch">
-              <div className="flex size-full items-center justify-center">
-                <svg className="size-16 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="flex w-full items-center justify-center">
+                <svg className="h-16 w-16 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m0 0v2m0-2h2m-2 0H10m0 0h4" />
                 </svg>
               </div>
             </div>
 
-            {/* Existing content wrapped in relative div */}
+            {/* Main content */}
             <div className="relative z-[5]">
               {/* Main stats and info container */}
-              <div className="grid grid-cols-6 gap-4">
-                {/* Amount section (columns 1-3) */}
-                <div className="col-span-3">
-                  <h1 className="inline-flex items-baseline gap-4 text-7xl">
-                    <span className="text-white">
-                      $111.4K
-                    </span>
-                    <span className="text-lg text-white">$312.3K remaining</span>
+              <div className="grid [@media(min-width:960px)]:grid-cols-6 grid-cols-1 gap-4">
+                {/* Amount section */}
+                <div className="[@media(min-width:960px)]:col-span-3">
+                  <h1 className="inline-flex items-baseline gap-4 [@media(min-width:960px)]:text-7xl text-4xl">
+                    <span className="text-white">$111.4K</span>
+                    <span className="[@media(min-width:960px)]:text-lg text-base text-white">$312.3K remaining</span>
                   </h1>
                 </div>
 
-                {/* Info boxes (columns 4-6) */}
-                <div className="relative col-span-1 flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:inset-[-0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-['']">
+                {/* Info boxes */}
+                <div className="[@media(min-width:960px)]:col-span-1 relative flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:inset-[-0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-['']">
                   <div className="relative z-10 flex w-full flex-col justify-center text-center">
                     <div className="text-white">Ticker</div>
                     <div className="text-white">$OPENX (ERC20)</div>
                   </div>
                 </div>
-                <div className="relative col-span-1 flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:inset-[-0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-['']">
+                <div className="[@media(min-width:960px)]:col-span-1 relative flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:inset-[-0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-['']">
                   <div className="relative z-10 flex w-full flex-col justify-center text-center">
                     <div className="text-white">Max per wallet</div>
                     <div className="text-white">$1,000</div>
                   </div>
                 </div>
-                <div className="relative col-span-1 flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:inset-[-0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-['']">
+                <div className="[@media(min-width:960px)]:col-span-1 relative flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:inset-[-0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-['']">
                   <div className="relative z-10 flex w-full flex-col justify-center text-center">
                     <div className="text-white">Contract</div>
                     <a href="https://etherscan.io/#" target="_blank" rel="noopener noreferrer" className="text-white underline hover:opacity-80">0x84...84s4</a>
@@ -256,9 +280,8 @@ export default function GenesisPage() {
                 </div>
               </div>
 
-              {/* Horizontal divider */}
+              {/* Progress bar section - restore original desktop layout */}
               <div className="my-8 h-px w-full bg-[#505050]" />
-
               <div className="mt-6">
                 <div className="mb-6 flex items-center justify-between text-base">
                   <div className="relative w-full">
@@ -284,33 +307,47 @@ export default function GenesisPage() {
                       style={{ left: `${milestone.position}%` }}
                     >
                       {/* Vertical dotted line */}
-                      <div className="h-6 w-px border-l border-dotted border-white/30" />
+                      <div className="h-6 w-px border-l border-dotted border-white/30 [@media(max-width:650px)]:h-4 [@media(max-width:400px)]:h-3" />
 
                       {/* Play icon triangle - rotated 90 degrees */}
                       <div
-                        className="mt-2 cursor-pointer transition-all hover:opacity-80"
+                        className="mt-2 cursor-pointer transition-all hover:opacity-80 [@media(max-width:650px)]:mt-1 [@media(max-width:400px)]:mt-0.5"
                         onMouseEnter={() => setSelectedMilestone(index)}
                         onMouseLeave={() => setSelectedMilestone(null)}
                       >
-                        <div className="size-0 rotate-90 border-x-[6px] border-b-8 border-solid border-x-transparent border-b-white/30" />
+                        <div className="rotate-90 border-x-[6px] border-b-8 border-solid border-x-transparent border-b-white/30" />
                       </div>
                     </div>
                   ))}
                 </div>
 
                 {/* Milestone table */}
-                <div className="mt-10 overflow-x-auto">
+                <div className="mt-10 w-full overflow-x-auto">
                   <div className="overflow-hidden rounded-lg border border-[#454545]">
-                    <table className="w-full border-collapse bg-[#1F2021]">
+                    <table className="w-full border-collapse bg-[#1F2021] text-[12px] sm:text-sm [@media(max-width:650px)]:text-xs [@media(max-width:400px)]:text-[10px]">
                       <thead>
                         <tr>
-                          <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Project Name</th>
-                          <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Funding Goal</th>
-                          <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Deadline</th>
-                          <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Backers Rewards</th>
-                          <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Flash Bonus</th>
-                          <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Reward APY</th>
-                          <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9]">Status</th>
+                          <th className="border-b border-[#454545] p-2 text-left text-sm font-bold text-[#D9D9D9] [@media(max-width:650px)]:text-xs [@media(max-width:400px)]:text-[10px] [@media(max-width:400px)]:p-1">
+                            Project Name
+                          </th>
+                          <th className="border-b border-[#454545] p-2 text-left text-sm font-bold text-[#D9D9D9] [@media(max-width:650px)]:text-xs [@media(max-width:400px)]:text-[10px] [@media(max-width:400px)]:p-1">
+                            Funding Goal
+                          </th>
+                          <th className="border-b border-[#454545] p-2 text-left text-sm font-bold text-[#D9D9D9] [@media(max-width:650px)]:text-xs [@media(max-width:400px)]:text-[10px] [@media(max-width:400px)]:p-1">
+                            Deadline
+                          </th>
+                          <th className="border-b border-[#454545] p-2 text-left text-sm font-bold text-[#D9D9D9] [@media(max-width:650px)]:text-xs [@media(max-width:400px)]:text-[10px] [@media(max-width:400px)]:p-1">
+                            Backers Rewards
+                          </th>
+                          <th className="border-b border-[#454545] p-2 text-left text-sm font-bold text-[#D9D9D9] [@media(max-width:650px)]:text-xs [@media(max-width:400px)]:text-[10px] [@media(max-width:400px)]:p-1">
+                            Flash Bonus
+                          </th>
+                          <th className="border-b border-[#454545] p-2 text-left text-sm font-bold text-[#D9D9D9] [@media(max-width:650px)]:text-xs [@media(max-width:400px)]:text-[10px] [@media(max-width:400px)]:p-1">
+                            Reward APY
+                          </th>
+                          <th className="border-b border-[#454545] p-2 text-left text-sm font-bold text-[#D9D9D9] [@media(max-width:650px)]:text-xs [@media(max-width:400px)]:text-[10px] [@media(max-width:400px)]:p-1">
+                            Status
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -319,15 +356,27 @@ export default function GenesisPage() {
                             key={index}
                             className={`text-sm transition-colors hover:bg-white/5
                               ${selectedMilestone === index ? 'font-bold' : 'font-normal'}
-                            `}
+                              [@media(max-width:650px)]:text-xs [@media(max-width:400px)]:text-[10px] [@media(max-width:400px)]:p-1`}
                           >
-                            <td className="border-0 p-4 text-[#6A6A6A]">{milestone.title}</td>
-                            <td className="border-0 p-4 text-[#6A6A6A]">{milestone.fundingGoal}</td>
-                            <td className="border-0 p-4 text-[#6A6A6A]">{milestone.deadline}</td>
-                            <td className="border-0 p-4 text-[#6A6A6A]">{milestone.backersRewards}</td>
-                            <td className="border-0 p-4 text-[#6A6A6A]">{milestone.flashBonus}</td>
-                            <td className="border-0 p-4 text-[#6A6A6A]">{milestone.rewardAPY}</td>
-                            <td className="border-0 p-4">
+                            <td className="p-2 text-[#6A6A6A] [@media(max-width:650px)]:text-xs [@media(max-width:400px)]:text-[10px] [@media(max-width:400px)]:p-1">
+                              {milestone.title}
+                            </td>
+                            <td className="p-2 text-[#6A6A6A] [@media(max-width:650px)]:text-xs [@media(max-width:400px)]:text-[10px] [@media(max-width:400px)]:p-1">
+                              {milestone.fundingGoal}
+                            </td>
+                            <td className="p-2 text-[#6A6A6A] [@media(max-width:650px)]:text-xs [@media(max-width:400px)]:text-[10px] [@media(max-width:400px)]:p-1">
+                              {milestone.deadline}
+                            </td>
+                            <td className="p-2 text-[#6A6A6A] [@media(max-width:650px)]:text-xs [@media(max-width:400px)]:text-[10px] [@media(max-width:400px)]:p-1">
+                              {milestone.backersRewards}
+                            </td>
+                            <td className="p-2 text-[#6A6A6A] [@media(max-width:650px)]:text-xs [@media(max-width:400px)]:text-[10px] [@media(max-width:400px)]:p-1">
+                              {milestone.flashBonus}
+                            </td>
+                            <td className="p-2 text-[#6A6A6A] [@media(max-width:650px)]:text-xs [@media(max-width:400px)]:text-[10px] [@media(max-width:400px)]:p-1">
+                              {milestone.rewardAPY}
+                            </td>
+                            <td className="p-2 [@media(max-width:650px)]:text-xs [@media(max-width:400px)]:text-[10px] [@media(max-width:400px)]:p-1">
                               <span className="bg-gradient-to-r from-white to-green-500 bg-clip-text text-transparent">
                                 {milestone.status}
                               </span>
@@ -339,10 +388,9 @@ export default function GenesisPage() {
                   </div>
                 </div>
 
-                {/* Payment method buttons container - 50% width */}
-                <div className="mb-6 w-1/2">
-                <div className="my-10 text-xl font-bold text-white">Your deposit</div>
-
+                {/* Payment method buttons container */}
+                <div className="[@media(min-width:960px)]:w-1/2 w-full mb-16">
+                  <div className="my-10 text-xl font-bold text-white">Your deposit</div>
                   <div className="grid grid-cols-4 gap-4">
                     {PAYMENT_METHODS.map((method) => (
                       <button
@@ -373,7 +421,8 @@ export default function GenesisPage() {
                   </div>
                 </div>
 
-                <div className="mb-16 inline-block rounded-lg bg-[#5C5C5C] px-4 py-2">
+                {/* Current balance box - with restored spacing */}
+                <div className="mt-8 mb-16 inline-block rounded-lg bg-[#5C5C5C] px-4 py-2">
                   <span className="text-gray-300">Current balance: </span>
                   {address && ethBalance ? (
                     <span className="text-white">{formatUnits(ethBalance.value, ethBalance.decimals).substring(0, 5)} ETH</span>
@@ -382,7 +431,8 @@ export default function GenesisPage() {
                   )}
                 </div>
 
-                <div className="mb-6 w-1/2">
+                {/* ETH amount box - restored original width */}
+                <div className="[@media(min-width:960px)]:w-1/2 w-full mb-6">
                   <div className="flex h-[60px] items-center justify-between rounded-lg border border-gray-700 bg-[#1F2021] p-4">
                     <div className="flex items-center gap-3">
                       <Image
@@ -409,19 +459,22 @@ export default function GenesisPage() {
                   </div>
                 </div>
 
-                {/* Gradient Divider with Text */}
-                <div className="my-8 flex items-center gap-4">
-                  <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#454545] to-transparent" />
-                  <div className="font-inter text-[13px] font-normal text-[#6A6A6A]">You will receive 
-                    <span className="text-lg text-white"> 13,149 </span>
-                    <span className="bg-gradient-to-r from-white to-[#2D63F6] bg-clip-text text-lg font-medium text-transparent">
-                      OPENX
-                    </span>
+                {/* Gradient Divider with Text - align with content above/below on desktop */}
+                <div className="[@media(min-width:960px)]:w-1/2 w-full my-8">
+                  <div className="flex items-center gap-4">
+                    <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#454545] to-transparent" />
+                    <div className="font-inter text-[13px] font-normal text-[#6A6A6A]">You will receive 
+                      <span className="text-lg text-white"> 13,149 </span>
+                      <span className="bg-gradient-to-r from-white to-[#2D63F6] bg-clip-text text-lg font-medium text-transparent">
+                        OPENX
+                      </span>
+                    </div>
+                    <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#454545] to-transparent" />
                   </div>
-                  <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#454545] to-transparent" />
                 </div>
 
-                <div className="w-1/2">
+                {/* OPENX amount box */}
+                <div className="[@media(min-width:960px)]:w-1/2 w-full">
                   <div className="flex h-[60px] items-center gap-3 rounded-lg border border-gray-700 bg-[#1F2021] p-4">
                     <Image 
                       src="/openxai-logo.png"
@@ -434,9 +487,9 @@ export default function GenesisPage() {
                 </div>
               </div>
 
-              {/* WalletConnect button */}
+              {/* WalletConnect button - restore original desktop layout */}
               <Button
-                className="mt-10 h-[40px] w-[calc(100%/6)] bg-[#2D63F6] text-xl font-bold text-white hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                className="mt-10 [@media(min-width:960px)]:w-[calc(100%/6)] w-full h-[40px] bg-[#2D63F6] text-xl font-bold text-white hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
                 onClick={() => {if (address) {setShowSuccessModal(true)} else {open()}}}
                 disabled={countdown.days > 0 || countdown.hours > 0 || countdown.minutes > 0 || countdown.seconds > 0}
               >
