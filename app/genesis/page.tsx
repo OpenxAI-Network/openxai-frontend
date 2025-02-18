@@ -149,7 +149,7 @@ export default function GenesisPage() {
     <>
       <div className="flex min-h-screen bg-[radial-gradient(ellipse_at_center_top,_rgba(27,37,56,0.9)_0%,_#151516_100%)]">
         <SideMenu />
-        <main className="flex-1 p-4 pt-28 [@media(max-width:960px)]:pt-48 [@media(max-width:500px)]:pt-36 [@media(min-width:960px)]:p-8 [@media(min-width:960px)]:pt-32 [@media(min-width:960px)]:ml-[234px]">
+        <main className="flex-1 p-4 pt-28 [@media(max-width:500px)]:pt-36 [@media(max-width:960px)]:pt-48 [@media(min-width:960px)]:ml-[234px] [@media(min-width:960px)]:p-8 [@media(min-width:960px)]:pt-32">
           {/* Countdown Section */}
           <div className="mb-24 text-center">
             <div className="mb-2 text-[18px] font-normal text-white">
@@ -169,7 +169,7 @@ export default function GenesisPage() {
                     <div className="absolute -inset-px rounded-lg bg-gradient-to-t from-[#829ED1] to-[#0059FE]" />
                     <div className="relative flex items-center gap-3 rounded-lg bg-[#1F2021] px-6 py-3 hover:bg-[#2a2a2a]">
                       <div className="flex items-center gap-2">
-                        <svg className="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <svg className="size-6 text-white" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231z" />
                         </svg>
                         <span className="text-lg text-white">Follow @OpenXAI</span>
@@ -187,7 +187,7 @@ export default function GenesisPage() {
                     <div className="absolute -inset-px rounded-lg bg-gradient-to-t from-[#B2FE00] to-[#829ED1]" />
                     <div className="relative flex items-center gap-3 rounded-lg bg-[#1F2021] px-6 py-3 hover:bg-[#2a2a2a]">
                       <div className="flex items-center gap-2">
-                        <svg className="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <svg className="size-6 text-white" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M21.93 3.24l-3.35 17.52A1.51 1.51 0 0117.12 22a1.53 1.53 0 01-1.09-.45l-6.9-6.89-3.35 3.35a.49.49 0 01-.35.15.5.5 0 01-.5-.5v-4.29l12.45-12.46a.5.5 0 01-.7.71L4.55 13.75l-2.85-1a1.51 1.51 0 01.1-2.89l18.59-7.15a1.51 1.51 0 011.54 2.53z" />
                         </svg>
                         <span className="text-lg text-white">Join @OpenXAI</span>
@@ -199,15 +199,15 @@ export default function GenesisPage() {
             </div>
 
             {/* Social Media Buttons - Mobile (<960px) */}
-            <div className="flex flex-col gap-4 px-4 mx-auto max-w-lg [@media(min-width:960px)]:hidden">
+            <div className="mx-auto flex max-w-lg flex-col gap-4 px-4 [@media(min-width:960px)]:hidden">
               {/* Mobile Twitter/X Box */}
               <div className="relative w-full">
-                <div className="absolute -inset-[1px] rounded-lg bg-gradient-to-t from-[#829ED1] to-[#0059FE]" />
+                <div className="absolute -inset-px rounded-lg bg-gradient-to-t from-[#829ED1] to-[#0059FE]" />
                 <div className="relative flex items-center rounded-lg bg-[#1F2021] p-6">
                   <span className="absolute left-6 text-2xl font-bold text-white">1.</span>
-                  <div className="flex flex-col items-center justify-center w-full">
+                  <div className="flex w-full flex-col items-center justify-center">
                     <div className="flex items-center gap-2">
-                      <svg className="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                      <svg className="size-6 text-white" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231z" />
                       </svg>
                       <span className="text-lg text-white">Follow @OpenXAI</span>
@@ -219,12 +219,12 @@ export default function GenesisPage() {
 
               {/* Mobile Telegram Box */}
               <div className="relative w-full">
-                <div className="absolute -inset-[1px] rounded-lg bg-gradient-to-b from-[#B2FE00] to-[#829ED1]" />
+                <div className="absolute -inset-px rounded-lg bg-gradient-to-b from-[#B2FE00] to-[#829ED1]" />
                 <div className="relative flex items-center rounded-lg bg-[#1F2021] p-6">
                   <span className="absolute left-6 text-2xl font-bold text-white">2.</span>
-                  <div className="flex flex-col items-center justify-center w-full">
+                  <div className="flex w-full flex-col items-center justify-center">
                     <div className="flex items-center gap-2">
-                      <svg className="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                      <svg className="size-6 text-white" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M21.93 3.24l-3.35 17.52A1.51 1.51 0 0117.12 22a1.53 1.53 0 01-1.09-.45l-6.9-6.89-3.35 3.35a.49.49 0 01-.35.15.5.5 0 01-.5-.5v-4.29l12.45-12.46a.5.5 0 01-.7.71L4.55 13.75l-2.85-1a1.51 1.51 0 01.1-2.89l18.59-7.15a1.51 1.51 0 011.54 2.53z" />
                       </svg>
                       <span className="text-lg text-white">Join @OpenXAI</span>
@@ -241,7 +241,7 @@ export default function GenesisPage() {
             <div className="absolute -inset-6 z-10 flex cursor-not-allowed bg-black/50" 
                  title="Available after launch">
               <div className="flex w-full items-center justify-center">
-                <svg className="h-16 w-16 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="size-16 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m0 0v2m0-2h2m-2 0H10m0 0h4" />
                 </svg>
               </div>
@@ -250,29 +250,29 @@ export default function GenesisPage() {
             {/* Main content */}
             <div className="relative z-[5]">
               {/* Main stats and info container */}
-              <div className="grid [@media(min-width:960px)]:grid-cols-6 grid-cols-1 gap-4">
+              <div className="grid grid-cols-1 gap-4 [@media(min-width:960px)]:grid-cols-6">
                 {/* Amount section */}
                 <div className="[@media(min-width:960px)]:col-span-3">
-                  <h1 className="inline-flex items-baseline gap-4 [@media(min-width:960px)]:text-7xl text-4xl">
+                  <h1 className="inline-flex items-baseline gap-4 text-4xl [@media(min-width:960px)]:text-7xl">
                     <span className="text-white">$111.4K</span>
-                    <span className="[@media(min-width:960px)]:text-lg text-base text-white">$312.3K remaining</span>
+                    <span className="text-base text-white [@media(min-width:960px)]:text-lg">$312.3K remaining</span>
                   </h1>
                 </div>
 
                 {/* Info boxes */}
-                <div className="[@media(min-width:960px)]:col-span-1 relative flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:inset-[-0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-['']">
+                <div className="relative flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:inset-[-0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-[''] [@media(min-width:960px)]:col-span-1">
                   <div className="relative z-10 flex w-full flex-col justify-center text-center">
                     <div className="text-white">Ticker</div>
                     <div className="text-white">$OPENX (ERC20)</div>
                   </div>
                 </div>
-                <div className="[@media(min-width:960px)]:col-span-1 relative flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:inset-[-0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-['']">
+                <div className="relative flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:inset-[-0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-[''] [@media(min-width:960px)]:col-span-1">
                   <div className="relative z-10 flex w-full flex-col justify-center text-center">
                     <div className="text-white">Max per wallet</div>
                     <div className="text-white">$1,000</div>
                   </div>
                 </div>
-                <div className="[@media(min-width:960px)]:col-span-1 relative flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:inset-[-0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-['']">
+                <div className="relative flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:inset-[-0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-[''] [@media(min-width:960px)]:col-span-1">
                   <div className="relative z-10 flex w-full flex-col justify-center text-center">
                     <div className="text-white">Contract</div>
                     <a href="https://etherscan.io/#" target="_blank" rel="noopener noreferrer" className="text-white underline hover:opacity-80">0x84...84s4</a>
@@ -307,11 +307,11 @@ export default function GenesisPage() {
                       style={{ left: `${milestone.position}%` }}
                     >
                       {/* Vertical dotted line */}
-                      <div className="h-6 w-px border-l border-dotted border-white/30 [@media(max-width:650px)]:h-4 [@media(max-width:400px)]:h-3" />
+                      <div className="h-6 w-px border-l border-dotted border-white/30 [@media(max-width:400px)]:h-3 [@media(max-width:650px)]:h-4" />
 
                       {/* Play icon triangle - rotated 90 degrees */}
                       <div
-                        className="mt-2 cursor-pointer transition-all hover:opacity-80 [@media(max-width:650px)]:mt-1 [@media(max-width:400px)]:mt-0.5"
+                        className="mt-2 cursor-pointer transition-all hover:opacity-80 [@media(max-width:400px)]:mt-0.5 [@media(max-width:650px)]:mt-1"
                         onMouseEnter={() => setSelectedMilestone(index)}
                         onMouseLeave={() => setSelectedMilestone(null)}
                       >
@@ -324,28 +324,28 @@ export default function GenesisPage() {
                 {/* Milestone table */}
                 <div className="mt-10 w-full overflow-x-auto">
                   <div className="overflow-hidden rounded-lg border border-[#454545]">
-                    <table className="w-full border-collapse bg-[#1F2021] text-[12px] sm:text-sm [@media(max-width:650px)]:text-xs [@media(max-width:400px)]:text-[10px]">
+                    <table className="w-full border-collapse bg-[#1F2021] text-[12px] sm:text-sm [@media(max-width:400px)]:text-[10px] [@media(max-width:650px)]:text-xs">
                       <thead>
                         <tr>
-                          <th className="border-b border-[#454545] p-2 text-left text-sm font-bold text-[#D9D9D9] [@media(max-width:650px)]:text-xs [@media(max-width:400px)]:text-[10px] [@media(max-width:400px)]:p-1">
+                          <th className="border-b border-[#454545] p-2 text-left text-sm font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-1 [@media(max-width:400px)]:text-[10px] [@media(max-width:650px)]:text-xs">
                             Project Name
                           </th>
-                          <th className="border-b border-[#454545] p-2 text-left text-sm font-bold text-[#D9D9D9] [@media(max-width:650px)]:text-xs [@media(max-width:400px)]:text-[10px] [@media(max-width:400px)]:p-1">
+                          <th className="border-b border-[#454545] p-2 text-left text-sm font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-1 [@media(max-width:400px)]:text-[10px] [@media(max-width:650px)]:text-xs">
                             Funding Goal
                           </th>
-                          <th className="border-b border-[#454545] p-2 text-left text-sm font-bold text-[#D9D9D9] [@media(max-width:650px)]:text-xs [@media(max-width:400px)]:text-[10px] [@media(max-width:400px)]:p-1">
+                          <th className="border-b border-[#454545] p-2 text-left text-sm font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-1 [@media(max-width:400px)]:text-[10px] [@media(max-width:650px)]:text-xs">
                             Deadline
                           </th>
-                          <th className="border-b border-[#454545] p-2 text-left text-sm font-bold text-[#D9D9D9] [@media(max-width:650px)]:text-xs [@media(max-width:400px)]:text-[10px] [@media(max-width:400px)]:p-1">
+                          <th className="border-b border-[#454545] p-2 text-left text-sm font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-1 [@media(max-width:400px)]:text-[10px] [@media(max-width:650px)]:text-xs">
                             Backers Rewards
                           </th>
-                          <th className="border-b border-[#454545] p-2 text-left text-sm font-bold text-[#D9D9D9] [@media(max-width:650px)]:text-xs [@media(max-width:400px)]:text-[10px] [@media(max-width:400px)]:p-1">
+                          <th className="border-b border-[#454545] p-2 text-left text-sm font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-1 [@media(max-width:400px)]:text-[10px] [@media(max-width:650px)]:text-xs">
                             Flash Bonus
                           </th>
-                          <th className="border-b border-[#454545] p-2 text-left text-sm font-bold text-[#D9D9D9] [@media(max-width:650px)]:text-xs [@media(max-width:400px)]:text-[10px] [@media(max-width:400px)]:p-1">
+                          <th className="border-b border-[#454545] p-2 text-left text-sm font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-1 [@media(max-width:400px)]:text-[10px] [@media(max-width:650px)]:text-xs">
                             Reward APY
                           </th>
-                          <th className="border-b border-[#454545] p-2 text-left text-sm font-bold text-[#D9D9D9] [@media(max-width:650px)]:text-xs [@media(max-width:400px)]:text-[10px] [@media(max-width:400px)]:p-1">
+                          <th className="border-b border-[#454545] p-2 text-left text-sm font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-1 [@media(max-width:400px)]:text-[10px] [@media(max-width:650px)]:text-xs">
                             Status
                           </th>
                         </tr>
@@ -356,27 +356,27 @@ export default function GenesisPage() {
                             key={index}
                             className={`text-sm transition-colors hover:bg-white/5
                               ${selectedMilestone === index ? 'font-bold' : 'font-normal'}
-                              [@media(max-width:650px)]:text-xs [@media(max-width:400px)]:text-[10px] [@media(max-width:400px)]:p-1`}
+                              [@media(max-width:400px)]:p-1 [@media(max-width:400px)]:text-[10px] [@media(max-width:650px)]:text-xs`}
                           >
-                            <td className="p-2 text-[#6A6A6A] [@media(max-width:650px)]:text-xs [@media(max-width:400px)]:text-[10px] [@media(max-width:400px)]:p-1">
+                            <td className="p-2 text-[#6A6A6A] [@media(max-width:400px)]:p-1 [@media(max-width:400px)]:text-[10px] [@media(max-width:650px)]:text-xs">
                               {milestone.title}
                             </td>
-                            <td className="p-2 text-[#6A6A6A] [@media(max-width:650px)]:text-xs [@media(max-width:400px)]:text-[10px] [@media(max-width:400px)]:p-1">
+                            <td className="p-2 text-[#6A6A6A] [@media(max-width:400px)]:p-1 [@media(max-width:400px)]:text-[10px] [@media(max-width:650px)]:text-xs">
                               {milestone.fundingGoal}
                             </td>
-                            <td className="p-2 text-[#6A6A6A] [@media(max-width:650px)]:text-xs [@media(max-width:400px)]:text-[10px] [@media(max-width:400px)]:p-1">
+                            <td className="p-2 text-[#6A6A6A] [@media(max-width:400px)]:p-1 [@media(max-width:400px)]:text-[10px] [@media(max-width:650px)]:text-xs">
                               {milestone.deadline}
                             </td>
-                            <td className="p-2 text-[#6A6A6A] [@media(max-width:650px)]:text-xs [@media(max-width:400px)]:text-[10px] [@media(max-width:400px)]:p-1">
+                            <td className="p-2 text-[#6A6A6A] [@media(max-width:400px)]:p-1 [@media(max-width:400px)]:text-[10px] [@media(max-width:650px)]:text-xs">
                               {milestone.backersRewards}
                             </td>
-                            <td className="p-2 text-[#6A6A6A] [@media(max-width:650px)]:text-xs [@media(max-width:400px)]:text-[10px] [@media(max-width:400px)]:p-1">
+                            <td className="p-2 text-[#6A6A6A] [@media(max-width:400px)]:p-1 [@media(max-width:400px)]:text-[10px] [@media(max-width:650px)]:text-xs">
                               {milestone.flashBonus}
                             </td>
-                            <td className="p-2 text-[#6A6A6A] [@media(max-width:650px)]:text-xs [@media(max-width:400px)]:text-[10px] [@media(max-width:400px)]:p-1">
+                            <td className="p-2 text-[#6A6A6A] [@media(max-width:400px)]:p-1 [@media(max-width:400px)]:text-[10px] [@media(max-width:650px)]:text-xs">
                               {milestone.rewardAPY}
                             </td>
-                            <td className="p-2 [@media(max-width:650px)]:text-xs [@media(max-width:400px)]:text-[10px] [@media(max-width:400px)]:p-1">
+                            <td className="p-2 [@media(max-width:400px)]:p-1 [@media(max-width:400px)]:text-[10px] [@media(max-width:650px)]:text-xs">
                               <span className="bg-gradient-to-r from-white to-green-500 bg-clip-text text-transparent">
                                 {milestone.status}
                               </span>
@@ -389,7 +389,7 @@ export default function GenesisPage() {
                 </div>
 
                 {/* Payment method buttons container */}
-                <div className="[@media(min-width:960px)]:w-1/2 w-full mb-16">
+                <div className="mb-16 w-full [@media(min-width:960px)]:w-1/2">
                   <div className="my-10 text-xl font-bold text-white">Your deposit</div>
                   <div className="grid grid-cols-4 gap-4">
                     {PAYMENT_METHODS.map((method) => (
@@ -422,7 +422,7 @@ export default function GenesisPage() {
                 </div>
 
                 {/* Current balance box - with restored spacing */}
-                <div className="mt-8 mb-16 inline-block rounded-lg bg-[#5C5C5C] px-4 py-2">
+                <div className="mb-16 mt-8 inline-block rounded-lg bg-[#5C5C5C] px-4 py-2">
                   <span className="text-gray-300">Current balance: </span>
                   {address && ethBalance ? (
                     <span className="text-white">{formatUnits(ethBalance.value, ethBalance.decimals).substring(0, 5)} ETH</span>
@@ -432,7 +432,7 @@ export default function GenesisPage() {
                 </div>
 
                 {/* ETH amount box - restored original width */}
-                <div className="[@media(min-width:960px)]:w-1/2 w-full mb-6">
+                <div className="mb-6 w-full [@media(min-width:960px)]:w-1/2">
                   <div className="flex h-[60px] items-center justify-between rounded-lg border border-gray-700 bg-[#1F2021] p-4">
                     <div className="flex items-center gap-3">
                       <Image
@@ -460,7 +460,7 @@ export default function GenesisPage() {
                 </div>
 
                 {/* Gradient Divider with Text - align with content above/below on desktop */}
-                <div className="[@media(min-width:960px)]:w-1/2 w-full my-8">
+                <div className="my-8 w-full [@media(min-width:960px)]:w-1/2">
                   <div className="flex items-center gap-4">
                     <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#454545] to-transparent" />
                     <div className="font-inter text-[13px] font-normal text-[#6A6A6A]">You will receive 
@@ -474,7 +474,7 @@ export default function GenesisPage() {
                 </div>
 
                 {/* OPENX amount box */}
-                <div className="[@media(min-width:960px)]:w-1/2 w-full">
+                <div className="w-full [@media(min-width:960px)]:w-1/2">
                   <div className="flex h-[60px] items-center gap-3 rounded-lg border border-gray-700 bg-[#1F2021] p-4">
                     <Image 
                       src="/openxai-logo.png"
@@ -489,7 +489,7 @@ export default function GenesisPage() {
 
               {/* WalletConnect button - restore original desktop layout */}
               <Button
-                className="mt-10 [@media(min-width:960px)]:w-[calc(100%/6)] w-full h-[40px] bg-[#2D63F6] text-xl font-bold text-white hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                className="mt-10 h-[40px] w-full bg-[#2D63F6] text-xl font-bold text-white hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50 [@media(min-width:960px)]:w-[calc(100%/6)]"
                 onClick={() => {if (address) {setShowSuccessModal(true)} else {open()}}}
                 disabled={countdown.days > 0 || countdown.hours > 0 || countdown.minutes > 0 || countdown.seconds > 0}
               >

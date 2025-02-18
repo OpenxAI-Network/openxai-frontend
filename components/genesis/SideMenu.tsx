@@ -57,7 +57,7 @@ export function SideMenu({ className, ...props }: SideMenuProps) {
       {/* Desktop Side Menu - shown only when viewport is at least 960px */}
       <div
         className={cn(
-          "hidden [@media(min-width:960px)]:block fixed left-0 top-0 h-full w-[234px] p-4 [background:radial-gradient(at_center,_#4C4C4C_0%,_#1C1C1C_100%)_0_0/100vw_100vh]",
+          "fixed left-0 top-0 hidden h-full w-[234px] p-4 [background:radial-gradient(at_center,_#4C4C4C_0%,_#1C1C1C_100%)_0_0/100vw_100vh] [@media(min-width:960px)]:block",
           className
         )}
         {...props}
@@ -133,11 +133,11 @@ export function SideMenu({ className, ...props }: SideMenuProps) {
       </div>
 
       {/* Mobile Menu - shown only when viewport is less than 960px */}
-      <div className="fixed left-0 right-0 top-0 z-50 bg-white shadow [@media(min-width:960px)]:hidden">
+      <div className="fixed inset-x-0 top-0 z-50 bg-white shadow [@media(min-width:960px)]:hidden">
         {/* Top Bar */}
         <div className="flex items-center justify-between px-4 py-2">
           {/* Logo (bigger for mobile) */}
-          <div className="flex-1 flex justify-start">
+          <div className="flex flex-1 justify-start">
             <NextLink href="https://openxai.org" className="hover:opacity-80">
               <Image
                 src="/logo/openxai-logo-black-transparent.png"
@@ -149,7 +149,7 @@ export function SideMenu({ className, ...props }: SideMenuProps) {
             </NextLink>
           </div>
           {/* Social Media Icons in the middle */}
-          <div className="flex-1 flex justify-center">
+          <div className="flex flex-1 justify-center">
             <div className="flex items-center space-x-4">
               <a
                 href="https://x.com/OpenxAINetwork"
@@ -157,7 +157,7 @@ export function SideMenu({ className, ...props }: SideMenuProps) {
                 rel="noopener noreferrer"
                 className="text-gray-600 hover:text-gray-900"
               >
-                <svg className="h-7 w-7" fill="currentColor" viewBox="0 0 24 24">
+                <svg className="size-7" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                 </svg>
               </a>
@@ -167,24 +167,24 @@ export function SideMenu({ className, ...props }: SideMenuProps) {
                 rel="noopener noreferrer"
                 className="text-gray-600 hover:text-gray-900"
               >
-                <svg className="h-7 w-7" fill="currentColor" viewBox="0 0 24 24">
+                <svg className="size-7" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M21.93 3.24l-3.35 17.52A1.51 1.51 0 0117.12 22a1.53 1.53 0 01-1.09-.45l-6.9-6.89-3.35 3.35a.49.49 0 01-.35.15.5.5 0 01-.5-.5v-4.29l12.45-12.46a.5.5 0 01-.7.71L4.55 13.75l-2.85-1a1.51 1.51 0 01.1-2.89l18.59-7.15a1.51 1.51 0 011.54 2.53z"/>
                 </svg>
               </a>
             </div>
           </div>
           {/* Connect Wallet (same height as logo) */}
-          <div className="flex-1 flex justify-end">
+          <div className="flex flex-1 justify-end">
             <div className="relative">
               {!isConnected ? (
                 <button
                   onClick={() => open()}
-                  className="h-12 px-4 flex items-center text-base font-bold text-blue-600 border rounded-md"
+                  className="flex h-12 items-center rounded-md border px-4 text-base font-bold text-blue-600"
                 >
                   Connect Wallet
                 </button>
               ) : (
-                <span className="h-12 flex items-center text-base font-bold">
+                <span className="flex h-12 items-center text-base font-bold">
                   13.30 OPENX
                 </span>
               )}
