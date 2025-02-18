@@ -50,10 +50,9 @@ const ACTIVE_PROPOSALS = [
 export default function GovernancePage() {
   return (
     <>
-      <Header />
       <div className="flex min-h-screen bg-[radial-gradient(ellipse_at_center_top,_rgba(27,37,56,0.9)_0%,_#151516_100%)]">
         <SideMenu />
-        <main className="ml-[234px] flex-1 p-12 pt-32">
+        <main className="ml-[234px] flex-1 p-12 pt-16">
           {/* Stats Grid - Updated without boxes */}
           <div className="mb-12 grid grid-cols-4 gap-8">
             {GOVERNANCE_STATS.map((stat, index) => (

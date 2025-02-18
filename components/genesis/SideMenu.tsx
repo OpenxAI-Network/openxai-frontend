@@ -12,6 +12,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons"
 import { cn } from "@/lib/utils"
 import { useWeb3Modal } from "@web3modal/wagmi/react"
+import Image from "next/image"
 
 
 export interface SideMenuProps extends React.HTMLAttributes<HTMLDivElement> {}
@@ -57,8 +58,26 @@ export function SideMenu({ className, ...props }: SideMenuProps) {
       )}
       {...props}
     >
+      {/* OpenxAI Logo */}
+      <div className="mb-6 mt-4 flex justify-center">
+        <NextLink 
+          href="https://openxai.org" 
+          className="w-full hover:opacity-80"
+        >
+          <Image
+            src="/logo/openxai-logo-white-transparent.png"
+            alt="OpenxAI"
+            width={0}
+            height={0}
+            sizes="100%"
+            className="h-auto w-full"
+            priority
+          />
+        </NextLink>
+      </div>
+
       {/* Wallet Connect Card */}
-      <div className="relative mb-10 mt-24 h-[107px] w-full rounded-lg">
+      <div className="relative mb-10 h-[107px] w-full rounded-lg">
         {/* Content */}
         <div className="relative flex h-full flex-col justify-end rounded-lg bg-[#1F2021] p-4">
           {!isConnected ? (
