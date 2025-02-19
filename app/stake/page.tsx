@@ -48,27 +48,31 @@ export default function StakePage() {
                   {/* Gradient Overlay */}
                   <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#414141] to-[#1F2136] opacity-100" />
                   
-                  <div className="relative flex w-full items-center justify-between">
-                    <h3 className="font-inter text-[60px] font-medium text-white [@media(max-width:400px)]:text-[32px] [@media(max-width:650px)]:text-[40px]">
-                      0
-                    </h3>
-                    <div className="flex h-[30px] items-center justify-center rounded-lg border border-green-500/30 px-3 [@media(max-width:400px)]:h-[20px] [@media(max-width:650px)]:h-[24px]">
-                      <span className="font-inter text-[16px] font-light text-[#4CFF46] [@media(max-width:400px)]:text-xs [@media(max-width:650px)]:text-sm">
-                        5.7% APR
-                      </span>
+                  <div className="relative flex w-full flex-col">
+                    {/* First row: 0 and APR */}
+                    <div className="flex items-center justify-between">
+                      <h3 className="font-inter text-[60px] font-medium text-white [@media(max-width:400px)]:text-[32px] [@media(max-width:650px)]:text-[40px]">
+                        0
+                      </h3>
+                      <div className="flex h-[30px] items-center justify-center rounded-lg border border-green-500/30 px-3 [@media(max-width:400px)]:h-[20px] [@media(max-width:650px)]:h-[24px]">
+                        <span className="font-inter text-[16px] font-light text-[#4CFF46] [@media(max-width:400px)]:text-xs [@media(max-width:650px)]:text-sm">
+                          5.7% APR
+                        </span>
+                      </div>
                     </div>
-                  </div>
                   
-                  <div className="relative mt-6 flex flex-col items-center">
-                    <p className="font-inter mt-[-100px] text-[30px] font-medium text-[#AEAEAE] [@media(max-width:400px)]:mt-[-60px] [@media(max-width:400px)]:text-[20px] [@media(max-width:650px)]:mt-[-80px] [@media(max-width:650px)]:text-[24px]">
-                      You don&apos;t have an NFT
-                    </p>
-                    <Link 
-                      href="#" 
-                      className="font-inter mt-2 text-[20px] font-medium text-[#AFAFAF] underline hover:opacity-80 [@media(max-width:400px)]:text-sm [@media(max-width:650px)]:text-base"
-                    >
-                      How to get
-                    </Link>
+                    {/* Second row: NFT status and link */}
+                    <div className="mt-6 flex flex-col items-center">
+                      <p className="font-inter text-[30px] font-medium text-[#AEAEAE] [@media(max-width:400px)]:text-[20px] [@media(max-width:650px)]:text-[24px]">
+                        You don&apos;t have an NFT
+                      </p>
+                      <Link 
+                        href="#" 
+                        className="font-inter mt-2 text-[20px] font-medium text-[#AFAFAF] underline hover:opacity-80 [@media(max-width:400px)]:text-sm [@media(max-width:650px)]:text-base"
+                      >
+                        How to get
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>
