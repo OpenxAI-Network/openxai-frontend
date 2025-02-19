@@ -100,3 +100,10 @@ td {
 td {
   padding: 4px;
 }
+
+@layer utilities {
+  .px-safe {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+}
