@@ -334,8 +334,8 @@ export default function GenesisPage() {
                   </div>
 
                   {/* Milestone table with horizontal scroll */}
-                  <div className="relative w-full overflow-x-auto">
-                    <div className="-mx-4 min-w-[320px] px-4 sm:mx-0 sm:px-0">
+                  <div className="relative -mx-4 w-full overflow-x-auto px-4">
+                    <div className="min-w-[800px]"> {/* Fixed width to ensure all columns are visible */}
                       <div className="w-full align-middle">
                         <div className="overflow-hidden rounded-lg border border-[#454545]">
                           <table className="w-full table-auto border-collapse bg-[#1F2021]">
