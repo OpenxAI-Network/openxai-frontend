@@ -6,6 +6,7 @@ import { Header } from "@/components/Header"
 import { Button } from "@/components/ui/button"
 import { ChevronDown } from "lucide-react"
 import Image from "next/image"
+import { MobileResponsiveWrapper } from "@/components/layouts/MobileResponsiveWrapper"
 
 const SIMPLE_TASKS = [
   { 
@@ -45,7 +46,7 @@ export default function EarnPage() {
   const [isVideoExpanded, setIsVideoExpanded] = React.useState(false);
   
   return (
-    <>
+    <MobileResponsiveWrapper>
       <div className="flex min-h-screen bg-[radial-gradient(ellipse_at_center_top,_rgba(27,37,56,0.9)_0%,_#151516_100%)] p-0">
         <SideMenu />
 
@@ -200,6 +201,6 @@ export default function EarnPage() {
           </div>
         </main>
       </div>
-    </>
+    </MobileResponsiveWrapper>
   )
 }

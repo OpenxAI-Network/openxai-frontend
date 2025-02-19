@@ -5,6 +5,7 @@ import { SideMenu } from "@/components/genesis/SideMenu"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { ChevronRight } from "lucide-react"
+import { MobileResponsiveWrapper } from "@/components/layouts/MobileResponsiveWrapper"
 
 const GOVERNANCE_STATS = [
   { label: "Total locked OPENX", value: "12.5M" },
@@ -48,7 +49,7 @@ const ACTIVE_PROPOSALS = [
 
 export default function GovernancePage() {
   return (
-    <>
+    <MobileResponsiveWrapper>
       <div className="flex min-h-screen bg-[radial-gradient(ellipse_at_center_top,_rgba(27,37,56,0.9)_0%,_#151516_100%)] p-0">
         <SideMenu />
         <main className="ml-[234px] flex-1 p-12 pt-16 [@media(max-width:960px)]:ml-0 [@media(max-width:960px)]:p-4 [@media(max-width:960px)]:pt-32">
@@ -207,6 +208,6 @@ export default function GovernancePage() {
           </div>
         </main>
       </div>
-    </>
+    </MobileResponsiveWrapper>
   )
 }

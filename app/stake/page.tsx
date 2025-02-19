@@ -3,10 +3,11 @@
 import React from "react"
 import { SideMenu } from "@/components/genesis/SideMenu"
 import Link from "next/link"
+import { MobileResponsiveWrapper } from "@/components/layouts/MobileResponsiveWrapper"
 
 export default function StakePage() {
   return (
-    <>
+    <MobileResponsiveWrapper>
       <div className="flex min-h-screen bg-[radial-gradient(ellipse_at_center_top,_rgba(27,37,56,0.9)_0%,_#151516_100%)] p-0">
         <SideMenu />
         <main className="ml-[234px] flex-1 p-12 pt-16 [@media(max-width:960px)]:ml-0 [@media(max-width:960px)]:p-4 [@media(max-width:960px)]:pt-32">
@@ -73,6 +74,6 @@ export default function StakePage() {
           </div>
         </main>
       </div>
-    </>
+    </MobileResponsiveWrapper>
   )
 }
