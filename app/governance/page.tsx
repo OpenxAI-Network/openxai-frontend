@@ -54,8 +54,7 @@ export default function GovernancePage() {
       <div className="pointer-events-none" style={{ backgroundColor: 'transparent' }}>
         <div className="[@media(max-width:960px)]:mt-16">
           <div className="flex min-h-screen p-0">
-            <SideMenu />
-            <main className="ml-[234px] flex-1 p-12 pt-16 [@media(max-width:960px)]:ml-0 [@media(max-width:960px)]:p-4 [@media(max-width:960px)]:pt-32">
+            <main className="flex-1 p-12 pt-16 [@media(max-width:960px)]:p-4 [@media(max-width:960px)]:pt-32">
               {/* Stats Grid - Responsive */}
               <div className="mb-12 grid grid-cols-4 gap-8 [@media(max-width:650px)]:grid-cols-1 [@media(max-width:960px)]:grid-cols-2">
                 {GOVERNANCE_STATS.map((stat, index) => (
