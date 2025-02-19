@@ -8,7 +8,7 @@ export function FullscreenIframe({ src }: { src: string }) {
       <IframeResizer
         license="GPLv3"
         src={src}
-        className="h-full w-full"
+        className="size-full"
         sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
       />
     </div>
