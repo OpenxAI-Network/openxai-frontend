@@ -149,7 +149,7 @@ export default function GenesisPage() {
   return (
     <MobileResponsiveWrapper>
       {/* Disable interactions but without visual overlay */}
-      <div className="pointer-events-none" style={{ backgroundColor: 'transparent' }}>
+      <div className="pointer-events-auto" style={{ backgroundColor: 'transparent' }}>
         <div className="[@media(max-width:960px)]:mt-16">
           <main className="min-w-[320px] flex-1 overflow-x-auto p-4 pt-28 
             [@media(max-width:500px)]:pt-36 
@@ -174,13 +174,14 @@ export default function GenesisPage() {
                     <a href="https://x.com/OpenxAINetwork" target="_blank" rel="noopener noreferrer" className="relative block">
                       <div className="relative">
                         <div className="absolute -inset-px rounded-lg bg-gradient-to-t from-[#829ED1] to-[#0059FE]" />
-                        <div className="relative flex items-center gap-3 rounded-lg bg-[#1F2021] px-6 py-3 hover:bg-[#2a2a2a]">
+                        <div className="relative flex flex-col items-center gap-2 rounded-lg bg-[#1F2021] px-6 py-3 hover:bg-[#2a2a2a]">
                           <div className="flex items-center gap-2">
                             <svg className="size-6 text-white" fill="currentColor" viewBox="0 0 24 24">
                               <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231z" />
                             </svg>
                             <span className="text-lg text-white">Follow @OpenXAI</span>
                           </div>
+                          <div className="text-sm text-gray-400">500 OPENX (Points)</div>
                         </div>
                       </div>
                     </a>
@@ -192,13 +193,14 @@ export default function GenesisPage() {
                     <a href="https://t.me/OpenxAINetwork" target="_blank" rel="noopener noreferrer" className="relative block">
                       <div className="relative">
                         <div className="absolute -inset-px rounded-lg bg-gradient-to-t from-[#B2FE00] to-[#829ED1]" />
-                        <div className="relative flex items-center gap-3 rounded-lg bg-[#1F2021] px-6 py-3 hover:bg-[#2a2a2a]">
+                        <div className="relative flex flex-col items-center gap-2 rounded-lg bg-[#1F2021] px-6 py-3 hover:bg-[#2a2a2a]">
                           <div className="flex items-center gap-2">
                             <svg className="size-6 text-white" fill="currentColor" viewBox="0 0 24 24">
                               <path d="M21.93 3.24l-3.35 17.52A1.51 1.51 0 0117.12 22a1.53 1.53 0 01-1.09-.45l-6.9-6.89-3.35 3.35a.49.49 0 01-.35.15.5.5 0 01-.5-.5v-4.29l12.45-12.46a.5.5 0 01-.7.71L4.55 13.75l-2.85-1a1.51 1.51 0 01.1-2.89l18.59-7.15a1.51 1.51 0 011.54 2.53z" />
                             </svg>
                             <span className="text-lg text-white">Join @OpenXAI</span>
                           </div>
+                          <div className="text-sm text-gray-400">500 OPENX (Points)</div>
                         </div>
                       </div>
                     </a>
@@ -208,38 +210,52 @@ export default function GenesisPage() {
                 {/* Social Media Buttons - Mobile (<960px) */}
                 <div className="mx-auto flex max-w-lg flex-col gap-4 px-4 [@media(min-width:960px)]:hidden">
                   {/* Mobile Twitter/X Box */}
-                  <div className="relative w-full">
-                    <div className="absolute -inset-px rounded-lg bg-gradient-to-t from-[#829ED1] to-[#0059FE]" />
-                    <div className="relative flex items-center rounded-lg bg-[#1F2021] p-6">
-                      <span className="absolute left-6 text-2xl font-bold text-white">1.</span>
-                      <div className="flex w-full flex-col items-center justify-center">
-                        <div className="flex items-center gap-2">
-                          <svg className="size-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231z" />
-                          </svg>
-                          <span className="text-lg text-white">Follow @OpenXAI</span>
+                  <a 
+                    href="https://x.com/OpenxAINetwork" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="relative block w-full hover:opacity-80"
+                  >
+                    <div className="relative w-full">
+                      <div className="absolute -inset-px rounded-lg bg-gradient-to-t from-[#829ED1] to-[#0059FE]" />
+                      <div className="relative flex h-[80px] items-center rounded-lg bg-[#1F2021] p-6">
+                        <span className="absolute left-6 text-2xl font-bold text-white">1.</span>
+                        <div className="ml-12 flex w-full flex-col items-center">
+                          <div className="flex items-center gap-2">
+                            <svg className="size-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231z" />
+                            </svg>
+                            <span className="text-lg text-white">Follow @OpenXAI</span>
+                          </div>
+                          <div className="mt-2 text-sm text-gray-400">500 OPENX (Points)</div>
                         </div>
-                        <span className="text-sm text-gray-400">500 OPENX (Points)</span>
                       </div>
                     </div>
-                  </div>
+                  </a>
 
                   {/* Mobile Telegram Box */}
-                  <div className="relative w-full">
-                    <div className="absolute -inset-px rounded-lg bg-gradient-to-b from-[#B2FE00] to-[#829ED1]" />
-                    <div className="relative flex items-center rounded-lg bg-[#1F2021] p-6">
-                      <span className="absolute left-6 text-2xl font-bold text-white">2.</span>
-                      <div className="flex w-full flex-col items-center justify-center">
-                        <div className="flex items-center gap-2">
-                          <svg className="size-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M21.93 3.24l-3.35 17.52A1.51 1.51 0 0117.12 22a1.53 1.53 0 01-1.09-.45l-6.9-6.89-3.35 3.35a.49.49 0 01-.35.15.5.5 0 01-.5-.5v-4.29l12.45-12.46a.5.5 0 01-.7.71L4.55 13.75l-2.85-1a1.51 1.51 0 01.1-2.89l18.59-7.15a1.51 1.51 0 011.54 2.53z" />
-                          </svg>
-                          <span className="text-lg text-white">Join @OpenXAI</span>
+                  <a 
+                    href="https://t.me/OpenxAINetwork" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="relative block w-full hover:opacity-80"
+                  >
+                    <div className="relative w-full">
+                      <div className="absolute -inset-px rounded-lg bg-gradient-to-b from-[#B2FE00] to-[#829ED1]" />
+                      <div className="relative flex h-[80px] items-center rounded-lg bg-[#1F2021] p-6">
+                        <span className="absolute left-6 text-2xl font-bold text-white">2.</span>
+                        <div className="ml-12 flex w-full flex-col items-center">
+                          <div className="flex items-center gap-2">
+                            <svg className="size-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M21.93 3.24l-3.35 17.52A1.51 1.51 0 0117.12 22a1.53 1.53 0 01-1.09-.45l-6.9-6.89-3.35 3.35a.49.49 0 01-.35.15.5.5 0 01-.5-.5v-4.29l12.45-12.46a.5.5 0 01-.7.71L4.55 13.75l-2.85-1a1.51 1.51 0 01.1-2.89l18.59-7.15a1.51 1.51 0 011.54 2.53z" />
+                            </svg>
+                            <span className="text-lg text-white">Join @OpenXAI</span>
+                          </div>
+                          <div className="mt-2 text-sm text-gray-400">500 OPENX (Points)</div>
                         </div>
-                        <span className="text-sm text-gray-400">500 OPENX (Points)</span>
                       </div>
                     </div>
-                  </div>
+                  </a>
                 </div>
               </div>
 
@@ -292,10 +308,14 @@ export default function GenesisPage() {
                   <div className="mt-6">
                     <div className="mb-6 flex items-center justify-between text-base">
                       <div className="relative w-full">
-                        <span className="absolute whitespace-nowrap text-white" style={{ left: '15%', transform: 'translateX(-50%)' }}>
+                        <span 
+                          className="absolute ml-16 whitespace-nowrap text-white sm:ml-10"
+                        >
                           1 ETH = 1,476,947 OPENX
                         </span>
-                        <span className="float-right text-3xl font-bold text-white">$500K</span>
+                        <span className="float-right mr-8 text-3xl font-bold text-white">
+                          $500K
+                        </span>
                       </div>
                     </div>
 

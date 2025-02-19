@@ -11,8 +11,7 @@ export default function StakePage() {
       {/* Disable interactions but without visual overlay */}
       <div className="pointer-events-none" style={{ backgroundColor: 'transparent' }}>
         <div className="flex min-h-screen p-0">
-          <SideMenu />
-          <main className="ml-[234px] flex-1 p-12 pt-16 [@media(max-width:960px)]:ml-0 [@media(max-width:960px)]:p-4 [@media(max-width:960px)]:pt-32">
+          <main className="flex-1 p-12 pt-16 [@media(max-width:960px)]:p-4 [@media(max-width:960px)]:pt-32">
             {/* Content wrapper with mobile spacing */}
             <div className="[@media(max-width:960px)]:mt-16">
               {/* OPENX Staking Section */}

@@ -46,6 +46,27 @@ const SIDE_MENU_ITEMS = [
   },
 ]
 
+const SOCIAL_ITEMS = [
+  { 
+    name: "X",
+    href: "https://x.com/OpenxAINetwork",
+    icon: (
+      <svg className="size-5 text-white hover:opacity-80" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+      </svg>
+    )
+  },
+  {
+    name: "Telegram",
+    href: "https://t.me/OpenxAINetwork",
+    icon: (
+      <svg className="size-5 text-white hover:opacity-80" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M21.93 3.24l-3.35 17.52A1.51 1.51 0 0117.12 22a1.53 1.53 0 01-1.09-.45l-6.9-6.89-3.35 3.35a.49.49 0 01-.35.15.5.5 0 01-.5-.5v-4.29l12.45-12.46a.5.5 0 01-.7.71L4.55 13.75l-2.85-1a1.51 1.51 0 01.1-2.89l18.59-7.15a1.51 1.51 0 011.54 2.53z"/>
+      </svg>
+    )
+  }
+]
+
 export function SideMenu({ className, ...props }: SideMenuProps) {
   const pathname = usePathname()
   const { open } = useWeb3Modal()
@@ -115,6 +136,20 @@ export function SideMenu({ className, ...props }: SideMenuProps) {
               </>
             )}
           </div>
+        </div>
+
+        {/* Social Media Links */}
+        <div className="mb-6 mt-4 flex justify-center gap-10 pb-4">
+          {SOCIAL_ITEMS.map((item) => (
+            <a 
+              key={item.name}
+              href={item.href} 
+              target="_blank" 
+              rel="noopener noreferrer"
+            >
+              {item.icon}
+            </a>
+          ))}
         </div>
 
         {/* Desktop Menu Items */}
