@@ -8,7 +8,8 @@ import {
   faFlagCheckered,
   faCoins,
   faDollarSign,
-  faScaleBalanced
+  faScaleBalanced,
+  faClipboardList
 } from "@fortawesome/free-solid-svg-icons"
 import { cn } from "@/lib/utils"
 import { useWeb3Modal } from "@web3modal/wagmi/react"
@@ -44,6 +45,11 @@ const SIDE_MENU_ITEMS = [
     href: "/governance", 
     icon: <FontAwesomeIcon icon={faScaleBalanced} className="size-4" />
   },
+  { 
+    name: "Projects", 
+    href: "/projects", 
+    icon: <FontAwesomeIcon icon={faClipboardList} className="size-4" />
+  }
 ]
 
 const SOCIAL_ITEMS = [
