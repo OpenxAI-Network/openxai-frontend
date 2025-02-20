@@ -292,16 +292,16 @@ export default function GenesisPage() {
                       <div
                         key={index}
                         className="absolute top-0"
-                        style={{ left: `${milestone.position}%` }}
+                        style={{ left: milestone.position }}
                       >
-                        {/* Vertical dotted line */}
+                        {/* Vertical dotted line - added extra height for mobile */}
                         <div className="h-6 w-px border-l border-dotted border-white/30 [@media(max-width:660px)]:h-[25px]" />
 
-                        {/* Play icon triangle - positioned directly under the dotted line */}
+                        {/* Play icon triangle - adjusted mobile positioning */}
                         {index < 3 ? (
                           <div
                             title={milestone.name}
-                            className="absolute left-[-6px] top-full mt-2 cursor-pointer transition-all hover:opacity-80 [@media(max-width:660px)]:mt-3"
+                            className="ml-[2px] mt-2 cursor-pointer transition-all hover:opacity-80 [@media(max-width:660px)]:mt-3"
                             onMouseEnter={() => setHighlightedProject(milestone.projectId)}
                             onMouseLeave={() => !selectedMilestone && setHighlightedProject(null)}
                             onClick={() => {
@@ -323,7 +323,7 @@ export default function GenesisPage() {
                           <Link href="/projects">
                             <div 
                               title={milestone.name}
-                              className="absolute left-[-6px] top-full mt-2 cursor-pointer transition-all hover:opacity-80 [@media(max-width:660px)]:mt-3"
+                              className="ml-[-2px] mt-2 cursor-pointer transition-all hover:opacity-80 [@media(max-width:660px)]:mt-3"
                             >
                               <div className="rotate-90 border-x-[6px] border-b-8 border-solid border-x-transparent border-b-white/30" />
                             </div>
