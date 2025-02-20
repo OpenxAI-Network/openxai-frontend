@@ -18,19 +18,19 @@ const STATS = [
     label: "Pending Projects"
   },
   {
-    value: "122",
+    value: "0",
     label: "Number of Backers"
   },
   {
-    value: "$110,000",
+    value: "$0",
     label: "Distributed Funds"
   },
   {
-    value: "1,730,908",
+    value: "0",
     label: "Distributed Tokens"
   },
   {
-    value: "~$332,000",
+    value: "~$0",
     label: "Available funds in the DAO",
     special: true
   }

@@ -48,8 +48,33 @@ const ACTIVE_PROPOSALS = [
 ]
 
 export default function GovernancePage() {
+  const [isHighlighted, setIsHighlighted] = React.useState(false);
+
+  React.useEffect(() => {
+    if (isHighlighted) {
+      const timer = setTimeout(() => setIsHighlighted(false), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [isHighlighted]);
+
   return (
     <MobileResponsiveWrapper>
+      {/* Banner notification */}
+      <div className={`mb-6 rounded-lg bg-blue-900/30 p-4 text-center transition-all duration-300 ${isHighlighted ? 'ring-1 ring-white' : ''}`}>
+        <span className="text-sm text-white md:text-base">
+          OpenxAI DAO Governance will be going live after Genesis! Learn more at our{' '}
+          <a 
+            href="https://docs.openxai.org" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="underline hover:text-blue-300"
+          >
+            Docs site
+          </a>
+          .
+        </span>
+      </div>
+
       {/* Disable interactions but without visual overlay */}
       <div className="pointer-events-none" style={{ backgroundColor: 'transparent' }}>
         <div className="[@media(max-width:960px)]:mt-16">
