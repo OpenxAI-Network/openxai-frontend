@@ -75,33 +75,35 @@ export default function GenesisPage() {
   const FAQS = [
     {
       question: "What is the OpenxAI Genesis Event?",
-      answer:
-        "The OpenxAI Genesis Event is a milestone-based funding event for the OpenxAI ecosystem. It is a fair project milestone-based funding event. In order to distribute the tokens as fairly as possible, after initial critical milestone funding has been reached, there will be a limit set of $1000 per wallet in order to distribute allocation as evenly as possible.",
+      answer: "The OpenxAI Genesis Event is a milestone-based funding initiative that supports the development of the OpenxAI ecosystem. It uses a secure escrow contract system to ensure funds are properly allocated as development milestones are achieved.",
     },
     {
       question: "What is milestone-based funding?",
-      answer:
-        "Funding is released in stages based on predetermined milestones, ensuring continuous progress, risk reduction, and accountability throughout a project's lifecycle.",
+      answer: "Milestone-based funding releases funds in stages based on predetermined project milestones. This ensures continuous progress, reduces risk, and maintains accountability throughout the project's lifecycle.",
     },
     {
-      question: "When will the OPENX tokens be released?",
-      answer:
-        "During Genesis you will have the opportunity to purchase OPENX tokens at a discount. The tokens will be released in stages based on the completion of each milestone.",
+      question: "How does the funding mechanism work?",
+      answer: "Funds are held in a secure escrow contract until each milestone is completed. Once a milestone is achieved and verified, the corresponding portion of funds is released to support the next phase of development.",
     },
     {
-      question: "What is the maximum amount of OPENX I can purchase?",
-      answer:
-        "The OpenxAI Genesis Event is a fair project milestone-based funding event. In order to distribute the tokens as fairly as possible, after initial critical milestone funding has been reached, there will be a limit set of $1000 per wallet in order to distribute allocation as evenly as possible.",
+      question: "What are the funding limits per wallet?",
+      answer: "During the initial critical milestone funding phase, there is no limit per wallet. Once the critical milestone funding target is reached, a maximum limit of $1,000 per wallet will be implemented to ensure fair distribution of allocation.",
     },
     {
-      question: "Where does my funding amount go, after the Genesis Event?",
-      answer:
-        "Your funds will be used to fund the OpenxAI ecosystem and projects. For funds that have not been completed yet, they will be stored onchain in an escrow contract. This escrow contract is visible on Etherscan and the link is provided on the <a href='/projects' target='_self' rel='noopener noreferrer' class='text-blue-500 underline hover:opacity-80'>Projects page</a> within each respective project detail page.",
+      question: "What happens if a milestone is not reached?",
+      answer: "If a milestone is not achieved, the remaining funds stay locked in the escrow contract, protecting contributors' investments. This ensures project accountability and proper resource management.",
     },
     {
-      question: "How do staking, governance, and burn-to-vote mechanisms work?",
-      answer:
-        "Users stake tokens to participate in governance and influence platform decisions; the burn-to-vote mechanism adds accountability by requiring a token sacrifice to vote.",
+      question: "How are milestone completions verified?",
+      answer: "Each milestone has specific deliverables and criteria that must be met. The completion is verified through transparent on-chain mechanisms and community governance processes.",
+    },
+    {
+      question: "What are the benefits of this funding model?",
+      answer: "This model provides greater security for contributors, ensures project accountability, enables steady development progress, and allows for community oversight of fund utilization.",
+    },
+    {
+      question: "How can I track milestone progress?",
+      answer: "Progress can be tracked through our transparent dashboard showing milestone status, fund allocation, and project updates. The escrow contract is publicly viewable on Etherscan.",
     },
     {
       question: "Where can I learn more about OpenxAI?",
