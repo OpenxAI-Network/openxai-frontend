@@ -93,7 +93,7 @@ export default function ClaimsPage() {
         </div>
 
         {/* Tasks reward claims */}
-        <h2 className="my-10 text-xl font-bold text-white">Tasks reward claims</h2>
+        <h2 className="my-10 text-xl font-bold text-white">Tasks rewards you have earnt</h2>
         <div className="w-full overflow-x-auto">
           <div className="min-w-[400px]">
             <table className="w-full border-collapse rounded-lg border border-[#454545] bg-[#1F2021]">
@@ -103,6 +103,7 @@ export default function ClaimsPage() {
                   <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">Deadline</th>
                   <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">Your Rewards</th>
                   <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">Link</th>
+                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">Claims</th>
                 </tr>
               </thead>
               <tbody>
@@ -140,6 +141,11 @@ export default function ClaimsPage() {
                           </svg>
                         </a>
                       )}
+                    </td>
+                    <td className="border-0 p-4 [@media(max-width:400px)]:p-[2px] [@media(max-width:650px)]:p-1 [@media(max-width:960px)]:p-2">
+                      <span className="bg-gradient-to-r from-white to-blue-500 bg-clip-text text-sm text-transparent [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:text-xs">
+                        {"Pending"}
+                      </span>
                     </td>
                   </tr>
                 ))}
