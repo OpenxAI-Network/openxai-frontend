@@ -1,21 +1,37 @@
 [
   {
-    "deadline": "12:00PM UTC 2-20-2025",
-    "name": "Content Creation",
-    "rewards": "250 OPENX",
-    "status": "Claimed",
-    "txId": "0x73...8464"
+    "id": "1",
+    "deadline": "12:00 UTC 2-27-2025",
+    "name": "Follow @OpenxAINetwork",
+    "rewards": "500 OPENX",
+    "link": "https://zealy.io/"
   },
   {
-    "deadline": "12:00PM UTC 2-20-2025",
-    "name": "Uniswap Listing & Liquidity",
-    "rewards": "250 OPENX",
-    "status": "Claim Now"
+    "id": "2",
+    "deadline": "12:00 UTC 2-27-2025",
+    "name": "Join Telegram Community",
+    "rewards": "500 OPENX",
+    "link": "https://zealy.io/"
   },
   {
-    "deadline": "12:00PM UTC 2-20-2025",
-    "name": "30 Devs in 30 Days Campaign",
-    "rewards": "250 OPENX",
-    "status": "Under Review"
+    "id": "3",
+    "deadline": "12:00 UTC 2-27-2025",
+    "name": "Create a Shorts Video",
+    "rewards": "500 OPENX",
+    "link": "https://zealy.io/"
+  },
+  {
+    "id": "4",
+    "deadline": "12:00 UTC 2-27-2025",
+    "name": "Create a Shorts Video",
+    "rewards": "500 OPENX",
+    "link": "https://zealy.io/"
+  },
+  {
+    "id": "5",
+    "deadline": "12:00 UTC 2-27-2025",
+    "name": "In-Person OpenxAI Meetup",
+    "rewards": "2000 OPENX",
+    "link": "https://zealy.io/"
   }
 ] 
