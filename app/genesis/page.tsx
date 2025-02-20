@@ -10,39 +10,20 @@ import { useWeb3Modal } from "@web3modal/wagmi/react"
 import { useAccount, useBalance } from "wagmi"
 import { formatUnits } from "viem"
 import { MobileResponsiveWrapper } from "@/components/layouts/MobileResponsiveWrapper"
+import projects from "@/data/projects.json"
+import Link from "next/link"
+import { cn } from "@/lib/utils"
 
-const MILESTONES = [
-  {
-    position: 15,
-    title: "Content Creation",
-    fundingGoal: "$2,500",
-    deadline: "2-20-2025",
-    backersRewards: "10,000 OPENX",
-    flashBonus: "5,000 OPENX",
-    rewardAPY: "1,279%",
-    status: "Funded"
-  },
-  {
-    position: 35,
-    title: "Uniswap Listing & Liquidity",
-    fundingGoal: "$2,500",
-    deadline: "2-20-2025",
-    backersRewards: "10,000 OPENX",
-    flashBonus: "5,000 OPENX",
-    rewardAPY: "1,279%",
-    status: "Funded"
-  },
-  {
-    position: 65,
-    title: "30 Days in 30 Days Campaign",
-    fundingGoal: "$2,500",
-    deadline: "2-20-2025",
-    backersRewards: "10,000 OPENX",
-    flashBonus: "5,000 OPENX",
-    rewardAPY: "1,279%",
-    status: "Funded"
-  }
-]
+// Calculate positions with padding at start/end
+const MILESTONES = projects.map((project, index) => {
+  // Use 10% padding on each end (start at 10%, end at 90%)
+  const position = 10 + ((80 / (projects.length - 1)) * index);
+  return {
+    position: `calc(${position}% - 4px)`,
+    projectId: project.id,
+    name: project.name
+  };
+});
 
 const PAYMENT_METHODS = [
   { id: 'eth', name: 'ETH', icon: '/eth.png' },
@@ -59,13 +40,14 @@ const EXCHANGE_RATES = {
 }
 
 export default function GenesisPage() {
-  const [selectedMilestone, setSelectedMilestone] = useState<number | null>(null)
+  const [selectedMilestone, setSelectedMilestone] = useState<string | null>(null)
   const [selectedPayment, setSelectedPayment] = useState<"eth" | "weth" | "usdc" | "usdt">("eth")
   const [showSuccessModal, setShowSuccessModal] = useState(false)
   const { address } = useAccount()
   const { open } = useWeb3Modal()
   const { data: ethBalance } = useBalance({ address })
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 })
+  const [highlightedProject, setHighlightedProject] = useState<string | null>(null)
 
   useEffect(() => {
     const targetDate = new Date('2025-02-27T00:00:00Z')
@@ -92,39 +74,9 @@ export default function GenesisPage() {
   // FAQ Section Data
   const FAQS = [
     {
-      question: "What is OpenxAI?",
+      question: "What is the OpenxAI Genesis Event?",
       answer:
-        "OpenxAI is a next-generation decentralized AI platform offering a comprehensive ecosystem for AI model deployment, tokenization, and community governance.",
-    },
-    {
-      question: "Why should I choose OpenxAI? (Problems and Solutions)",
-      answer:
-        "OpenxAI addresses challenges in centralized AI—such as scalability, transparency, and cost inefficiency—by providing decentralized solutions with enhanced security and accountability.",
-    },
-    {
-      question: "What are the key features and differentiators of OpenxAI?",
-      answer:
-        "OpenxAI offers tokenized AI models, decentralized governance, milestone-based funding, secure model hosting, and innovative staking mechanisms that set it apart.",
-    },
-    {
-      question: "How does OpenxAI work (end-to-end workflow)?",
-      answer:
-        "From model deployment to monetization, OpenxAI streamlines the entire AI lifecycle with secure transactions, decentralized model hosting, and dynamic governance.",
-    },
-    {
-      question: "What is the OpenxAI ecosystem?",
-      answer:
-        "The ecosystem encompasses AI model hosting, tokenization, staking, governance, and a vibrant marketplace connecting developers, investors, and users.",
-    },
-    {
-      question: "How is tokenization of AI models and datasets managed?",
-      answer:
-        "OpenxAI leverages blockchain technology and standards like ERC-721/1155 to tokenize models and datasets, ensuring robust ownership rights and fair revenue distribution.",
-    },
-    {
-      question: "How do staking, governance, and burn-to-vote mechanisms work?",
-      answer:
-        "Users stake tokens to participate in governance and influence platform decisions; the burn-to-vote mechanism adds accountability by requiring a token sacrifice to vote.",
+        "The OpenxAI Genesis Event is a milestone-based funding event for the OpenxAI ecosystem. It is a fair project milestone-based funding event. In order to distribute the tokens as fairly as possible, after initial critical milestone funding has been reached, there will be a limit set of $1000 per wallet in order to distribute allocation as evenly as possible.",
     },
     {
       question: "What is milestone-based funding?",
@@ -132,14 +84,29 @@ export default function GenesisPage() {
         "Funding is released in stages based on predetermined milestones, ensuring continuous progress, risk reduction, and accountability throughout a project's lifecycle.",
     },
     {
-      question: "What is OpenxAI Studio and how do I get started?",
+      question: "When will the OPENX tokens be released?",
       answer:
-        "OpenxAI Studio is the platform's integrated development environment where you can deploy and manage your AI models. It offers extensive onboarding documentation and tools.",
+        "During Genesis you will have the opportunity to purchase OPENX tokens at a discount. The tokens will be released in stages based on the completion of each milestone.",
     },
     {
-      question: "Where can I find further developer resources and API documentation?",
+      question: "What is the maximum amount of OPENX I can purchase?",
       answer:
-        "Comprehensive developer resources, API references, and SDKs are available on the official documentation portal and our GitHub repositories.",
+        "The OpenxAI Genesis Event is a fair project milestone-based funding event. In order to distribute the tokens as fairly as possible, after initial critical milestone funding has been reached, there will be a limit set of $1000 per wallet in order to distribute allocation as evenly as possible.",
+    },
+    {
+      question: "Where does my funding amount go, after the Genesis Event?",
+      answer:
+        "Your funds will be used to fund the OpenxAI ecosystem and projects. For funds that have not been completed yet, they will be stored onchain in an escrow contract. This escrow contract is visible on Etherscan and the link is provided on the <a href='/projects' target='_self' rel='noopener noreferrer' class='text-blue-500 underline hover:opacity-80'>Projects page</a> within each respective project detail page.",
+    },
+    {
+      question: "How do staking, governance, and burn-to-vote mechanisms work?",
+      answer:
+        "Users stake tokens to participate in governance and influence platform decisions; the burn-to-vote mechanism adds accountability by requiring a token sacrifice to vote.",
+    },
+    {
+      question: "Where can I learn more about OpenxAI?",
+      answer:
+        'Check out our <a href="https://docs.openxai.org" target="_blank" rel="noopener noreferrer" class="text-blue-500 underline hover:opacity-80">documentation portal</a> to learn more about the OpenxAI ecosystem or products and the OPENX token.',
     },
   ]
 
@@ -151,12 +118,22 @@ export default function GenesisPage() {
       {/* Disable interactions but without visual overlay */}
       <div className="pointer-events-auto" style={{ backgroundColor: 'transparent' }}>
         <div className="[@media(max-width:960px)]:mt-16">
-          <main className="min-w-[320px] flex-1 overflow-x-auto p-4 pt-16 
-            [@media(max-width:500px)]:pt-12 
-            [@media(max-width:960px)]:pt-24 
-            [@media(min-width:960px)]:p-8 
-            [@media(min-width:960px)]:pt-20">
+          <main className="min-w-[320px] flex-1 overflow-x-auto p-4 pt-0 [@media(max-width:500px)]:pt-0 
+            [@media(max-width:960px)]:pt-0 
+            [@media(min-width:960px)]:p-8 [@media(min-width:960px)]:pt-2">
             <div className="px-safe">
+              {/* Gradient Text Section - minimal top spacing */}
+              <div className="mb-16 mt-0 text-center">
+                <h2 className="font-inter text-2xl font-medium leading-tight [@media(min-width:960px)]:text-3xl">
+                  <div className="bg-gradient-to-r from-white to-[#2D63F6] bg-clip-text text-transparent">
+                    AI is no longer limited to mega corporations.
+                  </div>
+                  <div className="mt-2 bg-gradient-to-r from-white to-[#2D63F6] bg-clip-text text-transparent">
+                    It is open, decentralized & available to anyone.
+                  </div>
+                </h2>
+              </div>
+
               {/* Countdown Section - reduced top margin */}
               <div className="mb-16 text-center">
                 <div className="mb-2 text-[18px] font-normal text-white">
@@ -266,8 +243,8 @@ export default function GenesisPage() {
                   {/* Amount section */}
                   <div className="[@media(min-width:960px)]:col-span-3">
                     <h1 className="inline-flex items-baseline gap-4 text-4xl [@media(min-width:960px)]:text-7xl">
-                      <span className="text-white">$111.4K</span>
-                      <span className="text-base text-white [@media(min-width:960px)]:text-lg">$312.3K remaining</span>
+                      <span className="text-white">$0</span>
+                      <span className="text-base text-white [@media(min-width:960px)]:text-lg">$500K remaining</span>
                     </h1>
                   </div>
 
@@ -304,8 +281,7 @@ export default function GenesisPage() {
                     </div>
                   </div>
 
-                  <div className="relative mb-6">
-                    {/* Progress bar */}
+                  <div className="relative mb-16">
                     <Progress
                       value={15}
                       className="h-6 border border-white bg-[#1F2021] [&>div]:bg-gradient-to-r [&>div]:from-white [&>div]:to-[#122BEA]" 
@@ -319,23 +295,47 @@ export default function GenesisPage() {
                         style={{ left: `${milestone.position}%` }}
                       >
                         {/* Vertical dotted line */}
-                        <div className="h-6 w-px border-l border-dotted border-white/30 [@media(max-width:400px)]:h-3 [@media(max-width:650px)]:h-4" />
+                        <div className="h-6 w-px border-l border-dotted border-white/30 [@media(max-width:660px)]:h-[25px]" />
 
-                        {/* Play icon triangle - rotated 90 degrees */}
-                        <div
-                          className="mt-2 cursor-pointer transition-all hover:opacity-80 [@media(max-width:400px)]:mt-0.5 [@media(max-width:650px)]:mt-1"
-                          onMouseEnter={() => setSelectedMilestone(index)}
-                          onMouseLeave={() => setSelectedMilestone(null)}
-                        >
-                          <div className="rotate-90 border-x-[6px] border-b-8 border-solid border-x-transparent border-b-white/30" />
-                        </div>
+                        {/* Play icon triangle - positioned directly under the dotted line */}
+                        {index < 3 ? (
+                          <div
+                            title={milestone.name}
+                            className="absolute left-[-6px] top-full mt-2 cursor-pointer transition-all hover:opacity-80 [@media(max-width:660px)]:mt-3"
+                            onMouseEnter={() => setHighlightedProject(milestone.projectId)}
+                            onMouseLeave={() => !selectedMilestone && setHighlightedProject(null)}
+                            onClick={() => {
+                              if (selectedMilestone === milestone.projectId) {
+                                setSelectedMilestone(null);
+                                setHighlightedProject(null);
+                              } else {
+                                setSelectedMilestone(milestone.projectId);
+                                setHighlightedProject(milestone.projectId);
+                              }
+                            }}
+                          >
+                            <div className={cn(
+                              "rotate-90 border-x-[6px] border-b-8 border-solid border-x-transparent",
+                              selectedMilestone === milestone.projectId ? "border-b-white" : "border-b-white/30"
+                            )} />
+                          </div>
+                        ) : (
+                          <Link href="/projects">
+                            <div 
+                              title={milestone.name}
+                              className="absolute left-[-6px] top-full mt-2 cursor-pointer transition-all hover:opacity-80 [@media(max-width:660px)]:mt-3"
+                            >
+                              <div className="rotate-90 border-x-[6px] border-b-8 border-solid border-x-transparent border-b-white/30" />
+                            </div>
+                          </Link>
+                        )}
                       </div>
                     ))}
                   </div>
 
                   {/* Milestone table with horizontal scroll */}
                   <div className="relative -mx-4 w-full overflow-x-auto px-4">
-                    <div className="min-w-[800px]"> {/* Fixed width to ensure all columns are visible */}
+                    <div className="min-w-[800px]">
                       <div className="w-full align-middle">
                         <div className="overflow-hidden rounded-lg border border-[#454545]">
                           <table className="w-full table-auto border-collapse bg-[#1F2021]">
@@ -351,20 +351,23 @@ export default function GenesisPage() {
                               </tr>
                             </thead>
                             <tbody>
-                              {MILESTONES.map((milestone, index) => (
-                                <tr
+                              {projects.slice(0, 3).map((project, index) => (
+                                <tr 
                                   key={index}
-                                  className="text-sm transition-colors hover:bg-white/5"
+                                  className={cn(
+                                    "text-sm transition-colors",
+                                    (highlightedProject === project.id || selectedMilestone === project.id) ? "bg-white/10" : "hover:bg-white/5"
+                                  )}
                                 >
-                                  <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">{milestone.title}</td>
-                                  <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">{milestone.fundingGoal}</td>
-                                  <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">{milestone.deadline}</td>
-                                  <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">{milestone.backersRewards}</td>
-                                  <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">{milestone.flashBonus}</td>
-                                  <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">{milestone.rewardAPY}</td>
+                                  <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">{project.name}</td>
+                                  <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">{project.fundingGoal}</td>
+                                  <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">{project.deadline}</td>
+                                  <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">{project.backersRewards}</td>
+                                  <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">{project.flashBonus}</td>
+                                  <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">{project.rewardAPY}</td>
                                   <td className="border-0 p-4 [@media(max-width:400px)]:p-[2px] [@media(max-width:650px)]:p-1 [@media(max-width:960px)]:p-2">
-                                    <span className="bg-gradient-to-r from-white to-green-500 bg-clip-text text-sm text-transparent [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:text-xs">
-                                      {milestone.status}
+                                    <span className="bg-gradient-to-r from-white to-blue-500 bg-clip-text text-sm text-transparent [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:text-xs">
+                                      Pending
                                     </span>
                                   </td>
                                 </tr>
@@ -373,6 +376,14 @@ export default function GenesisPage() {
                           </table>
                         </div>
                       </div>
+                    </div>
+                    <div className="mt-4 flex justify-end">
+                      <Link 
+                        href="/projects" 
+                        className="text-base text-white underline hover:opacity-80"
+                      >
+                        View more projects
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -489,7 +500,7 @@ export default function GenesisPage() {
             {/* FAQ Section */}
             <div className="mt-32 w-full px-4">
               <h2 className="mb-8 text-center text-3xl font-bold text-white">
-                Frequently Asked Questions
+                OpenxAI Genesis Event - Frequently Asked Questions
               </h2>
               <div className="space-y-4">
                 {FAQS.map((faq, index) => (
@@ -498,11 +509,14 @@ export default function GenesisPage() {
                       onClick={() => setOpenFaqIndex(openFaqIndex === index ? -1 : index)}
                       className="flex w-full justify-between text-left text-lg font-semibold text-white focus:outline-none"
                     >
-                      <span>{faq.question}</span>
+                      <span className="mb-6">{faq.question}</span>
                       <span>{openFaqIndex === index ? "-" : "+"}</span>
                     </button>
                     {openFaqIndex === index && (
-                      <div className="mt-2 text-base text-gray-300">{faq.answer}</div>
+                      <div 
+                        dangerouslySetInnerHTML={{ __html: faq.answer }}
+                        className="text-[#6A6A6A]"
+                      />
                     )}
                   </div>
                 ))}
