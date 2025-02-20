@@ -56,7 +56,7 @@ export default function EarnPage() {
   return (
     <MobileResponsiveWrapper>
       {/* Banner notification */}
-      <div className={`mb-6 rounded-lg bg-blue-900/30 p-4 text-center transition-all duration-300 ${isHighlighted ? 'ring-1 ring-white' : ''}`}>
+      <div className={`mb-24 rounded-lg bg-blue-900/30 p-4 text-center transition-all duration-300 ${isHighlighted ? 'ring-1 ring-white' : ''}`}>
         <span className="text-sm text-white md:text-base">
           Tasks will be going live soon... stay tuned!
         </span>
