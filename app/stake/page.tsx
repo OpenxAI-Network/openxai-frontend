@@ -6,8 +6,30 @@ import Link from "next/link"
 import { MobileResponsiveWrapper } from "@/components/layouts/MobileResponsiveWrapper"
 
 export default function StakePage() {
+  const [isHighlighted, setIsHighlighted] = React.useState(false);
+
+  React.useEffect(() => {
+    if (isHighlighted) {
+      const timer = setTimeout(() => setIsHighlighted(false), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [isHighlighted]);
+
   return (
     <MobileResponsiveWrapper>
+      {/* Banner notification */}
+      <div className={`mb-6 rounded-lg bg-blue-900/30 p-4 text-center transition-all duration-300 ${isHighlighted ? 'ring-1 ring-white' : ''}`}>
+        <span className="text-sm text-white md:text-base">
+          Staking will be going live after the{' '}
+          <a 
+            href="/genesis" 
+            className="pointer-events-auto font-bold underline hover:text-blue-300"
+          >
+            $OPENX Token Genesis Event
+          </a>!
+        </span>
+      </div>
+
       {/* Disable interactions but without visual overlay */}
       <div className="pointer-events-none" style={{ backgroundColor: 'transparent' }}>
         <div className="flex min-h-screen p-0">
@@ -67,10 +89,12 @@ export default function StakePage() {
                         You don&apos;t have an NFT
                       </p>
                       <Link 
-                        href="#" 
-                        className="font-inter mt-2 text-[20px] font-medium text-[#AFAFAF] underline hover:opacity-80 [@media(max-width:400px)]:text-sm [@media(max-width:650px)]:text-base"
+                        href="https://docs.openxai.org" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="font-inter pointer-events-auto mt-2 text-[20px] font-medium text-[#AFAFAF] underline hover:text-blue-300 [@media(max-width:400px)]:text-sm [@media(max-width:650px)]:text-base"
                       >
-                        How to get
+                        Learn how to get yours
                       </Link>
                     </div>
                   </div>
