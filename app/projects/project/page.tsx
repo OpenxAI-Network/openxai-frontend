@@ -30,7 +30,9 @@ function ProjectContent() {
           <div className="space-y-2">
             <div className="flex justify-between">
               <span className="text-[#6A6A6A]">Funding Goal</span>
-              <span className="text-white">{project.fundingGoal}</span>
+              <span className="text-white">
+                ${Number(project.fundingGoal).toLocaleString()}
+              </span>
             </div>
             <div className="flex justify-between">
               <span className="text-[#6A6A6A]">Deadline</span>
@@ -38,7 +40,7 @@ function ProjectContent() {
             </div>
             <div className="flex justify-between">
               <span className="text-[#6A6A6A]">Reward APY</span>
-              <span className="text-white">{project.rewardAPY}</span>
+              <span className="text-white">{project.rewardAPY}%</span>
             </div>
             <div className="flex justify-between">
               <span className="text-[#6A6A6A]">Status</span>
@@ -55,11 +57,15 @@ function ProjectContent() {
           <div className="space-y-2">
             <div className="flex justify-between">
               <span className="text-[#6A6A6A]">Backers Rewards</span>
-              <span className="text-white">{project.backersRewards}</span>
+              <span className="text-white">
+                {Number(project.backersRewards).toLocaleString()} OPENX
+              </span>
             </div>
             <div className="flex justify-between">
               <span className="text-[#6A6A6A]">Flash Bonus</span>
-              <span className="text-white">{project.flashBonus}</span>
+              <span className="text-white">
+                {Number(project.flashBonus).toLocaleString()} OPENX
+              </span>
             </div>
             <div className="flex justify-between">
               <span className="text-[#6A6A6A]">Escrow</span>

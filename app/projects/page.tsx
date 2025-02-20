@@ -93,10 +93,18 @@ export default function ProjectsPage() {
                       </Link>
                     </td>
                     <td className="border-0 p-4 text-[#6A6A6A]">{project.deadline}</td>
-                    <td className="border-0 p-4 text-[#6A6A6A]">{project.fundingGoal}</td>
-                    <td className="border-0 p-4 text-[#6A6A6A]">{project.backersRewards}</td>
-                    <td className="border-0 p-4 text-[#6A6A6A]">{project.flashBonus}</td>
-                    <td className="border-0 p-4 text-[#6A6A6A]">{project.rewardAPY}</td>
+                    <td className="border-0 p-4 text-[#6A6A6A]">
+                      ${Number(project.fundingGoal).toLocaleString()}
+                    </td>
+                    <td className="border-0 p-4 text-[#6A6A6A]">
+                      {Number(project.backersRewards).toLocaleString()} OPENX
+                    </td>
+                    <td className="border-0 p-4 text-[#6A6A6A]">
+                      {Number(project.flashBonus).toLocaleString()} OPENX
+                    </td>
+                    <td className="border-0 p-4 text-[#6A6A6A]">
+                      {project.rewardAPY}%
+                    </td>
                     <td className="border-0 p-4">
                       {project.status === "Completed" ? (
                         <span className="bg-gradient-to-r from-white to-green-500 bg-clip-text text-sm text-transparent">
