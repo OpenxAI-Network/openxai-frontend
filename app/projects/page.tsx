@@ -10,11 +10,11 @@ import Link from "next/link"
 // Stats for the boxes at the top
 const STATS = [
   {
-    value: "12",
+    value: "0",
     label: "Completed Projects"
   },
   {
-    value: "13",
+    value: "12",
     label: "Pending Projects"
   },
   {
