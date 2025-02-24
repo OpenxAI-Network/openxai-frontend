@@ -1098,7 +1098,9 @@ export default function GenesisPage() {
       </div>
       {showSuccessModal && (
         <SuccessModal
-          depositAmount={`${formatNumber(formatUnits(paymentAmount, selectedToken.decimals))} ${selectedToken.symbol}`}
+          depositAmount={`${parseFloat(
+            formatUnits(paymentAmount, selectedToken.decimals)
+          ).toFixed(selectedToken.isEth ? 4 : 2)} ${selectedToken.symbol}`}
           tokenAmount={`${formatNumber(receiveOpenx)} OPENX`}
           onClose={() => setShowSuccessModal(false)}
         />
