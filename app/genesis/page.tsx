@@ -50,7 +50,7 @@ export default function GenesisPage() {
   const [highlightedProject, setHighlightedProject] = useState<string | null>(null)
 
   useEffect(() => {
-    const targetDate = new Date('2025-02-27T00:00:00Z')
+    const targetDate = new Date('2025-03-10T00:00:00Z')
     
     const updateCountdown = () => {
       const now = new Date()
