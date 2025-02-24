@@ -107,3 +107,11 @@ td {
     padding-right: max(1rem, env(safe-area-inset-right));
   }
 }
+
+.spin-button-none::-webkit-outer-spin-button,
+.spin-button-none::-webkit-inner-spin-button {
+  appearance: none;
+}
+.spin-button-none {
+  -moz-appearance: textfield;
+}
