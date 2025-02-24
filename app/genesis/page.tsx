@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useMemo, useRef, useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import projects from "@/data/projects.json"
@@ -8,6 +8,7 @@ import { ObjectFilter } from "@/openxai-indexer/nodejs-app/api/filter"
 import { FilterEventsReturn } from "@/openxai-indexer/nodejs-app/api/return-types"
 import { OpenxAIContract } from "@/openxai-indexer/nodejs-app/contracts/OpenxAI"
 import { OpenxAIGenesisContract } from "@/openxai-indexer/nodejs-app/contracts/OpenxAIGenesis"
+import { Participated } from "@/openxai-indexer/nodejs-app/types/genesis/events"
 import { replacer, reviver } from "@/openxai-indexer/nodejs-app/utils/json"
 import { useQueryClient } from "@tanstack/react-query"
 import { useWeb3Modal } from "@web3modal/wagmi/react"
@@ -164,12 +165,17 @@ export default function GenesisPage() {
   const [highlightedProject, setHighlightedProject] = useState<string | null>(
     null
   )
-  const queryClient = useQueryClient()
 
   const { performTransaction, performingTransaction, loggers } =
     usePerformTransaction({})
 
-  const { data: ethBalance } = useBalance({ address })
+  const { data: ethBalance } = useBalance({
+    address,
+    query: {
+      enabled: !!address,
+      refetchInterval: 10_000, // 10s
+    },
+  })
   const { data: wethBalance } = useReadContract({
     abi: erc20Abi,
     address: chainInfo?.wrappedEth?.address as Address,
@@ -177,6 +183,7 @@ export default function GenesisPage() {
     args: [address as Address],
     query: {
       enabled: !!chainInfo && !!address,
+      refetchInterval: 10_000, // 10s
     },
   })
   const { data: usdcBalance } = useReadContract({
@@ -186,6 +193,7 @@ export default function GenesisPage() {
     args: [address as Address],
     query: {
       enabled: !!chainInfo && !!address,
+      refetchInterval: 10_000, // 10s
     },
   })
   const { data: usdtBalance } = useReadContract({
@@ -195,6 +203,7 @@ export default function GenesisPage() {
     args: [address as Address],
     query: {
       enabled: !!chainInfo && !!address,
+      refetchInterval: 10_000, // 10s
     },
   })
 
@@ -206,6 +215,7 @@ export default function GenesisPage() {
     functionName: "latestRoundData",
     query: {
       enabled: !!chainInfo,
+      refetchInterval: 10_000, // 10s
     },
   })
   const ethPrice = useMemo(
@@ -276,7 +286,55 @@ export default function GenesisPage() {
     [selectedToken, ethPrice, paymentAmount]
   )
 
-  const currentUsd = 123456
+  const { data: participateEvents, refetch: participateRefretch } = useQuery({
+    queryKey: ["participate"],
+    refetchInterval: 10_000, // 10s
+    queryFn: async () => {
+      const filter: ObjectFilter = {
+        type: {
+          equal: "Participated",
+        },
+      }
+      return await fetch("https://indexer.openxai.org/filterEvents", {
+        method: "POST",
+        body: JSON.stringify(filter, replacer),
+      })
+        .then((res) => res.text())
+        .then((json) => JSON.parse(json, reviver) as FilterEventsReturn)
+    },
+  }) as { data: Participated[]; refetch: () => {} }
+
+  const currentUsd = useMemo(
+    () =>
+      participateEvents
+        ? parseFloat(
+            formatUnits(
+              participateEvents.reduce(
+                (prev, cur) => prev + cur.amount,
+                BigInt(0)
+              ),
+              6
+            )
+          )
+        : 0,
+    [participateEvents]
+  )
+  const myUsd = useMemo(
+    () =>
+      participateEvents && address
+        ? parseFloat(
+            formatUnits(
+              participateEvents
+                .filter(
+                  (e) => e.account.toLowerCase() === address.toLowerCase()
+                )
+                .reduce((prev, cur) => prev + cur.amount, BigInt(0)),
+              6
+            )
+          )
+        : 0,
+    [participateEvents, address]
+  )
   const currentProject = 1
 
   const receiveOpenx = useMemo(() => {
@@ -304,17 +362,17 @@ export default function GenesisPage() {
     }
     return erc20Address
   }, [selectedPayment])
-  const { data: tokenAllowance, queryKey: allowanceQueryKey } = useReadContract(
-    {
+  const { data: tokenAllowance, refetch: refetchTokenAllowance } =
+    useReadContract({
       abi: erc20Abi,
       address: tokenAddress,
       functionName: "allowance",
       args: [address as Address, OpenxAIGenesisContract.address],
       query: {
         enabled: !!address && !!tokenAddress,
+        refetchInterval: 1_000, // 1s
       },
-    }
-  )
+    })
 
   useEffect(() => {
     const targetDate =
@@ -345,24 +403,6 @@ export default function GenesisPage() {
 
   // Set the first FAQ open by default (index 0)
   const [openFaqIndex, setOpenFaqIndex] = useState<number>(0)
-
-  const { data: participateEvents } = useQuery({
-    queryKey: ["participate"],
-    queryFn: async () => {
-      const filter: ObjectFilter = {
-        type: {
-          equal: "Participated",
-        },
-      }
-      return fetch("https://indexer.openxai.org/filterEvents", {
-        method: "POST",
-        body: JSON.stringify(filter, replacer),
-      })
-        .then((res) => res.json())
-        .then((json) => JSON.parse(json, reviver) as FilterEventsReturn)
-    },
-  })
-  console.log(participateEvents)
 
   return (
     <MobileResponsiveWrapper>
@@ -601,7 +641,7 @@ export default function GenesisPage() {
 
                   <div className="relative mb-16">
                     <Progress
-                      value={15}
+                      value={100 * (currentUsd / 500_000)}
                       className="h-6 border border-white bg-[#1F2021] [&>div]:bg-gradient-to-r [&>div]:from-white [&>div]:to-[#122BEA]"
                     />
 
@@ -867,7 +907,7 @@ export default function GenesisPage() {
                     <div className="flex items-center gap-2">
                       <span className="text-gray-400">Max Amount:</span>
                       <span className="rounded-md bg-[#5C5C5C] px-2 py-1 text-white">
-                        $1,000
+                        ${formatNumber(1_000 - myUsd)}
                       </span>
                     </div>
                   </div>
@@ -939,9 +979,7 @@ export default function GenesisPage() {
                               }
                             },
                             onConfirmed(receipt) {
-                              queryClient.invalidateQueries({
-                                queryKey: allowanceQueryKey,
-                              })
+                              refetchTokenAllowance()
                             },
                           })
                         } else {
@@ -995,6 +1033,18 @@ export default function GenesisPage() {
                         },
                         onConfirmed(receipt) {
                           setShowSuccessModal(true)
+                          fetch("https://indexer.openxai.org/sync", {
+                            method: "POST",
+                            body: JSON.stringify(
+                              {
+                                chainId,
+                                fromBlock: receipt.blockNumber - BigInt(1),
+                                toBlock: receipt.blockNumber,
+                              },
+                              replacer
+                            ),
+                          })
+                          participateRefretch()
                         },
                       })
                     } else {

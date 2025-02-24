@@ -46,7 +46,10 @@ const config = defaultWagmiConfig({
       http("https://eth.llamarpc.com"),
       http("https://rpc.ankr.com/eth"),
     ]),
-    [sepolia.id]: fallback([http("https://rpc.ankr.com/eth_sepolia")]),
+    [sepolia.id]: fallback([
+      http("https://sepolia.drpc.org"),
+      http("https://rpc.ankr.com/eth_sepolia"),
+    ]),
   },
   auth: {
     email: false,
