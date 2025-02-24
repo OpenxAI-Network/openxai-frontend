@@ -10,8 +10,8 @@ import { OpenxAIContract } from "@/openxai-indexer/nodejs-app/contracts/OpenxAI"
 import { OpenxAIGenesisContract } from "@/openxai-indexer/nodejs-app/contracts/OpenxAIGenesis"
 import { Participated } from "@/openxai-indexer/nodejs-app/types/genesis/events"
 import { replacer, reviver } from "@/openxai-indexer/nodejs-app/utils/json"
-import { useQueryClient } from "@tanstack/react-query"
 import { useWeb3Modal } from "@web3modal/wagmi/react"
+import axios from "axios"
 import {
   Address,
   erc20Abi,
@@ -30,7 +30,6 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Progress } from "@/components/ui/progress"
 import { chains } from "@/components/custom/web3-provider"
-import { SideMenu } from "@/components/genesis/SideMenu"
 import SuccessModal from "@/components/genesis/Success"
 import { MobileResponsiveWrapper } from "@/components/layouts/MobileResponsiveWrapper"
 
@@ -295,12 +294,16 @@ export default function GenesisPage() {
           equal: "Participated",
         },
       }
-      return await fetch("https://indexer.openxai.org/filterEvents", {
-        method: "POST",
-        body: JSON.stringify(filter, replacer),
-      })
-        .then((res) => res.text())
-        .then((json) => JSON.parse(json, reviver) as FilterEventsReturn)
+      return await axios
+        .post(
+          "https://indexer.openxai.org/filterEvents",
+          JSON.parse(JSON.stringify(filter, replacer))
+        )
+        .then((res) => res.data)
+        .then(
+          (data) =>
+            JSON.parse(JSON.stringify(data), reviver) as FilterEventsReturn
+        )
     },
   }) as { data: Participated[]; refetch: () => {} }
 
@@ -1033,17 +1036,19 @@ export default function GenesisPage() {
                         },
                         onConfirmed(receipt) {
                           setShowSuccessModal(true)
-                          fetch("https://indexer.openxai.org/sync", {
-                            method: "POST",
-                            body: JSON.stringify(
-                              {
-                                chainId,
-                                fromBlock: receipt.blockNumber - BigInt(1),
-                                toBlock: receipt.blockNumber,
-                              },
-                              replacer
-                            ),
-                          })
+                          axios.post(
+                            "https://indexer.openxai.org/sync",
+                            JSON.parse(
+                              JSON.stringify(
+                                {
+                                  chainId,
+                                  fromBlock: receipt.blockNumber - BigInt(1),
+                                  toBlock: receipt.blockNumber,
+                                },
+                                replacer
+                              )
+                            )
+                          )
                           participateRefretch()
                         },
                       })
