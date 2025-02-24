@@ -74,12 +74,12 @@ const CHAIN_INFO = {
       decimals: 18,
     },
     USDC: {
-      address: "0x2902b792Af43Ea1481569bc35b62a31BB2C20E95",
-      decimals: 18,
+      address: "0xC69258C33cCFD5d2F862CAE48D4F869Db59Abc6A",
+      decimals: 6,
     },
     USDT: {
-      address: "0x2902b792Af43Ea1481569bc35b62a31BB2C20E95",
-      decimals: 18,
+      address: "0xC69258C33cCFD5d2F862CAE48D4F869Db59Abc6A",
+      decimals: 6,
     },
   },
 } as const
