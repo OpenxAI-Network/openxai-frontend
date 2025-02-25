@@ -290,6 +290,9 @@ export default function GenesisPage() {
     refetchInterval: 10_000, // 10s
     queryFn: async () => {
       const filter: ObjectFilter = {
+        chainId: {
+          equal: chainId,
+        },
         type: {
           equal: "Participated",
         },
