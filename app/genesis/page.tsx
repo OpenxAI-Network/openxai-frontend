@@ -635,7 +635,8 @@ export default function GenesisPage() {
                   <div className="mb-6 flex flex-col items-start justify-between text-base [@media(min-width:400px)]:flex-row [@media(min-width:400px)]:items-center">
                     <div className="mb-2 [@media(min-width:400px)]:mb-0">
                       <span className="text-white">
-                        1 USD = {PROJECT_RATE[currentProject].toFixed(2)} OPENX
+                        {(1 / PROJECT_RATE[currentProject]).toFixed(3)} USD = 1
+                        OPENX
                       </span>
                     </div>
                     <div>
@@ -913,7 +914,7 @@ export default function GenesisPage() {
                     <div className="flex items-center gap-2">
                       <span className="text-gray-400">Max Amount:</span>
                       <span className="rounded-md bg-[#5C5C5C] px-2 py-1 text-white">
-                        ${formatNumber(1_000 - myUsd)}
+                        ${formatNumber(Math.max(0, 1_000 - myUsd))}
                       </span>
                     </div>
                   </div>
