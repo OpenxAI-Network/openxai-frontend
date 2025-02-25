@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import projects from "@/data/projects.json"
+import { projects } from "@/data/projects"
 import { ObjectFilter } from "@/openxai-indexer/nodejs-app/api/filter"
 import { FilterEventsReturn } from "@/openxai-indexer/nodejs-app/api/return-types"
 import { OpenxAIContract } from "@/openxai-indexer/nodejs-app/contracts/OpenxAI"
@@ -12,6 +12,7 @@ import { Participated } from "@/openxai-indexer/nodejs-app/types/genesis/events"
 import { replacer, reviver } from "@/openxai-indexer/nodejs-app/utils/json"
 import { useWeb3Modal } from "@web3modal/wagmi/react"
 import axios from "axios"
+import { AlertTriangleIcon } from "lucide-react"
 import {
   Address,
   erc20Abi,
@@ -24,6 +25,7 @@ import { mainnet, sepolia } from "viem/chains"
 import { useAccount, useBalance, useChainId, useReadContract } from "wagmi"
 import { useQuery } from "wagmi/query"
 
+import { formatNumber, PROJECT_RATE } from "@/lib/openxai"
 import { cn } from "@/lib/utils"
 import { usePerformTransaction } from "@/hooks/usePerformTransaction"
 import { Button } from "@/components/ui/button"
@@ -131,12 +133,6 @@ const FAQS = [
       'Check out our <a href="https://docs.openxai.org" target="_blank" rel="noopener noreferrer" class="text-blue-500 underline hover:opacity-80">documentation portal</a> to learn more about the OpenxAI ecosystem or products and the OPENX token.',
   },
 ]
-
-const PROJECT_RATE = projects.map(
-  (project) =>
-    (parseInt(project.backersRewards) + parseInt(project.flashBonus)) /
-    parseInt(project.fundingGoal)
-)
 
 export default function GenesisPage() {
   const [selectedMilestone, setSelectedMilestone] = useState<string | null>(
@@ -341,14 +337,56 @@ export default function GenesisPage() {
         : 0,
     [participateEvents, address]
   )
-  const currentProject = 1
+  const currentProject = useMemo(
+    () =>
+      participateEvents
+        ? participateEvents.reduce(
+            (prev, cur) => Math.max(prev, Number(cur.tier)), // NOTE: tier is 0 indexed, while projects "id" is 1 indexed
+            0
+          )
+        : 0,
+    [participateEvents]
+  )
 
   const receiveOpenx = useMemo(() => {
     if (!usdValue) {
-      return 0
+      return { openx: 0, valueLeft: 0 }
     }
 
-    return usdValue * PROJECT_RATE[currentProject]
+    const tiers = projects
+      .filter((p) => parseInt(p.id) > currentProject)
+      .map((p) => {
+        let usd = parseInt(p.fundingGoal)
+        const id = parseInt(p.id) - 1
+        if (id === currentProject) {
+          usd -= parseFloat(
+            formatUnits(
+              participateEvents
+                ?.filter((p) => p.tier === BigInt(id))
+                ?.reduce((prev, cur) => prev + cur.amount, BigInt(0)) ??
+                BigInt(0),
+              6
+            )
+          )
+        }
+        return {
+          usd,
+          rate: PROJECT_RATE[id],
+        }
+      })
+
+    let valueLeft = usdValue
+    let openx = 0
+    let tierIndex = 0
+    while (valueLeft > 0 && tierIndex < tiers.length) {
+      const tier = tiers[tierIndex]
+      const amountInTier = Math.min(valueLeft, tier.usd)
+      openx += amountInTier * tier.rate
+      valueLeft -= amountInTier
+      tierIndex++
+    }
+
+    return { openx, valueLeft }
   }, [usdValue, currentProject])
 
   const tokenAddress = useMemo(() => {
@@ -409,6 +447,11 @@ export default function GenesisPage() {
 
   // Set the first FAQ open by default (index 0)
   const [openFaqIndex, setOpenFaqIndex] = useState<number>(0)
+
+  const [expectedContribution, setExpectedContribution] = useState({
+    currency: "",
+    openx: "",
+  })
 
   return (
     <MobileResponsiveWrapper>
@@ -778,7 +821,7 @@ export default function GenesisPage() {
                                   </td>
                                   <td className="border-0 p-4 [@media(max-width:400px)]:p-[2px] [@media(max-width:650px)]:p-1 [@media(max-width:960px)]:p-2">
                                     <span className="bg-gradient-to-r from-white to-blue-500 bg-clip-text text-sm text-transparent [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:text-xs">
-                                      Pending
+                                      {project.status}
                                     </span>
                                   </td>
                                 </tr>
@@ -879,11 +922,11 @@ export default function GenesisPage() {
                         className="size-8"
                       />
                       <div className="flex flex-col">
-                        <div className="text-xl font-bold text-white flex gap-1">
+                        <div className="flex gap-1 text-xl font-bold text-white">
                           <Input
                             type="number"
                             step="0"
-                            className="spin-button-none p-0 px-1 w-auto h-auto flex font-bold text-xl bg-transparent border-0 focus-visible:ring-0 focus-visible:border-0"
+                            className="spin-button-none flex size-auto border-0 bg-transparent p-0 px-1 text-xl font-bold focus-visible:border-0 focus-visible:ring-0"
                             style={{
                               width: `${paymentAmountInput.length + 1}ch`,
                             }}
@@ -928,7 +971,7 @@ export default function GenesisPage() {
                       You will receive
                       <span className="text-lg text-white">
                         {" "}
-                        {formatNumber(receiveOpenx)}{" "}
+                        {formatNumber(receiveOpenx.openx)}{" "}
                       </span>
                       <span className="bg-gradient-to-r from-white to-[#2D63F6] bg-clip-text text-lg font-medium text-transparent">
                         OPENX
@@ -948,11 +991,21 @@ export default function GenesisPage() {
                       height={28}
                     />
                     <span className="text-lg text-white">
-                      {formatNumber(receiveOpenx)} OPENX
+                      {formatNumber(receiveOpenx.openx)} OPENX
                     </span>
                   </div>
                 </div>
               </div>
+
+              {receiveOpenx.valueLeft && (
+                <div className="flex gap-2">
+                  <AlertTriangleIcon className="text-white" />
+                  <span className="text-white">
+                    Contribution is more than remaining milestones! Oversupplied
+                    ${formatNumber(receiveOpenx.valueLeft)} will be send back.
+                  </span>
+                </div>
+              )}
 
               <div className="flex flex-col">
                 {selectedPayment !== "eth" &&
@@ -1031,6 +1084,11 @@ export default function GenesisPage() {
                             return
                           }
 
+                          setExpectedContribution({
+                            currency: `${parseFloat(formatUnits(paymentAmount, selectedToken.decimals)).toFixed(selectedToken.isEth ? 4 : 2)} ${selectedToken.symbol}`,
+                            openx: `${formatNumber(receiveOpenx.openx)} OPENX`,
+                          })
+
                           return {
                             abi: OpenxAIGenesisContract.abi,
                             address: OpenxAIGenesisContract.address,
@@ -1107,19 +1165,11 @@ export default function GenesisPage() {
       </div>
       {showSuccessModal && (
         <SuccessModal
-          depositAmount={`${parseFloat(
-            formatUnits(paymentAmount, selectedToken.decimals)
-          ).toFixed(selectedToken.isEth ? 4 : 2)} ${selectedToken.symbol}`}
-          tokenAmount={`${formatNumber(receiveOpenx)} OPENX`}
+          depositAmount={expectedContribution.currency}
+          tokenAmount={expectedContribution.openx}
           onClose={() => setShowSuccessModal(false)}
         />
       )}
     </MobileResponsiveWrapper>
   )
-}
-
-function formatNumber(number: string | number) {
-  let n = typeof number === "string" ? parseFloat(number) : number
-
-  return n.toLocaleString("en-us", { maximumFractionDigits: 2 })
 }

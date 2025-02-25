@@ -19,6 +19,7 @@ import { Menu, X } from "lucide-react"
 import { Address, formatUnits } from "viem"
 import { useAccount, useReadContract } from "wagmi"
 
+import { formatNumber } from "@/lib/openxai"
 import { cn } from "@/lib/utils"
 
 export interface SideMenuProps extends React.HTMLAttributes<HTMLDivElement> {}
@@ -101,6 +102,24 @@ export function SideMenu({ className, ...props }: SideMenuProps) {
     },
   })
 
+  const openxBalanceNum = openxBalance
+    ? parseFloat(formatUnits(openxBalance, 18))
+    : undefined
+  const openxBalancePretty =
+    openxBalanceNum !== undefined
+      ? openxBalanceNum > 1_000_000
+        ? `${(openxBalanceNum / 1_000_000).toPrecision(3)}M`
+        : openxBalanceNum > 1_000
+          ? `${(openxBalanceNum / 1_000).toPrecision(3)}K`
+          : openxBalanceNum > 1
+            ? `${openxBalanceNum.toPrecision(3)}`
+            : openxBalanceNum > 0.01
+              ? `${openxBalanceNum.toFixed(2)}`
+              : openxBalanceNum > 0
+                ? "~0"
+                : "0"
+      : undefined
+
   return (
     <>
       {/* Desktop Side Menu - shown only when viewport is at least 960px */}
@@ -164,9 +183,7 @@ export function SideMenu({ className, ...props }: SideMenuProps) {
                 <div className="relative">
                   <div className="flex items-end justify-between">
                     <span className="text-[50px] font-light leading-none text-white">
-                      {openxBalance !== undefined
-                        ? formatUnits(openxBalance, 18)
-                        : "....."}
+                      {openxBalancePretty ?? "....."}
                     </span>
                     <span className="text-[13px] font-normal text-white">
                       OPENX
@@ -270,10 +287,7 @@ export function SideMenu({ className, ...props }: SideMenuProps) {
                 </button>
               ) : (
                 <span className="flex h-12 items-center text-base font-bold">
-                  {openxBalance !== undefined
-                    ? formatUnits(openxBalance, 18)
-                    : "..."}{" "}
-                  OPENX
+                  {openxBalancePretty ?? "..."} OPENX
                 </span>
               )}
             </div>

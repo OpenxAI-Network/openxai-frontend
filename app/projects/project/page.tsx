@@ -1,17 +1,22 @@
 "use client"
 
 import React, { Suspense } from "react"
-import { useSearchParams } from "next/navigation"
-import { MobileResponsiveWrapper } from "@/components/layouts/MobileResponsiveWrapper"
-import projects from "@/data/projects.json"
-import ReactMarkdown from 'react-markdown'
-import { ExternalLink } from "lucide-react"
 import Link from "next/link"
+import { useSearchParams } from "next/navigation"
+import { projects } from "@/data/projects"
+import { ExternalLink } from "lucide-react"
+import ReactMarkdown from "react-markdown"
+import { mainnet } from "viem/chains"
+import { useChainId } from "wagmi"
+
+import { chains } from "@/components/custom/web3-provider"
+import { MobileResponsiveWrapper } from "@/components/layouts/MobileResponsiveWrapper"
 
 function ProjectContent() {
   const searchParams = useSearchParams()
-  const id = searchParams.get('id')
-  const project = projects.find(p => p.id === id)
+  const id = searchParams.get("id")
+  const project = projects.find((p) => p.id === id)
+  const chainId = useChainId()
 
   if (!project) return <div>Project not found</div>
 
@@ -44,7 +49,9 @@ function ProjectContent() {
             </div>
             <div className="flex justify-between">
               <span className="text-[#6A6A6A]">Status</span>
-              <span className={`bg-gradient-to-r from-white ${project.status === "Completed" ? "to-green-500" : "to-blue-500"} bg-clip-text text-transparent`}>
+              <span
+                className={`bg-gradient-to-r from-white ${project.status === "Completed" ? "to-green-500" : "to-blue-500"} bg-clip-text text-transparent`}
+              >
                 {project.status}
               </span>
             </div>
@@ -70,13 +77,15 @@ function ProjectContent() {
             <div className="flex justify-between">
               <span className="text-[#6A6A6A]">Escrow</span>
               {project.escrow && (
-                <a 
-                  href={`https://etherscan.io/address/${project.escrow}`}
+                <a
+                  href={`${(chains.find((c) => c.id === chainId) ?? mainnet).blockExplorers.default.url}/address/${project.escrow}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 text-blue-500 hover:text-blue-400"
                 >
-                  <span>{project.escrow.slice(0, 6)}...{project.escrow.slice(-4)}</span>
+                  <span>
+                    {project.escrow.slice(0, 6)}...{project.escrow.slice(-4)}
+                  </span>
                   <ExternalLink size={16} />
                 </a>
               )}
@@ -87,13 +96,21 @@ function ProjectContent() {
 
       {/* Project Description */}
       <div className="mb-4 rounded-lg border border-[#454545] bg-[#1F2021] p-6">
-        <ReactMarkdown 
+        <ReactMarkdown
           className="prose prose-invert max-w-none"
           components={{
-            h2: ({node, ...props}) => <h2 className="mb-6 text-2xl font-bold text-white" {...props} />,
-            p: ({node, ...props}) => <p className="mb-4 text-base text-[#6A6A6A]" {...props} />,
-            ul: ({node, ...props}) => <ul className="mb-4 list-disc pl-4" {...props} />,
-            li: ({node, ...props}) => <li className="mb-2 text-base text-[#6A6A6A]" {...props} />
+            h2: ({ node, ...props }) => (
+              <h2 className="mb-6 text-2xl font-bold text-white" {...props} />
+            ),
+            p: ({ node, ...props }) => (
+              <p className="mb-4 text-base text-[#6A6A6A]" {...props} />
+            ),
+            ul: ({ node, ...props }) => (
+              <ul className="mb-4 list-disc pl-4" {...props} />
+            ),
+            li: ({ node, ...props }) => (
+              <li className="mb-2 text-base text-[#6A6A6A]" {...props} />
+            ),
           }}
         >
           {project.description}
@@ -101,8 +118,8 @@ function ProjectContent() {
       </div>
 
       {/* Back Link */}
-      <Link 
-        href="/projects" 
+      <Link
+        href="/projects"
         className="text-white transition-colors hover:text-gray-300"
       >
         Back to Projects page
