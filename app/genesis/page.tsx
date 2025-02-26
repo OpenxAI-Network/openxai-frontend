@@ -453,6 +453,9 @@ export default function GenesisPage() {
     openx: "",
   })
 
+  // Add this state for table visibility
+  const [isTableVisible, setIsTableVisible] = useState(false);
+
   return (
     <MobileResponsiveWrapper>
       {/* Disable interactions but without visual overlay */}
@@ -469,11 +472,11 @@ export default function GenesisPage() {
             <div className="px-safe">
               {/* Gradient Text Section - minimal top spacing */}
               <div className="mb-16 mt-0 text-center">
-                <h2 className="font-inter text-2xl font-medium leading-tight [@media(min-width:960px)]:text-3xl">
+                <h2 className="font-inter text-3xl font-medium leading-tight [@media(min-width:960px)]:text-4xl">
                   <div className="bg-gradient-to-r from-white to-[#2D63F6] bg-clip-text text-transparent">
                     AI is no longer limited to mega corporations.
                   </div>
-                  <div className="mt-2 bg-gradient-to-r from-white to-[#2D63F6] bg-clip-text text-transparent">
+                  <div className="mt-3 bg-gradient-to-r from-white to-[#2D63F6] bg-clip-text text-transparent">
                     It is open, decentralized & available to anyone.
                   </div>
                 </h2>
@@ -512,7 +515,7 @@ export default function GenesisPage() {
                               <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231z" />
                             </svg>
                             <span className="text-lg text-white">
-                              Follow @OpenXAI
+                              Follow @OpenxAI
                             </span>
                           </div>
                           <div className="mt-2 text-sm text-gray-400">
@@ -544,7 +547,7 @@ export default function GenesisPage() {
                               <path d="M21.93 3.24l-3.35 17.52A1.51 1.51 0 0117.12 22a1.53 1.53 0 01-1.09-.45l-6.9-6.89-3.35 3.35a.49.49 0 01-.35.15.5.5 0 01-.5-.5v-4.29l12.45-12.46a.5.5 0 01-.7.71L4.55 13.75l-2.85-1a1.51 1.51 0 01.1-2.89l18.59-7.15a1.51 1.51 0 011.54 2.53z" />
                             </svg>
                             <span className="text-lg text-white">
-                              Join @OpenXAI
+                              Join @OpenxAI
                             </span>
                           </div>
                           <div className="mt-2 text-sm text-gray-400">
@@ -689,10 +692,11 @@ export default function GenesisPage() {
                     </div>
                   </div>
 
-                  <div className="relative mb-16">
+                  <div className="relative mb-8">
                     <Progress
                       value={100 * (currentUsd / 500_000)}
-                      className="h-6 border border-white bg-[#1F2021] [&>div]:bg-gradient-to-r [&>div]:from-white [&>div]:to-[#122BEA]"
+                      className="h-6 cursor-pointer border border-white bg-[#1F2021] [&>div]:bg-gradient-to-r [&>div]:from-white [&>div]:to-[#122BEA]"
+                      onClick={() => setIsTableVisible(!isTableVisible)}
                     />
 
                     {/* Milestone markers */}
@@ -723,6 +727,7 @@ export default function GenesisPage() {
                               } else {
                                 setSelectedMilestone(milestone.projectId)
                                 setHighlightedProject(milestone.projectId)
+                                setIsTableVisible(true)
                               }
                             }}
                           >
@@ -736,108 +741,151 @@ export default function GenesisPage() {
                             />
                           </div>
                         ) : (
-                          <Link href="/projects">
+                          <div
+                            onClick={() => setIsTableVisible(true)}
+                            className="cursor-pointer"
+                          >
                             <div
                               title={milestone.name}
                               className="ml-[-2px] mt-2 cursor-pointer transition-all hover:opacity-80 [@media(max-width:660px)]:mt-3"
                             >
                               <div className="rotate-90 border-x-[6px] border-b-8 border-solid border-x-transparent border-b-white/30" />
                             </div>
-                          </Link>
+                          </div>
                         )}
                       </div>
                     ))}
                   </div>
 
-                  {/* Milestone table with horizontal scroll */}
-                  <div className="relative -mx-4 w-full overflow-x-auto px-4">
-                    <div className="min-w-[800px]">
-                      <div className="w-full align-middle">
-                        <div className="overflow-hidden rounded-lg border border-[#454545]">
-                          <table className="w-full table-auto border-collapse bg-[#1F2021]">
-                            <thead>
-                              <tr>
-                                <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                                  Project Name
-                                </th>
-                                <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                                  Funding Goal
-                                </th>
-                                <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                                  Deadline
-                                </th>
-                                <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                                  Backers Rewards
-                                </th>
-                                <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                                  Flash Bonus
-                                </th>
-                                <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                                  Reward APY
-                                </th>
-                                <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                                  Status
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {projects.slice(0, 3).map((project, index) => (
-                                <tr
-                                  key={index}
-                                  className={cn(
-                                    "text-sm transition-colors",
-                                    highlightedProject === project.id ||
-                                      selectedMilestone === project.id
-                                      ? "bg-white/10"
-                                      : "hover:bg-white/5"
-                                  )}
-                                >
-                                  <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                                    {project.name}
-                                  </td>
-                                  <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                                    $
-                                    {Number(
-                                      project.fundingGoal
-                                    ).toLocaleString()}
-                                  </td>
-                                  <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                                    {project.deadline}
-                                  </td>
-                                  <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                                    {Number(
-                                      project.backersRewards
-                                    ).toLocaleString()}{" "}
-                                    OPENX
-                                  </td>
-                                  <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                                    {Number(
-                                      project.flashBonus
-                                    ).toLocaleString()}{" "}
-                                    OPENX
-                                  </td>
-                                  <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                                    {project.rewardAPY}%
-                                  </td>
-                                  <td className="border-0 p-4 [@media(max-width:400px)]:p-[2px] [@media(max-width:650px)]:p-1 [@media(max-width:960px)]:p-2">
-                                    <span className="bg-gradient-to-r from-white to-blue-500 bg-clip-text text-sm text-transparent [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:text-xs">
-                                      {project.status}
-                                    </span>
-                                  </td>
+                  {/* Toggle button for table - added margin bottom when expanded */}
+                  <div className={`mb-2 flex justify-end pr-8 ${isTableVisible ? 'mb-4' : ''}`}>
+                    <button
+                      onClick={() => setIsTableVisible(!isTableVisible)}
+                      className="flex items-center gap-2 text-base text-white hover:opacity-80"
+                    >
+                      {isTableVisible ? (
+                        <>
+                          <svg 
+                            className="size-4" 
+                            fill="none" 
+                            stroke="currentColor" 
+                            viewBox="0 0 24 24"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                          </svg>
+                          Hide project milestones
+                        </>
+                      ) : (
+                        <>
+                          <svg 
+                            className="size-4" 
+                            fill="none" 
+                            stroke="currentColor" 
+                            viewBox="0 0 24 24"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg>
+                          View project milestones
+                        </>
+                      )}
+                    </button>
+                  </div>
+
+                  {/* Milestone table with animation */}
+                  <div 
+                    className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                      isTableVisible ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
+                    }`}
+                  >
+                    <div className="relative -mx-4 w-full overflow-x-auto px-4">
+                      <div className="min-w-[800px]">
+                        <div className="w-full align-middle">
+                          <div className="overflow-hidden rounded-lg border border-[#454545]">
+                            <table className="w-full table-auto border-collapse bg-[#1F2021]">
+                              <thead>
+                                <tr>
+                                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                                    Project Name
+                                  </th>
+                                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                                    Funding Goal
+                                  </th>
+                                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                                    Deadline
+                                  </th>
+                                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                                    Backers Rewards
+                                  </th>
+                                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                                    Flash Bonus
+                                  </th>
+                                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                                    Reward APY
+                                  </th>
+                                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                                    Status
+                                  </th>
                                 </tr>
-                              ))}
-                            </tbody>
-                          </table>
+                              </thead>
+                              <tbody>
+                                {projects.slice(0, 3).map((project, index) => (
+                                  <tr
+                                    key={index}
+                                    className={cn(
+                                      "text-sm transition-colors",
+                                      highlightedProject === project.id ||
+                                        selectedMilestone === project.id
+                                        ? "bg-white/10"
+                                        : "hover:bg-white/5"
+                                    )}
+                                  >
+                                    <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                                      {project.name}
+                                    </td>
+                                    <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                                      $
+                                      {Number(
+                                        project.fundingGoal
+                                      ).toLocaleString()}
+                                    </td>
+                                    <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                                      {project.deadline}
+                                    </td>
+                                    <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                                      {Number(
+                                        project.backersRewards
+                                      ).toLocaleString()}{" "}
+                                      OPENX
+                                    </td>
+                                    <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                                      {Number(
+                                        project.flashBonus
+                                      ).toLocaleString()}{" "}
+                                      OPENX
+                                    </td>
+                                    <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                                      {project.rewardAPY}%
+                                    </td>
+                                    <td className="border-0 p-4 [@media(max-width:400px)]:p-[2px] [@media(max-width:650px)]:p-1 [@media(max-width:960px)]:p-2">
+                                      <span className="bg-gradient-to-r from-white to-blue-500 bg-clip-text text-sm text-transparent [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:text-xs">
+                                        {project.status}
+                                      </span>
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="mt-4 flex justify-end">
-                      <Link
-                        href="/projects"
-                        className="text-base text-white underline hover:opacity-80"
-                      >
-                        View more projects
-                      </Link>
+                      <div className="mt-4 flex justify-end">
+                        <Link
+                          href="/projects"
+                          className="text-base text-white underline hover:opacity-80"
+                        >
+                          View all project milestones
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>
