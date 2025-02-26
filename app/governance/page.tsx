@@ -8,10 +8,10 @@ import { ChevronRight } from "lucide-react"
 import { MobileResponsiveWrapper } from "@/components/layouts/MobileResponsiveWrapper"
 
 const GOVERNANCE_STATS = [
-  { label: "Total locked OPENX", value: "12.5M" },
-  { label: "Your voting power", value: "2,846" },
-  { label: "Proposal created", value: "23" },
-  { label: "Total vote cast", value: "1.2M" }
+  { label: "Total locked OPENX", value: "0" },
+  { label: "Your voting power", value: "0" },
+  { label: "Proposal created", value: "0" },
+  { label: "Total vote cast", value: "0" }
 ]
 
 const ACTIVE_PROPOSALS = [
@@ -171,7 +171,7 @@ export default function GovernancePage() {
                     <div className="space-y-4">
                       <div>
                         <div className="text-sm text-gray-400 [@media(max-width:650px)]:text-xs">OPENX Balance</div>
-                        <div className="text-2xl font-medium text-white [@media(max-width:650px)]:text-xl">2,846</div>
+                        <div className="text-2xl font-medium text-white [@media(max-width:650px)]:text-xl">0</div>
                       </div>
                       <div>
                         <div className="text-sm text-gray-400 [@media(max-width:650px)]:text-xs">Delegated to You</div>
