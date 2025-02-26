@@ -39,7 +39,7 @@ const LONG_TERM_TASKS = [
 
 const TOP_EARNERS = Array(5).fill({
   address: "0xabcd....6789",
-  points: "3,333,333,333.3"
+  points: "0"
 })
 
 export default function EarnPage() {
@@ -69,7 +69,7 @@ export default function EarnPage() {
         
         <div className="grid grid-cols-2 gap-4 [@media(max-width:960px)]:grid-cols-1">
           {/* X/Twitter Task - gradient from blue */}
-          <a href="https://zealy.io" target="_blank" rel="noopener noreferrer" className="relative block">
+          <a href="https://zealy.io/cw/openxai/questboard?invitationId=pgvBr_b0wl4QCZ7MuUf-L" target="_blank" rel="noopener noreferrer" className="relative block">
             <div className="absolute -inset-px rounded-lg bg-gradient-to-t from-[#829ED1] to-[#0059FE]" />
             <div className="relative flex h-[60px] items-center justify-between rounded-lg bg-[#1F2021] px-6 hover:bg-[#2a2a2a] [@media(max-width:400px)]:h-[40px] [@media(max-width:650px)]:h-[50px] [@media(max-width:960px)]:px-4">
               <div className="flex items-center gap-3">
@@ -83,7 +83,7 @@ export default function EarnPage() {
           </a>
 
           {/* Telegram Task - gradient from green */}
-          <a href="https://zealy.io" target="_blank" rel="noopener noreferrer" className="relative block">
+          <a href="https://zealy.io/cw/openxai/questboard?invitationId=pgvBr_b0wl4QCZ7MuUf-L" target="_blank" rel="noopener noreferrer" className="relative block">
             <div className="absolute -inset-px rounded-lg bg-gradient-to-b from-[#B2FE00] to-[#829ED1]" />
             <div className="relative flex h-[60px] items-center justify-between rounded-lg bg-[#1F2021] px-6 hover:bg-[#2a2a2a] [@media(max-width:400px)]:h-[40px] [@media(max-width:650px)]:h-[50px] [@media(max-width:960px)]:px-4">
               <div className="flex items-center gap-3">
@@ -97,7 +97,7 @@ export default function EarnPage() {
           </a>
 
           {/* YouTube Task - gradient from red */}
-          <a href="https://zealy.io" target="_blank" rel="noopener noreferrer" className="relative block">
+          <a href="https://zealy.io/cw/openxai/questboard?invitationId=pgvBr_b0wl4QCZ7MuUf-L" target="_blank" rel="noopener noreferrer" className="relative block">
             <div className="absolute -inset-px rounded-lg bg-gradient-to-b from-[#FF0000] to-[#829ED1]" />
             <div className="relative flex h-[60px] items-center justify-between rounded-lg bg-[#1F2021] px-6 hover:bg-[#2a2a2a] [@media(max-width:400px)]:h-[40px] [@media(max-width:650px)]:h-[50px] [@media(max-width:960px)]:px-4">
               <div className="flex items-center gap-3">
@@ -111,7 +111,7 @@ export default function EarnPage() {
           </a>
 
           {/* TikTok Task - gradient from blue */}
-          <a href="https://zealy.io" target="_blank" rel="noopener noreferrer" className="relative block">
+          <a href="https://zealy.io/cw/openxai/questboard?invitationId=pgvBr_b0wl4QCZ7MuUf-L" target="_blank" rel="noopener noreferrer" className="relative block">
             <div className="absolute -inset-px rounded-lg bg-gradient-to-t from-[#829ED1] to-[#0059FE]" />
             <div className="relative flex h-[60px] items-center justify-between rounded-lg bg-[#1F2021] px-6 hover:bg-[#2a2a2a] [@media(max-width:400px)]:h-[40px] [@media(max-width:650px)]:h-[50px] [@media(max-width:960px)]:px-4">
               <div className="flex items-center gap-3">
@@ -125,7 +125,7 @@ export default function EarnPage() {
           </a>
 
           {/* Meetup Task - gradient from green */}
-          <a href="https://zealy.io" target="_blank" rel="noopener noreferrer" className="relative block">
+          <a href="https://zealy.io/cw/openxai/questboard?invitationId=pgvBr_b0wl4QCZ7MuUf-L" target="_blank" rel="noopener noreferrer" className="relative block">
             <div className="absolute -inset-px rounded-lg bg-gradient-to-b from-[#B2FE00] to-[#829ED1]" />
             <div className="relative flex h-[60px] items-center justify-between rounded-lg bg-[#1F2021] px-6 hover:bg-[#2a2a2a] [@media(max-width:400px)]:h-[40px] [@media(max-width:650px)]:h-[50px] [@media(max-width:960px)]:px-4">
               <div className="flex items-center gap-3">
@@ -139,7 +139,7 @@ export default function EarnPage() {
           </a>
 
           {/* More tasks coming soon box */}
-          <a href="https://zealy.io" target="_blank" rel="noopener noreferrer" className="block">
+          <a href="https://zealy.io/cw/openxai/questboard?invitationId=pgvBr_b0wl4QCZ7MuUf-L" target="_blank" rel="noopener noreferrer" className="block">
             <div className="flex h-[60px] items-center justify-center [@media(max-width:400px)]:h-[40px] [@media(max-width:650px)]:h-[50px]">
               <span className="text-xl text-gray-400 [@media(max-width:400px)]:text-sm [@media(max-width:650px)]:text-base">
                 More tasks coming soon!
