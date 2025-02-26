@@ -51,7 +51,7 @@ export default function StakePage() {
                     </h3>
                     <div className="flex h-[30px] items-center justify-center rounded-lg border border-green-500/30 px-3 [@media(max-width:400px)]:h-[20px] [@media(max-width:650px)]:h-[24px]">
                       <span className="font-inter text-[16px] font-light text-[#4CFF46] [@media(max-width:400px)]:text-xs [@media(max-width:650px)]:text-sm">
-                        5.7% APR
+                        4% APR
                       </span>
                     </div>
                   </div>
@@ -78,7 +78,7 @@ export default function StakePage() {
                       </h3>
                       <div className="flex h-[30px] items-center justify-center rounded-lg border border-green-500/30 px-3 [@media(max-width:400px)]:h-[20px] [@media(max-width:650px)]:h-[24px]">
                         <span className="font-inter text-[16px] font-light text-[#4CFF46] [@media(max-width:400px)]:text-xs [@media(max-width:650px)]:text-sm">
-                          5.7% APR
+                          4% APR
                         </span>
                       </div>
                     </div>
