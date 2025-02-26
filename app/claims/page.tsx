@@ -283,7 +283,7 @@ export default function ClaimsPage() {
 
         {/* Projects you have backed */}
         <h2 className="mb-10 text-xl font-bold text-white">
-          Projects you have backed
+          Projects Available to Back
         </h2>
         <div className="-mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0">
           <div className="inline-block min-w-full align-middle">
@@ -357,7 +357,7 @@ export default function ClaimsPage() {
 
         {/* Tasks reward claims */}
         <h2 className="my-10 text-xl font-bold text-white">
-          Tasks rewards you have earnt
+          Tasks Rewards You Will be Able to Claim
         </h2>
         <div className="w-full overflow-x-auto">
           <div className="min-w-[400px]">
@@ -435,7 +435,7 @@ export default function ClaimsPage() {
           </div>
         </div>
 
-        <h2 className="my-10 text-xl font-bold text-white">Claim history</h2>
+        <h2 className="my-10 text-xl font-bold text-white">Claim History</h2>
         <div className="w-full overflow-x-auto">
           <div className="min-w-[400px]">
             <table className="mb-10 w-full border-collapse rounded-lg border border-[#454545] bg-[#1F2021]">
