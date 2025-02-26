@@ -469,11 +469,11 @@ export default function GenesisPage() {
             <div className="px-safe">
               {/* Gradient Text Section - minimal top spacing */}
               <div className="mb-16 mt-0 text-center">
-                <h2 className="font-inter text-2xl font-medium leading-tight [@media(min-width:960px)]:text-3xl">
+                <h2 className="font-inter text-3xl font-medium leading-tight [@media(min-width:960px)]:text-4xl">
                   <div className="bg-gradient-to-r from-white to-[#2D63F6] bg-clip-text text-transparent">
                     AI is no longer limited to mega corporations.
                   </div>
-                  <div className="mt-2 bg-gradient-to-r from-white to-[#2D63F6] bg-clip-text text-transparent">
+                  <div className="mt-3 bg-gradient-to-r from-white to-[#2D63F6] bg-clip-text text-transparent">
                     It is open, decentralized & available to anyone.
                   </div>
                 </h2>
@@ -512,7 +512,7 @@ export default function GenesisPage() {
                               <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231z" />
                             </svg>
                             <span className="text-lg text-white">
-                              Follow @OpenXAI
+                              Follow @OpenxAI
                             </span>
                           </div>
                           <div className="mt-2 text-sm text-gray-400">
@@ -544,7 +544,7 @@ export default function GenesisPage() {
                               <path d="M21.93 3.24l-3.35 17.52A1.51 1.51 0 0117.12 22a1.53 1.53 0 01-1.09-.45l-6.9-6.89-3.35 3.35a.49.49 0 01-.35.15.5.5 0 01-.5-.5v-4.29l12.45-12.46a.5.5 0 01-.7.71L4.55 13.75l-2.85-1a1.51 1.51 0 01.1-2.89l18.59-7.15a1.51 1.51 0 011.54 2.53z" />
                             </svg>
                             <span className="text-lg text-white">
-                              Join @OpenXAI
+                              Join @OpenxAI
                             </span>
                           </div>
                           <div className="mt-2 text-sm text-gray-400">
@@ -836,7 +836,7 @@ export default function GenesisPage() {
                         href="/projects"
                         className="text-base text-white underline hover:opacity-80"
                       >
-                        View more projects
+                        View project milestones
                       </Link>
                     </div>
                   </div>
