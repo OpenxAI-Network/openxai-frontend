@@ -454,7 +454,15 @@ export default function GenesisPage() {
   })
 
   // Add this state for table visibility
-  const [isTableVisible, setIsTableVisible] = useState(false);
+  const [isTableVisible, setIsTableVisible] = useState(false)
+
+  // First 100k is unlimited, afterward max 1000 per address
+  const maxAmount = useMemo(() => {
+    return Math.max(100_000 - currentUsd, Math.max(0, 1_000 - myUsd))
+  }, [myUsd])
+  const overMaxAmount = useMemo(() => {
+    return usdValue !== undefined && usdValue > maxAmount
+  }, [usdValue, maxAmount])
 
   return (
     <MobileResponsiveWrapper>
@@ -758,32 +766,44 @@ export default function GenesisPage() {
                   </div>
 
                   {/* Toggle button for table - added margin bottom when expanded */}
-                  <div className={`mb-2 flex justify-end pr-8 ${isTableVisible ? 'mb-4' : ''}`}>
+                  <div
+                    className={`mb-2 flex justify-end pr-8 ${isTableVisible ? "mb-4" : ""}`}
+                  >
                     <button
                       onClick={() => setIsTableVisible(!isTableVisible)}
                       className="flex items-center gap-2 text-base text-white hover:opacity-80"
                     >
                       {isTableVisible ? (
                         <>
-                          <svg 
-                            className="size-4" 
-                            fill="none" 
-                            stroke="currentColor" 
+                          <svg
+                            className="size-4"
+                            fill="none"
+                            stroke="currentColor"
                             viewBox="0 0 24 24"
                           >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M5 15l7-7 7 7"
+                            />
                           </svg>
                           Hide project milestones
                         </>
                       ) : (
                         <>
-                          <svg 
-                            className="size-4" 
-                            fill="none" 
-                            stroke="currentColor" 
+                          <svg
+                            className="size-4"
+                            fill="none"
+                            stroke="currentColor"
                             viewBox="0 0 24 24"
                           >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M19 9l-7 7-7-7"
+                            />
                           </svg>
                           View project milestones
                         </>
@@ -792,9 +812,11 @@ export default function GenesisPage() {
                   </div>
 
                   {/* Milestone table with animation */}
-                  <div 
+                  <div
                     className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                      isTableVisible ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
+                      isTableVisible
+                        ? "max-h-[500px] opacity-100"
+                        : "max-h-0 opacity-0"
                     }`}
                   >
                     <div className="relative -mx-4 w-full overflow-x-auto px-4">
@@ -1004,8 +1026,13 @@ export default function GenesisPage() {
 
                     <div className="flex items-center gap-2">
                       <span className="text-gray-400">Max Amount:</span>
-                      <span className="rounded-md bg-[#5C5C5C] px-2 py-1 text-white">
-                        ${formatNumber(Math.max(0, 1_000 - myUsd))}
+                      <span
+                        className={cn(
+                          "rounded-md bg-[#5C5C5C] px-2 py-1 text-white",
+                          overMaxAmount && "bg-red-600"
+                        )}
+                      >
+                        ${formatNumber(maxAmount)}
                       </span>
                     </div>
                   </div>
@@ -1099,7 +1126,8 @@ export default function GenesisPage() {
                         countdown.hours > 0 ||
                         countdown.minutes > 0 ||
                         countdown.seconds > 0 ||
-                        performingTransaction
+                        performingTransaction ||
+                        overMaxAmount
                       }
                     >
                       Approve
@@ -1173,7 +1201,8 @@ export default function GenesisPage() {
                     countdown.seconds > 0 ||
                     (selectedPayment !== "eth" &&
                       (tokenAllowance ?? BigInt(0)) < paymentAmount) ||
-                    performingTransaction
+                    performingTransaction ||
+                    overMaxAmount
                   }
                 >
                   Participate
