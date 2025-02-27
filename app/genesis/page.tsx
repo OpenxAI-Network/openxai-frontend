@@ -458,8 +458,8 @@ export default function GenesisPage() {
 
   // First 100k is unlimited, afterward max 1000 per address
   const maxAmount = useMemo(() => {
-    return Math.min(100_000 - currentUsd, Math.max(0, 1_000 - myUsd))
-  }, [myUsd])
+    return Math.max(100_000 - currentUsd, Math.max(0, 1_000 - myUsd))
+  }, [currentUsd, myUsd])
   const overMaxAmount = useMemo(() => {
     return usdValue !== undefined && usdValue > maxAmount
   }, [usdValue, maxAmount])
