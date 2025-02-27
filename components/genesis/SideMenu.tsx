@@ -102,9 +102,10 @@ export function SideMenu({ className, ...props }: SideMenuProps) {
     },
   })
 
-  const openxBalanceNum = openxBalance
-    ? parseFloat(formatUnits(openxBalance, 18))
-    : undefined
+  const openxBalanceNum =
+    openxBalance !== undefined
+      ? parseFloat(formatUnits(openxBalance, 18))
+      : undefined
   const openxBalancePretty =
     openxBalanceNum !== undefined
       ? openxBalanceNum > 1_000_000
