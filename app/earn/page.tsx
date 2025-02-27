@@ -17,7 +17,7 @@ const TASKS = [
     reward: "OPENX / USDT",
     bgColor: "bg-[#1F2021]",
     gradient: "from-[#829ED1] to-[#0059FE]",
-    link: "https://zealy.io/cw/openxai/questboard"
+    link: "https://zealy.io/cw/openxai/questboard/0de467db-b4d6-47e5-b295-ee7abec02b84/7a480ae5-be87-4ee6-b7c5-13cf1ba36ef4"
   },
   { 
     platform: "Zealy",
@@ -26,7 +26,7 @@ const TASKS = [
     reward: "OPENX / USDT",
     bgColor: "bg-[#1F2021]",
     gradient: "from-[#829ED1] to-[#0059FE]",
-    link: "https://zealy.io/cw/openxai/questboard"
+    link: "https://zealy.io/cw/openxai/questboard/0de467db-b4d6-47e5-b295-ee7abec02b84/f10b4da6-cce4-4c68-9656-3a76935c1e4a"
   },
   {
     platform: "Zealy",
@@ -35,7 +35,7 @@ const TASKS = [
     reward: "OPENX / USDT",
     bgColor: "bg-[#1F2021]",
     gradient: "from-[#B2FE00] to-[#829ED1]",
-    link: "https://zealy.io/cw/openxai/questboard"
+    link: "https://zealy.io/cw/openxai/questboard/0de467db-b4d6-47e5-b295-ee7abec02b84/1834439f-62e4-45ba-babd-289114804d41"
   },
   {
     platform: "Zealy",
@@ -44,7 +44,7 @@ const TASKS = [
     reward: "OPENX / USDT",
     bgColor: "bg-[#1F2021]",
     gradient: "from-[#5865F2] to-[#829ED1]",
-    link: "https://zealy.io/cw/openxai/questboard"
+    link: "https://zealy.io/cw/openxai/questboard/0de467db-b4d6-47e5-b295-ee7abec02b84/a27fd2b3-7645-4976-8753-a5c5ceec42d3"
   },
   {
     platform: "Zealy",
@@ -53,7 +53,7 @@ const TASKS = [
     reward: "OPENX / USDT",
     bgColor: "bg-[#1F2021]",
     gradient: "from-[#0A66C2] to-[#829ED1]",
-    link: "https://zealy.io/cw/openxai/questboard"
+    link: "https://zealy.io/cw/openxai/questboard/0de467db-b4d6-47e5-b295-ee7abec02b84/914bf14e-2f16-44c4-ac27-e2ff332d260e"
   },
   {
     platform: "Zealy",
@@ -62,7 +62,7 @@ const TASKS = [
     reward: "OPENX / USDT",
     bgColor: "bg-[#1F2021]",
     gradient: "from-[#000000] to-[#829ED1]",
-    link: "https://zealy.io/cw/openxai/questboard"
+    link: "https://zealy.io/cw/openxai/questboard/0de467db-b4d6-47e5-b295-ee7abec02b84/479d5371-e1ab-4572-a030-288ba5612eb2"
   },
   {
     platform: "Zealy",
@@ -71,7 +71,7 @@ const TASKS = [
     reward: "OPENX / USDT",
     bgColor: "bg-[#1F2021]",
     gradient: "from-[#FF0000] to-[#829ED1]",
-    link: "https://zealy.io/cw/openxai/questboard"
+    link: "https://zealy.io/cw/openxai/questboard/0de467db-b4d6-47e5-b295-ee7abec02b84/a6250092-c6a2-4986-bdc2-6aabf4ac3c82"
   }
 ]
 
@@ -119,7 +119,7 @@ export default function EarnPage() {
             <button
               key={filter}
               onClick={() => setSelectedFilter(filter)}
-              className={`rounded-lg px-6 py-3 text-lg font-bold transition-all text-white
+              className={`rounded-lg px-6 py-3 text-lg font-bold text-white transition-all
                 ${selectedFilter === filter 
                   ? 'bg-blue-600' 
                   : 'bg-[#1F2021] hover:bg-[#2a2a2a]'
