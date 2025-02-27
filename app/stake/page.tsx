@@ -42,6 +42,9 @@ export default function StakePage() {
                   <h2 className="font-inter text-[20px] font-bold text-white [@media(max-width:400px)]:text-base [@media(max-width:650px)]:text-lg">
                     Stake $OPENX
                   </h2>
+                  <p className="text-sm italic text-gray-400">
+                    * Staking rewards will fluctuate. See daily reward distribution.
+                  </p>
                 </div>
                 
                 <div className="flex items-center justify-between rounded-xl bg-[#1F2021] p-8 [@media(max-width:400px)]:p-4 [@media(max-width:650px)]:p-6">
@@ -51,7 +54,7 @@ export default function StakePage() {
                     </h3>
                     <div className="flex h-[30px] items-center justify-center rounded-lg border border-green-500/30 px-3 [@media(max-width:400px)]:h-[20px] [@media(max-width:650px)]:h-[24px]">
                       <span className="font-inter text-[16px] font-light text-[#4CFF46] [@media(max-width:400px)]:text-xs [@media(max-width:650px)]:text-sm">
-                        4% APR
+                      1,578.34% APY
                       </span>
                     </div>
                   </div>
@@ -71,14 +74,14 @@ export default function StakePage() {
                   <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#414141] to-[#1F2136] opacity-100" />
                   
                   <div className="relative flex w-full flex-col">
-                    {/* First row: 0 and APR */}
+                    {/* First row: 0 and APY */}
                     <div className="flex items-center justify-between">
                       <h3 className="font-inter text-[60px] font-medium text-white [@media(max-width:400px)]:text-[32px] [@media(max-width:650px)]:text-[40px]">
                         0
                       </h3>
                       <div className="flex h-[30px] items-center justify-center rounded-lg border border-green-500/30 px-3 [@media(max-width:400px)]:h-[20px] [@media(max-width:650px)]:h-[24px]">
                         <span className="font-inter text-[16px] font-light text-[#4CFF46] [@media(max-width:400px)]:text-xs [@media(max-width:650px)]:text-sm">
-                          4% APR
+                          4% APY
                         </span>
                       </div>
                     </div>
