@@ -146,7 +146,7 @@ export default function ClaimsPage() {
         deadline: project?.deadline ?? "Unknown",
         expectedRewards:
           parseFloat(formatUnits(e.amount, 6)) * PROJECT_RATE[Number(e.tier)],
-        claimable: project?.status === "Claimable",
+        claimable: project?.status === "Completed",
         generatedProof: myProofs.some((p) => p.basedOn.includes(basedOn)),
         raw: {
           project,
