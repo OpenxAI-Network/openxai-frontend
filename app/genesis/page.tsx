@@ -689,8 +689,8 @@ export default function GenesisPage() {
                   <div className="mb-6 flex flex-col items-start justify-between text-base [@media(min-width:400px)]:flex-row [@media(min-width:400px)]:items-center">
                     <div className="mb-2 [@media(min-width:400px)]:mb-0">
                       <span className="text-white">
-                        {(1 / PROJECT_RATE[currentProject]).toFixed(3)} USD = 1
-                        OPENX
+                        {/* Commented out dynamic calculation: {(1 / PROJECT_RATE[currentProject]).toFixed(3)} USD = 1 OPENX */}
+                        1 ETH = 1,476,947 OPENX (-78%)
                       </span>
                     </div>
                     <div>
