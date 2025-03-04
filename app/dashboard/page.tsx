@@ -180,10 +180,9 @@ const options = {
     y: {
       stacked: true,  // Enable stacking on y-axis
       beginAtZero: true,
-      max: 100, // Force max to 100%
+      max: 100,
       grid: {
         color: 'rgba(106, 106, 106, 0.1)',
-        drawBorder: false
       },
       ticks: {
         color: '#6A6A6A',
@@ -200,6 +199,9 @@ const options = {
     legend: {
       display: true,
       position: 'top' as const
+    },
+    filler: {
+      propagate: true  // Important for area charts
     }
   }
 } as const
@@ -699,44 +701,6 @@ export default function DashboardPage() {
             
             <div className="h-[400px]">
               <Line 
-                options={{
-                  responsive: true,
-                  maintainAspectRatio: false,
-                  scales: {
-                    x: {
-                      grid: {
-                        display: false,
-                      },
-                      ticks: {
-                        color: '#6A6A6A',
-                        font: {
-                          size: 12
-                        }
-                      }
-                    },
-                    y: {
-                      beginAtZero: true,
-                      max: 100,
-                      grid: {
-                        color: 'rgba(106, 106, 106, 0.1)',
-                      },
-                      ticks: {
-                        color: '#6A6A6A',
-                        callback: function(value: any) {
-                          return `${value}%`
-                        },
-                        font: {
-                          size: 12
-                        }
-                      }
-                    }
-                  },
-                  plugins: {
-                    legend: {
-                      display: false
-                    }
-                  }
-                }}
                 data={{
                   labels: ['Q1 25', 'Q2 25', 'Q3 25', 'Q4 25', 'Q1 26', 'Q2 26', 'Q3 26', 'Q4 26', 'Q1 27', 'Q2 27', 'Q3 27', 'Q4 27', 'Q1 28', 'Q2 28', 'Q3 28', 'Q4 28', 'Q1 29', 'Q2 29', 'Q3 29', 'Q4 29'],
                   datasets: [
@@ -744,58 +708,58 @@ export default function DashboardPage() {
                       label: 'Genesis Distribution',
                       data: [2.5, 5, 7.5, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
                       borderColor: '#00FF94',
-                      borderWidth: 1,
                       fill: true,
                       backgroundColor: 'rgba(0, 255, 148, 0.3)',
-                      tension: 0.4
                     },
                     {
                       label: 'Milestone Achievement Rewards',
                       data: [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10],
                       borderColor: '#33CCFF',
-                      borderWidth: 1,
                       fill: true,
                       backgroundColor: 'rgba(51, 204, 255, 0.3)',
-                      tension: 0.4
                     },
                     {
                       label: 'Core Contributors & Early Builders',
                       data: [3, 6, 9, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12],
                       borderColor: '#FFCC00',
-                      borderWidth: 1,
                       fill: true,
                       backgroundColor: 'rgba(255, 204, 0, 0.3)',
-                      tension: 0.4
                     },
                     {
                       label: 'Data, Compute & Storage Provider Fund',
                       data: [1.2, 3.6, 4.8, 6, 7.2, 8.4, 9.6, 10.8, 12, 13.2, 14.4, 15.6, 16.8, 18, 19.2, 20.4, 21.6, 22.8, 24, 24],
                       borderColor: '#9933FF',
-                      borderWidth: 1,
                       fill: true,
                       backgroundColor: 'rgba(153, 51, 255, 0.3)',
-                      tension: 0.4
                     },
                     {
                       label: 'AI Marketplace & Monetization',
                       data: [0, 0, 0.9, 1.8, 2.7, 3.6, 4.5, 5.4, 6.3, 7.2, 8.1, 9, 9.9, 10.8, 11.7, 12.6, 13.5, 14.4, 14.4, 14.4],
                       borderColor: '#FF00FF',
-                      borderWidth: 1,
                       fill: true,
                       backgroundColor: 'rgba(255, 0, 255, 0.3)',
-                      tension: 0.4
                     },
                     {
                       label: 'Core Protocol, Infrastructure',
                       data: [2.08, 3.64, 5.2, 6.76, 8.32, 9.88, 11.44, 13, 14.56, 16.12, 17.68, 19.24, 20.8, 22.36, 23.92, 25.48, 26, 26, 26, 26],
                       borderColor: '#3384FF',
-                      borderWidth: 1,
                       fill: true,
                       backgroundColor: 'rgba(51, 132, 255, 0.3)',
-                      tension: 0.4
                     }
                   ]
                 }}
+                options={options}
+                plugins={[
+                  {
+                    id: 'forceStacked',
+                    beforeDraw: (chart: any) => {
+                      const datasets = chart.data.datasets;
+                      for (let i = 0; i < datasets.length; i++) {
+                        datasets[i].fill = true;
+                      }
+                    }
+                  }
+                ]}
               />
             </div>
           </div>
