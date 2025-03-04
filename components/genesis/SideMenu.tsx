@@ -12,6 +12,7 @@ import {
   faFlag,
   faFlagCheckered,
   faScaleBalanced,
+  faCircleCheck,
 } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useWeb3Modal } from "@web3modal/wagmi/react"
@@ -29,6 +30,11 @@ const SIDE_MENU_ITEMS = [
     name: "Genesis",
     href: "/genesis",
     icon: <FontAwesomeIcon icon={faFlag} className="size-4" />,
+  },
+  {
+    name: "Dashboard",
+    href: "/dashboard",
+    icon: <FontAwesomeIcon icon={faCircleCheck} className="size-4" />,
   },
   {
     name: "Claims",
