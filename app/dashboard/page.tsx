@@ -213,6 +213,120 @@ const options = {
   }
 } as const
 
+// Add types for the model data
+interface AIModel {
+  logo: string;
+  name: string;
+}
+
+// Add types for the ScrollingRow props
+interface ScrollingRowProps {
+  models: AIModel[];
+  direction?: 'normal' | 'reverse';
+  speed?: number;
+}
+
+// Component with proper TypeScript types
+const ScrollingRow: React.FC<ScrollingRowProps> = ({ models, direction = 'normal', speed = 20 }) => (
+  <div className="flex overflow-hidden py-4">
+    <div 
+      className={`flex whitespace-nowrap ${
+        direction === 'reverse' ? 'animate-scroll-reverse' : 'animate-scroll'
+      }`}
+      style={{ 
+        animationDuration: `${speed}s`
+      }}
+    >
+      {models.map((model, index) => (
+        <div key={index} className="mx-6 inline-flex flex-col items-center">
+          <Image 
+            src={model.logo} 
+            alt={model.name}
+            width={48}
+            height={48}
+            className="object-contain"
+            style={{
+              background: '#1a1a1a',
+              borderRadius: '8px',
+              padding: '8px'
+            }}
+          />
+          <span className="mt-2 text-sm capitalize text-white">{model.name}</span>
+        </div>
+      ))}
+      {/* Duplicate for seamless scrolling */}
+      {models.map((model, index) => (
+        <div key={`duplicate-${index}`} className="mx-6 inline-flex flex-col items-center">
+          <Image 
+            src={model.logo} 
+            alt={model.name}
+            width={48}
+            height={48}
+            className="object-contain"
+            style={{
+              background: '#1a1a1a',
+              borderRadius: '8px',
+              padding: '8px'
+            }}
+          />
+          <span className="mt-2 text-sm capitalize text-white">{model.name}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+// Make sure AI_MODELS is typed
+const AI_MODELS: AIModel[] = [
+  { logo: "https://studio.openxai.org/images/models/deepseek.png", name: "deepseek-r1" },
+  { logo: "https://studio.openxai.org/images/models/llama.png", name: "llama2" },
+  { logo: "https://studio.openxai.org/images/models/mistral.png", name: "mistral" },
+  { logo: "https://studio.openxai.org/images/models/mistral.png", name: "mixtral" },
+  { logo: "https://studio.openxai.org/images/models/qwen.png", name: "qwen" },
+  { logo: "https://studio.openxai.org/images/models/google.png", name: "gemma" },
+  { logo: "https://studio.openxai.org/images/models/microsoft.png", name: "phi3" },
+  { logo: "https://studio.openxai.org/images/models/llama.png", name: "codellama" },
+  { logo: "https://studio.openxai.org/images/models/tinyllama.png", name: "tinyllama" },
+  { logo: "https://studio.openxai.org/images/models/starcoder2.png", name: "starcoder2" },
+  { logo: "https://studio.openxai.org/images/models/dolphin.png", name: "dolphin-mixtral" },
+  { logo: "https://studio.openxai.org/images/models/deepseek.png", name: "deepseek-coder-v2" },
+  { logo: "https://studio.openxai.org/images/models/google.png", name: "codegemma" },
+  { logo: "https://studio.openxai.org/images/models/wizardlm2.jpg", name: "wizardlm2" },
+  { logo: "https://studio.openxai.org/images/models/h4.png", name: "zephyr" },
+  { logo: "https://studio.openxai.org/images/models/yi.svg", name: "yi" },
+  { logo: "https://studio.openxai.org/images/models/llava.jpeg", name: "llava" },
+  { logo: "https://studio.openxai.org/images/models/google.png", name: "gemma2" },
+  { logo: "https://studio.openxai.org/images/models/qwen.png", name: "qwen2.5" },
+  { logo: "https://studio.openxai.org/images/models/mistral.png", name: "mistral-nemo" },
+  { logo: "https://studio.openxai.org/images/models/llama.png", name: "llama3.2-vision" },
+  { logo: "https://studio.openxai.org/images/models/qwen.png", name: "qwen2.5-coder" },
+  { logo: "https://studio.openxai.org/images/models/internlm.jpeg", name: "internlm2" },
+  { logo: "https://studio.openxai.org/images/models/nvidia.png", name: "nemotron" },
+  { logo: "https://studio.openxai.org/images/models/microsoft.png", name: "phi3.5" },
+  { logo: "https://studio.openxai.org/images/models/codestral.png", name: "codestral" },
+  { logo: "https://studio.openxai.org/images/models/starcoder2.png", name: "starcoder" },
+  { logo: "https://studio.openxai.org/images/models/ibm.png", name: "granite-code" },
+  { logo: "https://studio.openxai.org/images/models/vicuna.png", name: "vicuna" },
+  { logo: "https://studio.openxai.org/images/models/smollm2.png", name: "smollm" },
+  { logo: "https://studio.openxai.org/images/models/wizard-vicuna-uncensored.png", name: "wizard-vicuna-uncensored" },
+  { logo: "https://studio.openxai.org/images/models/mistral.png", name: "mistral-openorca" },
+  { logo: "https://studio.openxai.org/images/models/qwen.png", name: "qwq" },
+  { logo: "https://studio.openxai.org/images/models/llama.png", name: "llama2-chinese" },
+  { logo: "https://studio.openxai.org/images/models/smollm2.png", name: "smollm2" },
+  { logo: "https://studio.openxai.org/images/models/codegeex4.jpg", name: "codegeex4" },
+  { logo: "https://studio.openxai.org/images/models/openchat.png", name: "openchat" },
+  { logo: "https://studio.openxai.org/images/models/cohere.png", name: "aya" },
+  { logo: "https://studio.openxai.org/images/models/deepseek.png", name: "deepseek-v3" },
+  { logo: "https://studio.openxai.org/images/models/qwen.png", name: "codeqwen" },
+  { logo: "https://studio.openxai.org/images/models/nous.png", name: "nous-hermes2" }
+];
+
+// Split models into three roughly equal groups
+const third = Math.ceil(AI_MODELS.length / 3);
+const firstRow = AI_MODELS.slice(0, third);
+const secondRow = AI_MODELS.slice(third, third * 2);
+const thirdRow = AI_MODELS.slice(third * 2);
+
 export default function DashboardPage() {
   // Add state to track which segment is active
   const [activeSegment, setActiveSegment] = React.useState<number | null>(null);
@@ -327,171 +441,40 @@ export default function DashboardPage() {
 
       {/* Full Width AI Infrastructure Card */}
       <div className="mb-4 rounded-lg border border-[#454545] bg-[#1F2021]/50 p-6">
-        <h2 className="mb-4 text-2xl font-bold">
+        <h2 className="mb-6 text-2xl font-bold">
           <span className="bg-gradient-to-r from-white to-pink-500 bg-clip-text text-transparent">
             AI Infrastructure
           </span>
         </h2>
-        <div className="flex flex-col gap-8 md:grid md:grid-cols-2">
-            {/* Left side - Stats */}
-            <div className="md:hidden">
-              {/* Mobile: Label-value pairs stacked */}
-              <div className="grid grid-cols-1 gap-8">
-                <div>
-                  <div className="text-sm text-[#6A6A6A]">AI Model Accessibility Index (AMAI)</div>
-                  <div className="flex items-center gap-2">
-                    <div className="text-3xl font-bold text-white">10/10</div>
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger>
-                          <Info className="size-4 text-[#6A6A6A]" />
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Measure of how many developers globally can access advanced AI models via OpenxAI without permission.</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </div>
-                </div>
-                <div>
-                  <div className="text-sm text-[#6A6A6A]">AI Model Privacy Score (MPS)</div>
-                  <div className="flex items-center gap-2">
-                    <div className="text-3xl font-bold text-white">9.2/10</div>
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger>
-                          <Info className="size-4 text-[#6A6A6A]" />
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Percentage of models run without user data exposure.</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </div>
-                </div>
-                <div>
-                  <div className="text-sm text-[#6A6A6A]">AI Cost Reduction Ratio (ACRR)</div>
-                  <div className="flex items-center gap-2">
-                    <div className="text-3xl font-bold text-white">9.3/10</div>
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger>
-                          <Info className="size-4 text-[#6A6A6A]" />
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Percentage of cost savings running top open-source AI models on OpenxAI vs. centralized platforms.</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </div>
-                </div>
-                <div>
-                  <div className="text-sm text-[#6A6A6A]">User Savings Index (USI)</div>
-                  <div className="flex items-center gap-2">
-                    <div className="text-3xl font-bold text-white">8.5/10</div>
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger>
-                          <Info className="size-4 text-[#6A6A6A]" />
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Average annual savings per user.</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </div>
-                </div>
-              </div>
+        
+        {/* Grid container for metrics and logos */}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+          {/* Metrics section - 4 columns on desktop */}
+          <div className="grid grid-cols-2 gap-4 lg:col-span-5">
+            <div>
+              <div className="text-sm text-[#6A6A6A]">AI Model Accessibility Index (AMAI)</div>
+              <div className="text-2xl font-bold text-white">10/10</div>
             </div>
+            <div>
+              <div className="text-sm text-[#6A6A6A]">AI Model Privacy Score (MPS)</div>
+              <div className="text-2xl font-bold text-white">9.2/10</div>
+            </div>
+            <div>
+              <div className="text-sm text-[#6A6A6A]">AI Cost Reduction Ratio (ACRR)</div>
+              <div className="text-2xl font-bold text-white">9.3/10</div>
+            </div>
+            <div>
+              <div className="text-sm text-[#6A6A6A]">User Savings Index (USI)</div>
+              <div className="text-2xl font-bold text-white">8.5/10</div>
+            </div>
+          </div>
 
-            <div className="hidden md:block">
-              {/* Desktop: 4 columns in 2x2 grid within 50% width */}
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <div className="text-sm text-[#6A6A6A]">AI Model Accessibility Index (AMAI)</div>
-                  <div className="flex items-center gap-2">
-                    <div className="text-3xl font-bold text-white">10/10</div>
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger>
-                          <Info className="size-4 text-[#6A6A6A]" />
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Measure of how many developers globally can access advanced AI models via OpenxAI without permission.</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </div>
-                </div>
-                <div>
-                  <div className="text-sm text-[#6A6A6A]">AI Model Privacy Score (MPS)</div>
-                  <div className="flex items-center gap-2">
-                    <div className="text-3xl font-bold text-white">9.2/10</div>
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger>
-                          <Info className="size-4 text-[#6A6A6A]" />
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Percentage of models run without user data exposure.</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </div>
-                </div>
-                <div>
-                  <div className="text-sm text-[#6A6A6A]">AI Cost Reduction Ratio (ACRR)</div>
-                  <div className="flex items-center gap-2">
-                    <div className="text-3xl font-bold text-white">9.3/10</div>
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger>
-                          <Info className="size-4 text-[#6A6A6A]" />
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Percentage of cost savings running top open-source AI models on OpenxAI vs. centralized platforms.</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </div>
-                </div>
-                <div>
-                  <div className="text-sm text-[#6A6A6A]">User Savings Index (USI)</div>
-                  <div className="flex items-center gap-2">
-                    <div className="text-3xl font-bold text-white">8.5/10</div>
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger>
-                          <Info className="size-4 text-[#6A6A6A]" />
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Average annual savings per user.</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          {/* Right side - Logos */}
-          <div className="relative">
-            {/* All logos in a single grid */}
-            <div className="grid grid-cols-3 gap-4 md:grid-cols-4 lg:grid-cols-6">
-              {[...Array(24)].map((_, i) => (
-                <Image
-                  key={`logo-${i}`}
-                  src="/logo/openxai-logo-icon-light.png"
-                  alt="Logo"
-                  width={36}
-                  height={36}
-                  className="rounded-full"
-                />
-              ))}
-            </div>
-            {/* 20+ text positioned absolutely */}
-            <div className="absolute bottom-0 right-0 bg-[#1F2021]/50 pl-4 pt-4">
-              <span className="text-white">20+</span>
+          {/* Scrolling logos section - 7 columns on desktop */}
+          <div className="lg:col-span-7">
+            <div className="flex flex-col gap-4">
+              <ScrollingRow models={firstRow} direction="normal" speed={60} />
+              <ScrollingRow models={secondRow} direction="reverse" speed={50} />
+              <ScrollingRow models={thirdRow} direction="normal" speed={40} />
             </div>
           </div>
         </div>
