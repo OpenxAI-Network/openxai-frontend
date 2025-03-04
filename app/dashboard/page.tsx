@@ -198,10 +198,17 @@ const options = {
   plugins: {
     legend: {
       display: true,
-      position: 'top' as const
+      position: 'top' as const,
+      labels: {
+        color: '#FFFFFF',  // Make text white
+        font: {
+          size: 14
+        },
+        padding: 20
+      }
     },
     filler: {
-      propagate: true  // Important for area charts
+      propagate: true
     }
   }
 } as const
@@ -670,34 +677,6 @@ export default function DashboardPage() {
           {/* Line chart */}
           <div className="mt-10">
             <div className="mb-4 text-2xl font-bold text-white">Token Release Schedule</div>
-            
-            {/* Legend row with your specified categories and colors */}
-            <div className="mb-6 flex flex-wrap justify-center gap-6">
-              <div className="flex items-center">
-                <div className="mr-2 size-3 rounded-full bg-[#3384FF]"></div>
-                <span className="text-white">Core Protocol, Infrastructure</span>
-              </div>
-              <div className="flex items-center">
-                <div className="mr-2 size-3 rounded-full bg-[#FF00FF]"></div>
-                <span className="text-white">AI Marketplace & Monetization</span>
-              </div>
-              <div className="flex items-center">
-                <div className="mr-2 size-3 rounded-full bg-[#9933FF]"></div>
-                <span className="text-white">Data, Compute & Storage Provider Fund</span>
-              </div>
-              <div className="flex items-center">
-                <div className="mr-2 size-3 rounded-full bg-[#FFCC00]"></div>
-                <span className="text-white">Core Contributors & Early Builders</span>
-              </div>
-              <div className="flex items-center">
-                <div className="mr-2 size-3 rounded-full bg-[#33CCFF]"></div>
-                <span className="text-white">Milestone Achievement Rewards</span>
-              </div>
-              <div className="flex items-center">
-                <div className="mr-2 size-3 rounded-full bg-[#00FF94]"></div>
-                <span className="text-white">Genesis Distribution</span>
-              </div>
-            </div>
             
             <div className="h-[400px]">
               <Line 
