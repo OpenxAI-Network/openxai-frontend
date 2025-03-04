@@ -1,0 +1,3 @@
+[submodule "openxai-indexer"]
+	path = openxai-indexer
+	url = https://github.com/OpenxAI-Network/openxai-indexer

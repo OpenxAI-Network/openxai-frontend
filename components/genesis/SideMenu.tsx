@@ -1,83 +1,125 @@
 "use client"
+
 import React, { useState } from "react"
+import Image from "next/image"
 import NextLink from "next/link"
 import { usePathname } from "next/navigation"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { 
-  faFlag,
-  faFlagCheckered,
+import { OpenxAIContract } from "@/openxai-indexer/nodejs-app/contracts/OpenxAI"
+import {
+  faClipboardList,
   faCoins,
   faDollarSign,
+  faFlag,
+  faFlagCheckered,
   faScaleBalanced,
-  faClipboardList
 } from "@fortawesome/free-solid-svg-icons"
-import { cn } from "@/lib/utils"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useWeb3Modal } from "@web3modal/wagmi/react"
-import Image from "next/image"
 import { Menu, X } from "lucide-react"
+import { Address, formatUnits } from "viem"
+import { useAccount, useReadContract } from "wagmi"
 
+import { formatNumber } from "@/lib/openxai"
+import { cn } from "@/lib/utils"
 
 export interface SideMenuProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 const SIDE_MENU_ITEMS = [
-  { 
-    name: "Genesis", 
-    href: "/genesis", 
-    icon: <FontAwesomeIcon icon={faFlag} className="size-4" />
+  {
+    name: "Genesis",
+    href: "/genesis",
+    icon: <FontAwesomeIcon icon={faFlag} className="size-4" />,
   },
-  { 
-    name: "Claims", 
-    href: "/claims", 
-    icon: <FontAwesomeIcon icon={faFlagCheckered} className="size-4" />
+  {
+    name: "Claims",
+    href: "/claims",
+    icon: <FontAwesomeIcon icon={faFlagCheckered} className="size-4" />,
   },
-  { 
-    name: "Stake", 
-    href: "/stake", 
-    icon: <FontAwesomeIcon icon={faCoins} className="size-4" />
+  {
+    name: "Stake",
+    href: "/stake",
+    icon: <FontAwesomeIcon icon={faCoins} className="size-4" />,
   },
-  { 
-    name: "Earn", 
-    href: "/earn", 
-    icon: <FontAwesomeIcon icon={faDollarSign} className="size-4" />
+  {
+    name: "Earn",
+    href: "/earn",
+    icon: <FontAwesomeIcon icon={faDollarSign} className="size-4" />,
   },
-  { 
-    name: "Governance", 
-    href: "/governance", 
-    icon: <FontAwesomeIcon icon={faScaleBalanced} className="size-4" />
+  {
+    name: "Governance",
+    href: "/governance",
+    icon: <FontAwesomeIcon icon={faScaleBalanced} className="size-4" />,
   },
-  { 
-    name: "Projects", 
-    href: "/projects", 
-    icon: <FontAwesomeIcon icon={faClipboardList} className="size-4" />
-  }
+  {
+    name: "Projects",
+    href: "/projects",
+    icon: <FontAwesomeIcon icon={faClipboardList} className="size-4" />,
+  },
 ]
 
 const SOCIAL_ITEMS = [
-  { 
+  {
     name: "X",
     href: "https://x.com/OpenxAINetwork",
     icon: (
-      <svg className="size-5 text-white hover:opacity-80" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+      <svg
+        className="size-5 text-white hover:opacity-80"
+        fill="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
       </svg>
-    )
+    ),
   },
   {
     name: "Telegram",
     href: "https://t.me/OpenxAINetwork",
     icon: (
-      <svg className="size-5 text-white hover:opacity-80" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M21.93 3.24l-3.35 17.52A1.51 1.51 0 0117.12 22a1.53 1.53 0 01-1.09-.45l-6.9-6.89-3.35 3.35a.49.49 0 01-.35.15.5.5 0 01-.5-.5v-4.29l12.45-12.46a.5.5 0 01-.7.71L4.55 13.75l-2.85-1a1.51 1.51 0 01.1-2.89l18.59-7.15a1.51 1.51 0 011.54 2.53z"/>
+      <svg
+        className="size-5 text-white hover:opacity-80"
+        fill="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path d="M21.93 3.24l-3.35 17.52A1.51 1.51 0 0117.12 22a1.53 1.53 0 01-1.09-.45l-6.9-6.89-3.35 3.35a.49.49 0 01-.35.15.5.5 0 01-.5-.5v-4.29l12.45-12.46a.5.5 0 01-.7.71L4.55 13.75l-2.85-1a1.51 1.51 0 01.1-2.89l18.59-7.15a1.51 1.51 0 011.54 2.53z" />
       </svg>
-    )
-  }
+    ),
+  },
 ]
 
 export function SideMenu({ className, ...props }: SideMenuProps) {
   const pathname = usePathname()
   const { open } = useWeb3Modal()
-  const isConnected = false // todo add wallet state
+  const { address } = useAccount()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
+  const { data: openxBalance } = useReadContract({
+    abi: OpenxAIContract.abi,
+    address: OpenxAIContract.address,
+    functionName: "balanceOf",
+    args: [address as Address],
+    query: {
+      enabled: !!address,
+    },
+  })
+
+  const openxBalanceNum =
+    openxBalance !== undefined
+      ? parseFloat(formatUnits(openxBalance, 18))
+      : undefined
+  const openxBalancePretty =
+    openxBalanceNum !== undefined
+      ? openxBalanceNum > 1_000_000
+        ? `${(openxBalanceNum / 1_000_000).toPrecision(3)}M`
+        : openxBalanceNum > 1_000
+          ? `${(openxBalanceNum / 1_000).toPrecision(3)}K`
+          : openxBalanceNum > 1
+            ? `${openxBalanceNum.toPrecision(3)}`
+            : openxBalanceNum > 0.01
+              ? `${openxBalanceNum.toFixed(2)}`
+              : openxBalanceNum > 0
+                ? "~0"
+                : "0"
+      : undefined
 
   return (
     <>
@@ -91,8 +133,8 @@ export function SideMenu({ className, ...props }: SideMenuProps) {
       >
         {/* OpenxAI Logo */}
         <div className="mb-6 mt-4 flex justify-center">
-          <NextLink 
-            href="https://openxai.org" 
+          <NextLink
+            href="https://openxai.org"
             className="w-full hover:opacity-80"
           >
             <Image
@@ -111,19 +153,23 @@ export function SideMenu({ className, ...props }: SideMenuProps) {
         <div className="relative mb-10 h-[107px] w-full rounded-lg">
           {/* Content */}
           <div className="relative flex h-full flex-col justify-end rounded-lg bg-[#1F2021] p-4">
-            {!isConnected ? (
+            {!address ? (
               <>
                 {/* Disconnected State */}
                 <div className="relative">
                   {/* Balance Display - Bottom Aligned */}
                   <div className="flex items-end justify-between">
-                    <span className="text-[50px] font-light leading-none text-white/30">0</span>
-                    <span className="text-[13px] font-normal text-white/30">OPENX</span>
+                    <span className="text-[50px] font-light leading-none text-white/30">
+                      0
+                    </span>
+                    <span className="text-[13px] font-normal text-white/30">
+                      OPENX
+                    </span>
                   </div>
 
                   {/* Semi-transparent overlay with Connect Button */}
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <button 
+                    <button
                       onClick={() => open()}
                       className="-mt-14 whitespace-nowrap text-center text-[16px] font-bold text-white hover:text-gray-200"
                     >
@@ -135,9 +181,25 @@ export function SideMenu({ className, ...props }: SideMenuProps) {
             ) : (
               <>
                 {/* Connected State */}
-                <div className="flex items-end justify-between">
-                  <span className="text-[50px] font-light leading-none text-white">13.30</span>
-                  <span className="text-[13px] font-normal text-white">OPENX</span>
+                <div className="relative">
+                  <div className="flex items-end justify-between">
+                    <span className="text-[50px] font-light leading-none text-white">
+                      {openxBalancePretty ?? "....."}
+                    </span>
+                    <span className="text-[13px] font-normal text-white">
+                      OPENX
+                    </span>
+                  </div>
+
+                  {/* Semi-transparent overlay with connected address */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <button
+                      onClick={() => open()}
+                      className="-mt-20 whitespace-nowrap text-center text-[16px] font-bold text-white hover:text-gray-200"
+                    >
+                      {address.substring(0, 5)}...{address.substring(37)}
+                    </button>
+                  </div>
                 </div>
               </>
             )}
@@ -147,10 +209,10 @@ export function SideMenu({ className, ...props }: SideMenuProps) {
         {/* Social Media Links */}
         <div className="mb-6 mt-4 flex justify-center gap-10 pb-4">
           {SOCIAL_ITEMS.map((item) => (
-            <a 
+            <a
               key={item.name}
-              href={item.href} 
-              target="_blank" 
+              href={item.href}
+              target="_blank"
               rel="noopener noreferrer"
             >
               {item.icon}
@@ -199,7 +261,7 @@ export function SideMenu({ className, ...props }: SideMenuProps) {
                 className="text-gray-600 hover:text-gray-900"
               >
                 <svg className="size-7" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                 </svg>
               </a>
               <a
@@ -209,7 +271,7 @@ export function SideMenu({ className, ...props }: SideMenuProps) {
                 className="text-gray-600 hover:text-gray-900"
               >
                 <svg className="size-7" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M21.93 3.24l-3.35 17.52A1.51 1.51 0 0117.12 22a1.53 1.53 0 01-1.09-.45l-6.9-6.89-3.35 3.35a.49.49 0 01-.35.15.5.5 0 01-.5-.5v-4.29l12.45-12.46a.5.5 0 01-.7.71L4.55 13.75l-2.85-1a1.51 1.51 0 01.1-2.89l18.59-7.15a1.51 1.51 0 011.54 2.53z"/>
+                  <path d="M21.93 3.24l-3.35 17.52A1.51 1.51 0 0117.12 22a1.53 1.53 0 01-1.09-.45l-6.9-6.89-3.35 3.35a.49.49 0 01-.35.15.5.5 0 01-.5-.5v-4.29l12.45-12.46a.5.5 0 01-.7.71L4.55 13.75l-2.85-1a1.51 1.51 0 01.1-2.89l18.59-7.15a1.51 1.51 0 011.54 2.53z" />
                 </svg>
               </a>
             </div>
@@ -217,7 +279,7 @@ export function SideMenu({ className, ...props }: SideMenuProps) {
           {/* Connect Wallet (same height as logo) */}
           <div className="flex flex-1 justify-end">
             <div className="relative">
-              {!isConnected ? (
+              {!address ? (
                 <button
                   onClick={() => open()}
                   className="flex h-12 items-center rounded-md border px-4 text-base font-bold text-blue-600"
@@ -226,7 +288,7 @@ export function SideMenu({ className, ...props }: SideMenuProps) {
                 </button>
               ) : (
                 <span className="flex h-12 items-center text-base font-bold">
-                  13.30 OPENX
+                  {openxBalancePretty ?? "..."} OPENX
                 </span>
               )}
             </div>
