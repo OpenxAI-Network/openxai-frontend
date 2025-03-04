@@ -209,6 +209,13 @@ const options = {
     },
     filler: {
       propagate: true
+    },
+    tooltip: {
+      callbacks: {
+        label: function(context: any) {
+          return `${context.dataset.label || ''}: ${context.parsed.y}%`;
+        }
+      }
     }
   }
 } as const
@@ -238,38 +245,57 @@ const ScrollingRow: React.FC<ScrollingRowProps> = ({ models, direction = 'normal
       }}
     >
       {models.map((model, index) => (
-        <div key={index} className="mx-6 inline-flex flex-col items-center">
-          <Image 
-            src={model.logo} 
-            alt={model.name}
-            width={48}
-            height={48}
-            className="object-contain"
-            style={{
-              background: '#1a1a1a',
-              borderRadius: '8px',
-              padding: '8px'
-            }}
-          />
-          <span className="mt-2 text-sm capitalize text-white">{model.name}</span>
+        <div key={index} className="mx-6 inline-flex flex-col items-center" style={{ width: '80px' }}>
+          <div className="flex items-center justify-center" style={{ 
+            width: '64px', 
+            height: '64px', 
+            background: '#1a1a1a',
+            borderRadius: '8px',
+            position: 'relative'
+          }}>
+            <Image 
+              src={model.logo} 
+              alt={model.name}
+              width={48}
+              height={48}
+              className="object-contain"
+              style={{
+                position: 'absolute',
+                left: '50%',
+                top: '50%',
+                transform: 'translate(-50%, -50%)'
+              }}
+            />
+          </div>
+          <span className="mt-2 whitespace-normal break-words text-center text-xs capitalize text-white">{model.name}</span>
         </div>
       ))}
-      {/* Duplicate for seamless scrolling */}
+      
+      {/* Duplicate for seamless scrolling with standardized handling */}
       {models.map((model, index) => (
-        <div key={`duplicate-${index}`} className="mx-6 inline-flex flex-col items-center">
-          <Image 
-            src={model.logo} 
-            alt={model.name}
-            width={48}
-            height={48}
-            className="object-contain"
-            style={{
-              background: '#1a1a1a',
-              borderRadius: '8px',
-              padding: '8px'
-            }}
-          />
-          <span className="mt-2 text-sm capitalize text-white">{model.name}</span>
+        <div key={`duplicate-${index}`} className="mx-6 inline-flex flex-col items-center" style={{ width: '80px' }}>
+          <div className="flex items-center justify-center" style={{ 
+            width: '64px', 
+            height: '64px', 
+            background: '#1a1a1a',
+            borderRadius: '8px',
+            position: 'relative'
+          }}>
+            <Image 
+              src={model.logo} 
+              alt={model.name}
+              width={48}
+              height={48}
+              className="object-contain"
+              style={{
+                position: 'absolute',
+                left: '50%',
+                top: '50%',
+                transform: 'translate(-50%, -50%)'
+              }}
+            />
+          </div>
+          <span className="mt-2 whitespace-normal break-words text-center text-xs capitalize text-white">{model.name}</span>
         </div>
       ))}
     </div>
@@ -279,13 +305,13 @@ const ScrollingRow: React.FC<ScrollingRowProps> = ({ models, direction = 'normal
 // Make sure AI_MODELS is typed
 const AI_MODELS: AIModel[] = [
   { logo: "https://studio.openxai.org/images/models/deepseek.png", name: "deepseek-r1" },
-  { logo: "https://studio.openxai.org/images/models/llama.png", name: "llama2" },
+  { logo: "/logo/meta-logo.png", name: "llama2" },
   { logo: "https://studio.openxai.org/images/models/mistral.png", name: "mistral" },
   { logo: "https://studio.openxai.org/images/models/mistral.png", name: "mixtral" },
   { logo: "https://studio.openxai.org/images/models/qwen.png", name: "qwen" },
   { logo: "https://studio.openxai.org/images/models/google.png", name: "gemma" },
   { logo: "https://studio.openxai.org/images/models/microsoft.png", name: "phi3" },
-  { logo: "https://studio.openxai.org/images/models/llama.png", name: "codellama" },
+  { logo: "/logo/meta-logo.png", name: "codellama" },
   { logo: "https://studio.openxai.org/images/models/tinyllama.png", name: "tinyllama" },
   { logo: "https://studio.openxai.org/images/models/starcoder2.png", name: "starcoder2" },
   { logo: "https://studio.openxai.org/images/models/dolphin.png", name: "dolphin-mixtral" },
@@ -298,7 +324,7 @@ const AI_MODELS: AIModel[] = [
   { logo: "https://studio.openxai.org/images/models/google.png", name: "gemma2" },
   { logo: "https://studio.openxai.org/images/models/qwen.png", name: "qwen2.5" },
   { logo: "https://studio.openxai.org/images/models/mistral.png", name: "mistral-nemo" },
-  { logo: "https://studio.openxai.org/images/models/llama.png", name: "llama3.2-vision" },
+  { logo: "/logo/meta-logo.png", name: "llama3.2-vision" },
   { logo: "https://studio.openxai.org/images/models/qwen.png", name: "qwen2.5-coder" },
   { logo: "https://studio.openxai.org/images/models/internlm.jpeg", name: "internlm2" },
   { logo: "https://studio.openxai.org/images/models/nvidia.png", name: "nemotron" },
@@ -311,7 +337,7 @@ const AI_MODELS: AIModel[] = [
   { logo: "https://studio.openxai.org/images/models/wizard-vicuna-uncensored.png", name: "wizard-vicuna-uncensored" },
   { logo: "https://studio.openxai.org/images/models/mistral.png", name: "mistral-openorca" },
   { logo: "https://studio.openxai.org/images/models/qwen.png", name: "qwq" },
-  { logo: "https://studio.openxai.org/images/models/llama.png", name: "llama2-chinese" },
+  { logo: "/logo/meta-logo.png", name: "llama2-chinese" },
   { logo: "https://studio.openxai.org/images/models/smollm2.png", name: "smollm2" },
   { logo: "https://studio.openxai.org/images/models/codegeex4.jpg", name: "codegeex4" },
   { logo: "https://studio.openxai.org/images/models/openchat.png", name: "openchat" },
