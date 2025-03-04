@@ -161,11 +161,12 @@ const LINE_CHART_DATA = {
 }
 
 // Chart options
-const chartOptions = {
+const options = {
   responsive: true,
   maintainAspectRatio: false,
   scales: {
     x: {
+      stacked: true,  // Enable stacking on x-axis
       grid: {
         display: false,
       },
@@ -177,8 +178,9 @@ const chartOptions = {
       }
     },
     y: {
+      stacked: true,  // Enable stacking on y-axis
       beginAtZero: true,
-      max: 30000,
+      max: 100, // Force max to 100%
       grid: {
         color: 'rgba(106, 106, 106, 0.1)',
         drawBorder: false
@@ -186,7 +188,7 @@ const chartOptions = {
       ticks: {
         color: '#6A6A6A',
         callback: function(value: any) {
-          return `${value/1000}k`
+          return `${value}%`
         },
         font: {
           size: 12
@@ -196,7 +198,8 @@ const chartOptions = {
   },
   plugins: {
     legend: {
-      display: false
+      display: true,
+      position: 'top' as const
     }
   }
 } as const
@@ -237,6 +240,180 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
+
+{/* Decentralized Infrastructure Card */}
+<div className="mb-8 rounded-lg border border-[#454545] bg-[#1F2021]/50 p-6">
+  <h2 className="mb-6 text-2xl font-bold">
+    <span className="bg-gradient-to-r from-[#B18686] to-[#DEB887] bg-clip-text text-transparent">
+      Decentralized Infrastructure
+    </span>
+  </h2>
+
+  {/* Stats Grid */}
+  <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+    {/* First Row */}
+    <div>
+      <div className="flex items-center justify-between">
+        <div className="text-4xl font-bold text-white">$0.12</div>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <Info className="size-4 text-[#6A6A6A]" />
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Cost per Compute Hour</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </div>
+      <div className="text-sm text-[#6A6A6A]">Cost per Compute Hour (CPC)</div>
+    </div>
+
+    <div>
+      <div className="flex items-center justify-between">
+        <div className="text-4xl font-bold text-white">$0.002</div>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <Info className="size-4 text-[#6A6A6A]" />
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Cost per Data Storage TB</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </div>
+      <div className="text-sm text-[#6A6A6A]">Cost per Data Storage TB (CPSD)</div>
+    </div>
+
+    <div>
+      <div className="flex items-center justify-between">
+        <div className="text-4xl font-bold text-white">$0.02</div>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <Info className="size-4 text-[#6A6A6A]" />
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Data Retrieval Cost</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </div>
+      <div className="text-sm text-[#6A6A6A]">Data Retrieval Cost (DRC)</div>
+    </div>
+
+    {/* Second Row */}
+    <div>
+      <div className="flex items-center justify-between">
+        <div className="text-4xl font-bold text-white">335 G/F</div>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <Info className="size-4 text-[#6A6A6A]" />
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Total Available GPUs</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </div>
+      <div className="text-sm text-[#6A6A6A]">Available GPUs</div>
+    </div>
+
+    <div>
+      <div className="flex items-center justify-between">
+        <div className="text-4xl font-bold text-white">26 PB</div>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <Info className="size-4 text-[#6A6A6A]" />
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Total Available Memory</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </div>
+      <div className="text-sm text-[#6A6A6A]">Available Memory</div>
+    </div>
+
+    <div>
+      <div className="flex items-center justify-between">
+        <div className="text-4xl font-bold text-white">900 PB</div>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <Info className="size-4 text-[#6A6A6A]" />
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Total Available Bandwidth</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </div>
+      <div className="text-sm text-[#6A6A6A]">Available Bandwidth</div>
+    </div>
+
+    {/* Third Row */}
+    <div>
+      <div className="flex items-center justify-between">
+        <div className="text-4xl font-bold text-white">32</div>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <Info className="size-4 text-[#6A6A6A]" />
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Number of Bare Metal Providers</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </div>
+      <div className="text-sm text-[#6A6A6A]">Bare Metal Providers</div>
+    </div>
+
+    <div>
+      <div className="flex items-center justify-between">
+        <div className="text-4xl font-bold text-white">482</div>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <Info className="size-4 text-[#6A6A6A]" />
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Number of Cities & Regions</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </div>
+      <div className="text-sm text-[#6A6A6A]">Cities & Regions</div>
+    </div>
+
+    <div>
+      <div className="flex items-center justify-between">
+        <div className="text-4xl font-bold text-white">21</div>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <Info className="size-4 text-[#6A6A6A]" />
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Number of DAO Proposals</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </div>
+      <div className="text-sm text-[#6A6A6A]">No. of DAO Proposals</div>
+    </div>
+  </div>
+
+  <div className="mt-6">
+    <button className="text-[#6A6A6A] hover:text-white">
+      Becoming a provider +
+    </button>
+  </div>
+</div>
 
       {/* Full Width AI Infrastructure Card */}
       <div className="mb-4 rounded-lg border border-[#454545] bg-[#1F2021]/50 p-6">
