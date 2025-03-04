@@ -108,7 +108,7 @@ const PROTOCOL_METRICS = [
 const MetricItem = ({ stat }: { stat: typeof ON_CHAIN_DATA[0] }) => (
   <div>
     <div className="flex items-center gap-2">
-      <div className="text-3xl font-bold text-white">{stat.value}</div>
+      <div className="text-2xl font-bold text-white">{stat.value}</div>
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger>
@@ -252,160 +252,61 @@ export default function DashboardPage() {
   {/* Stats Grid */}
   <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
     {/* First Row */}
-    <div>
-      <div className="flex items-center justify-between">
-        <div className="text-4xl font-bold text-white">$0.12</div>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger>
-              <Info className="size-4 text-[#6A6A6A]" />
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Cost per Compute Hour</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      </div>
-      <div className="text-sm text-[#6A6A6A]">Cost per Compute Hour (CPC)</div>
-    </div>
+    <MetricItem stat={{
+      label: "Cost per Compute Hour (CPC)",
+      value: "$0.12",
+      tooltip: "Cost per Compute Hour"
+    }} />
 
-    <div>
-      <div className="flex items-center justify-between">
-        <div className="text-4xl font-bold text-white">$0.002</div>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger>
-              <Info className="size-4 text-[#6A6A6A]" />
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Cost per Data Storage TB</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      </div>
-      <div className="text-sm text-[#6A6A6A]">Cost per Data Storage TB (CPSD)</div>
-    </div>
+    <MetricItem stat={{
+      label: "Cost per Data Storage TB (CPSD)",
+      value: "$0.002",
+      tooltip: "Cost per Data Storage TB"
+    }} />
 
-    <div>
-      <div className="flex items-center justify-between">
-        <div className="text-4xl font-bold text-white">$0.02</div>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger>
-              <Info className="size-4 text-[#6A6A6A]" />
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Data Retrieval Cost</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      </div>
-      <div className="text-sm text-[#6A6A6A]">Data Retrieval Cost (DRC)</div>
-    </div>
+    <MetricItem stat={{
+      label: "Data Retrieval Cost (DRC)",
+      value: "$0.02",
+      tooltip: "Data Retrieval Cost"
+    }} />
 
     {/* Second Row */}
-    <div>
-      <div className="flex items-center justify-between">
-        <div className="text-4xl font-bold text-white">335 G/F</div>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger>
-              <Info className="size-4 text-[#6A6A6A]" />
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Total Available GPUs</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      </div>
-      <div className="text-sm text-[#6A6A6A]">Available GPUs</div>
-    </div>
+    <MetricItem stat={{
+      label: "Available GPUs",
+      value: "335 G/F",
+      tooltip: "Total Available GPUs"
+    }} />
 
-    <div>
-      <div className="flex items-center justify-between">
-        <div className="text-4xl font-bold text-white">26 PB</div>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger>
-              <Info className="size-4 text-[#6A6A6A]" />
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Total Available Memory</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      </div>
-      <div className="text-sm text-[#6A6A6A]">Available Memory</div>
-    </div>
+    <MetricItem stat={{
+      label: "Available Memory",
+      value: "26 PB",
+      tooltip: "Total Available Memory"
+    }} />
 
-    <div>
-      <div className="flex items-center justify-between">
-        <div className="text-4xl font-bold text-white">900 PB</div>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger>
-              <Info className="size-4 text-[#6A6A6A]" />
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Total Available Bandwidth</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      </div>
-      <div className="text-sm text-[#6A6A6A]">Available Bandwidth</div>
-    </div>
+    <MetricItem stat={{
+      label: "Available Bandwidth",
+      value: "900 PB",
+      tooltip: "Total Available Bandwidth"
+    }} />
 
     {/* Third Row */}
-    <div>
-      <div className="flex items-center justify-between">
-        <div className="text-4xl font-bold text-white">32</div>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger>
-              <Info className="size-4 text-[#6A6A6A]" />
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Number of Bare Metal Providers</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      </div>
-      <div className="text-sm text-[#6A6A6A]">Bare Metal Providers</div>
-    </div>
+    <MetricItem stat={{
+      label: "Bare Metal Providers",
+      value: "32",
+      tooltip: "Number of Bare Metal Providers"
+    }} />
 
-    <div>
-      <div className="flex items-center justify-between">
-        <div className="text-4xl font-bold text-white">482</div>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger>
-              <Info className="size-4 text-[#6A6A6A]" />
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Number of Cities & Regions</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      </div>
-      <div className="text-sm text-[#6A6A6A]">Cities & Regions</div>
-    </div>
+    <MetricItem stat={{
+      label: "Cities & Regions",
+      value: "482",
+      tooltip: "Number of Cities & Regions"
+    }} />
 
-    <div>
-      <div className="flex items-center justify-between">
-        <div className="text-4xl font-bold text-white">21</div>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger>
-              <Info className="size-4 text-[#6A6A6A]" />
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Number of DAO Proposals</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      </div>
-      <div className="text-sm text-[#6A6A6A]">No. of DAO Proposals</div>
-    </div>
+    <MetricItem stat={{
+      label: "No. of DAO Proposals",
+      value: "21",
+      tooltip: "Number of DAO Proposals"
+    }} />
   </div>
 
   <div className="mt-6">
