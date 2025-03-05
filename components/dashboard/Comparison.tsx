@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
-import "chart.js/auto"; // This is the key import that fixes the issue
+import "chart.js/auto";
 import Link from 'next/link';
 import { Info } from "lucide-react";
 import {
@@ -36,16 +36,16 @@ const CloudComparisonSection = () => {
               backgroundColor: 'rgba(255, 99, 132, 0.7)',
               borderColor: 'rgba(255, 99, 132, 1)',
               borderWidth: 1,
-              barPercentage: 0.8,
+              barPercentage: 0.7,
               categoryPercentage: 0.8
             },
             {
               label: 'Content Censorship & Restrictions',
-              data: [0, 9.5, 9.2, 9.6, 6.9],
+              data: [0.5, 9.5, 9.2, 9.6, 6.9],
               backgroundColor: 'rgba(54, 162, 235, 0.7)',
               borderColor: 'rgba(54, 162, 235, 1)',
               borderWidth: 1,
-              barPercentage: 0.8,
+              barPercentage: 0.7,
               categoryPercentage: 0.8
             },
             {
@@ -54,7 +54,7 @@ const CloudComparisonSection = () => {
               backgroundColor: 'rgba(255, 206, 86, 0.7)',
               borderColor: 'rgba(255, 206, 86, 1)',
               borderWidth: 1,
-              barPercentage: 0.8,
+              barPercentage: 0.7,
               categoryPercentage: 0.8
             }
           ]
@@ -64,7 +64,7 @@ const CloudComparisonSection = () => {
           maintainAspectRatio: false,
           plugins: {
             legend: {
-              display: false // Hide the default legend since we're creating a custom one
+              display: false
             }
           },
           scales: {
@@ -142,13 +142,13 @@ const CloudComparisonSection = () => {
           </div>
         </div>
 
-        <div className="h-[350px] w-full mt-4">
+        <div className="mt-4 h-[350px] w-full">
           {/* Main chart canvas */}
           <canvas ref={chartRef}></canvas>
         </div>
 
         {/* Provider logos as a separate component below chart */}
-        <div className="flex justify-between px-8 -mt-20 mb-4">
+        <div className="-mt-20 mb-6 flex justify-between px-8">
           {[
             { name: 'openxai', display: 'OpenXAI' },
             { name: 'aws', display: 'AWS' },
@@ -156,30 +156,35 @@ const CloudComparisonSection = () => {
             { name: 'azure', display: 'Microsoft Azure' },
             { name: 'huggingface', display: 'Hugging Face' }
           ].map((company) => (
-            <div key={company.name} className="flex flex-col items-center">
-              <Image 
-                src={`/providers/${company.name}.png`}
-                alt={company.display}
-                width={40}
-                height={40}
-              />
-              <span className="text-xs text-gray-400 mt-2">{company.display}</span>
+            <div key={company.name} className="flex w-1/5 flex-col items-center">
+              <div className="flex h-[40px] items-center justify-center">
+                <Image 
+                  src={`/providers/${company.name}.png`}
+                  alt={company.display}
+                  width={40}
+                  height={40}
+                  className="object-contain"
+                />
+              </div>
+              <div className="mt-2 flex h-[20px] items-center justify-center">
+                <span className="text-center text-xs text-gray-400">{company.display}</span>
+              </div>
             </div>
           ))}
         </div>
 
         {/* Legend */}
-        <div className="flex justify-center gap-4 mt-2">
+        <div className="-mt-2 flex justify-center gap-4">
           <div className="flex items-center">
-            <div className="mr-2 h-3 w-3 rounded-sm bg-[rgba(255,99,132,0.7)]"></div>
+            <div className="mr-2 size-3 rounded-sm bg-[rgba(255,99,132,0.7)]"></div>
             <span className="text-xs text-gray-400">Cost & Energy</span>
           </div>
           <div className="flex items-center">
-            <div className="mr-2 h-3 w-3 rounded-sm bg-[rgba(54,162,235,0.7)]"></div>
+            <div className="mr-2 size-3 rounded-sm bg-[rgba(54,162,235,0.7)]"></div>
             <span className="text-xs text-gray-400">Content Censorship</span>
           </div>
           <div className="flex items-center">
-            <div className="mr-2 h-3 w-3 rounded-sm bg-[rgba(255,206,86,0.7)]"></div>
+            <div className="mr-2 size-3 rounded-sm bg-[rgba(255,206,86,0.7)]"></div>
             <span className="text-xs text-gray-400">Model Ownership & Privacy</span>
           </div>
         </div>
