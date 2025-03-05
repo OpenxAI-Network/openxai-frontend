@@ -3,16 +3,8 @@
 import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import "chart.js/auto";
-import Link from 'next/link';
-import { Info } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 
-// Don't use Chart.js in the main component at all
+// Simplified to only contain the chart comparison
 const CloudComparisonSection = () => {
   const chartRef = useRef<HTMLCanvasElement>(null);
   
@@ -28,7 +20,7 @@ const CloudComparisonSection = () => {
       const chart = new Chart(ctx, {
         type: 'bar',
         data: {
-          labels: ['OpenxAI', 'AWS', 'Google Cloud', 'Microsoft Azure', 'Hugging Face'],
+          labels: ['OpenXAI', 'AWS', 'Google Cloud', 'Microsoft Azure', 'Hugging Face'],
           datasets: [
             {
               label: 'Cost & Energy Consumption',
@@ -110,17 +102,15 @@ const CloudComparisonSection = () => {
   }, []);
 
   return (
-    <div className="mb-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
-      {/* Left column: Cloud Provider Comparison */}
-      <div className="rounded-lg border border-[#454545] bg-[#1F2021]/50 p-6">
-        <h2 className="mb-6 text-2xl font-bold">
-          <span className="bg-gradient-to-r from-white to-blue-500 bg-clip-text text-transparent">
-            Cost, Censorship & Privacy Comparison
-          </span>
-        </h2>
-        
-        <div className="mt-6">
-          <h3 className="mb-4 text-lg font-semibold text-white">Composition of following models</h3>
+    <div className="rounded-lg border border-[#454545] bg-[#1F2021]/50 p-6">
+      <h2 className="mb-6 text-2xl font-bold">
+        <span className="bg-gradient-to-r from-white to-blue-500 bg-clip-text text-transparent">
+          Cost, Censorship & Privacy Comparison
+        </span>
+      </h2>
+      
+      <div className="mt-6">
+      <h3 className="mb-4 text-lg font-semibold text-white">Composition of following models</h3>
           <div className="flex flex-wrap gap-4">
             {[
               { name: 'deepseek', display: 'Deepseek' },
@@ -140,15 +130,12 @@ const CloudComparisonSection = () => {
               </div>
             ))}
           </div>
-        </div>
-
-        <div className="mt-4 h-[350px] w-full">
-          {/* Main chart canvas */}
-          <canvas ref={chartRef}></canvas>
-        </div>
-
-        {/* Provider logos as a separate component below chart */}
-        <div className="-mt-20 mb-6 flex justify-between px-8">
+      </div>
+      
+      <div className="relative h-[350px] w-full mt-4">
+        <canvas ref={chartRef}></canvas>
+        
+        <div className="absolute bottom-[15px] w-full flex justify-between px-8">
           {[
             { name: 'openxai', display: 'OpenXAI' },
             { name: 'aws', display: 'AWS' },
@@ -156,8 +143,8 @@ const CloudComparisonSection = () => {
             { name: 'azure', display: 'Microsoft Azure' },
             { name: 'huggingface', display: 'Hugging Face' }
           ].map((company) => (
-            <div key={company.name} className="flex w-1/5 flex-col items-center">
-              <div className="flex h-[40px] items-center justify-center">
+            <div key={company.name} className="flex flex-col items-center w-1/5">
+              <div className="h-[40px] flex items-center justify-center">
                 <Image 
                   src={`/providers/${company.name}.png`}
                   alt={company.display}
@@ -166,207 +153,26 @@ const CloudComparisonSection = () => {
                   className="object-contain"
                 />
               </div>
-              <div className="mt-2 flex h-[20px] items-center justify-center">
-                <span className="text-center text-xs text-gray-400">{company.display}</span>
+              <div className="h-[10px] flex items-center justify-center mt-2">
+                <span className="text-xs text-gray-400 text-center">{company.display}</span>
               </div>
             </div>
           ))}
         </div>
-
-        {/* Legend */}
-        <div className="-mt-2 flex justify-center gap-4">
-          <div className="flex items-center">
-            <div className="mr-2 size-3 rounded-sm bg-[rgba(255,99,132,0.7)]"></div>
-            <span className="text-xs text-gray-400">Cost & Energy</span>
-          </div>
-          <div className="flex items-center">
-            <div className="mr-2 size-3 rounded-sm bg-[rgba(54,162,235,0.7)]"></div>
-            <span className="text-xs text-gray-400">Content Censorship</span>
-          </div>
-          <div className="flex items-center">
-            <div className="mr-2 size-3 rounded-sm bg-[rgba(255,206,86,0.7)]"></div>
-            <span className="text-xs text-gray-400">Model Ownership & Privacy</span>
-          </div>
-        </div>
       </div>
       
-      {/* Right column: Decentralized Infrastructure */}
-      <div className="rounded-lg border border-[#454545] bg-[#1F2021]/50 p-6">
-        <h2 className="mb-10 text-2xl font-bold">
-          <span className="bg-gradient-to-r from-red-500 to-yellow-500 bg-clip-text text-transparent">
-            Decentralized Infrastructure
-          </span>
-        </h2>
-        
-        <div className="mb-12">
-          <h3 className="mb-6 flex items-center text-lg font-semibold text-white">
-            Resources By 
-            <span className="ml-2 inline-flex items-center">
-              <Image 
-                src="/OpenmeshFull.png" 
-                alt="Openmesh" 
-                width={150} 
-                height={150} 
-                className="ml-2"
-              />
-            </span>
-          </h3>
+      <div className="flex justify-center gap-4 mt-4">
+        <div className="flex items-center">
+          <div className="mr-2 h-3 w-3 rounded-sm bg-[rgba(255,99,132,0.7)]"></div>
+          <span className="text-xs text-gray-400">Cost & Energy</span>
         </div>
-        
-        <div className="grid grid-cols-1 gap-x-4 gap-y-10 sm:grid-cols-3">
-          <div>
-            <div className="text-sm text-[#6A6A6A]">Cost per Compute Hour (CPC)</div>
-            <div className="flex items-center gap-2">
-              <div className="text-3xl font-bold text-white">$0.12</div>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger>
-                    <Info className="size-4 text-[#6A6A6A]" />
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Average cost per hour of compute resources</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </div>
-          </div>
-          <div>
-            <div className="text-sm text-[#6A6A6A]">Cost per Data Storage TB (CPSD)</div>
-            <div className="flex items-center gap-2">
-              <div className="text-3xl font-bold text-white">$0.02</div>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger>
-                    <Info className="size-4 text-[#6A6A6A]" />
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Cost per terabyte of data storage</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </div>
-          </div>
-          <div>
-            <div className="text-sm text-[#6A6A6A]">Data Retrieval Cost (DRC)</div>
-            <div className="flex items-center gap-2">
-              <div className="text-3xl font-bold text-white">$0.02</div>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger>
-                    <Info className="size-4 text-[#6A6A6A]" />
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Cost to retrieve data from storage</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </div>
-          </div>
-          <div>
-            <div className="text-sm text-[#6A6A6A]">Available GPUs</div>
-            <div className="flex items-center gap-2">
-              <div className="text-3xl font-bold text-white">335 G/F</div>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger>
-                    <Info className="size-4 text-[#6A6A6A]" />
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Total GPUs available in the network</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </div>
-          </div>
-          <div>
-            <div className="text-sm text-[#6A6A6A]">Available Memory</div>
-            <div className="flex items-center gap-2">
-              <div className="text-3xl font-bold text-white">26 PB</div>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger>
-                    <Info className="size-4 text-[#6A6A6A]" />
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Total memory available in petabytes</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </div>
-          </div>
-          <div>
-            <div className="text-sm text-[#6A6A6A]">Available Bandwidth</div>
-            <div className="flex items-center gap-2">
-              <div className="text-3xl font-bold text-white">900 PB</div>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger>
-                    <Info className="size-4 text-[#6A6A6A]" />
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Total network bandwidth in petabytes</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </div>
-          </div>
-          <div>
-            <div className="text-sm text-[#6A6A6A]">Bare Metal Providers</div>
-            <div className="flex items-center gap-2">
-              <div className="text-3xl font-bold text-white">32</div>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger>
-                    <Info className="size-4 text-[#6A6A6A]" />
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Number of bare metal infrastructure providers</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </div>
-          </div>
-          <div>
-            <div className="text-sm text-[#6A6A6A]">Cities & Regions</div>
-            <div className="flex items-center gap-2">
-              <div className="text-3xl font-bold text-white">482</div>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger>
-                    <Info className="size-4 text-[#6A6A6A]" />
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Geographic distribution across cities and regions</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </div>
-          </div>
-          <div>
-            <div className="text-sm text-[#6A6A6A]">No. of DAO Proposals</div>
-            <div className="flex items-center gap-2">
-              <div className="text-3xl font-bold text-white">21</div>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger>
-                    <Info className="size-4 text-[#6A6A6A]" />
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Number of active DAO governance proposals</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </div>
-          </div>
+        <div className="flex items-center">
+          <div className="mr-2 h-3 w-3 rounded-sm bg-[rgba(54,162,235,0.7)]"></div>
+          <span className="text-xs text-gray-400">Content Censorship</span>
         </div>
-        
-        <div className="mt-16 text-left">
-          <Link 
-            href="https://openxai.org" 
-            className="text-pink-400 underline transition-colors hover:text-pink-300"
-          >
-            Become a provider
-          </Link>
+        <div className="flex items-center">
+          <div className="mr-2 h-3 w-3 rounded-sm bg-[rgba(255,206,86,0.7)]"></div>
+          <span className="text-xs text-gray-400">Model Ownership & Privacy</span>
         </div>
       </div>
     </div>

@@ -113,6 +113,55 @@ const PROTOCOL_METRICS = [
   }
 ]
 
+// Stats for the Decentralized Infrastructure section
+const DECENTRALIZED_INFRASTRUCTURE = [
+  {
+    label: "Cost per Compute Hour (CPC)",
+    value: "$0.12",
+    tooltip: "Cost per compute hour"
+  },
+  {
+    label: "Cost per Data Storage TB (CPSD)",
+    value: "$0.02",
+    tooltip: "Cost per terabyte of storage"
+  },
+  {
+    label: "Data Retrieval Cost (DRC)",
+    value: "$0.02",
+    tooltip: "Cost for data retrieval"
+  },
+  {
+    label: "Available GPUs",
+    value: "335 G/F",
+    tooltip: "Total available GPUs"
+  },
+  {
+    label: "Available Memory",
+    value: "26 PB",
+    tooltip: "Total available memory"
+  },
+  {
+    label: "Available Bandwidth",
+    value: "900 PB",
+    tooltip: "Total available bandwidth"
+  },
+  {
+    label: "Bare Metal Providers",
+    value: "32",
+    tooltip: "Number of bare metal providers"
+  },
+  {
+    label: "Cities & Regions",
+    value: "482",
+    tooltip: "Available in cities and regions"
+  },
+  {
+    label: "No. of DAO Proposals",
+    value: "21",
+    tooltip: "Number of DAO proposals"
+  }
+];
+
 // Render metric component
 const MetricItem = ({ stat }: { stat: typeof ON_CHAIN_DATA[0] }) => (
   <div>
@@ -261,10 +310,12 @@ const ScrollingRow: React.FC<ScrollingRowProps> = ({ models, direction = 'normal
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <img 
+                <Image 
                   src={model.logo} 
                   alt={model.name}
-                  className="h-12 w-12 object-contain"
+                  width={48}
+                  height={48}
+                  className="size-12 object-contain"
                   style={{
                     minWidth: '48px',
                     minHeight: '48px',
@@ -287,10 +338,12 @@ const ScrollingRow: React.FC<ScrollingRowProps> = ({ models, direction = 'normal
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <img 
+                <Image 
                   src={model.logo} 
                   alt={model.name}
-                  className="h-12 w-12 object-contain"
+                  width={48}
+                  height={48}
+                  className="size-12 object-contain"
                   style={{
                     minWidth: '48px',
                     minHeight: '48px',
@@ -441,7 +494,39 @@ export default function DashboardPage() {
       </div>
 
       {/* Decentralized Infrastructure Card */}
-      <CloudComparisonSection />
+      <div className="mb-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <CloudComparisonSection />
+        
+        {/* Decentralized Infrastructure section with improved vertical spacing */}
+        <div className="rounded-lg border border-[#454545] bg-[#1F2021]/50 p-6 h-full flex flex-col">
+          <h2 className="mb-6 text-2xl font-bold">
+            <span className="bg-gradient-to-r from-red-500 to-yellow-500 bg-clip-text text-transparent">
+              Decentralized Infrastructure
+            </span>
+          </h2>
+          
+          <div className="mb-8 flex items-center">
+            <span className="mr-2 text-white">Resources By</span>
+            <Image 
+              src="/OpenmeshFull.png" 
+              alt="Openmesh" 
+              width={120} 
+              height={30} 
+              className="mr-2" 
+            />
+          </div>
+          
+          <div className="grid grid-cols-3 gap-x-4 gap-y-8 flex-grow">
+            {DECENTRALIZED_INFRASTRUCTURE.map((stat, index) => (
+              <MetricItem key={index} stat={stat} />
+            ))}
+          </div>
+          
+          <div className="mt-8">
+            <a href="https://openxai.org" target="_blank" rel="noopener noreferrer" className="text-sm text-pink-500 hover:underline">Become a provider +</a>
+          </div>
+        </div>
+      </div>
 
       {/* Tokenomics, Treasury & Vesting Card */}
       <div className="rounded-lg border border-[#454545] bg-[#1F2021]/50 p-6">
