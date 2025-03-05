@@ -1,9 +1,9 @@
 "use client"
 
-import React from "react"
+import React, { useEffect, useState } from 'react'
 import { Info } from "lucide-react"
 import { MobileResponsiveWrapper } from "@/components/layouts/MobileResponsiveWrapper"
-import { Line } from 'react-chartjs-2'
+import { Line, Bar } from 'react-chartjs-2'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -23,18 +23,26 @@ import {
 } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
+import dynamic from 'next/dynamic'
+import CloudComparisonSection from '@/components/dashboard/Comparison'
 
-// Register ChartJS components
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  ChartTooltip,
-  Filler,
-  Legend
-)
+// Add this type definition
+type ChartDataType = {
+  labels: string[];
+  datasets: {
+    label: string;
+    data: number[];
+    backgroundColor: string;
+    borderColor: string;
+    borderWidth: number;
+  }[];
+} | null;
+
+// Create a separate chart component with NO SSR
+const DynamicChart = dynamic(
+  () => import('../../components/dashboard/Comparison'),
+  { ssr: false, loading: () => <div className="flex h-[300px] items-center justify-center">Loading chart...</div> }
+);
 
 // Stats for the On-chain Data section
 const ON_CHAIN_DATA = [
@@ -45,7 +53,8 @@ const ON_CHAIN_DATA = [
   },
   {
     label: "Exchange Rate (ETH / OPENX)",
-    value: "1,476,947(-78%)",
+    value: "1,476,947",
+    change: "-78%",
     tooltip: "1 ETH = 1,476,947 OPENX"
   },
   {
@@ -104,11 +113,63 @@ const PROTOCOL_METRICS = [
   }
 ]
 
+// Stats for the Decentralized Infrastructure section
+const DECENTRALIZED_INFRASTRUCTURE = [
+  {
+    label: "Cost per Compute Hour (CPC)",
+    value: "$0.12",
+    tooltip: "Cost per compute hour"
+  },
+  {
+    label: "Cost per Data Storage TB (CPSD)",
+    value: "$0.02",
+    tooltip: "Cost per terabyte of storage"
+  },
+  {
+    label: "Data Retrieval Cost (DRC)",
+    value: "$0.02",
+    tooltip: "Cost for data retrieval"
+  },
+  {
+    label: "Available GPUs",
+    value: "335 G/F",
+    tooltip: "Total available GPUs"
+  },
+  {
+    label: "Available Memory",
+    value: "26 PB",
+    tooltip: "Total available memory"
+  },
+  {
+    label: "Available Bandwidth",
+    value: "900 PB",
+    tooltip: "Total available bandwidth"
+  },
+  {
+    label: "Bare Metal Providers",
+    value: "32",
+    tooltip: "Number of bare metal providers"
+  },
+  {
+    label: "Cities & Regions",
+    value: "482",
+    tooltip: "Available in cities and regions"
+  },
+  {
+    label: "No. of DAO Proposals",
+    value: "21",
+    tooltip: "Number of DAO proposals"
+  }
+];
+
 // Render metric component
 const MetricItem = ({ stat }: { stat: typeof ON_CHAIN_DATA[0] }) => (
   <div>
     <div className="flex items-center gap-2">
-      <div className="text-2xl font-bold text-white">{stat.value}</div>
+      <div className="text-2xl font-bold text-white">
+        {stat.value}
+        {stat.change && <span className="ml-1 text-sm font-normal text-[#CCCCCC]">({stat.change})</span>}
+      </div>
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger>
@@ -245,57 +306,58 @@ const ScrollingRow: React.FC<ScrollingRowProps> = ({ models, direction = 'normal
       }}
     >
       {models.map((model, index) => (
-        <div key={index} className="mx-6 inline-flex flex-col items-center" style={{ width: '80px' }}>
-          <div className="flex items-center justify-center" style={{ 
-            width: '64px', 
-            height: '64px', 
-            background: '#1a1a1a',
-            borderRadius: '8px',
-            position: 'relative'
-          }}>
-            <Image 
-              src={model.logo} 
-              alt={model.name}
-              width={48}
-              height={48}
-              className="object-contain"
-              style={{
-                position: 'absolute',
-                left: '50%',
-                top: '50%',
-                transform: 'translate(-50%, -50%)'
-              }}
-            />
-          </div>
-          <span className="mt-2 whitespace-normal break-words text-center text-xs capitalize text-white">{model.name}</span>
+        <div key={index} className="mx-6 inline-flex items-center">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Image 
+                  src={model.logo} 
+                  alt={model.name}
+                  width={48}
+                  height={48}
+                  className="size-12 object-contain"
+                  style={{
+                    minWidth: '48px',
+                    minHeight: '48px',
+                    background: '#1a1a1a',
+                    borderRadius: '8px',
+                    padding: '8px'
+                  }}
+                />
+              </TooltipTrigger>
+              <TooltipContent>
+                <p className="capitalize">{model.name}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       ))}
-      
-      {/* Duplicate for seamless scrolling with standardized handling */}
+      {/* Duplicate for seamless scrolling */}
       {models.map((model, index) => (
-        <div key={`duplicate-${index}`} className="mx-6 inline-flex flex-col items-center" style={{ width: '80px' }}>
-          <div className="flex items-center justify-center" style={{ 
-            width: '64px', 
-            height: '64px', 
-            background: '#1a1a1a',
-            borderRadius: '8px',
-            position: 'relative'
-          }}>
-            <Image 
-              src={model.logo} 
-              alt={model.name}
-              width={48}
-              height={48}
-              className="object-contain"
-              style={{
-                position: 'absolute',
-                left: '50%',
-                top: '50%',
-                transform: 'translate(-50%, -50%)'
-              }}
-            />
-          </div>
-          <span className="mt-2 whitespace-normal break-words text-center text-xs capitalize text-white">{model.name}</span>
+        <div key={`duplicate-${index}`} className="mx-6 inline-flex items-center">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Image 
+                  src={model.logo} 
+                  alt={model.name}
+                  width={48}
+                  height={48}
+                  className="size-12 object-contain"
+                  style={{
+                    minWidth: '48px',
+                    minHeight: '48px',
+                    background: '#1a1a1a',
+                    borderRadius: '8px',
+                    padding: '8px'
+                  }}
+                />
+              </TooltipTrigger>
+              <TooltipContent>
+                <p className="capitalize">{model.name}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       ))}
     </div>
@@ -390,81 +452,6 @@ export default function DashboardPage() {
         </div>
       </div>
 
-{/* Decentralized Infrastructure Card */}
-<div className="mb-8 rounded-lg border border-[#454545] bg-[#1F2021]/50 p-6">
-  <h2 className="mb-6 text-2xl font-bold">
-    <span className="bg-gradient-to-r from-[#B18686] to-[#DEB887] bg-clip-text text-transparent">
-      Decentralized Infrastructure
-    </span>
-  </h2>
-
-  {/* Stats Grid */}
-  <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-    {/* First Row */}
-    <MetricItem stat={{
-      label: "Cost per Compute Hour (CPC)",
-      value: "$0.12",
-      tooltip: "Cost per Compute Hour"
-    }} />
-
-    <MetricItem stat={{
-      label: "Cost per Data Storage TB (CPSD)",
-      value: "$0.002",
-      tooltip: "Cost per Data Storage TB"
-    }} />
-
-    <MetricItem stat={{
-      label: "Data Retrieval Cost (DRC)",
-      value: "$0.02",
-      tooltip: "Data Retrieval Cost"
-    }} />
-
-    {/* Second Row */}
-    <MetricItem stat={{
-      label: "Available GPUs",
-      value: "335 G/F",
-      tooltip: "Total Available GPUs"
-    }} />
-
-    <MetricItem stat={{
-      label: "Available Memory",
-      value: "26 PB",
-      tooltip: "Total Available Memory"
-    }} />
-
-    <MetricItem stat={{
-      label: "Available Bandwidth",
-      value: "900 PB",
-      tooltip: "Total Available Bandwidth"
-    }} />
-
-    {/* Third Row */}
-    <MetricItem stat={{
-      label: "Bare Metal Providers",
-      value: "32",
-      tooltip: "Number of Bare Metal Providers"
-    }} />
-
-    <MetricItem stat={{
-      label: "Cities & Regions",
-      value: "482",
-      tooltip: "Number of Cities & Regions"
-    }} />
-
-    <MetricItem stat={{
-      label: "No. of DAO Proposals",
-      value: "21",
-      tooltip: "Number of DAO Proposals"
-    }} />
-  </div>
-
-  <div className="mt-6">
-    <button className="text-[#6A6A6A] hover:text-white">
-      Becoming a provider +
-    </button>
-  </div>
-</div>
-
       {/* Full Width AI Infrastructure Card */}
       <div className="mb-4 rounded-lg border border-[#454545] bg-[#1F2021]/50 p-6">
         <h2 className="mb-6 text-2xl font-bold">
@@ -502,6 +489,41 @@ export default function DashboardPage() {
               <ScrollingRow models={secondRow} direction="reverse" speed={50} />
               <ScrollingRow models={thirdRow} direction="normal" speed={40} />
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Decentralized Infrastructure Card */}
+      <div className="mb-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <CloudComparisonSection />
+        
+        {/* Decentralized Infrastructure section with improved vertical spacing */}
+        <div className="rounded-lg border border-[#454545] bg-[#1F2021]/50 p-6 h-full flex flex-col">
+          <h2 className="mb-6 text-2xl font-bold">
+            <span className="bg-gradient-to-r from-red-500 to-yellow-500 bg-clip-text text-transparent">
+              Decentralized Infrastructure
+            </span>
+          </h2>
+          
+          <div className="mb-8 flex items-center">
+            <span className="mr-2 text-white">Resources By</span>
+            <Image 
+              src="/OpenmeshFull.png" 
+              alt="Openmesh" 
+              width={120} 
+              height={30} 
+              className="mr-2" 
+            />
+          </div>
+          
+          <div className="grid grid-cols-3 gap-x-4 gap-y-8 flex-grow">
+            {DECENTRALIZED_INFRASTRUCTURE.map((stat, index) => (
+              <MetricItem key={index} stat={stat} />
+            ))}
+          </div>
+          
+          <div className="mt-8">
+            <a href="https://openxai.org" target="_blank" rel="noopener noreferrer" className="text-sm text-pink-500 hover:underline">Become a provider +</a>
           </div>
         </div>
       </div>
