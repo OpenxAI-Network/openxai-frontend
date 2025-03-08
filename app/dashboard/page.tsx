@@ -187,7 +187,7 @@ const MetricItem = ({ stat }: { stat: typeof ON_CHAIN_DATA[0] }) => (
 
 // Donut chart data
 const DONUT_DATA = {
-  totalTokens: "$22,870",
+  totalTokens: "100M",
   segments: [
     { color: "#3384FF", percentage: 46, label: "OpenxAI Protocol and Ecosystem Development" },
     { color: "#00FF94", percentage: 18, label: "Core Protocol, Infrastructure & Future Expansions" },

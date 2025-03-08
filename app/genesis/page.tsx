@@ -674,13 +674,13 @@ export default function GenesisPage() {
                   </div>
 
                   {/* Info boxes */}
-                  <div className="relative flex h-[58px] [@media(min-width:960px)_and_(max-width:1560px)]:h-[90px] rounded-lg bg-[#0B1120] px-4 [@media(min-width:960px)_and_(max-width:1200px)]:px-2 before:absolute before:inset-[-0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-[''] [@media(min-width:960px)]:col-span-1">
+                  <div className="relative flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:inset-[-0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-[''] [@media(min-width:960px)]:col-span-1 [@media(min-width:960px)_and_(max-width:1200px)]:px-2 [@media(min-width:960px)_and_(max-width:1560px)]:h-[90px]">
                     <div className="relative z-10 flex w-full flex-col justify-center text-center">
                       <div className="text-white [@media(min-width:960px)_and_(max-width:1200px)]:text-sm">Ticker</div>
                       <div className="text-white [@media(min-width:960px)_and_(max-width:1200px)]:text-sm">$OPENX (ERC20)</div>
                     </div>
                   </div>
-                  <div className="relative flex h-[58px] [@media(min-width:960px)_and_(max-width:1560px)]:h-[90px] rounded-lg bg-[#0B1120] px-4 [@media(min-width:960px)_and_(max-width:1200px)]:px-2 before:absolute before:inset-[-0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-[''] [@media(min-width:960px)]:col-span-1">
+                  <div className="relative flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:inset-[-0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-[''] [@media(min-width:960px)]:col-span-1 [@media(min-width:960px)_and_(max-width:1200px)]:px-2 [@media(min-width:960px)_and_(max-width:1560px)]:h-[90px]">
                     <div className="relative z-10 flex w-full flex-col justify-center text-center">
                       <div className="text-white [@media(min-width:960px)_and_(max-width:1200px)]:text-sm">Min / Max per wallet</div>
                       <div className="mx-auto flex items-center justify-center text-white [@media(min-width:960px)_and_(max-width:1200px)]:text-sm">
@@ -688,7 +688,7 @@ export default function GenesisPage() {
                         <TooltipProvider>
                           <Tooltip>
                             <TooltipTrigger>
-                              <Info className="ml-2 size-4 [@media(min-width:960px)_and_(max-width:1200px)]:size-3 text-[#6A6A6A]" />
+                              <Info className="ml-2 size-4 text-[#6A6A6A] [@media(min-width:960px)_and_(max-width:1200px)]:size-3" />
                             </TooltipTrigger>
                             <TooltipContent>
                               <p>We want the $OPENX token to be as widely distributed as possible and fair for the community! After 50% of our funding goal has been achieved, we will restrict min & max contibutions.</p>
@@ -698,7 +698,7 @@ export default function GenesisPage() {
                       </div>
                     </div>
                   </div>
-                  <div className="relative flex h-[58px] [@media(min-width:960px)_and_(max-width:1560px)]:h-[90px] rounded-lg bg-[#0B1120] px-4 [@media(min-width:960px)_and_(max-width:1200px)]:px-2 before:absolute before:inset-[-0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-[''] [@media(min-width:960px)]:col-span-1">
+                  <div className="relative flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:inset-[-0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-[''] [@media(min-width:960px)]:col-span-1 [@media(min-width:960px)_and_(max-width:1200px)]:px-2 [@media(min-width:960px)_and_(max-width:1560px)]:h-[90px]">
                     <div className="relative z-10 flex w-full flex-col justify-center text-center">
                       <div className="text-white [@media(min-width:960px)_and_(max-width:1200px)]:text-sm">Contract</div>
                       <a
