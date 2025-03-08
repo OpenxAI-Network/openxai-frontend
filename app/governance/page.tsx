@@ -87,7 +87,7 @@ export default function GovernancePage() {
       <div className="relative">
         {/* Coming Soon overlay */}
         <div 
-          className="absolute inset-0 z-50 flex cursor-pointer items-center justify-center bg-black/70"
+          className="absolute inset-0 z-50 flex cursor-pointer items-center justify-center bg-black/70 rounded-lg"
           onClick={() => setIsComingSoonHighlighted(true)}
         >
           <div className={`rounded-lg bg-black/80 px-8 py-4 text-center transition-all duration-300 ${isComingSoonHighlighted ? 'ring-2 ring-white scale-110' : ''}`}>
