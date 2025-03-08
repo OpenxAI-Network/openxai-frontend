@@ -221,13 +221,13 @@ const LINE_CHART_DATA = {
   ]
 }
 
-// Chart options
+// Update the chart options for the Token Release Schedule chart
 const options = {
   responsive: true,
   maintainAspectRatio: false,
   scales: {
     x: {
-      stacked: true,  // Enable stacking on x-axis
+      stacked: true,
       grid: {
         display: false,
       },
@@ -239,7 +239,7 @@ const options = {
       }
     },
     y: {
-      stacked: true,  // Enable stacking on y-axis
+      stacked: true,
       beginAtZero: true,
       max: 100,
       grid: {
@@ -261,7 +261,7 @@ const options = {
       display: true,
       position: 'top' as const,
       labels: {
-        color: '#FFFFFF',  // Make text white
+        color: '#FFFFFF',
         font: {
           size: 14
         },
@@ -272,12 +272,36 @@ const options = {
       propagate: true
     },
     tooltip: {
+      mode: 'index',
+      intersect: false,
+      backgroundColor: 'rgba(0, 0, 0, 0.8)',
+      titleColor: 'white',
+      titleFont: {
+        size: 14,
+        weight: 'bold'
+      },
+      bodyColor: 'white',
+      bodyFont: {
+        size: 12
+      },
+      padding: 12,
+      borderColor: 'rgba(255, 255, 255, 0.2)',
+      borderWidth: 1,
       callbacks: {
+        title: function(tooltipItems: any) {
+          return tooltipItems[0].label;
+        },
         label: function(context: any) {
-          return `${context.dataset.label || ''}: ${context.parsed.y}%`;
+          const label = context.dataset.label || '';
+          const value = context.parsed.y;
+          return `${label}: ${value}%`;
         }
       }
     }
+  },
+  interaction: {
+    mode: 'index',
+    intersect: false,
   }
 } as const
 
@@ -689,30 +713,32 @@ export default function DashboardPage() {
                 </svg>
               </div>
               
-              {/* Tooltip for the first segment (46%) - blue slice */}
+              {/* Add back the center content - 100M Total Tokens with larger size */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-white md:text-4xl">{DONUT_DATA.totalTokens}</div>
+                  <div className="text-sm text-[#6A6A6A] md:text-base">Total Tokens</div>
+                </div>
+              </div>
+              
+              {/* Tooltips for each segment */}
               {activeSegment === 0 && (
-                <div className="absolute top-[40%] left-[60%] -translate-x-1/2 -translate-y-1/2 z-20 whitespace-nowrap rounded bg-black/80 px-2 py-1 text-sm text-white">
+                <div className="absolute left-[60%] top-[40%] z-20 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded bg-black/80 px-2 py-1 text-sm text-white">
                   46% - OpenxAI Protocol and Ecosystem Development
                 </div>
               )}
-
-              {/* Tooltip for the second segment (18%) - green slice */}
               {activeSegment === 1 && (
-                <div className="absolute top-[70%] left-[60%] -translate-x-1/2 -translate-y-1/2 z-20 whitespace-nowrap rounded bg-black/80 px-2 py-1 text-sm text-white">
+                <div className="absolute left-[60%] top-[70%] z-20 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded bg-black/80 px-2 py-1 text-sm text-white">
                   18% - Core Protocol, Infrastructure & Future Expansions
                 </div>
               )}
-
-              {/* Tooltip for the third segment (24%) - pink slice */}
               {activeSegment === 2 && (
-                <div className="absolute top-[70%] left-[40%] -translate-x-1/2 -translate-y-1/2 z-20 whitespace-nowrap rounded bg-black/80 px-2 py-1 text-sm text-white">
+                <div className="absolute left-[40%] top-[70%] z-20 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded bg-black/80 px-2 py-1 text-sm text-white">
                   24% - Community & Governance
                 </div>
               )}
-
-              {/* Tooltip for the fourth segment (12%) - yellow slice */}
               {activeSegment === 3 && (
-                <div className="absolute top-[40%] left-[30%] -translate-x-1/2 -translate-y-1/2 z-20 whitespace-nowrap rounded bg-black/80 px-2 py-1 text-sm text-white">
+                <div className="absolute left-[30%] top-[40%] z-20 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded bg-black/80 px-2 py-1 text-sm text-white">
                   12% - Genesis Event
                 </div>
               )}
