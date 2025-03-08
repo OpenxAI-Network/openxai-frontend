@@ -78,7 +78,7 @@ const TASKS = [
 const FILTER_OPTIONS = ["All", "Zealy", "TaskOn", "Youtoo"]
 
 const TOP_EARNERS = Array(5).fill({
-  address: "0xabcd....6789",
+  address: "0",
   points: "0"
 })
 
