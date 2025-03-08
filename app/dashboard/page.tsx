@@ -523,7 +523,7 @@ export default function DashboardPage() {
           </div>
           
           <div className="mt-8">
-            <a href="https://openxai.org" target="_blank" rel="noopener noreferrer" className="text-sm text-pink-500 hover:underline">Become a provider +</a>
+            <a href="https://tally.so/r/w8Mxjr" target="_blank" rel="noopener noreferrer" className="text-sm text-pink-500 hover:underline">Become a provider +</a>
           </div>
         </div>
       </div>

@@ -24,6 +24,13 @@ import {
 import { mainnet, sepolia } from "viem/chains"
 import { useAccount, useBalance, useChainId, useReadContract } from "wagmi"
 import { useQuery } from "wagmi/query"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+import { Info } from "lucide-react"
 
 import { formatNumber, PROJECT_RATE } from "@/lib/openxai"
 import { cn } from "@/lib/utils"
@@ -482,11 +489,22 @@ export default function GenesisPage() {
               <div className="mb-16 mt-0 text-center">
                 <h2 className="font-inter text-3xl font-medium leading-tight [@media(min-width:960px)]:text-4xl">
                   <div className="bg-gradient-to-r from-white to-[#2D63F6] bg-clip-text text-transparent">
-                    AI is no longer limited to mega corporations.
+                  AI is no longer limited to mega corporations.
                   </div>
                   <div className="mt-3 bg-gradient-to-r from-white to-[#2D63F6] bg-clip-text text-transparent">
-                    It is open, decentralized & available to anyone.
+                  OpenxAI Genesis is a milestone-based fair launch initiative.
                   </div>
+                  <div className="mt-3 bg-gradient-to-r from-white to-[#2D63F6] bg-clip-text text-transparent">
+                  <a 
+                    href="https://medium.com/openxai" 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-3 text-2xl text-gray-400 underline transition-colors hover:text-white"
+                  >
+                    How to participate
+                  </a>
+                  </div>
+
                 </h2>
               </div>
 
@@ -664,8 +682,20 @@ export default function GenesisPage() {
                   </div>
                   <div className="relative flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:inset-[-0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-[''] [@media(min-width:960px)]:col-span-1">
                     <div className="relative z-10 flex w-full flex-col justify-center text-center">
-                      <div className="text-white">Max per wallet</div>
-                      <div className="text-white">$1,000</div>
+                      <div className="text-white">Min / Max per wallet</div>
+                      <div className="flex items-center text-white">
+                        $50 / $1,000
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger>
+                              <Info className="ml-2 size-4 text-[#6A6A6A]" />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>We want the $OPENX token to be as widely distributed as possible and fair for the community! After 50% of our funding goal has been achieved, we will restrict min & max contibutions.</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </div>
                     </div>
                   </div>
                   <div className="relative flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:inset-[-0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-[''] [@media(min-width:960px)]:col-span-1">
