@@ -419,6 +419,9 @@ export default function DashboardPage() {
   // Add state to track which segment is active
   const [activeSegment, setActiveSegment] = React.useState<number | null>(null);
 
+  // Inside your component, add a console log so we can see if events are firing
+  console.log("Current active segment:", activeSegment);
+
   return (
     <MobileResponsiveWrapper>
       {/* Top Split Cards */}
@@ -498,7 +501,7 @@ export default function DashboardPage() {
         <CloudComparisonSection />
         
         {/* Decentralized Infrastructure section with improved vertical spacing */}
-        <div className="rounded-lg border border-[#454545] bg-[#1F2021]/50 p-6 h-full flex flex-col">
+        <div className="flex h-full flex-col rounded-lg border border-[#454545] bg-[#1F2021]/50 p-6">
           <h2 className="mb-6 text-2xl font-bold">
             <span className="bg-gradient-to-r from-red-500 to-yellow-500 bg-clip-text text-transparent">
               Decentralized Infrastructure
@@ -516,7 +519,7 @@ export default function DashboardPage() {
             />
           </div>
           
-          <div className="grid grid-cols-3 gap-x-4 gap-y-8 flex-grow">
+          <div className="grid grow grid-cols-3 gap-x-4 gap-y-8">
             {DECENTRALIZED_INFRASTRUCTURE.map((stat, index) => (
               <MetricItem key={index} stat={stat} />
             ))}
@@ -540,86 +543,181 @@ export default function DashboardPage() {
       <div className="mb-12 grid grid-cols-1 gap-8 md:grid-cols-3">
         {/* Column 1: Donut Chart - taking 1/3 width */}
         <div className="flex items-center justify-center py-6">
-          <div className="relative aspect-square w-[95%] max-w-[400px]">
-            <div className="absolute inset-[7.5%]"> {/* This creates the 15% reduction */}
-              <svg viewBox="0 0 100 100" className="size-full -rotate-90">
-                {/* First segment - OpenxAI Protocol and Ecosystem Development */}
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="40"
-                  fill="none"
-                  stroke="#3384FF"
-                  strokeWidth="20"
-                  strokeDasharray="46 100"
-                  strokeDashoffset="0"
-                  pathLength="100"
-                  style={{ cursor: 'pointer', pointerEvents: 'stroke' }}
-                  className={`transition-all duration-300 ${activeSegment === 0 ? 'stroke-[#3384FF] opacity-100' : 'opacity-70'}`}
-                  onMouseEnter={() => setActiveSegment(0)}
-                  onMouseLeave={() => setActiveSegment(null)}
-                  onClick={() => setActiveSegment(activeSegment === 0 ? null : 0)}
-                />
-                {/* Second segment - Core Protocol, Infrastructure & Future Expansions */}
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="40"
-                  fill="none"
-                  stroke="#00FF94"
-                  strokeWidth="20"
-                  strokeDasharray="18 100"
-                  strokeDashoffset="-46"
-                  pathLength="100"
-                  style={{ cursor: 'pointer', pointerEvents: 'stroke' }}
-                  className={`transition-all duration-300 ${activeSegment === 1 ? 'stroke-[#00FF94] opacity-100' : 'opacity-70'}`}
-                  onMouseEnter={() => setActiveSegment(1)}
-                  onMouseLeave={() => setActiveSegment(null)}
-                  onClick={() => setActiveSegment(activeSegment === 1 ? null : 1)}
-                />
-                {/* Third segment - Community & Governance */}
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="40"
-                  fill="none"
-                  stroke="#FF00FF"
-                  strokeWidth="20"
-                  strokeDasharray="24 100"
-                  strokeDashoffset="-64"
-                  pathLength="100"
-                  style={{ cursor: 'pointer', pointerEvents: 'stroke' }}
-                  className={`transition-all duration-300 ${activeSegment === 2 ? 'stroke-[#FF00FF] opacity-100' : 'opacity-70'}`}
-                  onMouseEnter={() => setActiveSegment(2)}
-                  onMouseLeave={() => setActiveSegment(null)}
-                  onClick={() => setActiveSegment(activeSegment === 2 ? null : 2)}
-                />
-                {/* Fourth segment - Genesis Event */}
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="40"
-                  fill="none"
-                  stroke="#FFFF00"
-                  strokeWidth="20"
-                  strokeDasharray="12 100"
-                  strokeDashoffset="-88"
-                  pathLength="100"
-                  style={{ cursor: 'pointer', pointerEvents: 'stroke' }}
-                  className={`transition-all duration-300 ${activeSegment === 3 ? 'stroke-[#FFFF00] opacity-100' : 'opacity-70'}`}
-                  onMouseEnter={() => setActiveSegment(3)}
-                  onMouseLeave={() => setActiveSegment(null)}
-                  onClick={() => setActiveSegment(activeSegment === 3 ? null : 3)}
-                />
-              </svg>
-            </div>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center">
-                <div className="text-4xl font-bold text-white">{DONUT_DATA.totalTokens}</div>
-                <div className="text-lg text-[#6A6A6A]">Total Tokens</div>
+          <TooltipProvider>
+            <div className="relative z-10 aspect-square w-[95%] max-w-[400px]">
+              <div className="absolute inset-[7.5%]">
+                <svg 
+                  viewBox="0 0 100 100" 
+                  className="size-full -rotate-90"
+                  style={{ position: 'relative', zIndex: 10 }}
+                >
+                  {/* First segment - OpenxAI Protocol and Ecosystem Development */}
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="40"
+                    fill="none"
+                    stroke="#3384FF"
+                    strokeWidth="20"
+                    strokeDasharray="46 100"
+                    strokeDashoffset="0"
+                    pathLength="100"
+                    style={{ 
+                      cursor: 'pointer',
+                      pointerEvents: 'visibleStroke',
+                      opacity: activeSegment === 0 ? 1 : 0.7,
+                      transition: 'all 0.25s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.stopPropagation();
+                      console.log("Mouse entered segment 0");
+                      setActiveSegment(0);
+                    }}
+                    onMouseLeave={(e) => {
+                      e.stopPropagation();
+                      console.log("Mouse left segment 0");
+                      setActiveSegment(null);
+                    }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      console.log("Clicked segment 0");
+                      setActiveSegment(activeSegment === 0 ? null : 0);
+                    }}
+                  />
+                  
+                  {/* Second segment - Core Protocol, Infrastructure & Future Expansions */}
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="40"
+                    fill="none"
+                    stroke="#00FF94"
+                    strokeWidth="20"
+                    strokeDasharray="18 100"
+                    strokeDashoffset="-46"
+                    pathLength="100"
+                    style={{ 
+                      cursor: 'pointer',
+                      pointerEvents: 'visibleStroke',
+                      opacity: activeSegment === 1 ? 1 : 0.7,
+                      transition: 'all 0.25s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.stopPropagation();
+                      console.log("Mouse entered segment 1");
+                      setActiveSegment(1);
+                    }}
+                    onMouseLeave={(e) => {
+                      e.stopPropagation();
+                      console.log("Mouse left segment 1");
+                      setActiveSegment(null);
+                    }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      console.log("Clicked segment 1");
+                      setActiveSegment(activeSegment === 1 ? null : 1);
+                    }}
+                  />
+                  
+                  {/* Third segment - Community & Governance */}
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="40"
+                    fill="none"
+                    stroke="#FF00FF"
+                    strokeWidth="20"
+                    strokeDasharray="24 100"
+                    strokeDashoffset="-64"
+                    pathLength="100"
+                    style={{ 
+                      cursor: 'pointer',
+                      pointerEvents: 'visibleStroke',
+                      opacity: activeSegment === 2 ? 1 : 0.7,
+                      transition: 'all 0.25s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.stopPropagation();
+                      console.log("Mouse entered segment 2");
+                      setActiveSegment(2);
+                    }}
+                    onMouseLeave={(e) => {
+                      e.stopPropagation();
+                      console.log("Mouse left segment 2");
+                      setActiveSegment(null);
+                    }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      console.log("Clicked segment 2");
+                      setActiveSegment(activeSegment === 2 ? null : 2);
+                    }}
+                  />
+                  
+                  {/* Fourth segment - Genesis Event */}
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="40"
+                    fill="none"
+                    stroke="#FFFF00"
+                    strokeWidth="20"
+                    strokeDasharray="12 100"
+                    strokeDashoffset="-88"
+                    pathLength="100"
+                    style={{ 
+                      cursor: 'pointer',
+                      pointerEvents: 'visibleStroke',
+                      opacity: activeSegment === 3 ? 1 : 0.7,
+                      transition: 'all 0.25s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.stopPropagation();
+                      console.log("Mouse entered segment 3");
+                      setActiveSegment(3);
+                    }}
+                    onMouseLeave={(e) => {
+                      e.stopPropagation();
+                      console.log("Mouse left segment 3");
+                      setActiveSegment(null);
+                    }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      console.log("Clicked segment 3");
+                      setActiveSegment(activeSegment === 3 ? null : 3);
+                    }}
+                  />
+                </svg>
               </div>
+              
+              {/* Tooltip for the first segment (46%) - blue slice */}
+              {activeSegment === 0 && (
+                <div className="absolute top-[40%] left-[60%] -translate-x-1/2 -translate-y-1/2 z-20 whitespace-nowrap rounded bg-black/80 px-2 py-1 text-sm text-white">
+                  46% - OpenxAI Protocol and Ecosystem Development
+                </div>
+              )}
+
+              {/* Tooltip for the second segment (18%) - green slice */}
+              {activeSegment === 1 && (
+                <div className="absolute top-[70%] left-[60%] -translate-x-1/2 -translate-y-1/2 z-20 whitespace-nowrap rounded bg-black/80 px-2 py-1 text-sm text-white">
+                  18% - Core Protocol, Infrastructure & Future Expansions
+                </div>
+              )}
+
+              {/* Tooltip for the third segment (24%) - pink slice */}
+              {activeSegment === 2 && (
+                <div className="absolute top-[70%] left-[40%] -translate-x-1/2 -translate-y-1/2 z-20 whitespace-nowrap rounded bg-black/80 px-2 py-1 text-sm text-white">
+                  24% - Community & Governance
+                </div>
+              )}
+
+              {/* Tooltip for the fourth segment (12%) - yellow slice */}
+              {activeSegment === 3 && (
+                <div className="absolute top-[40%] left-[30%] -translate-x-1/2 -translate-y-1/2 z-20 whitespace-nowrap rounded bg-black/80 px-2 py-1 text-sm text-white">
+                  12% - Genesis Event
+                </div>
+              )}
             </div>
-          </div>
+          </TooltipProvider>
         </div>
         
         {/* Column 2: Token allocation percentages - taking 2/3 width */}
