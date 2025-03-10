@@ -562,7 +562,7 @@ export default function GenesisPage() {
                 {countdownEnded ? (
                   // Show livestream link when countdown ends
                   <a 
-                    href="https://www.youtube.com/live/TQnvML3gK0I" 
+                    href="https://www.youtube.com/live/noYv3W0eZvA" 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="mb-2 text-[60px] font-medium leading-tight text-white underline hover:opacity-80"
@@ -580,10 +580,10 @@ export default function GenesisPage() {
                 
                 {!countdownEnded && (
                   <>
-                    <div className="text-sm text-gray-400 mb-1">
+                    <div className="mb-1 text-sm text-gray-400">
                       March 10, 2025
                     </div>
-                    <div className="text-xs text-gray-500 flex flex-wrap justify-center gap-x-4 mb-8">
+                    <div className="mb-8 flex flex-wrap justify-center gap-x-4 text-xs text-gray-500">
                       <span>New York: {countdown.newYorkTime}</span>
                       <span>London: {countdown.londonTime}</span>
                       <span>Dubai: {countdown.dubaiTime}</span>
