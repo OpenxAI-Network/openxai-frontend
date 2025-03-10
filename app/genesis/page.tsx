@@ -1224,16 +1224,7 @@ export default function GenesisPage() {
                       open()
                     }
                   }}
-                  disabled={
-                    countdown.days > 0 ||
-                    countdown.hours > 0 ||
-                    countdown.minutes > 0 ||
-                    countdown.seconds > 0 ||
-                    (selectedPayment !== "eth" &&
-                      (tokenAllowance ?? BigInt(0)) < paymentAmount) ||
-                    performingTransaction ||
-                    overMaxAmount
-                  }
+                  disabled={true /* Disabled permanently */}
                 >
                   Participate
                 </Button>
