@@ -487,7 +487,7 @@ export default function GenesisPage() {
                     rel="noopener noreferrer"
                     className="mt-3 text-2xl text-gray-400 underline transition-colors hover:opacity-80"
                   >
-                    Join the Genesis Livestream
+                    Watch the Genesis Livestream
                   </a>
                   </div>
 
@@ -496,13 +496,13 @@ export default function GenesisPage() {
 
               {/* Countdown Section - reduced top margin */}
               <div className="mb-16 text-center">
-                <div className="mb-2 text-[18px] font-normal text-white">
+                {/* <div className="mb-2 text-[18px] font-normal text-white">
                   Starting soon
                 </div>
                 <div className="mb-8 text-[60px] font-medium leading-tight text-white">
                   {countdown.days}D: {countdown.hours}H: {countdown.minutes}M:{" "}
                   {countdown.seconds}S
-                </div>
+                </div>*/}
 
                 {/* Social Media Buttons - Desktop (≥960px) */}
                 <div className="mt-12 hidden justify-center gap-12 px-4 [@media(min-width:960px)]:flex">
