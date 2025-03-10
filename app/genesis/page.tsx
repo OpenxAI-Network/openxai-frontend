@@ -163,10 +163,6 @@ export default function GenesisPage() {
     hours: 0,
     minutes: 0,
     seconds: 0,
-    newYorkTime: '',
-    londonTime: '',
-    dubaiTime: '',
-    sydneyTime: ''
   })
   const [highlightedProject, setHighlightedProject] = useState<string | null>(
     null
@@ -265,7 +261,7 @@ export default function GenesisPage() {
                 balance: BigInt(0),
                 decimals: 0,
               }
-  }, [selectedPayment, wethBalance, usdcBalance, usdtBalance, chainInfo, ethBalance?.value])
+  }, [selectedPayment, wethBalance, usdcBalance, usdtBalance, chainInfo])
   useEffect(() => {
     if (selectedToken.balance !== undefined) {
       const newPaymentAmount =
@@ -279,7 +275,7 @@ export default function GenesisPage() {
         ).toFixed(selectedToken.isEth ? 4 : 2)
       )
     }
-  }, [selectedToken, selectedPayment])
+  }, [selectedToken])
 
   const usdValue = useMemo(
     () =>
@@ -398,7 +394,7 @@ export default function GenesisPage() {
     }
 
     return { openx, valueLeft }
-  }, [usdValue, currentProject, participateEvents])
+  }, [usdValue, currentProject])
 
   const tokenAddress = useMemo(() => {
     if (!chainInfo || selectedPayment === "eth") return undefined
@@ -416,7 +412,7 @@ export default function GenesisPage() {
         break
     }
     return erc20Address
-  }, [selectedPayment, chainInfo])
+  }, [selectedPayment])
   const { data: tokenAllowance, refetch: refetchTokenAllowance } =
     useReadContract({
       abi: erc20Abi,
@@ -429,48 +425,15 @@ export default function GenesisPage() {
       },
     })
 
-  // Add a state to track if countdown has ended
-  const [countdownEnded, setCountdownEnded] = useState(false);
-
   useEffect(() => {
-    // Set the base time to March 10th, 2025, at 4pm Sydney time
-    // Sydney is UTC+11 in March (non-DST), so 4pm Sydney = 5am UTC
     const targetDate =
       chainId === sepolia.id
-        ? new Date("2025-01-01T00:00:00Z") 
-        : new Date("2025-03-10T05:00:00Z") // 4pm Sydney = 5am UTC
-
-    // Function to format time in a specific timezone
-    const formatTimeInTimezone = (date: Date, timezone: string) => {
-      return new Intl.DateTimeFormat('en-US', {
-        hour: 'numeric',
-        minute: 'numeric',
-        timeZone: timezone,
-        timeZoneName: 'short'
-      }).format(date);
-    };
-
-    // Calculate times for different cities
-    const [newYorkTime, londonTime, dubaiTime, sydneyTime] = [
-      formatTimeInTimezone(targetDate, 'America/New_York'),
-      formatTimeInTimezone(targetDate, 'Europe/London'),
-      formatTimeInTimezone(targetDate, 'Asia/Dubai'),
-      formatTimeInTimezone(targetDate, 'Australia/Sydney')
-    ];
+        ? new Date("2025-01-01T00:00:00Z")
+        : new Date("2025-03-10T00:00:00Z")
 
     const updateCountdown = () => {
-      // Get current time
       const now = new Date()
-      
-      // Calculate difference using timestamps
       const diff = targetDate.getTime() - now.getTime()
-      
-      // Check if countdown has ended
-      if (diff <= 0) {
-        setCountdownEnded(true);
-        clearInterval(interval);
-        return;
-      }
 
       const days = Math.floor(diff / (1000 * 60 * 60 * 24))
       const hours = Math.floor(
@@ -479,23 +442,15 @@ export default function GenesisPage() {
       const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
       const seconds = Math.floor((diff % (1000 * 60)) / 1000)
 
-      setCountdown({ 
-        days, 
-        hours, 
-        minutes, 
-        seconds,
-        newYorkTime,
-        londonTime,
-        dubaiTime,
-        sydneyTime
-      })
+      setCountdown({ days, hours, minutes, seconds })
     }
 
+    // Update every second instead of every minute
     updateCountdown()
     const interval = setInterval(updateCountdown, 1000)
 
     return () => clearInterval(interval)
-  }, [chainId])
+  }, [])
 
   // Set the first FAQ open by default (index 0)
   const [openFaqIndex, setOpenFaqIndex] = useState<number>(0)
@@ -539,7 +494,7 @@ export default function GenesisPage() {
                   <div className="mt-3 bg-gradient-to-r from-white to-[#2D63F6] bg-clip-text text-transparent">
                   OpenxAI Genesis is a milestone-based fair launch initiative.
                   </div>
-                  {/*<div className="mt-3 bg-gradient-to-r from-white to-[#2D63F6] bg-clip-text text-transparent">
+                  <div className="mt-3 bg-gradient-to-r from-white to-[#2D63F6] bg-clip-text text-transparent">
                   <a 
                     href="https://medium.com/openxai" 
                     target="_blank"
@@ -548,7 +503,7 @@ export default function GenesisPage() {
                   >
                     How to participate
                   </a>
-                  </div>*/}
+                  </div>
 
                 </h2>
               </div>
@@ -556,41 +511,12 @@ export default function GenesisPage() {
               {/* Countdown Section - reduced top margin */}
               <div className="mb-16 text-center">
                 <div className="mb-2 text-[18px] font-normal text-white">
-                  {countdownEnded ? "It's time!" : "Starting soon"}
+                  Starting soon
                 </div>
-                
-                {countdownEnded ? (
-                  // Show livestream link when countdown ends
-                  <a 
-                    href="https://www.youtube.com/live/noYv3W0eZvA" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="mb-2 text-[60px] font-medium leading-tight text-white underline hover:opacity-80"
-                  >
-                    Join the OpenxAI Genesis<br />
-                    Live Stream
-                  </a>
-                ) : (
-                  // Show countdown timer otherwise
-                  <div className="mb-2 text-[60px] font-medium leading-tight text-white">
-                    {countdown.days}D: {countdown.hours}H: {countdown.minutes}M:{" "}
-                    {countdown.seconds}S
-                  </div>
-                )}
-                
-                {!countdownEnded && (
-                  <>
-                    <div className="mb-1 text-sm text-gray-400">
-                      March 10, 2025
-                    </div>
-                    <div className="mb-8 flex flex-wrap justify-center gap-x-4 text-xs text-gray-500">
-                      <span>New York: {countdown.newYorkTime}</span>
-                      <span>London: {countdown.londonTime}</span>
-                      <span>Dubai: {countdown.dubaiTime}</span>
-                      <span>Sydney: {countdown.sydneyTime}</span>
-                    </div>
-                  </>
-                )}
+                <div className="mb-8 text-[60px] font-medium leading-tight text-white">
+                  {countdown.days}D: {countdown.hours}H: {countdown.minutes}M:{" "}
+                  {countdown.seconds}S
+                </div>
 
                 {/* Social Media Buttons - Desktop (≥960px) */}
                 <div className="mt-12 hidden justify-center gap-12 px-4 [@media(min-width:960px)]:flex">
