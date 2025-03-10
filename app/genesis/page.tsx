@@ -425,32 +425,18 @@ export default function GenesisPage() {
       },
     })
 
-  useEffect(() => {
-    const targetDate =
-      chainId === sepolia.id
-        ? new Date("2025-01-01T00:00:00Z")
-        : new Date("2025-03-10T00:00:00Z")
-
-    const updateCountdown = () => {
-      const now = new Date()
-      const diff = targetDate.getTime() - now.getTime()
-
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24))
-      const hours = Math.floor(
-        (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-      )
-      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
-      const seconds = Math.floor((diff % (1000 * 60)) / 1000)
-
-      setCountdown({ days, hours, minutes, seconds })
-    }
-
-    // Update every second instead of every minute
-    updateCountdown()
-    const interval = setInterval(updateCountdown, 1000)
-
-    return () => clearInterval(interval)
-  }, [])
+    useEffect(() => {
+      // Use fixed zero values to prevent calculation of negative times
+      setCountdown({
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0
+      })
+      
+      // No need for interval timers
+      return () => {}
+    }, [])
 
   // Set the first FAQ open by default (index 0)
   const [openFaqIndex, setOpenFaqIndex] = useState<number>(0)
@@ -496,12 +482,12 @@ export default function GenesisPage() {
                   </div>
                   <div className="mt-3 bg-gradient-to-r from-white to-[#2D63F6] bg-clip-text text-transparent">
                   <a 
-                    href="https://medium.com/openxai" 
+                    href="https://www.youtube.com/live/noYv3W0eZvA" 
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-3 text-2xl text-gray-400 underline transition-colors hover:opacity-80"
                   >
-                    How to participate
+                    Join the Genesis Livestream
                   </a>
                   </div>
 
