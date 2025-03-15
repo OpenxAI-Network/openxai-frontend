@@ -261,7 +261,7 @@ export default function GenesisPage() {
                 balance: BigInt(0),
                 decimals: 0,
               }
-  }, [selectedPayment, wethBalance, usdcBalance, usdtBalance, chainInfo])
+  }, [selectedPayment, wethBalance, usdcBalance, usdtBalance, chainInfo, ethBalance?.value])
   useEffect(() => {
     if (selectedToken.balance !== undefined) {
       const newPaymentAmount =
@@ -275,7 +275,7 @@ export default function GenesisPage() {
         ).toFixed(selectedToken.isEth ? 4 : 2)
       )
     }
-  }, [selectedToken])
+  }, [selectedPayment, selectedToken])
 
   const usdValue = useMemo(
     () =>
@@ -394,7 +394,7 @@ export default function GenesisPage() {
     }
 
     return { openx, valueLeft }
-  }, [usdValue, currentProject])
+  }, [usdValue, currentProject, participateEvents])
 
   const tokenAddress = useMemo(() => {
     if (!chainInfo || selectedPayment === "eth") return undefined
@@ -412,7 +412,7 @@ export default function GenesisPage() {
         break
     }
     return erc20Address
-  }, [selectedPayment])
+  }, [chainInfo, selectedPayment])
   const { data: tokenAllowance, refetch: refetchTokenAllowance } =
     useReadContract({
       abi: erc20Abi,
@@ -471,180 +471,41 @@ export default function GenesisPage() {
             [@media(min-width:960px)]:p-8 [@media(min-width:960px)]:pt-2"
           >
             <div className="px-safe">
-              {/* Gradient Text Section - minimal top spacing */}
-              <div className="mb-16 mt-0 text-center">
-                <h2 className="font-inter text-3xl font-medium leading-tight [@media(min-width:960px)]:text-4xl">
-                  <div className="bg-gradient-to-r from-white to-[#2D63F6] bg-clip-text text-transparent">
-                  AI is no longer limited to mega corporations.
-                  </div>
-                  <div className="mt-3 bg-gradient-to-r from-white to-[#2D63F6] bg-clip-text text-transparent">
-                  OpenxAI Genesis is a milestone-based fair launch initiative.
-                  </div>
-                  <div className="mt-3 bg-gradient-to-r from-white to-[#2D63F6] bg-clip-text text-transparent">
-                  <a 
-                    href="https://www.youtube.com/live/noYv3W0eZvA" 
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-3 text-2xl text-gray-400 underline transition-colors hover:opacity-80"
-                  >
-                    Watch the Genesis Livestream
-                  </a>
-                  </div>
-
-                </h2>
-              </div>
-
-              {/* Countdown Section - reduced top margin */}
-              <div className="mb-16 text-center">
-                {/* <div className="mb-2 text-[18px] font-normal text-white">
-                  Starting soon
-                </div>
-                <div className="mb-8 text-[60px] font-medium leading-tight text-white">
-                  {countdown.days}D: {countdown.hours}H: {countdown.minutes}M:{" "}
-                  {countdown.seconds}S
-                </div>*/}
-
-                {/* Social Media Buttons - Desktop (≥960px) */}
-                <div className="mt-12 hidden justify-center gap-12 px-4 [@media(min-width:960px)]:flex">
-                  {/* Twitter/X Button with gradient */}
-                  <div className="relative flex items-center gap-3">
-                    <span className="text-[24px] font-bold text-white">1.</span>
-                    <a
-                      href="https://x.com/OpenxAINetwork"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="relative block"
-                    >
-                      <div className="relative">
-                        <div className="absolute -inset-px rounded-lg bg-gradient-to-t from-[#829ED1] to-[#0059FE]" />
-                        <div className="relative flex flex-col items-center rounded-lg bg-[#1F2021] px-6 py-3 hover:bg-[#2a2a2a]">
-                          <div className="flex items-center gap-2">
-                            <svg
-                              className="size-6 text-white"
-                              fill="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231z" />
-                            </svg>
-                            <span className="text-lg text-white">
-                              Follow @OpenxAI
-                            </span>
-                          </div>
-                          <div className="mt-2 text-sm text-gray-400">
-                            500 OPENX (Points)
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-
-                  {/* Telegram Button with gradient */}
-                  <div className="relative flex items-center gap-3">
-                    <span className="text-[24px] font-bold text-white">2.</span>
-                    <a
-                      href="https://t.me/OpenxAINetwork"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="relative block"
-                    >
-                      <div className="relative">
-                        <div className="absolute -inset-px rounded-lg bg-gradient-to-t from-[#B2FE00] to-[#829ED1]" />
-                        <div className="relative flex flex-col items-center rounded-lg bg-[#1F2021] px-6 py-3 hover:bg-[#2a2a2a]">
-                          <div className="flex items-center gap-2">
-                            <svg
-                              className="size-6 text-white"
-                              fill="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path d="M21.93 3.24l-3.35 17.52A1.51 1.51 0 0117.12 22a1.53 1.53 0 01-1.09-.45l-6.9-6.89-3.35 3.35a.49.49 0 01-.35.15.5.5 0 01-.5-.5v-4.29l12.45-12.46a.5.5 0 01-.7.71L4.55 13.75l-2.85-1a1.51 1.51 0 01.1-2.89l18.59-7.15a1.51 1.51 0 011.54 2.53z" />
-                            </svg>
-                            <span className="text-lg text-white">
-                              Join @OpenxAI
-                            </span>
-                          </div>
-                          <div className="mt-2 text-sm text-gray-400">
-                            500 OPENX (Points)
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-
-                {/* Social Media Buttons - Mobile (<960px) */}
-                <div className="mx-auto flex max-w-lg flex-col gap-4 px-4 [@media(min-width:960px)]:hidden">
-                  {/* Mobile Twitter/X Box */}
-                  <a
-                    href="https://x.com/OpenxAINetwork"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="relative block w-full hover:opacity-80"
-                  >
-                    <div className="relative w-full">
-                      <div className="absolute -inset-px rounded-lg bg-gradient-to-t from-[#829ED1] to-[#0059FE]" />
-                      <div className="relative flex h-[80px] items-center rounded-lg bg-[#1F2021] p-6">
-                        <span className="absolute left-6 text-2xl font-bold text-white">
-                          1.
-                        </span>
-                        <div className="ml-12 flex w-full flex-col items-center">
-                          <div className="flex items-center gap-2">
-                            <svg
-                              className="size-6 text-white"
-                              fill="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231z" />
-                            </svg>
-                            <span className="text-lg text-white [@media(max-width:400px)]:text-sm">
-                              Follow @OpenXAI
-                            </span>
-                          </div>
-                          <div className="mt-2 text-sm text-gray-400 [@media(max-width:400px)]:text-xs">
-                            500 OPENX (Points)
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-
-                  {/* Mobile Telegram Box */}
-                  <a
-                    href="https://t.me/OpenxAINetwork"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="relative block w-full hover:opacity-80"
-                  >
-                    <div className="relative w-full">
-                      <div className="absolute -inset-px rounded-lg bg-gradient-to-b from-[#B2FE00] to-[#829ED1]" />
-                      <div className="relative flex h-[80px] items-center rounded-lg bg-[#1F2021] p-6">
-                        <span className="absolute left-6 text-2xl font-bold text-white">
-                          2.
-                        </span>
-                        <div className="ml-12 flex w-full flex-col items-center">
-                          <div className="flex items-center gap-2">
-                            <svg
-                              className="size-6 text-white"
-                              fill="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path d="M21.93 3.24l-3.35 17.52A1.51 1.51 0 0117.12 22a1.53 1.53 0 01-1.09-.45l-6.9-6.89-3.35 3.35a.49.49 0 01-.35.15.5.5 0 01-.5-.5v-4.29l12.45-12.46a.5.5 0 01-.7.71L4.55 13.75l-2.85-1a1.51 1.51 0 01.1-2.89l18.59-7.15a1.51 1.51 0 011.54 2.53z" />
-                            </svg>
-                            <span className="text-lg text-white [@media(max-width:400px)]:text-sm">
-                              Join @OpenXAI
-                            </span>
-                          </div>
-                          <div className="mt-2 text-sm text-gray-400 [@media(max-width:400px)]:text-xs">
-                            500 OPENX (Points)
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-              </div>
-
               {/* Main content */}
               <div className="relative z-[5]">
+                {/* Connect Wallet Button - Top Right */}
+                <div className="mb-6 flex justify-end">
+                  <Button
+                    className="h-[40px] bg-[#2D63F6] text-lg font-bold text-white hover:opacity-90"
+                    onClick={() => open()}
+                  >
+                    Connect Wallet
+                  </Button>
+                </div>
+                
+                {/* Gradient Text Section - minimal top spacing */}
+                <div className="mb-16 mt-0 text-center">
+                  <h2 className="font-inter text-3xl font-medium leading-tight [@media(min-width:960px)]:text-4xl">
+                    <div className="bg-gradient-to-r from-white to-[#2D63F6] bg-clip-text text-transparent">
+                    AI is no longer limited to mega corporations.
+                    </div>
+                    <div className="mt-3 bg-gradient-to-r from-white to-[#2D63F6] bg-clip-text text-transparent">
+                    OpenxAI Genesis is a milestone-based fair launch initiative.
+                    </div>
+                    <div className="mt-3 bg-gradient-to-r from-white to-[#2D63F6] bg-clip-text text-transparent">
+                    <a 
+                      href="https://www.youtube.com/live/noYv3W0eZvA" 
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-3 text-2xl text-gray-400 underline transition-colors hover:opacity-80"
+                    >
+                      Watch the Genesis Livestream
+                    </a>
+                    </div>
+
+                  </h2>
+                </div>
+
                 {/* Main stats and info container */}
                 <div className="grid grid-cols-1 gap-4 [@media(min-width:960px)]:grid-cols-6">
                   {/* Amount section */}
@@ -654,7 +515,7 @@ export default function GenesisPage() {
                         ${formatNumber(currentUsd)}
                       </span>
                       <span className="text-base text-white [@media(min-width:960px)]:text-lg">
-                        ${Math.round((500_000 - currentUsd) / 1000)}K remaining
+                        ${Math.round((1000 - currentUsd) / 1000)}M remaining
                       </span>
                     </h1>
                   </div>
@@ -709,14 +570,21 @@ export default function GenesisPage() {
                         1 ETH = 1,476,947 OPENX (-78%)
                       </span>
                     </div>
-                    <div>
-                      <span className="text-3xl font-bold text-white">
-                        $500K
-                      </span>
-                    </div>
                   </div>
 
                   <div className="relative mb-8">
+                    {/* Improved responsive positioning for the $500K text */}
+                    <div className="absolute -top-14 hidden flex-col items-center [@media(min-width:500px)]:flex" style={{ left: '75%', transform: 'translateX(-50%)' }}>
+                      <span className="text-xl font-bold text-white">$500K</span>
+                      <span className="text-sm font-normal text-green-400">(Softcap)</span>
+                    </div>
+                    
+                    {/* Mobile version of $500K text (right-aligned) */}
+                    <div className="absolute -top-14 right-0 flex flex-col items-end [@media(min-width:500px)]:hidden">
+                      <span className="text-xl font-bold text-white">$500K</span>
+                      <span className="text-sm font-normal text-green-400">(Softcap)</span>
+                    </div>
+                    
                     <Progress
                       value={100 * (currentUsd / 500_000)}
                       className="h-6 cursor-pointer border border-white bg-[#1F2021] [&>div]:bg-gradient-to-r [&>div]:from-white [&>div]:to-[#122BEA]"
@@ -926,294 +794,435 @@ export default function GenesisPage() {
                       </div>
                     </div>
                   </div>
-                </div>
-
-                {/* Payment method buttons container */}
-                <div className="mb-16 w-full [@media(min-width:960px)]:w-1/2">
-                  <div className="my-10 text-xl font-bold text-white">
-                    Your deposit
-                  </div>
-                  <div className="grid grid-cols-4 gap-4">
-                    {PAYMENT_METHODS.map((method) => (
-                      <button
-                        key={method.id}
-                        onClick={() =>
-                          setSelectedPayment(
-                            method.id as "eth" | "weth" | "usdc" | "usdt"
-                          )
-                        }
-                        className={`relative flex h-10 items-center justify-center rounded-md p-1.5 transition-all
-                          ${
-                            method.id === selectedPayment
-                              ? "bg-blue-600"
-                              : "bg-[#1F2021] hover:bg-[#2a2a2a]"
-                          }`}
+                  
+                  {/* 1. Social Media Buttons Section */}
+                  <div className="my-16 w-full">
+                    <h3 className="mb-8 text-2xl font-bold text-white">1. Be part of the community</h3>
+                    {/* Social Media Buttons - Desktop (≥960px) */}
+                    <div className="mb-8 flex w-full justify-center gap-12 [@media(max-width:960px)]:hidden [@media(min-width:960px)]:w-1/2">
+                      {/* Twitter/X Button with gradient */}
+                      <a
+                        href="https://x.com/OpenxAINetwork"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="relative block"
                       >
-                        <Image
-                          src={method.icon}
-                          alt={method.name}
-                          width={32}
-                          height={32}
-                          className="size-8"
-                        />
-                        {method.id === selectedPayment && (
-                          <div className="absolute -right-1 -top-1 flex size-3.5 items-center justify-center rounded-full bg-green-500">
-                            <svg
-                              className="size-2.5 text-white"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M5 13l4 4L19 7"
-                              />
-                            </svg>
+                        <div className="relative">
+                          <div className="absolute -inset-px rounded-lg bg-gradient-to-t from-[#829ED1] to-[#0059FE]" />
+                          <div className="relative flex flex-col items-center rounded-lg bg-[#1F2021] px-6 py-3 hover:bg-[#2a2a2a]">
+                            <div className="flex items-center gap-2">
+                              <svg
+                                className="size-6 text-white"
+                                fill="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231z" />
+                              </svg>
+                              <span className="text-lg text-white">
+                                Follow @OpenxAI
+                              </span>
+                            </div>
+                            <div className="mt-2 text-sm text-gray-400">
+                              500 OPENX (Points)
+                            </div>
                           </div>
-                        )}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Current balance box - with restored spacing */}
-                <div className="mb-16 mt-8 inline-block rounded-lg bg-[#5C5C5C] px-4 py-2">
-                  <span className="text-gray-300">Current balance: </span>
-                  {address && selectedToken.balance !== undefined ? (
-                    <span className="text-white">
-                      {formatNumber(
-                        formatUnits(
-                          selectedToken.balance,
-                          selectedToken.decimals
-                        )
-                      )}{" "}
-                      {selectedToken.symbol}
-                    </span>
-                  ) : (
-                    <span className="text-white">please connect wallet</span>
-                  )}
-                </div>
-
-                {/* ETH amount box - restored original width */}
-                <div className="mb-6 w-full [@media(min-width:960px)]:w-1/2">
-                  <div className="flex h-[60px] items-center justify-between rounded-lg border border-gray-700 bg-[#1F2021] p-4">
-                    <div className="flex items-center gap-3">
-                      <Image
-                        src={`/${selectedPayment}.png`}
-                        alt={selectedPayment.toUpperCase()}
-                        width={32}
-                        height={32}
-                        className="size-8"
-                      />
-                      <div className="flex flex-col">
-                        <div className="flex gap-1 text-xl font-bold text-white">
-                          <Input
-                            type="number"
-                            step="0"
-                            className="spin-button-none flex size-auto border-0 bg-transparent p-0 px-1 text-xl font-bold focus-visible:border-0 focus-visible:ring-0"
-                            style={{
-                              width: `${paymentAmountInput.length + 1}ch`,
-                            }}
-                            value={paymentAmountInput}
-                            onChange={(e) => {
-                              setPaymentAmountInput(e.target.value)
-                              const asNum = Number(e.target.value)
-                              if (!Number.isNaN(asNum)) {
-                                setPaymentAmount(
-                                  parseUnits(
-                                    e.target.value,
-                                    selectedToken.decimals
-                                  )
-                                )
-                              }
-                            }}
-                          />
-                          <span>{selectedToken.symbol}</span>
                         </div>
-                        <div className="text-sm text-gray-400">
-                          {usdValue !== undefined
-                            ? `$${formatNumber(usdValue)}`
-                            : "Loading..."}
+                      </a>
+
+                      {/* Telegram Button with gradient */}
+                      <a
+                        href="https://t.me/OpenxAINetwork"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="relative block"
+                      >
+                        <div className="relative">
+                          <div className="absolute -inset-px rounded-lg bg-gradient-to-t from-[#B2FE00] to-[#829ED1]" />
+                          <div className="relative flex flex-col items-center rounded-lg bg-[#1F2021] px-6 py-3 hover:bg-[#2a2a2a]">
+                            <div className="flex items-center gap-2">
+                              <svg
+                                className="size-6 text-white"
+                                fill="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path d="M21.93 3.24l-3.35 17.52A1.51 1.51 0 0117.12 22a1.53 1.53 0 01-1.09-.45l-6.9-6.89-3.35 3.35a.49.49 0 01-.35.15.5.5 0 01-.5-.5v-4.29l12.45-12.46a.5.5 0 01-.7.71L4.55 13.75l-2.85-1a1.51 1.51 0 01.1-2.89l18.59-7.15a1.51 1.51 0 011.54 2.53z" />
+                              </svg>
+                              <span className="text-lg text-white">
+                                Join @OpenxAI
+                              </span>
+                            </div>
+                            <div className="mt-2 text-sm text-gray-400">
+                              500 OPENX (Points)
+                            </div>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+
+                    {/* Social Media Buttons - Mobile (<960px) */}
+                    <div className="flex max-w-full flex-col gap-4 px-4 [@media(min-width:960px)]:hidden">
+                      {/* Mobile Twitter/X Box */}
+                      <a
+                        href="https://x.com/OpenxAINetwork"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="relative block w-full hover:opacity-80"
+                      >
+                        <div className="relative w-full">
+                          <div className="absolute -inset-px rounded-lg bg-gradient-to-t from-[#829ED1] to-[#0059FE]" />
+                          <div className="relative flex h-[80px] items-center rounded-lg bg-[#1F2021] p-6">
+                            <span className="absolute left-6 text-2xl font-bold text-white">
+                              1.
+                            </span>
+                            <div className="ml-12 flex w-full flex-col items-center">
+                              <div className="flex items-center gap-2">
+                                <svg
+                                  className="size-6 text-white"
+                                  fill="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231z" />
+                                </svg>
+                                <span className="text-lg text-white [@media(max-width:400px)]:text-sm">
+                                  Follow @OpenXAI
+                                </span>
+                              </div>
+                              <div className="mt-2 text-sm text-gray-400 [@media(max-width:400px)]:text-xs">
+                                500 OPENX (Points)
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </a>
+
+                      {/* Mobile Telegram Box */}
+                      <a
+                        href="https://t.me/OpenxAINetwork"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="relative block w-full hover:opacity-80"
+                      >
+                        <div className="relative w-full">
+                          <div className="absolute -inset-px rounded-lg bg-gradient-to-b from-[#B2FE00] to-[#829ED1]" />
+                          <div className="relative flex h-[80px] items-center rounded-lg bg-[#1F2021] p-6">
+                            <span className="absolute left-6 text-2xl font-bold text-white">
+                              2.
+                            </span>
+                            <div className="ml-12 flex w-full flex-col items-center">
+                              <div className="flex items-center gap-2">
+                                <svg
+                                  className="size-6 text-white"
+                                  fill="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path d="M21.93 3.24l-3.35 17.52A1.51 1.51 0 0117.12 22a1.53 1.53 0 01-1.09-.45l-6.9-6.89-3.35 3.35a.49.49 0 01-.35.15.5.5 0 01-.5-.5v-4.29l12.45-12.46a.5.5 0 01-.7.71L4.55 13.75l-2.85-1a1.51 1.51 0 01.1-2.89l18.59-7.15a1.51 1.51 0 011.54 2.53z" />
+                                </svg>
+                                <span className="text-lg text-white [@media(max-width:400px)]:text-sm">
+                                  Join @OpenXAI
+                                </span>
+                              </div>
+                              <div className="mt-2 text-sm text-gray-400 [@media(max-width:400px)]:text-xs">
+                                500 OPENX (Points)
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* 2. Contributions/Payment Section */}
+                  <div className="w-full">
+                    <h3 className="mb-8 text-2xl font-bold text-white">2. Contributions</h3>
+                    
+                    {/* Payment method buttons container */}
+                    <div className="mb-8 w-full [@media(min-width:960px)]:w-1/2">
+                      <div className="my-10 text-xl font-bold text-white">
+                        Your deposit
+                      </div>
+                      <div className="grid grid-cols-4 gap-4">
+                        {PAYMENT_METHODS.map((method) => (
+                          <button
+                            key={method.id}
+                            onClick={() =>
+                              setSelectedPayment(
+                                method.id as "eth" | "weth" | "usdc" | "usdt"
+                              )
+                            }
+                            className={`relative flex h-10 items-center justify-center rounded-md p-1.5 transition-all
+                              ${
+                                method.id === selectedPayment
+                                  ? "bg-blue-600"
+                                  : "bg-[#1F2021] hover:bg-[#2a2a2a]"
+                              }`}
+                          >
+                            <Image
+                              src={method.icon}
+                              alt={method.name}
+                              width={32}
+                              height={32}
+                              className="size-8"
+                            />
+                            {method.id === selectedPayment && (
+                              <div className="absolute -right-1 -top-1 flex size-3.5 items-center justify-center rounded-full bg-green-500">
+                                <svg
+                                  className="size-2.5 text-white"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M5 13l4 4L19 7"
+                                  />
+                                </svg>
+                              </div>
+                            )}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Current balance box - with restored spacing */}
+                    <div className="mb-16 mt-8 inline-block rounded-lg bg-[#5C5C5C] px-4 py-2">
+                      <span className="text-gray-300">Current balance: </span>
+                      {address && selectedToken.balance !== undefined ? (
+                        <span className="text-white">
+                          {formatNumber(
+                            formatUnits(
+                              selectedToken.balance,
+                              selectedToken.decimals
+                            )
+                          )}{" "}
+                          {selectedToken.symbol}
+                        </span>
+                      ) : (
+                        <span className="text-white">please connect wallet</span>
+                      )}
+                    </div>
+
+                    {/* ETH amount box - restored original width */}
+                    <div className="mb-6 w-full [@media(min-width:960px)]:w-1/2">
+                      <div className="flex h-[60px] items-center justify-between rounded-lg border border-gray-700 bg-[#1F2021] p-4">
+                        <div className="flex items-center gap-3">
+                          <Image
+                            src={`/${selectedPayment}.png`}
+                            alt={selectedPayment.toUpperCase()}
+                            width={32}
+                            height={32}
+                            className="size-8"
+                          />
+                          <div className="flex flex-col">
+                            <div className="flex gap-1 text-xl font-bold text-white">
+                              <Input
+                                type="number"
+                                step="0"
+                                className="spin-button-none flex size-auto border-0 bg-transparent p-0 px-1 text-xl font-bold focus-visible:border-0 focus-visible:ring-0"
+                                style={{
+                                  width: `${paymentAmountInput.length + 1}ch`,
+                                }}
+                                value={paymentAmountInput}
+                                onChange={(e) => {
+                                  setPaymentAmountInput(e.target.value)
+                                  const asNum = Number(e.target.value)
+                                  if (!Number.isNaN(asNum)) {
+                                    setPaymentAmount(
+                                      parseUnits(
+                                        e.target.value,
+                                        selectedToken.decimals
+                                      )
+                                    )
+                                  }
+                                }}
+                              />
+                              <span>{selectedToken.symbol}</span>
+                            </div>
+                            <div className="text-sm text-gray-400">
+                              {usdValue !== undefined
+                                ? `$${formatNumber(usdValue)}`
+                                : "Loading..."}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <span className="text-gray-400">Max Amount:</span>
+                          <span
+                            className={cn(
+                              "rounded-md bg-[#5C5C5C] px-2 py-1 text-white",
+                              overMaxAmount && "bg-red-600"
+                            )}
+                          >
+                            ${formatNumber(maxAmount)}
+                          </span>
                         </div>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-2">
-                      <span className="text-gray-400">Max Amount:</span>
-                      <span
-                        className={cn(
-                          "rounded-md bg-[#5C5C5C] px-2 py-1 text-white",
-                          overMaxAmount && "bg-red-600"
-                        )}
-                      >
-                        ${formatNumber(maxAmount)}
-                      </span>
+                    {/* Gradient Divider with Text - align with content above/below on desktop */}
+                    <div className="my-8 w-full [@media(min-width:960px)]:w-1/2">
+                      <div className="flex items-center gap-4">
+                        <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#454545] to-transparent" />
+                        <div className="font-inter text-[13px] font-normal text-[#6A6A6A]">
+                          You will receive
+                          <span className="text-lg text-white">
+                            {" "}
+                            {formatNumber(receiveOpenx.openx)}{" "}
+                          </span>
+                          <span className="bg-gradient-to-r from-white to-[#2D63F6] bg-clip-text text-lg font-medium text-transparent">
+                            OPENX
+                          </span>
+                        </div>
+                        <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#454545] to-transparent" />
+                      </div>
+                    </div>
+
+                    {/* OPENX amount box */}
+                    <div className="w-full [@media(min-width:960px)]:w-1/2">
+                      <div className="flex h-[60px] items-center gap-3 rounded-lg border border-gray-700 bg-[#1F2021] p-4">
+                        <Image
+                          src="/openxai-logo.png"
+                          alt="OpenXAI"
+                          width={28}
+                          height={28}
+                        />
+                        <span className="text-lg text-white">
+                          {formatNumber(receiveOpenx.openx)} OPENX
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                {/* Gradient Divider with Text - align with content above/below on desktop */}
-                <div className="my-8 w-full [@media(min-width:960px)]:w-1/2">
-                  <div className="flex items-center gap-4">
-                    <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#454545] to-transparent" />
-                    <div className="font-inter text-[13px] font-normal text-[#6A6A6A]">
-                      You will receive
-                      <span className="text-lg text-white">
-                        {" "}
-                        {formatNumber(receiveOpenx.openx)}{" "}
-                      </span>
-                      <span className="bg-gradient-to-r from-white to-[#2D63F6] bg-clip-text text-lg font-medium text-transparent">
-                        OPENX
-                      </span>
-                    </div>
-                    <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#454545] to-transparent" />
-                  </div>
-                </div>
-
-                {/* OPENX amount box */}
-                <div className="w-full [@media(min-width:960px)]:w-1/2">
-                  <div className="flex h-[60px] items-center gap-3 rounded-lg border border-gray-700 bg-[#1F2021] p-4">
-                    <Image
-                      src="/openxai-logo.png"
-                      alt="OpenXAI"
-                      width={28}
-                      height={28}
-                    />
-                    <span className="text-lg text-white">
-                      {formatNumber(receiveOpenx.openx)} OPENX
+                {receiveOpenx.valueLeft && (
+                  <div className="flex gap-2">
+                    <AlertTriangleIcon className="text-white" />
+                    <span className="text-white">
+                      Contribution is more than remaining milestones! Oversupplied
+                      ${formatNumber(receiveOpenx.valueLeft)} will be send back.
                     </span>
                   </div>
-                </div>
-              </div>
+                )}
 
-              {receiveOpenx.valueLeft && (
-                <div className="flex gap-2">
-                  <AlertTriangleIcon className="text-white" />
-                  <span className="text-white">
-                    Contribution is more than remaining milestones! Oversupplied
-                    ${formatNumber(receiveOpenx.valueLeft)} will be send back.
-                  </span>
-                </div>
-              )}
+                <div className="flex flex-col">
+                  {selectedPayment !== "eth" &&
+                    (tokenAllowance ?? BigInt(0)) < paymentAmount && (
+                      <Button
+                        className="mt-10 h-[40px] w-full bg-[#2D63F6] text-xl font-bold text-white hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50 [@media(min-width:960px)]:w-[calc(100%/6)]"
+                        onClick={() => {
+                          if (address) {
+                            performTransaction({
+                              transactionName: "Approve token spending",
+                              transaction: async () => {
+                                if (!tokenAddress) {
+                                  loggers?.onError?.({
+                                    title: "Error",
+                                    description:
+                                      "Token address not set, please try reconnecting your wallet.",
+                                  })
+                                  return
+                                }
 
-              <div className="flex flex-col">
-                {selectedPayment !== "eth" &&
-                  (tokenAllowance ?? BigInt(0)) < paymentAmount && (
-                    <Button
-                      className="mt-10 h-[40px] w-full bg-[#2D63F6] text-xl font-bold text-white hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50 [@media(min-width:960px)]:w-[calc(100%/6)]"
-                      onClick={() => {
-                        if (address) {
-                          performTransaction({
-                            transactionName: "Approve token spending",
-                            transaction: async () => {
-                              if (!tokenAddress) {
-                                loggers?.onError?.({
-                                  title: "Error",
-                                  description:
-                                    "Token address not set, please try reconnecting your wallet.",
-                                })
-                                return
-                              }
-
-                              return {
-                                abi: parseAbi([
-                                  "function approve(address spender, uint256 amount)",
-                                ]),
-                                address: tokenAddress,
-                                functionName: "approve",
-                                args: [
-                                  OpenxAIGenesisContract.address,
-                                  paymentAmount,
-                                ],
-                              }
-                            },
-                            onConfirmed(receipt) {
-                              refetchTokenAllowance()
-                            },
-                          })
-                        } else {
-                          open()
+                                return {
+                                  abi: parseAbi([
+                                    "function approve(address spender, uint256 amount)",
+                                  ]),
+                                  address: tokenAddress,
+                                  functionName: "approve",
+                                  args: [
+                                    OpenxAIGenesisContract.address,
+                                    paymentAmount,
+                                  ],
+                                }
+                              },
+                              onConfirmed(receipt) {
+                                refetchTokenAllowance()
+                              },
+                            })
+                          } else {
+                            open()
+                          }
+                        }}
+                        disabled={
+                          countdown.days > 0 ||
+                          countdown.hours > 0 ||
+                          countdown.minutes > 0 ||
+                          countdown.seconds > 0 ||
+                          performingTransaction ||
+                          overMaxAmount
                         }
-                      }}
-                      disabled={
-                        countdown.days > 0 ||
-                        countdown.hours > 0 ||
-                        countdown.minutes > 0 ||
-                        countdown.seconds > 0 ||
-                        performingTransaction ||
-                        overMaxAmount
-                      }
-                    >
-                      Approve
-                    </Button>
-                  )}
+                      >
+                        Approve
+                      </Button>
+                    )}
 
-                {/* WalletConnect button - restore original desktop layout */}
-                <Button
-                  className="mt-10 h-[40px] w-full bg-[#2D63F6] text-xl font-bold text-white hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50 [@media(min-width:960px)]:w-[calc(100%/6)]"
-                  onClick={() => {
-                    if (address) {
-                      performTransaction({
-                        transactionName: "Participate in Genesis",
-                        transaction: async () => {
-                          if (selectedPayment === "eth") {
+                  {/* WalletConnect button - restore original desktop layout */}
+                  <Button
+                    className="mt-10 h-[40px] w-full bg-[#2D63F6] text-xl font-bold text-white hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50 [@media(min-width:960px)]:w-[calc(100%/6)]"
+                    onClick={() => {
+                      if (address) {
+                        performTransaction({
+                          transactionName: "Participate in Genesis",
+                          transaction: async () => {
+                            if (selectedPayment === "eth") {
+                              return {
+                                abi: OpenxAIGenesisContract.abi,
+                                address: OpenxAIGenesisContract.address,
+                                functionName: "transfer_native",
+                                value: paymentAmount,
+                              } as any
+                            }
+
+                            if (!tokenAddress) {
+                              loggers?.onError?.({
+                                title: "Error",
+                                description:
+                                  "Token address not set, please try reconnecting your wallet.",
+                              })
+                              return
+                            }
+
+                            setExpectedContribution({
+                              currency: `${parseFloat(formatUnits(paymentAmount, selectedToken.decimals)).toFixed(selectedToken.isEth ? 4 : 2)} ${selectedToken.symbol}`,
+                              openx: `${formatNumber(receiveOpenx.openx)} OPENX`,
+                            })
+
                             return {
                               abi: OpenxAIGenesisContract.abi,
                               address: OpenxAIGenesisContract.address,
-                              functionName: "transfer_native",
-                              value: paymentAmount,
-                            } as any
-                          }
-
-                          if (!tokenAddress) {
-                            loggers?.onError?.({
-                              title: "Error",
-                              description:
-                                "Token address not set, please try reconnecting your wallet.",
-                            })
-                            return
-                          }
-
-                          setExpectedContribution({
-                            currency: `${parseFloat(formatUnits(paymentAmount, selectedToken.decimals)).toFixed(selectedToken.isEth ? 4 : 2)} ${selectedToken.symbol}`,
-                            openx: `${formatNumber(receiveOpenx.openx)} OPENX`,
-                          })
-
-                          return {
-                            abi: OpenxAIGenesisContract.abi,
-                            address: OpenxAIGenesisContract.address,
-                            functionName: "transfer_erc20",
-                            args: [tokenAddress, paymentAmount],
-                          }
-                        },
-                        onConfirmed(receipt) {
-                          setShowSuccessModal(true)
-                          axios.post(
-                            "https://indexer.openxai.org/sync",
-                            JSON.parse(
-                              JSON.stringify(
-                                {
-                                  chainId,
-                                  fromBlock: receipt.blockNumber - BigInt(1),
-                                  toBlock: receipt.blockNumber,
-                                },
-                                replacer
+                              functionName: "transfer_erc20",
+                              args: [tokenAddress, paymentAmount],
+                            }
+                          },
+                          onConfirmed(receipt) {
+                            setShowSuccessModal(true)
+                            axios.post(
+                              "https://indexer.openxai.org/sync",
+                              JSON.parse(
+                                JSON.stringify(
+                                  {
+                                    chainId,
+                                    fromBlock: receipt.blockNumber - BigInt(1),
+                                    toBlock: receipt.blockNumber,
+                                  },
+                                  replacer
+                                )
                               )
                             )
-                          )
-                          participateRefretch()
-                        },
-                      })
-                    } else {
-                      open()
-                    }
-                  }}
-                  disabled={true /* Disabled permanently */}
-                >
-                  Participate
-                </Button>
+                            participateRefretch()
+                          },
+                        })
+                      } else {
+                        open()
+                      }
+                    }}
+                    disabled={true /* Disabled permanently */}
+                  >
+                    Participate
+                  </Button>
+                </div>
               </div>
             </div>
 
