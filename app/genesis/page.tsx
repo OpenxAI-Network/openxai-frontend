@@ -474,7 +474,42 @@ export default function GenesisPage() {
               {/* Main content */}
               <div className="relative z-[5]">
                 {/* Connect Wallet Button - Top Right */}
-                <div className="mb-6 flex justify-end">
+                <div className="mb-6 flex items-center justify-end pr-5 -mt-2 hidden [@media(min-width:960px)]:flex">
+                  <div className="flex items-center justify-center mr-3 w-[40px] h-[40px] overflow-hidden rounded-md">
+                    {/* Rotating wallet icons */}
+                    {(() => {
+                      // Using IIFE to allow useState in JSX
+                      const [currentIconIndex, setCurrentIconIndex] = useState(0);
+                      const walletIcons = [
+                        "/wallets/coinbase.webp",
+                        "/wallets/wallet-connect.webp",
+                        "/wallets/ledger.webp",
+                        "/wallets/metamask.webp",
+                        "/wallets/trust.webp"
+                      ];
+                      
+                      // Set up rotation interval
+                      useEffect(() => {
+                        const interval = setInterval(() => {
+                          setCurrentIconIndex((prevIndex) => 
+                            (prevIndex + 1) % walletIcons.length
+                          );
+                        }, 2000);
+                        
+                        return () => clearInterval(interval);
+                      }, []);
+                      
+                      return (
+                        <Image 
+                          src={walletIcons[currentIconIndex]} 
+                          alt="Wallet" 
+                          width={40} 
+                          height={40} 
+                          className="h-[40px] w-auto object-cover transition-opacity duration-300"
+                        />
+                      );
+                    })()}
+                  </div>
                   <Button
                     className="h-[40px] bg-[#2D63F6] text-lg font-bold text-white hover:opacity-90"
                     onClick={() => open()}
