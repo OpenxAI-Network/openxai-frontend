@@ -65,10 +65,22 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: 0 },
         },
+        'pulse-ring': {
+          '0%': { opacity: 1, transform: 'scale(0.9)', boxShadow: '0 0 0 0 rgba(255, 255, 255, 0.7)' },
+          '50%': { opacity: 0.7, transform: 'scale(1.1)', boxShadow: '0 0 0 1.5px rgba(255, 255, 255, 0.3)' },
+          '100%': { opacity: 1, transform: 'scale(0.9)', boxShadow: '0 0 0 0 rgba(255, 255, 255, 0.7)' },
+        },
+        'outer-ring-pulse': {
+          '0%': { opacity: 0.7, transform: 'scale(1)', boxShadow: '0 0 0 0 rgba(255, 255, 255, 0.4)' },
+          '70%': { opacity: 0, transform: 'scale(1.5)', boxShadow: '0 0 0 3px rgba(255, 255, 255, 0)' },
+          '100%': { opacity: 0, transform: 'scale(1)', boxShadow: '0 0 0 0 rgba(255, 255, 255, 0)' },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        'pulse-ring': 'pulse-ring 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'outer-ring-pulse': 'outer-ring-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
     },
   },

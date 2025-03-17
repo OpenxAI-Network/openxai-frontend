@@ -9,7 +9,7 @@ export function MobileResponsiveWrapper({ children }: { children: React.ReactNod
         [@media(max-width:960px)]:pt-48 
         [@media(min-width:960px)]:ml-[234px] 
         [@media(min-width:960px)]:px-4 
-        [@media(min-width:960px)]:pt-32">
+        [@media(min-width:960px)]:pt-16">
         <div>
           {children}
         </div>
