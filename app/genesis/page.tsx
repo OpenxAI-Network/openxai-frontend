@@ -168,6 +168,27 @@ export default function GenesisPage() {
     null
   )
 
+  // Wallet icon rotation state
+  const [currentIconIndex, setCurrentIconIndex] = useState(0);
+  const walletIcons = [
+    "/wallets/coinbase.webp",
+    "/wallets/wallet-connect.webp",
+    "/wallets/ledger.webp",
+    "/wallets/metamask.webp",
+    "/wallets/trust.webp"
+  ];
+  
+  // Set up wallet icon rotation interval
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIconIndex((prevIndex) => 
+        (prevIndex + 1) % walletIcons.length
+      );
+    }, 2000);
+    
+    return () => clearInterval(interval);
+  }, [walletIcons.length]);
+
   const { performTransaction, performingTransaction, loggers } =
     usePerformTransaction({})
 
@@ -473,42 +494,17 @@ export default function GenesisPage() {
             <div className="px-safe">
               {/* Main content */}
               <div className="relative z-[5]">
-                {/* Connect Wallet Button - Top Right */}
-                <div className="mb-6 flex items-center justify-end pr-5 -mt-2 hidden [@media(min-width:960px)]:flex">
-                  <div className="flex items-center justify-center mr-3 w-[40px] h-[40px] overflow-hidden rounded-md">
-                    {/* Rotating wallet icons */}
-                    {(() => {
-                      // Using IIFE to allow useState in JSX
-                      const [currentIconIndex, setCurrentIconIndex] = useState(0);
-                      const walletIcons = [
-                        "/wallets/coinbase.webp",
-                        "/wallets/wallet-connect.webp",
-                        "/wallets/ledger.webp",
-                        "/wallets/metamask.webp",
-                        "/wallets/trust.webp"
-                      ];
-                      
-                      // Set up rotation interval
-                      useEffect(() => {
-                        const interval = setInterval(() => {
-                          setCurrentIconIndex((prevIndex) => 
-                            (prevIndex + 1) % walletIcons.length
-                          );
-                        }, 2000);
-                        
-                        return () => clearInterval(interval);
-                      }, []);
-                      
-                      return (
-                        <Image 
-                          src={walletIcons[currentIconIndex]} 
-                          alt="Wallet" 
-                          width={40} 
-                          height={40} 
-                          className="h-[40px] w-auto object-cover transition-opacity duration-300"
-                        />
-                      );
-                    })()}
+                {/* Connect Wallet Button - Top Right - Fixed CSS conflict */}
+                <div className="-mt-2 mb-6 hidden items-center justify-end pr-5 [@media(min-width:960px)]:flex">
+                  <div className="mr-3 flex size-[40px] items-center justify-center overflow-hidden rounded-md">
+                    {/* Rotating wallet icons - moved logic to component level */}
+                    <Image 
+                      src={walletIcons[currentIconIndex]} 
+                      alt="Wallet" 
+                      width={40} 
+                      height={40} 
+                      className="h-[40px] w-auto object-cover transition-opacity duration-300"
+                    />
                   </div>
                   <Button
                     className="h-[40px] bg-[#2D63F6] text-lg font-bold text-white hover:opacity-90"
@@ -636,11 +632,11 @@ export default function GenesisPage() {
                         {/* Vertical dotted line - added extra height for mobile */}
                         <div className="h-6 w-px border-l border-dotted border-white/30 [@media(max-width:660px)]:h-[25px]" />
 
-                        {/* Play icon triangle - adjusted mobile positioning */}
+                        {/* Enhanced pulsating circle with ring - properly aligned */}
                         {index < 3 ? (
                           <div
                             title={milestone.name}
-                            className="ml-[2px] mt-2 cursor-pointer transition-all hover:opacity-80 [@media(max-width:660px)]:mt-3"
+                            className="relative ml-[-4px] mt-2 flex items-center justify-center cursor-pointer [@media(max-width:660px)]:mt-3"
                             onMouseEnter={() =>
                               setHighlightedProject(milestone.projectId)
                             }
@@ -649,8 +645,10 @@ export default function GenesisPage() {
                             }
                             onClick={() => {
                               if (selectedMilestone === milestone.projectId) {
+                                // Toggle off both selection and table visibility when clicking same milestone
                                 setSelectedMilestone(null)
                                 setHighlightedProject(null)
+                                setIsTableVisible(false)
                               } else {
                                 setSelectedMilestone(milestone.projectId)
                                 setHighlightedProject(milestone.projectId)
@@ -658,26 +656,38 @@ export default function GenesisPage() {
                               }
                             }}
                           >
+                            {/* Outer pulsating ring - better centered and smaller */}
                             <div
                               className={cn(
-                                "rotate-90 border-x-[6px] border-b-8 border-solid border-x-transparent",
+                                "absolute size-3 rounded-full",
                                 selectedMilestone === milestone.projectId
-                                  ? "border-b-white"
-                                  : "border-b-white/30"
+                                  ? "bg-white/30"
+                                  : "animate-outer-ring-pulse bg-transparent"
+                              )}
+                            />
+                            {/* Inner dot - perfectly centered */}
+                            <div
+                              className={cn(
+                                "size-2 rounded-full",
+                                selectedMilestone === milestone.projectId
+                                  ? "bg-white shadow-[0_0_4px_rgba(255,255,255,0.8)]" // Reduced glow size
+                                  : "animate-pulse-ring bg-white/80 hover:animate-none hover:bg-white"
                               )}
                             />
                           </div>
                         ) : (
                           <div
-                            onClick={() => setIsTableVisible(true)}
-                            className="cursor-pointer"
+                            onClick={() => {
+                              // Toggle milestone table visibility when clicking future milestones
+                              setIsTableVisible(!isTableVisible)
+                            }}
+                            className="relative ml-[-4px] mt-2 flex items-center justify-center cursor-pointer [@media(max-width:660px)]:mt-3"
+                            title={milestone.name}
                           >
-                            <div
-                              title={milestone.name}
-                              className="ml-[-2px] mt-2 cursor-pointer transition-all hover:opacity-80 [@media(max-width:660px)]:mt-3"
-                            >
-                              <div className="rotate-90 border-x-[6px] border-b-8 border-solid border-x-transparent border-b-white/30" />
-                            </div>
+                            {/* Outer pulsating ring for future milestones - better aligned */}
+                            <div className="absolute size-3 animate-outer-ring-pulse rounded-full bg-transparent" />
+                            {/* Inner dot for future milestones - perfectly centered */}
+                            <div className="size-2 animate-pulse-ring rounded-full bg-white/50 hover:animate-none hover:bg-white/90" />
                           </div>
                         )}
                       </div>
