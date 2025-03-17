@@ -172,16 +172,6 @@ export function SideMenu({ className, ...props }: SideMenuProps) {
                       OPENX
                     </span>
                   </div>
-
-                  {/* Semi-transparent overlay with Connect Button */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <button
-                      onClick={() => open()}
-                      className="-mt-14 whitespace-nowrap text-center text-[16px] font-bold text-white hover:text-gray-200"
-                    >
-                      Connect Wallet
-                    </button>
-                  </div>
                 </div>
               </>
             ) : (
