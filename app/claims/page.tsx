@@ -30,6 +30,7 @@ import { MobileResponsiveWrapper } from "@/components/layouts/MobileResponsiveWr
 
 export default function ClaimsPage() {
   const [isHighlighted, setIsHighlighted] = React.useState(false)
+  const [isComingSoonHighlighted, setIsComingSoonHighlighted] = React.useState(false)
 
   React.useEffect(() => {
     if (isHighlighted) {
@@ -37,6 +38,13 @@ export default function ClaimsPage() {
       return () => clearTimeout(timer)
     }
   }, [isHighlighted])
+
+  React.useEffect(() => {
+    if (isComingSoonHighlighted) {
+      const timer = setTimeout(() => setIsComingSoonHighlighted(false), 1000)
+      return () => clearTimeout(timer)
+    }
+  }, [isComingSoonHighlighted])
 
   const chainId = useChainId()
   const { address } = useAccount()
@@ -212,290 +220,311 @@ export default function ClaimsPage() {
         className={`mb-6 rounded-lg bg-blue-900/30 p-4 text-center transition-all duration-300 ${isHighlighted ? "ring-1 ring-white" : ""}`}
       >
         <span className="text-sm text-white md:text-base">
-          Project milestone claims will be going live after the{" "}
-          <strong>OpenxAI Genesis Event</strong>! Task claims may be sooner...
-          stay tuned!
+        Claims will be going live after the{' '}
+          <a 
+            href="/genesis" 
+            className="pointer-events-auto font-bold underline hover:text-blue-300"
+          >
+            $OPENX Token Genesis Event
+          </a>!
         </span>
       </div>
 
-      <div style={{ backgroundColor: "transparent" }}>
-        <div className="mb-8 flex items-end justify-end [@media(max-width:960px)]:items-start [@media(max-width:960px)]:justify-start">
-          <div className="flex flex-col">
-            <div className="flex items-baseline gap-4 [@media(max-width:960px)]:flex-col">
+      {/* Content with disabled interactions */}
+      <div className="relative">
+        {/* Coming Soon overlay */}
+        <div 
+          className="absolute inset-0 z-50 flex cursor-pointer items-start justify-center rounded-lg bg-black/90"
+          onClick={() => setIsComingSoonHighlighted(true)}
+        >
+          <div className={`mt-20 rounded-lg bg-black/80 px-8 py-4 text-center transition-all duration-300 ${isComingSoonHighlighted ? 'scale-110 ring-2 ring-white' : ''}`}>
+            <h2 className="text-2xl font-bold text-white md:text-3xl">Coming Soon</h2>
+            <p className="mt-2 text-gray-300">Claims will be available after Genesis</p>
+          </div>
+        </div>
+
+        {/* Existing content with pointer-events disabled */}
+        <div className="pointer-events-none">
+          <div style={{ backgroundColor: "transparent" }}>
+            <div className="mb-8 flex items-end justify-end [@media(max-width:960px)]:items-start [@media(max-width:960px)]:justify-start">
               <div className="flex flex-col">
-                <h1 className="text-7xl text-white [@media(max-width:400px)]:text-3xl [@media(max-width:650px)]:text-4xl [@media(max-width:960px)]:text-5xl">
-                  {formatNumber(claimable)}
-                </h1>
-                <div className="mt-2 flex justify-between">
-                  <span className="text-lg text-[#6A6A6A] [@media(max-width:400px)]:text-xs [@media(max-width:650px)]:text-sm [@media(max-width:960px)]:text-base">
-                    OPENX
-                  </span>
-                  <span className="text-lg text-[#6A6A6A] [@media(max-width:400px)]:text-xs [@media(max-width:650px)]:text-sm [@media(max-width:960px)]:text-base">
-                    ~0 USD
-                  </span>
+                <div className="flex items-baseline gap-4 [@media(max-width:960px)]:flex-col">
+                  <div className="flex flex-col">
+                    <h1 className="text-7xl text-white [@media(max-width:400px)]:text-3xl [@media(max-width:650px)]:text-4xl [@media(max-width:960px)]:text-5xl">
+                      {formatNumber(claimable)}
+                    </h1>
+                    <div className="mt-2 flex justify-between">
+                      <span className="text-lg text-[#6A6A6A] [@media(max-width:400px)]:text-xs [@media(max-width:650px)]:text-sm [@media(max-width:960px)]:text-base">
+                        OPENX
+                      </span>
+                      <span className="text-lg text-[#6A6A6A] [@media(max-width:400px)]:text-xs [@media(max-width:650px)]:text-sm [@media(max-width:960px)]:text-base">
+                        ~0 USD
+                      </span>
+                    </div>
+                  </div>
+                  <Button
+                    className="ml-4 h-[40px] w-[200px] bg-blue-600 text-xl font-bold text-white hover:bg-blue-700 [@media(max-width:960px)]:ml-0 [@media(max-width:960px)]:w-full"
+                    onClick={async () => {
+                      try {
+                        const claim = {
+                          chainId,
+                          claimer: address,
+                          basedOn: myProjects
+                            .filter((p) => p.claimable && !p.generatedProof)
+                            .map((p) => getBasedOn(p.raw.event)),
+                        }
+                        const proof = await axios
+                          .post(
+                            "https://indexer.openxai.org/getProof",
+                            JSON.parse(JSON.stringify(claim, replacer))
+                          )
+                          .then((res) => res.data)
+                          .then(
+                            (data) =>
+                              JSON.parse(
+                                JSON.stringify(data),
+                                reviver
+                              ) as GetProofReturn
+                          )
+
+                        await claimProof(proof)
+                      } catch (e: any) {
+                        loggers?.onError?.({
+                          title: "Error",
+                          description:
+                            e?.message ?? "An unexpected error occurred.",
+                          error: e,
+                        })
+                      }
+                    }}
+                    disabled={claimable === 0 || performingTransaction}
+                  >
+                    Claim
+                  </Button>
                 </div>
               </div>
-              <Button
-                className="ml-4 h-[40px] w-[200px] bg-blue-600 text-xl font-bold text-white hover:bg-blue-700 [@media(max-width:960px)]:ml-0 [@media(max-width:960px)]:w-full"
-                onClick={async () => {
-                  try {
-                    const claim = {
-                      chainId,
-                      claimer: address,
-                      basedOn: myProjects
-                        .filter((p) => p.claimable && !p.generatedProof)
-                        .map((p) => getBasedOn(p.raw.event)),
-                    }
-                    const proof = await axios
-                      .post(
-                        "https://indexer.openxai.org/getProof",
-                        JSON.parse(JSON.stringify(claim, replacer))
-                      )
-                      .then((res) => res.data)
-                      .then(
-                        (data) =>
-                          JSON.parse(
-                            JSON.stringify(data),
-                            reviver
-                          ) as GetProofReturn
-                      )
-
-                    await claimProof(proof)
-                  } catch (e: any) {
-                    loggers?.onError?.({
-                      title: "Error",
-                      description:
-                        e?.message ?? "An unexpected error occurred.",
-                      error: e,
-                    })
-                  }
-                }}
-                disabled={claimable === 0 || performingTransaction}
-              >
-                Claim
-              </Button>
             </div>
-          </div>
-        </div>
 
-        {/* Horizontal divider */}
-        <div className="my-8 h-px w-full bg-[#505050]" />
+            {/* Horizontal divider */}
+            <div className="my-8 h-px w-full bg-[#505050]" />
 
-        {/* Projects you have backed */}
-        <h2 className="mb-10 text-xl font-bold text-white">
-          Projects Available to Back
-        </h2>
-        <div className="-mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0">
-          <div className="inline-block min-w-full align-middle">
-            <div className="min-w-[320px]">
-              <table className="w-full border-collapse rounded-lg border border-[#454545] bg-[#1F2021]">
-                <thead>
-                  <tr>
-                    <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                      Project Name
-                    </th>
-                    <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                      Participation Amount
-                    </th>
-                    <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                      Deadline
-                    </th>
-                    <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                      Expected Rewards
-                    </th>
-                    <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                      Claims
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {myProjects.map((project, index) => (
-                    <tr
-                      key={index}
-                      className="text-sm transition-colors hover:bg-white/5"
-                    >
-                      <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                        {project.name}
-                      </td>
-                      <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                        $
-                        {formatNumber(
-                          formatUnits(project.participationAmount, 6)
-                        )}
-                      </td>
-                      <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                        {project.deadline}
-                      </td>
-                      <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                        {formatNumber(project.expectedRewards)} OPENX
-                      </td>
-                      <td className="border-0 p-4 [@media(max-width:400px)]:p-[2px] [@media(max-width:650px)]:p-1 [@media(max-width:960px)]:p-2">
-                        <span
+            {/* Projects you have backed */}
+            <h2 className="mb-10 text-xl font-bold text-white">
+              Projects Available to Back
+            </h2>
+            <div className="-mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0">
+              <div className="inline-block min-w-full align-middle">
+                <div className="min-w-[320px]">
+                  <table className="w-full border-collapse rounded-lg border border-[#454545] bg-[#1F2021]">
+                    <thead>
+                      <tr>
+                        <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                          Project Name
+                        </th>
+                        <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                          Participation Amount
+                        </th>
+                        <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                          Deadline
+                        </th>
+                        <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                          Expected Rewards
+                        </th>
+                        <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                          Claims
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {myProjects.map((project, index) => (
+                        <tr
+                          key={index}
+                          className="text-sm transition-colors hover:bg-white/5"
+                        >
+                          <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                            {project.name}
+                          </td>
+                          <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                            $
+                            {formatNumber(
+                              formatUnits(project.participationAmount, 6)
+                            )}
+                          </td>
+                          <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                            {project.deadline}
+                          </td>
+                          <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                            {formatNumber(project.expectedRewards)} OPENX
+                          </td>
+                          <td className="border-0 p-4 [@media(max-width:400px)]:p-[2px] [@media(max-width:650px)]:p-1 [@media(max-width:960px)]:p-2">
+                            <span
+                              className={cn(
+                                "bg-gradient-to-r from-white  bg-clip-text text-sm text-transparent [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:text-xs",
+                                project.claimable
+                                  ? project.generatedProof
+                                    ? "to-gray-500"
+                                    : "to-green-500"
+                                  : "to-blue-500"
+                              )}
+                            >
+                              {project.claimable
+                                ? project.generatedProof
+                                  ? "Claimed"
+                                  : "Claimable"
+                                : "Pending"}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            {/* Tasks reward claims */}
+            <h2 className="my-10 text-xl font-bold text-white">
+              Tasks Rewards You Will be Able to Claim
+            </h2>
+            <div className="w-full overflow-x-auto">
+              <div className="min-w-[400px]">
+                <table className="w-full border-collapse rounded-lg border border-[#454545] bg-[#1F2021]">
+                  <thead>
+                    <tr>
+                      <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                        Task Name
+                      </th>
+                      <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                        Deadline
+                      </th>
+                      <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                        Your Rewards
+                      </th>
+                      <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                        Link
+                      </th>
+                      <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                        Claims
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {tasks.map((task, index) => (
+                      <tr
+                        key={index}
+                        className="text-sm transition-colors hover:bg-white/5"
+                      >
+                        <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                          {task.name}
+                        </td>
+                        <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                          {task.deadline}
+                        </td>
+                        <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                          {task.rewards}
+                        </td>
+                        <td className="border-0 p-4 [@media(max-width:400px)]:p-[2px] [@media(max-width:650px)]:p-1 [@media(max-width:960px)]:p-2">
+                          {task.link && (
+                            <a
+                              href={task.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-1 text-blue-500 hover:opacity-80"
+                            >
+                              <span className="[@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:text-xs">
+                                Zealy Campaign
+                              </span>
+                              <svg
+                                className="size-4 [@media(max-width:400px)]:size-2 [@media(max-width:650px)]:size-3"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                                />
+                              </svg>
+                            </a>
+                          )}
+                        </td>
+                        <td className="border-0 p-4 [@media(max-width:400px)]:p-[2px] [@media(max-width:650px)]:p-1 [@media(max-width:960px)]:p-2">
+                          <span className="bg-gradient-to-r from-white to-blue-500 bg-clip-text text-sm text-transparent [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:text-xs">
+                            {"Pending"}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <h2 className="my-10 text-xl font-bold text-white">Claim History</h2>
+            <div className="w-full overflow-x-auto">
+              <div className="min-w-[400px]">
+                <table className="mb-10 w-full border-collapse rounded-lg border border-[#454545] bg-[#1F2021]">
+                  <thead>
+                    <tr>
+                      <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                        ID
+                      </th>
+                      <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                        Amount
+                      </th>
+                      <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                        Status
+                      </th>
+                      <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                        Action
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {proofList.map((proof, index) => (
+                      <tr
+                        key={index}
+                        className="text-sm transition-colors hover:bg-white/5"
+                      >
+                        <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                          {proof.id.toString()}
+                        </td>
+                        <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                          {proof.amount} OPENX
+                        </td>
+                        <td
                           className={cn(
-                            "bg-gradient-to-r from-white  bg-clip-text text-sm text-transparent [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:text-xs",
-                            project.claimable
-                              ? project.generatedProof
-                                ? "to-gray-500"
-                                : "to-green-500"
-                              : "to-blue-500"
+                            "border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs",
+                            proof.tx ? "text-green-500" : "text-red-500"
                           )}
                         >
-                          {project.claimable
-                            ? project.generatedProof
-                              ? "Claimed"
-                              : "Claimable"
-                            : "Pending"}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                          {proof.tx ? "Claimed" : "Unclaimed"}
+                        </td>
+                        <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                          {proof.tx ? (
+                            <Button asChild>
+                              <Link href={proof.tx} target="_blank">
+                                View on explorer
+                              </Link>
+                            </Button>
+                          ) : (
+                            <Button
+                              onClick={() => {
+                                claimProof(proof.raw.proof)
+                              }}
+                            >
+                              Claim
+                            </Button>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
-        </div>
-
-        {/* Tasks reward claims */}
-        <h2 className="my-10 text-xl font-bold text-white">
-          Tasks Rewards You Will be Able to Claim
-        </h2>
-        <div className="w-full overflow-x-auto">
-          <div className="min-w-[400px]">
-            <table className="w-full border-collapse rounded-lg border border-[#454545] bg-[#1F2021]">
-              <thead>
-                <tr>
-                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                    Task Name
-                  </th>
-                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                    Deadline
-                  </th>
-                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                    Your Rewards
-                  </th>
-                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                    Link
-                  </th>
-                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                    Claims
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {tasks.map((task, index) => (
-                  <tr
-                    key={index}
-                    className="text-sm transition-colors hover:bg-white/5"
-                  >
-                    <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                      {task.name}
-                    </td>
-                    <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                      {task.deadline}
-                    </td>
-                    <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                      {task.rewards}
-                    </td>
-                    <td className="border-0 p-4 [@media(max-width:400px)]:p-[2px] [@media(max-width:650px)]:p-1 [@media(max-width:960px)]:p-2">
-                      {task.link && (
-                        <a
-                          href={task.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-1 text-blue-500 hover:opacity-80"
-                        >
-                          <span className="[@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:text-xs">
-                            Zealy Campaign
-                          </span>
-                          <svg
-                            className="size-4 [@media(max-width:400px)]:size-2 [@media(max-width:650px)]:size-3"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                            />
-                          </svg>
-                        </a>
-                      )}
-                    </td>
-                    <td className="border-0 p-4 [@media(max-width:400px)]:p-[2px] [@media(max-width:650px)]:p-1 [@media(max-width:960px)]:p-2">
-                      <span className="bg-gradient-to-r from-white to-blue-500 bg-clip-text text-sm text-transparent [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:text-xs">
-                        {"Pending"}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <h2 className="my-10 text-xl font-bold text-white">Claim History</h2>
-        <div className="w-full overflow-x-auto">
-          <div className="min-w-[400px]">
-            <table className="mb-10 w-full border-collapse rounded-lg border border-[#454545] bg-[#1F2021]">
-              <thead>
-                <tr>
-                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                    ID
-                  </th>
-                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                    Amount
-                  </th>
-                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                    Status
-                  </th>
-                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                    Action
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {proofList.map((proof, index) => (
-                  <tr
-                    key={index}
-                    className="text-sm transition-colors hover:bg-white/5"
-                  >
-                    <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                      {proof.id.toString()}
-                    </td>
-                    <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                      {proof.amount} OPENX
-                    </td>
-                    <td
-                      className={cn(
-                        "border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs",
-                        proof.tx ? "text-green-500" : "text-red-500"
-                      )}
-                    >
-                      {proof.tx ? "Claimed" : "Unclaimed"}
-                    </td>
-                    <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                      {proof.tx ? (
-                        <Button asChild>
-                          <Link href={proof.tx} target="_blank">
-                            View on explorer
-                          </Link>
-                        </Button>
-                      ) : (
-                        <Button
-                          onClick={() => {
-                            claimProof(proof.raw.proof)
-                          }}
-                        >
-                          Claim
-                        </Button>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
           </div>
         </div>
       </div>
