@@ -75,7 +75,7 @@ const TASKS = [
   }
 ]
 
-const FILTER_OPTIONS = ["All", "Zealy", "TaskOn", "Youtoo"]
+const FILTER_OPTIONS = ["All", "Zealy", "Tally"]
 
 const TOP_EARNERS = Array(5).fill({
   address: "0",
@@ -104,7 +104,7 @@ export default function EarnPage() {
       {/* Banner notification */}
       <div className={`mb-24 rounded-lg bg-blue-900/30 p-4 text-center transition-all duration-300 ${isHighlighted ? 'ring-1 ring-white' : ''}`}>
         <span className="text-sm text-white md:text-base">
-          Tasks will be going live soon... stay tuned!
+          More tasks will be going live soon... stay tuned!
         </span>
       </div>
 
@@ -170,6 +170,7 @@ export default function EarnPage() {
         </div>
 
         {/* Top Earners Section */}
+        {/*}
         <div className="mt-24">
           <h2 className="mb-6 text-xl font-semibold text-white [@media(max-width:960px)]:text-lg">Top Earners</h2>
           
@@ -209,6 +210,7 @@ export default function EarnPage() {
             </div>
           </div>
         </div>
+        {*/}
       </div>
     </MobileResponsiveWrapper>
   )

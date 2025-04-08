@@ -87,10 +87,10 @@ export default function GovernancePage() {
       <div className="relative">
         {/* Coming Soon overlay */}
         <div 
-          className="absolute inset-0 z-50 flex cursor-pointer items-center justify-center rounded-lg bg-black/70"
+          className="absolute inset-0 z-50 flex cursor-pointer items-start justify-center rounded-lg bg-black/80"
           onClick={() => setIsComingSoonHighlighted(true)}
         >
-          <div className={`rounded-lg bg-black/80 px-8 py-4 text-center transition-all duration-300 ${isComingSoonHighlighted ? 'scale-110 ring-2 ring-white' : ''}`}>
+          <div className={`mt-20 rounded-lg bg-black/80 px-8 py-4 text-center transition-all duration-300 ${isComingSoonHighlighted ? 'scale-110 ring-2 ring-white' : ''}`}>
             <h2 className="text-2xl font-bold text-white md:text-3xl">Coming Soon</h2>
             <p className="mt-2 text-gray-300">Governance features will be available after Genesis</p>
           </div>

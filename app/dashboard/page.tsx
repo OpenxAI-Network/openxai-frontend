@@ -48,7 +48,7 @@ const DynamicChart = dynamic(
 const ON_CHAIN_DATA = [
   {
     label: "Token Price",
-    value: "$0.02",
+    value: "$0.15",
     tooltip: "Token Price (USD)"
   },
   {
@@ -59,17 +59,17 @@ const ON_CHAIN_DATA = [
   },
   {
     label: "Marketcap",
-    value: "$20K",
+    value: "$120K",
     tooltip: "Current market capitalization"
   },
   {
     label: "FDV",
-    value: "2M",
+    value: "14M",
     tooltip: "Fully Diluted Valuation"
   },
   {
     label: "Staking Rewards",
-    value: "1,578.34%",
+    value: "369%",
     tooltip: "Staking rewards"
   },
   {
