@@ -1,16 +1,23 @@
 "use client"
 
-import { useState } from "react"
-import { useAccount, useSignMessage, useChainId } from "wagmi"
-import { useWeb3Modal } from "@web3modal/wagmi/react"
-import { useQuery } from "wagmi/query"
-import axios from "axios"
+import { useMemo } from "react"
 import { ObjectFilter } from "@/openxai-indexer/nodejs-app/api/filter"
-import { FilterEventsReturn } from "@/openxai-indexer/nodejs-app/api/return-types"
+import { FilterSignsReturn } from "@/openxai-indexer/nodejs-app/api/return-types"
+import { Sign } from "@/openxai-indexer/nodejs-app/types/sign"
 import { replacer, reviver } from "@/openxai-indexer/nodejs-app/utils/json"
+import { useQuery } from "@tanstack/react-query"
+import { useWeb3Modal } from "@web3modal/wagmi/react"
+import axios from "axios"
+import { useAccount, useSignMessage } from "wagmi"
 
-import { MobileResponsiveWrapper } from "@/components/layouts/MobileResponsiveWrapper"
 import { cn } from "@/lib/utils"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+import { MobileResponsiveWrapper } from "@/components/layouts/MobileResponsiveWrapper"
 
 const commandments = [
   "Thou shalt have no corporations or middlemen ruling thy AI systems.\nNo single entity shall alter protocol governance, data, services, or network.​",
@@ -22,65 +29,47 @@ const commandments = [
   "Thou shalt design for censorship resistance by distributing authority.\nPower shall be distributed among community members to prevent monopolistic control, ensuring immutable records and decentralized authority.​",
   "Thou shalt pursue sustainability in all endeavors.\nAI technologies shall be developed and utilized in an environmentally responsible manner, minimizing ecological footprints and promoting resource efficiency.​",
   "Thou shalt ensure composability and interoperability by design.\nAI systems shall adopt open standards and protocols to enable seamless integration and collaboration among different AI systems and platforms.​",
-  "Thou shalt build redundancy and reliability into network design.\nAI systems shall implement robust security measures to protect against malicious activities, ensuring the integrity and reliability of AI operations.​"
+  "Thou shalt build redundancy and reliability into network design.\nAI systems shall implement robust security measures to protect against malicious activities, ensuring the integrity and reliability of AI operations.​",
 ]
-
-interface PledgeSigned {
-  type: 'PledgeSigned'
-  chainId: number
-  signer: string
-  signature: string
-  timestamp: number
-}
+const message = `I pledge to uphold and embody these 10 AI Commandments, ensuring my actions align with the principles of a free and decentralized AI future.\n\n${commandments.join("\n")}`
 
 export default function PledgePage() {
-  const { address, isConnected } = useAccount()
-  const chainId = useChainId()
+  const { address } = useAccount()
   const { open } = useWeb3Modal()
-  const [signature, setSignature] = useState<string>('')
+  const { signMessageAsync } = useSignMessage()
 
   // Fetch all signatures from the indexer
-  const { data: pledgeEvents } = useQuery({
-    initialData: [],
+  const { data: pledges, refetch: refetchPledges } = useQuery({
     queryKey: ["pledges"],
     refetchInterval: 10_000, // 10s
     queryFn: async () => {
       const filter: ObjectFilter = {
-        chainId: {
-          equal: chainId,
-        },
-        type: {
-          equal: "PledgeSigned",
+        message: {
+          equal: message,
         },
       }
       return await axios
         .post(
-          "https://indexer.openxai.org/filterEvents",
+          "https://indexer.openxai.org/filterSigns",
           JSON.parse(JSON.stringify(filter, replacer))
         )
         .then((res) => res.data)
         .then(
           (data) =>
-            JSON.parse(JSON.stringify(data), reviver) as FilterEventsReturn
+            JSON.parse(JSON.stringify(data), reviver) as FilterSignsReturn
         )
     },
-  }) as { data: PledgeSigned[] }
-
-  // Fixed the useSignMessage hook to use the correct structure
-  const { signMessage } = useSignMessage({
-    mutation: {
-      onSuccess(data) {
-        setSignature(data)
-        // After signing, we would call the smart contract to store the signature
-        // This would be handled by your contract interaction code
-      }
-    }
   })
 
-  const handleSign = () => {
-    const message = `I pledge to uphold and embody these 10 AI Commandments, ensuring my actions align with the principles of a free and decentralized AI future.\n\n${commandments.join('\n')}`
-    signMessage({ message })
-  }
+  const yourSignature = useMemo(() => {
+    if (!address || !pledges) {
+      return undefined
+    }
+
+    return pledges.find(
+      (p) => p.address.toLowerCase() === address.toLowerCase()
+    )
+  }, [address, pledges])
 
   // Stats for the boxes at the top
   const STATS = [
@@ -97,7 +86,7 @@ export default function PledgePage() {
       label: "Signature Type",
     },
     {
-      value: pledgeEvents?.length.toString() || "0",
+      value: pledges?.length.toString() || "...",
       label: "Total Signers",
       special: true,
     },
@@ -114,7 +103,8 @@ export default function PledgePage() {
             </div>
           </h2>
           <p className="mt-4 text-[#CCCCCC]">
-            Confirm your commitment by connecting your crypto wallet, signing with a smart contract, or verifying with your email.
+            Confirm your commitment by connecting your crypto wallet, signing
+            with a smart contract, or verifying with your email.
           </p>
         </div>
 
@@ -123,16 +113,26 @@ export default function PledgePage() {
             <p className="mb-2 text-xl font-bold">The BIG Why</p>
           </div>
           <p className="mb-4 text-[#FFFFFF]">
-            AI is among the most powerful technologies humans have ever created. However, five companies currently own, control, and decide its future. This centralization poses risks not just to business but also to democracy and our collective future.
+            AI is among the most powerful technologies humans have ever created.
+            However, five companies currently own, control, and decide its
+            future. This centralization poses risks not just to business but
+            also to democracy and our collective future.
           </p>
           <p className="mb-4 text-[#FFFFFF]">
-            We believe AI should be free and available to everyone, much like the internet or public transportation. Making AI accessible to all can lead to a significantly better world than relying on a few corporations to manage it and hoping for the best.
+            We believe AI should be free and available to everyone, much like
+            the internet or public transportation. Making AI accessible to all
+            can lead to a significantly better world than relying on a few
+            corporations to manage it and hoping for the best.
           </p>
           <p className="mb-4 text-[#FFFFFF]">
-            Currently, there is no fully decentralized, community-owned AI protocol in existence.
+            Currently, there is no fully decentralized, community-owned AI
+            protocol in existence.
           </p>
           <p className="mb-6 text-[#FFFFFF]">
-            Imagine a Bitcoin-like network for AI: all you need is a computer and internet access. Anyone can participate, regardless of who or where they are—a permissionless, open AI network. Governance by a community, with no CEO, foundation, company, or corporation.
+            Imagine a Bitcoin-like network for AI: all you need is a computer
+            and internet access. Anyone can participate, regardless of who or
+            where they are—a permissionless, open AI network. Governance by a
+            community, with no CEO, foundation, company, or corporation.
           </p>
         </div>
 
@@ -175,11 +175,11 @@ export default function PledgePage() {
                   Commandment
                 </div>
               </div>
-              
+
               {commandments.map((commandment, index) => {
-                const [title, description] = commandment.split('\n');
+                const [title, description] = commandment.split("\n")
                 return (
-                  <div 
+                  <div
                     key={index}
                     className="grid grid-cols-[auto,1fr] border-b border-[#454545] transition-colors last:border-b-0 hover:bg-white/5"
                   >
@@ -187,11 +187,15 @@ export default function PledgePage() {
                       {index + 1}
                     </div>
                     <div className="p-4">
-                      <div className="break-words text-xl text-white">{title}</div>
-                      <div className="mt-1 break-words text-sm text-[#6A6A6A]">{description}</div>
+                      <div className="break-words text-xl text-white">
+                        {title}
+                      </div>
+                      <div className="mt-1 break-words text-sm text-[#6A6A6A]">
+                        {description}
+                      </div>
                     </div>
                   </div>
-                );
+                )
               })}
             </div>
           </div>
@@ -199,38 +203,63 @@ export default function PledgePage() {
 
         {/* Signature Section */}
         <div className="my-12">
-          {signature && (
+          {yourSignature && (
             <div className="relative mb-8 w-full rounded-lg border border-[#454545] bg-[#1F2021] p-6">
-              <h3 className="mb-4 text-xl font-semibold text-white">Your Signature</h3>
-              <p className="break-all font-mono text-sm text-[#6A6A6A]">{signature}</p>
-              <p className="mt-4 text-[#6A6A6A]">Signed by: {address}</p>
+              <h3 className="mb-4 text-xl font-semibold text-white">
+                Your Signature
+              </h3>
+              <p className="break-all font-mono text-sm text-[#6A6A6A]">
+                {yourSignature.signature}
+              </p>
+              <p className="mt-4 text-[#6A6A6A]">
+                Signed by {yourSignature.address} on{" "}
+                {new Date(yourSignature.date * 1000).toLocaleString()}
+              </p>
             </div>
           )}
 
           {/* Sign Button - Matching Projects styling */}
-          <div className="mt-8">
-            <div className="mb-8 text-center">
-              <p className="bg-gradient-to-r from-white to-[#2D63F6] bg-clip-text text-lg font-bold text-transparent">
-                Sign Now. Make It Official. Own Your Commitment On-Chain.
-              </p>
+          {!yourSignature && (
+            <div className="mt-8">
+              <div className="mb-8 text-center">
+                <p className="bg-gradient-to-r from-white to-[#2D63F6] bg-clip-text text-lg font-bold text-transparent">
+                  Sign Now. Make It Official. Own Your Commitment On-Chain.
+                </p>
+              </div>
+              <div className="flex justify-center">
+                <button
+                  onClick={() => {
+                    if (!address) {
+                      open()
+                      return
+                    }
+
+                    signMessageAsync({ message })
+                      .then((sig) =>
+                        axios.post("https://indexer.openxai.org/uploadSign", {
+                          address,
+                          message,
+                          signature: sig,
+                        } satisfies Omit<Sign, "date">)
+                      )
+                      .then(() => refetchPledges())
+                      .catch(console.error)
+                  }}
+                  className="h-[40px] rounded-lg bg-[#2D63F6] px-8 text-xl font-bold text-white hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {address ? "Sign the Pledge" : "Connect Wallet to Sign"}
+                </button>
+              </div>
             </div>
-            <div className="flex justify-center">
-              <button
-                onClick={() => isConnected ? handleSign() : open()}
-                className="h-[40px] rounded-lg bg-[#2D63F6] px-8 text-xl font-bold text-white hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {isConnected ? 'Sign the Pledge' : 'Connect Wallet to Sign'}
-              </button>
-            </div>
-          </div>
+          )}
         </div>
 
         {/* Signers Table - Projects page style */}
         <div className="mt-12">
           <h3 className="mb-6 bg-gradient-to-r from-white to-[#2D63F6] bg-clip-text text-2xl font-bold text-transparent">
-            Pledge Signers ({pledgeEvents?.length ?? 0})
+            Pledge Signers ({pledges?.length.toString() ?? "..."})
           </h3>
-          
+
           <div className="-mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0">
             <div className="inline-block min-w-full align-middle">
               <div className="min-w-[320px]">
@@ -249,25 +278,37 @@ export default function PledgePage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {pledgeEvents?.length ? (
-                      pledgeEvents.map((event) => (
-                        <tr key={event.signer} className="text-sm hover:bg-white/5">
+                    {pledges?.length ? (
+                      pledges.map((pledge, i) => (
+                        <tr key={i} className="text-sm hover:bg-white/5">
                           <td className="border-0 p-4 text-[#6A6A6A]">
-                            <span className="font-mono">{event.signer}</span>
+                            <span className="font-mono">{pledge.address}</span>
                           </td>
                           <td className="border-0 p-4 text-[#6A6A6A]">
-                            {new Date(event.timestamp * 1000).toLocaleString()}
+                            {new Date(pledge.date * 1000).toLocaleString()}
                           </td>
-                          <td className="border-0 p-4 text-[#6A6A6A]">
-                            <span className="inline-block max-w-[200px] truncate font-mono">
-                              {event.signature.substring(0, 20)}...
-                            </span>
-                          </td>
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <td className="border-0 p-4 text-[#6A6A6A]">
+                                  <span className="inline-block max-w-[200px] truncate font-mono">
+                                    {pledge.signature}
+                                  </span>
+                                </td>
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p>{pledge.signature}</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
                         </tr>
                       ))
                     ) : (
                       <tr>
-                        <td colSpan={3} className="border-0 p-4 text-center text-[#6A6A6A]">
+                        <td
+                          colSpan={3}
+                          className="border-0 p-4 text-center text-[#6A6A6A]"
+                        >
                           No signatures yet. Be the first to sign the pledge!
                         </td>
                       </tr>

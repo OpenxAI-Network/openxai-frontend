@@ -30,7 +30,8 @@ import { MobileResponsiveWrapper } from "@/components/layouts/MobileResponsiveWr
 
 export default function ClaimsPage() {
   const [isHighlighted, setIsHighlighted] = React.useState(false)
-  const [isComingSoonHighlighted, setIsComingSoonHighlighted] = React.useState(false)
+  const [isComingSoonHighlighted, setIsComingSoonHighlighted] =
+    React.useState(false)
 
   React.useEffect(() => {
     if (isHighlighted) {
@@ -98,7 +99,7 @@ export default function ClaimsPage() {
       }
       return await axios
         .post(
-          "https://indexer.openxai.org/filterProof",
+          "https://indexer.openxai.org/filterProofs",
           JSON.parse(JSON.stringify(filter, replacer))
         )
         .then((res) => res.data)
@@ -220,26 +221,33 @@ export default function ClaimsPage() {
         className={`mb-6 rounded-lg bg-blue-900/30 p-4 text-center transition-all duration-300 ${isHighlighted ? "ring-1 ring-white" : ""}`}
       >
         <span className="text-sm text-white md:text-base">
-        Claims will be going live after the{' '}
-          <a 
-            href="/genesis" 
+          Claims will be going live after the{" "}
+          <a
+            href="/genesis"
             className="pointer-events-auto font-bold underline hover:text-blue-300"
           >
             $OPENX Token Genesis Event
-          </a>!
+          </a>
+          !
         </span>
       </div>
 
       {/* Content with disabled interactions */}
       <div className="relative">
         {/* Coming Soon overlay */}
-        <div 
+        <div
           className="absolute inset-0 z-50 flex cursor-pointer items-start justify-center rounded-lg bg-black/90"
           onClick={() => setIsComingSoonHighlighted(true)}
         >
-          <div className={`mt-20 rounded-lg bg-black/80 px-8 py-4 text-center transition-all duration-300 ${isComingSoonHighlighted ? 'scale-110 ring-2 ring-white' : ''}`}>
-            <h2 className="text-2xl font-bold text-white md:text-3xl">Coming Soon</h2>
-            <p className="mt-2 text-gray-300">Claims will be available after Genesis</p>
+          <div
+            className={`mt-20 rounded-lg bg-black/80 px-8 py-4 text-center transition-all duration-300 ${isComingSoonHighlighted ? "scale-110 ring-2 ring-white" : ""}`}
+          >
+            <h2 className="text-2xl font-bold text-white md:text-3xl">
+              Coming Soon
+            </h2>
+            <p className="mt-2 text-gray-300">
+              Claims will be available after Genesis
+            </p>
           </div>
         </div>
 
@@ -462,7 +470,9 @@ export default function ClaimsPage() {
               </div>
             </div>
 
-            <h2 className="my-10 text-xl font-bold text-white">Claim History</h2>
+            <h2 className="my-10 text-xl font-bold text-white">
+              Claim History
+            </h2>
             <div className="w-full overflow-x-auto">
               <div className="min-w-[400px]">
                 <table className="mb-10 w-full border-collapse rounded-lg border border-[#454545] bg-[#1F2021]">
