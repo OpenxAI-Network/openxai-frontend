@@ -57,7 +57,7 @@ const SIDE_MENU_ITEMS = [
     icon: <FontAwesomeIcon icon={faScaleBalanced} className="size-4" />,
   },
   {
-    name: "Projects",
+    name: "Roadmap",
     href: "/projects",
     icon: <FontAwesomeIcon icon={faClipboardList} className="size-4" />,
   },
@@ -291,16 +291,16 @@ export function SideMenu({ className, ...props }: SideMenuProps) {
           </div>
         </div>
         {/* Horizontal Navigation Menu */}
-        <div className="border-t border-gray-200 px-4 py-2">
+        <div className="border-t border-gray-200 px-4 py-2 max-[420px]:px-2 max-[420px]:py-1">
           <div className="flex justify-around">
             {SIDE_MENU_ITEMS.map((item) => (
               <NextLink
                 key={item.name}
                 href={item.href}
-                className="flex flex-col items-center text-gray-600 hover:text-gray-900"
+                className="flex flex-col items-center text-gray-600 hover:text-gray-900 max-[500px]:px-1"
               >
-                <span>{item.icon}</span>
-                <span className="text-sm">{item.name}</span>
+                <span className="max-[420px]:scale-90">{item.icon}</span>
+                <span className="text-sm max-[500px]:text-xs max-[420px]:text-[10px]">{item.name}</span>
               </NextLink>
             ))}
           </div>
