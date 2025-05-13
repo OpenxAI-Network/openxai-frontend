@@ -11,6 +11,7 @@ import {
   WagmiProvider,
 } from "wagmi"
 import { mainnet, sepolia } from "wagmi/chains"
+import { useEffect, useState } from "react"
 
 import { siteConfig } from "@/config/site"
 
@@ -56,16 +57,24 @@ const config = defaultWagmiConfig({
   },
 })
 
-// Create modal
-if (typeof window !== 'undefined') {
-  createWeb3Modal({
-    wagmiConfig: config,
-    projectId,
-  })
-}
-
 export function Web3Provider({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient()
+  const [isInitialized, setIsInitialized] = useState(false)
+
+  // Initialize Web3Modal on the client side only
+  useEffect(() => {
+    if (!isInitialized) {
+      try {
+        createWeb3Modal({
+          wagmiConfig: config,
+          projectId,
+        })
+        setIsInitialized(true)
+      } catch (error) {
+        console.error("Failed to initialize Web3Modal:", error)
+      }
+    }
+  }, [isInitialized])
 
   return (
     <WagmiProvider config={config}>
