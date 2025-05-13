@@ -26,11 +26,13 @@ import { cn } from "@/lib/utils"
 export interface SideMenuProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 const SIDE_MENU_ITEMS = [
+  /*
   {
     name: "Genesis",
     href: "/genesis",
     icon: <FontAwesomeIcon icon={faFlag} className="size-4" />,
   },
+  */
   {
     name: "Dashboard",
     href: "/dashboard",
