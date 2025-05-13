@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import { redirect } from "next/navigation"
 import { projects } from "@/data/projects"
 import { ObjectFilter } from "@/openxai-indexer/nodejs-app/api/filter"
 import { FilterEventsReturn } from "@/openxai-indexer/nodejs-app/api/return-types"
@@ -142,6 +143,8 @@ const FAQS = [
 ]
 
 export default function GenesisPage() {
+  redirect("/dashboard")
+
   const [selectedMilestone, setSelectedMilestone] = useState<string | null>(
     null
   )
@@ -155,7 +158,7 @@ export default function GenesisPage() {
   const chainId = useChainId()
   const chainInfo =
     chainId === mainnet.id || chainId == sepolia.id
-      ? CHAIN_INFO[chainId]
+      ? CHAIN_INFO[chainId as keyof typeof CHAIN_INFO]
       : undefined
   const { open } = useWeb3Modal()
   const [countdown, setCountdown] = useState({
@@ -181,7 +184,7 @@ export default function GenesisPage() {
   // Set up wallet icon rotation interval
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIconIndex((prevIndex) => 
+      setCurrentIconIndex((prevIndex: number) => 
         (prevIndex + 1) % walletIcons.length
       );
     }, 2000);
@@ -241,11 +244,12 @@ export default function GenesisPage() {
       refetchInterval: 10_000, // 10s
     },
   })
-  const ethPrice = useMemo(
-    () =>
-      ethPriceRaw ? parseFloat(formatUnits(ethPriceRaw[1], 8)) : undefined,
-    [ethPriceRaw]
-  )
+  const ethPrice = useMemo(() => {
+    if (ethPriceRaw) {
+      return parseFloat(formatUnits(ethPriceRaw![1], 8));
+    }
+    return undefined;
+  }, [ethPriceRaw]);
 
   const selectedToken = useMemo(() => {
     return selectedPayment === "eth"
@@ -303,7 +307,7 @@ export default function GenesisPage() {
       selectedToken.isEth
         ? ethPrice !== undefined
           ? parseFloat(formatUnits(paymentAmount, selectedToken.decimals)) *
-            ethPrice
+            ethPrice!
           : undefined
         : parseFloat(formatUnits(paymentAmount, selectedToken.decimals)),
     [selectedToken, ethPrice, paymentAmount]
@@ -326,9 +330,9 @@ export default function GenesisPage() {
           "https://indexer.openxai.org/filterEvents",
           JSON.parse(JSON.stringify(filter, replacer))
         )
-        .then((res) => res.data)
+        .then((res: any) => res.data)
         .then(
-          (data) =>
+          (data: any) =>
             JSON.parse(JSON.stringify(data), reviver) as FilterEventsReturn
         )
     },
@@ -356,7 +360,7 @@ export default function GenesisPage() {
             formatUnits(
               participateEvents
                 .filter(
-                  (e) => e.account.toLowerCase() === address.toLowerCase()
+                  (e) => e.account.toLowerCase() === address!.toLowerCase()
                 )
                 .reduce((prev, cur) => prev + cur.amount, BigInt(0)),
               6
@@ -403,7 +407,7 @@ export default function GenesisPage() {
         }
       })
 
-    let valueLeft = usdValue
+    let valueLeft = usdValue ?? 0;
     let openx = 0
     let tierIndex = 0
     while (valueLeft > 0 && tierIndex < tiers.length) {
@@ -423,14 +427,17 @@ export default function GenesisPage() {
     let erc20Address: Address
     switch (selectedPayment) {
       case "weth":
-        erc20Address = chainInfo.wrappedEth.address
+        erc20Address = chainInfo!.wrappedEth.address
         break
       case "usdc":
-        erc20Address = chainInfo.USDC.address
+        erc20Address = chainInfo!.USDC.address
         break
       case "usdt":
-        erc20Address = chainInfo.USDT.address
+        erc20Address = chainInfo!.USDT.address
         break
+      default:
+        // This case should be unreachable given the type of selectedPayment
+        throw new Error(`Unexpected payment method: ${selectedPayment}`);
     }
     return erc20Address
   }, [chainInfo, selectedPayment])
@@ -475,7 +482,12 @@ export default function GenesisPage() {
     return Math.max(100_000 - currentUsd, Math.max(0, 1_000 - myUsd))
   }, [currentUsd, myUsd])
   const overMaxAmount = useMemo(() => {
-    return usdValue !== undefined && usdValue > maxAmount
+    if (typeof usdValue === 'number') {
+      // usdValue is confirmed to be a number here - use non-null assertion
+      return usdValue! > maxAmount;
+    }
+    // If usdValue is not a number (e.g., undefined), it's not over the max amount
+    return false;
   }, [usdValue, maxAmount])
 
   return (
@@ -1037,7 +1049,7 @@ export default function GenesisPage() {
                         <span className="text-white">
                           {formatNumber(
                             formatUnits(
-                              selectedToken.balance,
+                              selectedToken.balance!,
                               selectedToken.decimals
                             )
                           )}{" "}
@@ -1069,7 +1081,7 @@ export default function GenesisPage() {
                                   width: `${paymentAmountInput.length + 1}ch`,
                                 }}
                                 value={paymentAmountInput}
-                                onChange={(e) => {
+                                onChange={(e: any) => {
                                   setPaymentAmountInput(e.target.value)
                                   const asNum = Number(e.target.value)
                                   if (!Number.isNaN(asNum)) {
@@ -1086,7 +1098,7 @@ export default function GenesisPage() {
                             </div>
                             <div className="text-sm text-gray-400">
                               {usdValue !== undefined
-                                ? `$${formatNumber(usdValue)}`
+                                ? `$${formatNumber(usdValue!)}`
                                 : "Loading..."}
                             </div>
                           </div>
@@ -1174,7 +1186,7 @@ export default function GenesisPage() {
                                   abi: parseAbi([
                                     "function approve(address spender, uint256 amount)",
                                   ]),
-                                  address: tokenAddress,
+                                  address: tokenAddress!,
                                   functionName: "approve",
                                   args: [
                                     OpenxAIGenesisContract.address,
@@ -1182,7 +1194,7 @@ export default function GenesisPage() {
                                   ],
                                 }
                               },
-                              onConfirmed(receipt) {
+                              onConfirmed(receipt: any) {
                                 refetchTokenAllowance()
                               },
                             })
@@ -1241,7 +1253,7 @@ export default function GenesisPage() {
                               args: [tokenAddress, paymentAmount],
                             }
                           },
-                          onConfirmed(receipt) {
+                          onConfirmed(receipt: any) {
                             setShowSuccessModal(true)
                             axios.post(
                               "https://indexer.openxai.org/sync",

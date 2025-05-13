@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react'
 import { Info } from "lucide-react"
-import { MobileResponsiveWrapper } from "@/components/layouts/MobileResponsiveWrapper"
 import { Line, Bar } from 'react-chartjs-2'
 import {
   Chart as ChartJS,
@@ -25,6 +24,14 @@ import { cn } from "@/lib/utils"
 import Image from "next/image"
 import dynamic from 'next/dynamic'
 import CloudComparisonSection from '@/components/dashboard/Comparison'
+
+const MobileResponsiveWrapper = dynamic(
+  () => import('@/components/layouts/MobileResponsiveWrapper').then(mod => mod.MobileResponsiveWrapper),
+  {
+    ssr: false,
+    loading: () => <div className="flex h-screen items-center justify-center"><p>Loading layout...</p></div>
+  }
+);
 
 // Add this type definition
 type ChartDataType = {
