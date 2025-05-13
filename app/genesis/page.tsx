@@ -482,8 +482,12 @@ export default function GenesisPage() {
     return Math.max(100_000 - currentUsd, Math.max(0, 1_000 - myUsd))
   }, [currentUsd, myUsd])
   const overMaxAmount = useMemo(() => {
-    // If usdValue is a number, compare it with maxAmount. Otherwise, it's not over maxAmount.
-    return typeof usdValue === 'number' ? usdValue > maxAmount : false;
+    if (typeof usdValue === 'number') {
+      // usdValue is confirmed to be a number here - use non-null assertion
+      return usdValue! > maxAmount;
+    }
+    // If usdValue is not a number (e.g., undefined), it's not over the max amount
+    return false;
   }, [usdValue, maxAmount])
 
   return (
@@ -1045,7 +1049,7 @@ export default function GenesisPage() {
                         <span className="text-white">
                           {formatNumber(
                             formatUnits(
-                              selectedToken.balance,
+                              selectedToken.balance!,
                               selectedToken.decimals
                             )
                           )}{" "}
@@ -1094,7 +1098,7 @@ export default function GenesisPage() {
                             </div>
                             <div className="text-sm text-gray-400">
                               {usdValue !== undefined
-                                ? `$${formatNumber(usdValue)}`
+                                ? `$${formatNumber(usdValue!)}`
                                 : "Loading..."}
                             </div>
                           </div>
@@ -1182,7 +1186,7 @@ export default function GenesisPage() {
                                   abi: parseAbi([
                                     "function approve(address spender, uint256 amount)",
                                   ]),
-                                  address: tokenAddress,
+                                  address: tokenAddress!,
                                   functionName: "approve",
                                   args: [
                                     OpenxAIGenesisContract.address,

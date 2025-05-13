@@ -57,10 +57,12 @@ const config = defaultWagmiConfig({
 })
 
 // Create modal
-createWeb3Modal({
-  wagmiConfig: config,
-  projectId,
-})
+if (typeof window !== 'undefined') {
+  createWeb3Modal({
+    wagmiConfig: config,
+    projectId,
+  })
+}
 
 export function Web3Provider({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient()
