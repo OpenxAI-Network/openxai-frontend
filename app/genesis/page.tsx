@@ -158,7 +158,7 @@ export default function GenesisPage() {
   const chainId = useChainId()
   const chainInfo =
     chainId === mainnet.id || chainId == sepolia.id
-      ? CHAIN_INFO[chainId]
+      ? CHAIN_INFO[chainId as keyof typeof CHAIN_INFO]
       : undefined
   const { open } = useWeb3Modal()
   const [countdown, setCountdown] = useState({
