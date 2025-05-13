@@ -11,6 +11,7 @@ import {
   WagmiProvider,
 } from "wagmi"
 import { mainnet, sepolia } from "wagmi/chains"
+import { useEffect, useState } from "react"
 
 import { siteConfig } from "@/config/site"
 
@@ -56,18 +57,37 @@ const config = defaultWagmiConfig({
   },
 })
 
-// Create modal
-createWeb3Modal({
-  wagmiConfig: config,
-  projectId,
-})
+// Client component to ensure Web3Modal is only created on the client side
+function Web3ModalInitializer() {
+  useEffect(() => {
+    try {
+      createWeb3Modal({
+        wagmiConfig: config,
+        projectId,
+      })
+    } catch (error) {
+      console.error("Failed to initialize Web3Modal:", error)
+    }
+  }, [])
+  
+  return null
+}
 
 export function Web3Provider({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient()
+  const [isMounted, setIsMounted] = useState(false)
+  
+  // Only render children after component has mounted to avoid hydration issues
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   return (
     <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      <QueryClientProvider client={queryClient}>
+        <Web3ModalInitializer />
+        {isMounted ? children : null}
+      </QueryClientProvider>
     </WagmiProvider>
   )
 }
