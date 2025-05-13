@@ -221,14 +221,14 @@ export default function ClaimsPage() {
         className={`mb-6 rounded-lg bg-blue-900/30 p-4 text-center transition-all duration-300 ${isHighlighted ? "ring-1 ring-white" : ""}`}
       >
         <span className="text-sm text-white md:text-base">
-          Claims will be going live after the{" "}
+          Claims will be going live soon! Please follow {" "}
           <a
-            href="/genesis"
+            href="https://x.com/OpenxAINetwork" target="_blank"
             className="pointer-events-auto font-bold underline hover:text-blue-300"
           >
-            $OPENX Token Genesis Event
+            OpenxAI
           </a>
-          !
+          {" "} for updates.
         </span>
       </div>
 
@@ -246,7 +246,16 @@ export default function ClaimsPage() {
               Coming Soon
             </h2>
             <p className="mt-2 text-gray-300">
-              Claims will be available after Genesis
+              Follow{" "}
+              <a 
+                href="https://x.com/OpenxAINetwork" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:text-blue-300 underline"
+              >
+                OpenxAI
+              </a>{" "}
+              for updates.
             </p>
           </div>
         </div>

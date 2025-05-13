@@ -28,13 +28,14 @@ export default function StakePage() {
       {/* Banner notification */}
       <div className={`mb-6 rounded-lg bg-blue-900/30 p-4 text-center transition-all duration-300 ${isHighlighted ? 'ring-1 ring-white' : ''}`}>
         <span className="text-sm text-white md:text-base">
-          Staking will be going live after the{' '}
-          <a 
-            href="/genesis" 
+          Staking will be going live soon! Please follow{" "}
+          <a
+            href="https://x.com/OpenxAINetwork" target="_blank"
             className="pointer-events-auto font-bold underline hover:text-blue-300"
           >
-            $OPENX Token Genesis Event
-          </a>!
+            OpenxAI
+          </a>
+          {" "} for updates.
         </span>
       </div>
 
@@ -42,12 +43,23 @@ export default function StakePage() {
       <div className="relative">
         {/* Coming Soon overlay */}
         <div 
-          className="absolute inset-0 z-50 flex cursor-pointer items-start justify-center rounded-lg bg-black/80"
+          className="absolute -inset-1 z-50 flex cursor-pointer items-start justify-center rounded-lg bg-black/80 max-h-[650px]"
           onClick={() => setIsComingSoonHighlighted(true)}
         >
           <div className={`mt-20 rounded-lg bg-black/80 px-8 py-4 text-center transition-all duration-300 ${isComingSoonHighlighted ? 'scale-110 ring-2 ring-white' : ''}`}>
             <h2 className="text-2xl font-bold text-white md:text-3xl">Coming Soon</h2>
-            <p className="mt-2 text-gray-300">Staking features will be available after Genesis</p>
+            <p className="mt-2 text-gray-300">
+              Follow{" "}
+              <a 
+                href="https://x.com/OpenxAINetwork" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:text-blue-300 underline"
+              >
+                OpenxAI
+              </a>{" "}
+              for updates.
+            </p>
           </div>
         </div>
 
