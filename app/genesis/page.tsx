@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import { redirect } from "next/navigation"
 import { projects } from "@/data/projects"
 import { ObjectFilter } from "@/openxai-indexer/nodejs-app/api/filter"
 import { FilterEventsReturn } from "@/openxai-indexer/nodejs-app/api/return-types"
@@ -142,6 +143,8 @@ const FAQS = [
 ]
 
 export default function GenesisPage() {
+  redirect("/dashboard")
+
   const [selectedMilestone, setSelectedMilestone] = useState<string | null>(
     null
   )
