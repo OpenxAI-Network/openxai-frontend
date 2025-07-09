@@ -456,9 +456,9 @@ export default function DashboardPage() {
   return (
     <MobileResponsiveWrapper>
       {/* Top Split Cards */}
-      <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+      <div className="mb-4">
         {/* On-chain Data Card - Left */}
-        <div className="rounded-lg border border-[#454545] bg-[#1F2021]/50 p-6">
+        {/* <div className="rounded-lg border border-[#454545] bg-[#1F2021]/50 p-6">
           <h2 className="mb-4 text-2xl font-bold">
             <span className="bg-gradient-to-r from-white to-[#00FF94] bg-clip-text text-transparent">
               On-chain Data
@@ -469,9 +469,9 @@ export default function DashboardPage() {
               <MetricItem key={index} stat={stat} />
             ))}
           </div>
-        </div>
+        </div> */}
 
-        {/* Protocol Metrics Card - Right */}
+        {/* Protocol Metrics Card - Full Width */}
         <div className="rounded-lg border border-[#454545] bg-[#1F2021]/50 p-6">
           <h2 className="mb-4 text-2xl font-bold">
             <span className="bg-gradient-to-r from-white to-[#3384FF] bg-clip-text text-transparent">
