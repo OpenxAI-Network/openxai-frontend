@@ -7,6 +7,7 @@ import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
 import { Toaster } from "@/components/ui/toaster"
 import { Web3Provider } from "@/components/custom/web3-provider"
+import { MobileResponsiveWrapper } from "@/components/layouts/MobileResponsiveWrapper"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 
 const inter = Inter({
@@ -52,7 +53,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         >
           <Web3Provider>
             <div className="relative flex min-h-screen flex-col">
-              <div className="flex-1">{children}</div>
+              <MobileResponsiveWrapper>{children}</MobileResponsiveWrapper>
             </div>
             <Toaster />
             <TailwindIndicator />

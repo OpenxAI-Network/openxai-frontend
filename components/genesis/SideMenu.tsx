@@ -4,39 +4,34 @@ import React, { useState } from "react"
 import Image from "next/image"
 import NextLink from "next/link"
 import { usePathname } from "next/navigation"
-import { OpenxAIContract } from "@/openxai-indexer/nodejs-app/contracts/OpenxAI"
+import { OpenxAIContract } from "@/contracts/OpenxAI"
 import {
-  faClipboardList,
+  faCircleCheck,
   faCoins,
   faDollarSign,
-  faFlag,
   faFlagCheckered,
+  faRocket,
   faScaleBalanced,
-  faCircleCheck,
 } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useWeb3Modal } from "@web3modal/wagmi/react"
-import { Menu, X } from "lucide-react"
 import { Address, formatUnits } from "viem"
 import { useAccount, useReadContract } from "wagmi"
 
-import { formatNumber } from "@/lib/openxai"
 import { cn } from "@/lib/utils"
 
 export interface SideMenuProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 const SIDE_MENU_ITEMS = [
-  /*
-  {
-    name: "Genesis",
-    href: "/genesis",
-    icon: <FontAwesomeIcon icon={faFlag} className="size-4" />,
-  },
-  */
   {
     name: "Dashboard",
     href: "/dashboard",
     icon: <FontAwesomeIcon icon={faCircleCheck} className="size-4" />,
+  },
+  {
+    name: "Genesis",
+    href: "/genesis",
+    icon: <FontAwesomeIcon icon={faRocket} className="size-4" />,
   },
   {
     name: "Claims",
@@ -57,11 +52,6 @@ const SIDE_MENU_ITEMS = [
     name: "Governance",
     href: "/governance",
     icon: <FontAwesomeIcon icon={faScaleBalanced} className="size-4" />,
-  },
-  {
-    name: "Roadmap",
-    href: "/projects",
-    icon: <FontAwesomeIcon icon={faClipboardList} className="size-4" />,
   },
 ]
 
@@ -98,7 +88,6 @@ export function SideMenu({ className, ...props }: SideMenuProps) {
   const pathname = usePathname()
   const { open } = useWeb3Modal()
   const { address } = useAccount()
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const { data: openxBalance } = useReadContract({
     abi: OpenxAIContract.abi,
@@ -173,6 +162,15 @@ export function SideMenu({ className, ...props }: SideMenuProps) {
                     <span className="text-[13px] font-normal text-white/30">
                       OPENX
                     </span>
+                  </div>
+
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <button
+                      onClick={() => open()}
+                      className="-mt-20 whitespace-nowrap text-center text-[16px] font-bold text-white hover:text-gray-200"
+                    >
+                      Connect Wallet
+                    </button>
                   </div>
                 </div>
               </>
@@ -302,7 +300,9 @@ export function SideMenu({ className, ...props }: SideMenuProps) {
                 className="flex flex-col items-center text-gray-600 hover:text-gray-900 max-[500px]:px-1"
               >
                 <span className="max-[420px]:scale-90">{item.icon}</span>
-                <span className="text-sm max-[500px]:text-xs max-[420px]:text-[10px]">{item.name}</span>
+                <span className="text-sm max-[500px]:text-xs max-[420px]:text-[10px]">
+                  {item.name}
+                </span>
               </NextLink>
             ))}
           </div>
