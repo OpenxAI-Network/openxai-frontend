@@ -29,6 +29,24 @@ export default function ClaimsPage() {
     },
   })
 
+  const { data: claim_breakdown } = useQuery({
+    queryKey: ["claim", address ?? ""],
+    enabled: !!address,
+    queryFn: async () => {
+      return await axios
+        .get(`https://indexer.core.openxai.org/api/${address}/claim`)
+        .then(
+          (res) =>
+            res.data as {
+              amount: number
+              description: string
+              date: number
+            }[]
+        )
+        .then((breakdown) => breakdown.sort((a, b) => b.date - a.date))
+    },
+  })
+
   const { data: claimed, refetch: refetchClaimed } = useReadContract({
     abi: OpenxAIClaimerContract.abi,
     address: OpenxAIClaimerContract.address,
@@ -131,7 +149,48 @@ export default function ClaimsPage() {
         </div>
       </div>
 
-      {/* Horizontal divider */}
+      <div className="my-8 h-px w-full bg-[#505050]" />
+
+      <h2 className="my-10 text-xl font-bold text-white">Breakdown</h2>
+      <div className="w-full overflow-x-auto">
+        <div className="min-w-[400px]">
+          <table className="mb-10 w-full border-collapse rounded-lg border border-[#454545] bg-[#1F2021]">
+            <thead>
+              <tr>
+                <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                  Date
+                </th>
+                <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                  Amount
+                </th>
+                <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                  Reason
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {claim_breakdown?.map((claim, index) => (
+                <tr
+                  key={index}
+                  className="text-sm transition-colors hover:bg-white/5"
+                >
+                  <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                    {new Date(claim.date * 1000).toLocaleDateString()}{" "}
+                    {new Date(claim.date * 1000).toLocaleTimeString()}
+                  </td>
+                  <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                    {(claim.amount / 1_000_000).toFixed(2)} OPENX
+                  </td>
+                  <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                    {claim.description}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       <div className="my-8 h-px w-full bg-[#505050]" />
 
       <h2 className="my-10 text-xl font-bold text-white">Claim History</h2>
