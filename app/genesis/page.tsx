@@ -34,22 +34,22 @@ import { chains } from "@/components/custom/web3-provider"
 import SuccessModal from "@/components/genesis/Success"
 
 const TIERS = [
-  { amount: parseUnits("10000", 6), openx_rate: 12.5, credits_rate: 0.1559 },
-  { amount: parseUnits("10000", 6), openx_rate: 12.2699, credits_rate: 0.1102 },
-  { amount: parseUnits("10000", 6), openx_rate: 12.0482, credits_rate: 0.09 },
-  { amount: parseUnits("10000", 6), openx_rate: 11.8343, credits_rate: 0.078 },
-  { amount: parseUnits("10000", 6), openx_rate: 11.6279, credits_rate: 0.0697 },
-  { amount: parseUnits("10000", 6), openx_rate: 11.4286, credits_rate: 0.0637 },
-  { amount: parseUnits("10000", 6), openx_rate: 11.236, credits_rate: 0.0589 },
-  { amount: parseUnits("10000", 6), openx_rate: 11.0497, credits_rate: 0.0551 },
-  { amount: parseUnits("10000", 6), openx_rate: 10.8696, credits_rate: 0.052 },
-  { amount: parseUnits("10000", 6), openx_rate: 10.6952, credits_rate: 0.0493 },
-  { amount: parseUnits("10000", 6), openx_rate: 10.5263, credits_rate: 0.047 },
-  { amount: parseUnits("10000", 6), openx_rate: 10.3627, credits_rate: 0.045 },
-  { amount: parseUnits("10000", 6), openx_rate: 10.2041, credits_rate: 0.0432 },
-  { amount: parseUnits("10000", 6), openx_rate: 10.0503, credits_rate: 0.0417 },
-  { amount: parseUnits("10000", 6), openx_rate: 9.901, credits_rate: 0.0403 },
-  { amount: parseUnits("100000", 6), openx_rate: 8.3333, credits_rate: 0 },
+  { amount: parseUnits("10000", 6), openx_rate: 10.0, credits_rate: 0.1559 },
+  { amount: parseUnits("10000", 6), openx_rate: 9.8522, credits_rate: 0.1102 },
+  { amount: parseUnits("10000", 6), openx_rate: 9.7087, credits_rate: 0.09 },
+  { amount: parseUnits("10000", 6), openx_rate: 9.5694, credits_rate: 0.078 },
+  { amount: parseUnits("10000", 6), openx_rate: 9.434, credits_rate: 0.0697 },
+  { amount: parseUnits("10000", 6), openx_rate: 9.3023, credits_rate: 0.0637 },
+  { amount: parseUnits("10000", 6), openx_rate: 9.1743, credits_rate: 0.0589 },
+  { amount: parseUnits("10000", 6), openx_rate: 9.0498, credits_rate: 0.0551 },
+  { amount: parseUnits("10000", 6), openx_rate: 8.9286, credits_rate: 0.052 },
+  { amount: parseUnits("10000", 6), openx_rate: 8.8106, credits_rate: 0.0493 },
+  { amount: parseUnits("10000", 6), openx_rate: 8.6957, credits_rate: 0.047 },
+  { amount: parseUnits("10000", 6), openx_rate: 8.5837, credits_rate: 0.045 },
+  { amount: parseUnits("10000", 6), openx_rate: 8.4746, credits_rate: 0.0432 },
+  { amount: parseUnits("10000", 6), openx_rate: 8.3682, credits_rate: 0.0417 },
+  { amount: parseUnits("10000", 6), openx_rate: 8.2645, credits_rate: 0.0403 },
+  { amount: parseUnits("142000", 6), openx_rate: 8.0, credits_rate: 0 },
 ]
 
 const CHAIN_INFO = {

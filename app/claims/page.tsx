@@ -19,15 +19,16 @@ export default function ClaimsPage() {
     usePerformTransaction({})
 
   const { data: total } = useQuery({
-    queryKey: ["claim", address ?? ""],
+    queryKey: ["claim_total", address ?? ""],
     enabled: !!address,
     queryFn: async () => {
       return await axios
-        .get(`https://indexer.core.openxai.org/api/${address}/claim`)
-        .then((res) => res.data as number)
+        .get(`https://indexer.core.openxai.org/api/${address}/claim_total`)
+        .then((res) => res.data as Hex)
         .then((total) => BigInt(total))
     },
   })
+
   const { data: claimed, refetch: refetchClaimed } = useReadContract({
     abi: OpenxAIClaimerContract.abi,
     address: OpenxAIClaimerContract.address,
