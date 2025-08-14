@@ -16,7 +16,7 @@ import { chains } from "@/components/custom/web3-provider"
 export default function ClaimsPage() {
   const { address } = useAccount()
   const { performTransaction, performingTransaction, loggers } =
-    usePerformTransaction({})
+    usePerformTransaction({ chainId: chains[0].id })
 
   const { data: total } = useQuery({
     queryKey: ["claim_total", address ?? ""],
