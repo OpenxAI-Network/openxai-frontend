@@ -1,156 +1,113 @@
 "use client"
 
-import React from "react"
-import Link from "next/link"
+import { useQuery } from "@tanstack/react-query"
+import axios from "axios"
+import { useAccount } from "wagmi"
 
-import { SideMenu } from "@/components/genesis/SideMenu"
-import { MobileResponsiveWrapper } from "@/components/layouts/MobileResponsiveWrapper"
+import { formatNumber } from "@/lib/openxai"
 
 export default function StakePage() {
-  const [isHighlighted, setIsHighlighted] = React.useState(false)
-  const [isComingSoonHighlighted, setIsComingSoonHighlighted] =
-    React.useState(false)
+  const { address } = useAccount()
 
-  React.useEffect(() => {
-    if (isHighlighted) {
-      const timer = setTimeout(() => setIsHighlighted(false), 1000)
-      return () => clearTimeout(timer)
-    }
-  }, [isHighlighted])
+  const { data: total } = useQuery({
+    queryKey: ["total_staking", address ?? ""],
+    enabled: !!address,
+    queryFn: async () => {
+      return await axios
+        .get(`https://indexer.core.openxai.org/api/${address}/total_staking`)
+        .then((res) => res.data as number)
+    },
+  })
 
-  React.useEffect(() => {
-    if (isComingSoonHighlighted) {
-      const timer = setTimeout(() => setIsComingSoonHighlighted(false), 1000)
-      return () => clearTimeout(timer)
-    }
-  }, [isComingSoonHighlighted])
+  const { data: leaderboard } = useQuery({
+    queryKey: ["leaderboard"],
+    queryFn: async () => {
+      return await axios
+        .get("https://indexer.core.openxai.org/api/staking/leaderboard")
+        .then((res) => res.data as { account: string; total: number }[])
+    },
+  })
 
   return (
-    <>
-      {/* Banner notification */}
-      <div
-        className={`mb-6 rounded-lg bg-blue-900/30 p-4 text-center transition-all duration-300 ${isHighlighted ? "ring-1 ring-white" : ""}`}
-      >
-        <span className="text-sm text-white md:text-base">
-          Staking will be going live soon! Please follow{" "}
-          <a
-            href="https://x.com/OpenxAINetwork"
-            target="_blank"
-            className="pointer-events-auto font-bold underline hover:text-blue-300"
-          >
-            OpenxAI
-          </a>{" "}
-          for updates.
-        </span>
-      </div>
-
-      {/* Content with disabled interactions */}
-      <div className="relative">
-        {/* Coming Soon overlay */}
-        <div
-          className="absolute -inset-1 z-50 flex max-h-[650px] cursor-pointer items-start justify-center rounded-lg bg-black/80"
-          onClick={() => setIsComingSoonHighlighted(true)}
-        >
-          <div
-            className={`mt-20 rounded-lg bg-black/80 px-8 py-4 text-center transition-all duration-300 ${isComingSoonHighlighted ? "scale-110 ring-2 ring-white" : ""}`}
-          >
-            <h2 className="text-2xl font-bold text-white md:text-3xl">
-              Coming Soon
-            </h2>
-            <p className="mt-2 text-gray-300">
-              Follow{" "}
-              <a
-                href="https://x.com/OpenxAINetwork"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline hover:text-blue-300"
-              >
-                OpenxAI
-              </a>{" "}
-              for updates.
-            </p>
+    <div>
+      <div className="mb-8 flex items-end justify-end [@media(max-width:960px)]:items-start [@media(max-width:960px)]:justify-start">
+        <div className="flex items-baseline gap-4 [@media(max-width:960px)]:flex-col">
+          <div className="flex gap-2">
+            <span className="mt-10 text-lg text-[#6A6A6A] [@media(max-width:400px)]:text-xs [@media(max-width:650px)]:text-sm [@media(max-width:960px)]:mt-7 [@media(max-width:960px)]:text-base">
+              By staking you&apos;ve earned
+            </span>
+            <h1 className="text-7xl text-white [@media(max-width:400px)]:text-3xl [@media(max-width:650px)]:text-4xl [@media(max-width:960px)]:text-5xl">
+              {total !== undefined ? formatNumber(total / 1_000_000) : "..."}
+            </h1>
+            <span className="mt-10 text-lg text-[#6A6A6A] [@media(max-width:400px)]:text-xs [@media(max-width:650px)]:text-sm [@media(max-width:960px)]:mt-7 [@media(max-width:960px)]:text-base">
+              OPENX
+            </span>
           </div>
         </div>
+      </div>
 
-        {/* Existing content with pointer-events disabled */}
-        <div className="pointer-events-none">
-          <div className="flex min-h-screen p-0">
-            <main className="flex-1 p-12 pt-16 [@media(max-width:960px)]:p-4 [@media(max-width:960px)]:pt-32">
-              {/* Content wrapper with mobile spacing */}
-              <div className="[@media(max-width:960px)]:mt-16">
-                {/* OPENX Staking Section */}
-                <div>
-                  <div className="mb-4 flex items-center justify-between">
-                    <h2 className="font-inter text-[20px] font-bold text-white [@media(max-width:400px)]:text-base [@media(max-width:650px)]:text-lg">
-                      Stake $OPENX
-                    </h2>
-                    <p className="text-sm italic text-gray-400">
-                      * Staking rewards will fluctuate. See daily reward
-                      distribution.
-                    </p>
-                  </div>
+      <div className="my-8 h-px w-full bg-[#505050]" />
 
-                  <div className="flex items-center justify-between rounded-xl bg-[#1F2021] p-8 [@media(max-width:400px)]:p-4 [@media(max-width:650px)]:p-6">
-                    <div className="flex w-full items-center justify-between">
-                      <h3 className="font-inter text-[60px] font-medium text-white [@media(max-width:400px)]:text-[32px] [@media(max-width:650px)]:text-[40px]">
-                        0
-                      </h3>
-                      <div className="flex h-[30px] items-center justify-center rounded-lg border border-green-500/30 px-3 [@media(max-width:400px)]:h-[20px] [@media(max-width:650px)]:h-[24px]">
-                        <span className="font-inter text-[16px] font-light text-[#4CFF46] [@media(max-width:400px)]:text-xs [@media(max-width:650px)]:text-sm">
-                          369% APY
+      <div className="">
+        <h2 className="mb-6 text-xl font-semibold text-white [@media(max-width:960px)]:text-lg">
+          Staking Leaderboard
+        </h2>
+
+        <div className="w-full overflow-x-auto">
+          <div className="min-w-[400px]">
+            <table className="w-full border-collapse rounded-lg border border-[#454545] bg-[#1F2021]">
+              <thead>
+                <tr>
+                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                    Address
+                  </th>
+                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                    Rank
+                  </th>
+                  <th className="border-0 border-b border-[#454545] p-4 text-right text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                    Total Staking Rewards (OPENX)
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {leaderboard?.map((entry, i) => {
+                  const ranking = i + 1
+                  return (
+                    <tr
+                      key={i}
+                      className={`
+                            text-sm transition-colors
+                            ${i === 0 && "bg-[linear-gradient(90deg,#353535_0%,#FABF58_60%,#353535_98%)]"} 
+                            ${i === 1 && "bg-[linear-gradient(90deg,#353535_0%,#B8EAA8_60%,#353535_98%)]"}
+                            ${i === 2 && "bg-[linear-gradient(90deg,#353535_0%,#A8C4EA_60%,#353535_98%)]"}
+                            ${i > 2 && "hover:bg-white/5"}
+                          `}
+                    >
+                      <td className="border-0 p-4 font-mono text-white [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                        {entry.account}
+                      </td>
+                      <td className="border-0 p-4 [@media(max-width:960px)]:p-2">
+                        <span className="font-medium text-white [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:text-xs">
+                          {ranking % 10 === 1 && ranking !== 11
+                            ? `${ranking}st`
+                            : ranking % 10 === 2 && ranking !== 12
+                              ? `${ranking}nd`
+                              : ranking % 10 === 3 && ranking !== 13
+                                ? `${ranking}rd`
+                                : `${ranking}th`}
                         </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Gov NFT Staking Section */}
-                <div className="mt-8">
-                  <div className="mb-4 flex items-center justify-between">
-                    <h2 className="font-inter text-[20px] font-bold text-white [@media(max-width:400px)]:text-base [@media(max-width:650px)]:text-lg">
-                      Stake GovNFT
-                    </h2>
-                  </div>
-
-                  <div className="relative rounded-xl bg-[#1F2021] p-8 [@media(max-width:400px)]:p-4 [@media(max-width:650px)]:p-6">
-                    {/* Gradient Overlay */}
-                    <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#414141] to-[#1F2136] opacity-100" />
-
-                    <div className="relative flex w-full flex-col">
-                      {/* First row: 0 and APY */}
-                      <div className="flex items-center justify-between">
-                        <h3 className="font-inter text-[60px] font-medium text-white [@media(max-width:400px)]:text-[32px] [@media(max-width:650px)]:text-[40px]">
-                          0
-                        </h3>
-                        <div className="flex h-[30px] items-center justify-center rounded-lg border border-green-500/30 px-3 [@media(max-width:400px)]:h-[20px] [@media(max-width:650px)]:h-[24px]">
-                          <span className="font-inter text-[16px] font-light text-[#4CFF46] [@media(max-width:400px)]:text-xs [@media(max-width:650px)]:text-sm">
-                            Coming soon
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Second row: NFT status and link */}
-                      <div className="mt-6 flex flex-col items-center">
-                        <p className="font-inter text-[30px] font-medium text-[#AEAEAE] [@media(max-width:400px)]:text-[20px] [@media(max-width:650px)]:text-[24px]">
-                          You don&apos;t have an NFT
-                        </p>
-                        <Link
-                          href="https://docs.openxai.org"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="font-inter pointer-events-auto mt-2 text-[20px] font-medium text-[#AFAFAF] underline hover:text-blue-300 [@media(max-width:400px)]:text-sm [@media(max-width:650px)]:text-base"
-                        >
-                          Learn how to get yours
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </main>
+                      </td>
+                      <td className="border-0 p-4 text-right font-mono text-white [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                        {entry.total}
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }

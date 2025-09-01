@@ -77,75 +77,71 @@ export default function ClaimsPage() {
   })
 
   return (
-    <div style={{ backgroundColor: "transparent" }}>
+    <div>
       <div className="mb-8 flex items-end justify-end [@media(max-width:960px)]:items-start [@media(max-width:960px)]:justify-start">
-        <div className="flex flex-col">
-          <div className="flex items-baseline gap-4 [@media(max-width:960px)]:flex-col">
-            <div className="flex gap-2">
-              <h1 className="text-7xl text-white [@media(max-width:400px)]:text-3xl [@media(max-width:650px)]:text-4xl [@media(max-width:960px)]:text-5xl">
-                {claimable !== undefined
-                  ? formatNumber(formatUnits(claimable, 18))
-                  : "..."}
-              </h1>
-              <span className="mt-10 text-lg text-[#6A6A6A] [@media(max-width:400px)]:text-xs [@media(max-width:650px)]:text-sm [@media(max-width:960px)]:mt-7 [@media(max-width:960px)]:text-base">
-                OPENX
-              </span>
-            </div>
-            <Button
-              className="ml-4 h-[40px] w-[200px] bg-blue-600 text-xl font-bold text-white hover:bg-blue-700 [@media(max-width:960px)]:ml-0 [@media(max-width:960px)]:w-full"
-              onClick={async () => {
-                try {
-                  if (!address) {
-                    throw new Error("Connect wallet to claim")
-                  }
-
-                  if (total === undefined) {
-                    throw new Error("Could not fetch total claimable tokens")
-                  }
-
-                  const signature = await axios
-                    .post(
-                      `https://indexer.core.openxai.org/api/${address}/claim`
-                    )
-                    .then((res) => res.data as Hex)
-
-                  await performTransaction({
-                    transactionName: "Claiming proof",
-                    transaction: async () => {
-                      const { v, yParity, r, s } = parseSignature(signature)
-                      return {
-                        abi: OpenxAIClaimerContract.abi,
-                        address: OpenxAIClaimerContract.address,
-                        functionName: "claim",
-                        args: [v ? Number(v) : yParity, r, s, address, total],
-                      }
-                    },
-                    onConfirmed() {
-                      Promise.all([
-                        refetchClaimed(),
-                        new Promise(
-                          (resolve) => setTimeout(resolve, 3000) // wait 3 seconds
-                        ).then(() => refetchTokensClaimed()),
-                      ]).catch(console.error)
-                    },
-                  })
-                } catch (e: any) {
-                  loggers?.onError?.({
-                    title: "Error",
-                    description: e?.message ?? "An unexpected error occurred.",
-                    error: e,
-                  })
-                }
-              }}
-              disabled={
-                claimable === undefined ||
-                claimable <= BigInt(0) ||
-                performingTransaction
-              }
-            >
-              Claim
-            </Button>
+        <div className="flex items-baseline gap-4 [@media(max-width:960px)]:flex-col">
+          <div className="flex gap-2">
+            <h1 className="text-7xl text-white [@media(max-width:400px)]:text-3xl [@media(max-width:650px)]:text-4xl [@media(max-width:960px)]:text-5xl">
+              {claimable !== undefined
+                ? formatNumber(formatUnits(claimable, 18))
+                : "..."}
+            </h1>
+            <span className="mt-10 text-lg text-[#6A6A6A] [@media(max-width:400px)]:text-xs [@media(max-width:650px)]:text-sm [@media(max-width:960px)]:mt-7 [@media(max-width:960px)]:text-base">
+              OPENX
+            </span>
           </div>
+          <Button
+            className="ml-4 h-[40px] w-[200px] bg-blue-600 text-xl font-bold text-white hover:bg-blue-700 [@media(max-width:960px)]:ml-0 [@media(max-width:960px)]:w-full"
+            onClick={async () => {
+              try {
+                if (!address) {
+                  throw new Error("Connect wallet to claim")
+                }
+
+                if (total === undefined) {
+                  throw new Error("Could not fetch total claimable tokens")
+                }
+
+                const signature = await axios
+                  .post(`https://indexer.core.openxai.org/api/${address}/claim`)
+                  .then((res) => res.data as Hex)
+
+                await performTransaction({
+                  transactionName: "Claiming proof",
+                  transaction: async () => {
+                    const { v, yParity, r, s } = parseSignature(signature)
+                    return {
+                      abi: OpenxAIClaimerContract.abi,
+                      address: OpenxAIClaimerContract.address,
+                      functionName: "claim",
+                      args: [v ? Number(v) : yParity, r, s, address, total],
+                    }
+                  },
+                  onConfirmed() {
+                    Promise.all([
+                      refetchClaimed(),
+                      new Promise(
+                        (resolve) => setTimeout(resolve, 3000) // wait 3 seconds
+                      ).then(() => refetchTokensClaimed()),
+                    ]).catch(console.error)
+                  },
+                })
+              } catch (e: any) {
+                loggers?.onError?.({
+                  title: "Error",
+                  description: e?.message ?? "An unexpected error occurred.",
+                  error: e,
+                })
+              }
+            }}
+            disabled={
+              claimable === undefined ||
+              claimable <= BigInt(0) ||
+              performingTransaction
+            }
+          >
+            Claim
+          </Button>
         </div>
       </div>
 
