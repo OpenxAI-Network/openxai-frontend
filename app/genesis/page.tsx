@@ -42,6 +42,7 @@ import { Progress } from "@/components/ui/progress"
 import { chains } from "@/components/custom/web3-provider"
 import SuccessModal from "@/components/genesis/Success"
 import { MobileResponsiveWrapper } from "@/components/layouts/MobileResponsiveWrapper"
+import { AccordionItem } from "@/components/ui/accordionItem"
 
 // Calculate positions with padding at start/end
 const MILESTONES = projects.map((project, index) => {
@@ -1288,24 +1289,10 @@ export default function GenesisPage() {
               <h2 className="mb-8 text-center text-3xl font-bold text-white">
                 OpenxAI Genesis Event - Frequently Asked Questions
               </h2>
-              <div className="space-y-4">
+              <div className="space-y-2">
                 {FAQS.map((faq, index) => (
-                  <div key={index} className="rounded-lg bg-[#1F2021] p-4">
-                    <button
-                      onClick={() =>
-                        setOpenFaqIndex(openFaqIndex === index ? -1 : index)
-                      }
-                      className="flex w-full justify-between text-left text-lg font-semibold text-white focus:outline-none"
-                    >
-                      <span className="mb-6">{faq.question}</span>
-                      <span>{openFaqIndex === index ? "-" : "+"}</span>
-                    </button>
-                    {openFaqIndex === index && (
-                      <div
-                        dangerouslySetInnerHTML={{ __html: faq.answer }}
-                        className="text-[#6A6A6A]"
-                      />
-                    )}
+                  <div key={index} className="rounded-xl bg-[#1F202170]">
+                    <AccordionItem title={faq.question} description={faq.answer} />
                   </div>
                 ))}
               </div>
