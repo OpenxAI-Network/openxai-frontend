@@ -132,10 +132,10 @@ const CloudComparisonSection = () => {
           </div>
       </div>
       
-      <div className="relative h-[350px] w-full mt-4">
+      <div className="relative mt-4 h-[350px] w-full">
         <canvas ref={chartRef}></canvas>
         
-        <div className="absolute bottom-[15px] w-full flex justify-between px-8">
+        <div className="absolute bottom-[15px] flex w-full justify-between px-8">
           {[
             { name: 'openxai', display: 'OpenXAI' },
             { name: 'aws', display: 'AWS' },
@@ -143,8 +143,8 @@ const CloudComparisonSection = () => {
             { name: 'azure', display: 'Microsoft Azure' },
             { name: 'huggingface', display: 'Hugging Face' }
           ].map((company) => (
-            <div key={company.name} className="flex flex-col items-center w-1/5">
-              <div className="h-[40px] flex items-center justify-center">
+            <div key={company.name} className="flex w-1/5 flex-col items-center">
+              <div className="flex h-[40px] items-center justify-center">
                 <Image 
                   src={`/providers/${company.name}.png`}
                   alt={company.display}
@@ -153,25 +153,25 @@ const CloudComparisonSection = () => {
                   className="object-contain"
                 />
               </div>
-              <div className="h-[10px] flex items-center justify-center mt-2">
-                <span className="text-xs text-gray-400 text-center">{company.display}</span>
+              <div className="mt-2 flex h-[10px] items-center justify-center">
+                <span className="text-center text-xs text-gray-400">{company.display}</span>
               </div>
             </div>
           ))}
         </div>
       </div>
       
-      <div className="flex justify-center gap-4 mt-4">
+      <div className="mt-4 flex justify-center gap-4">
         <div className="flex items-center">
-          <div className="mr-2 h-3 w-3 rounded-sm bg-[rgba(255,99,132,0.7)]"></div>
+          <div className="mr-2 size-3 rounded-sm bg-[rgba(255,99,132,0.7)]"></div>
           <span className="text-xs text-gray-400">Cost & Energy</span>
         </div>
         <div className="flex items-center">
-          <div className="mr-2 h-3 w-3 rounded-sm bg-[rgba(54,162,235,0.7)]"></div>
+          <div className="mr-2 size-3 rounded-sm bg-[rgba(54,162,235,0.7)]"></div>
           <span className="text-xs text-gray-400">Content Censorship</span>
         </div>
         <div className="flex items-center">
-          <div className="mr-2 h-3 w-3 rounded-sm bg-[rgba(255,206,86,0.7)]"></div>
+          <div className="mr-2 size-3 rounded-sm bg-[rgba(255,206,86,0.7)]"></div>
           <span className="text-xs text-gray-400">Model Ownership & Privacy</span>
         </div>
       </div>

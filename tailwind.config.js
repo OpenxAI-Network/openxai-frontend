@@ -82,6 +82,9 @@ module.exports = {
         'pulse-ring': 'pulse-ring 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'outer-ring-pulse': 'outer-ring-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
+      gridTemplateColumns: {
+        '15': 'repeat(15, minmax(0, 1fr))',
+      }
     },
   },
   plugins: [require("tailwindcss-animate")],

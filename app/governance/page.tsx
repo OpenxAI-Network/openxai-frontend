@@ -1,80 +1,85 @@
 "use client"
 
 import React from "react"
-import { SideMenu } from "@/components/genesis/SideMenu"
+import { ChevronRight } from "lucide-react"
+
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
-import { ChevronRight } from "lucide-react"
-import { MobileResponsiveWrapper } from "@/components/layouts/MobileResponsiveWrapper"
 
 const GOVERNANCE_STATS = [
   { label: "Total locked OPENX", value: "0" },
   { label: "Your voting power", value: "0" },
   { label: "Proposal created", value: "0" },
-  { label: "Total vote cast", value: "0" }
+  { label: "Total vote cast", value: "0" },
 ]
 
 const ACTIVE_PROPOSALS = [
   {
     id: "OXAI-1",
     title: "Protocol Fee Distribution Update",
-    description: "Modify the fee distribution model to allocate 30% to development fund",
+    description:
+      "Modify the fee distribution model to allocate 30% to development fund",
     status: "Active",
     votesFor: 2876888,
     votesAgainst: 2876888,
     endsIn: "2 days",
-    quorum: 75
+    quorum: 75,
   },
   {
     id: "OXAI-1",
     title: "Treasury Management Framework",
-    description: "Modify the fee distribution model to allocate 30% to development fund",
+    description:
+      "Modify the fee distribution model to allocate 30% to development fund",
     status: "Active",
     votesFor: 2876888,
     votesAgainst: 2876888,
     endsIn: "2 days",
-    quorum: 45
+    quorum: 45,
   },
   {
     id: "OXAI-1",
     title: "Integration Partner Selection",
-    description: "Modify the fee distribution model to allocate 30% to development fund",
+    description:
+      "Modify the fee distribution model to allocate 30% to development fund",
     status: "Active",
     votesFor: 2876888,
     votesAgainst: 2876888,
     endsIn: "2 days",
-    quorum: 60
-  }
+    quorum: 60,
+  },
 ]
 
 export default function GovernancePage() {
-  const [isHighlighted, setIsHighlighted] = React.useState(false);
-  const [isComingSoonHighlighted, setIsComingSoonHighlighted] = React.useState(false);
+  const [isHighlighted, setIsHighlighted] = React.useState(false)
+  const [isComingSoonHighlighted, setIsComingSoonHighlighted] =
+    React.useState(false)
 
   React.useEffect(() => {
     if (isHighlighted) {
-      const timer = setTimeout(() => setIsHighlighted(false), 1000);
-      return () => clearTimeout(timer);
+      const timer = setTimeout(() => setIsHighlighted(false), 1000)
+      return () => clearTimeout(timer)
     }
-  }, [isHighlighted]);
+  }, [isHighlighted])
 
   React.useEffect(() => {
     if (isComingSoonHighlighted) {
-      const timer = setTimeout(() => setIsComingSoonHighlighted(false), 1000);
-      return () => clearTimeout(timer);
+      const timer = setTimeout(() => setIsComingSoonHighlighted(false), 1000)
+      return () => clearTimeout(timer)
     }
-  }, [isComingSoonHighlighted]);
+  }, [isComingSoonHighlighted])
 
   return (
-    <MobileResponsiveWrapper>
+    <>
       {/* Banner notification */}
-      <div className={`mb-6 rounded-lg bg-blue-900/30 p-4 text-center transition-all duration-300 ${isHighlighted ? 'ring-1 ring-white' : ''}`}>
+      <div
+        className={`mb-6 rounded-lg bg-blue-900/30 p-4 text-center transition-all duration-300 ${isHighlighted ? "ring-1 ring-white" : ""}`}
+      >
         <span className="text-sm text-white md:text-base">
-          OpenxAI DAO Governance will be going live soon! Learn more at our{' '}
-          <a 
-            href="https://docs.openxai.org" 
-            target="_blank" 
-            rel="noopener noreferrer" 
+          OpenxAI DAO Governance will be going live soon! Learn more at our{" "}
+          <a
+            href="https://docs.openxai.org"
+            target="_blank"
+            rel="noopener noreferrer"
             className="underline hover:text-blue-300"
           >
             documentation site
@@ -86,19 +91,23 @@ export default function GovernancePage() {
       {/* Content with disabled interactions */}
       <div className="relative">
         {/* Coming Soon overlay */}
-        <div 
-          className="absolute -inset-1 z-50 flex cursor-pointer items-start justify-center rounded-lg bg-black/80 max-h-[1200px]"
+        <div
+          className="absolute -inset-1 z-50 flex max-h-[1200px] cursor-pointer items-start justify-center rounded-lg bg-black/80"
           onClick={() => setIsComingSoonHighlighted(true)}
         >
-          <div className={`mt-20 rounded-lg bg-black/80 px-8 py-4 text-center transition-all duration-300 ${isComingSoonHighlighted ? 'scale-110 ring-2 ring-white' : ''}`}>
-            <h2 className="text-2xl font-bold text-white md:text-3xl">Coming Soon</h2>
+          <div
+            className={`mt-20 rounded-lg bg-black/80 px-8 py-4 text-center transition-all duration-300 ${isComingSoonHighlighted ? "scale-110 ring-2 ring-white" : ""}`}
+          >
+            <h2 className="text-2xl font-bold text-white md:text-3xl">
+              Coming Soon
+            </h2>
             <p className="mt-2 text-gray-300">
               Follow{" "}
-              <a 
-                href="https://x.com/OpenxAINetwork" 
-                target="_blank" 
+              <a
+                href="https://x.com/OpenxAINetwork"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-blue-300 underline"
+                className="underline hover:text-blue-300"
               >
                 OpenxAI
               </a>{" "}
@@ -116,8 +125,12 @@ export default function GovernancePage() {
                 <div className="mb-12 grid grid-cols-4 gap-8 [@media(max-width:650px)]:grid-cols-1 [@media(max-width:960px)]:grid-cols-2">
                   {GOVERNANCE_STATS.map((stat, index) => (
                     <div key={index}>
-                      <div className="text-sm font-normal text-gray-400 [@media(max-width:650px)]:text-xs">{stat.label}</div>
-                      <div className="mt-1 text-[32px] font-medium text-white [@media(max-width:650px)]:text-[20px] [@media(max-width:960px)]:text-[24px]">{stat.value}</div>
+                      <div className="text-sm font-normal text-gray-400 [@media(max-width:650px)]:text-xs">
+                        {stat.label}
+                      </div>
+                      <div className="mt-1 text-[32px] font-medium text-white [@media(max-width:650px)]:text-[20px] [@media(max-width:960px)]:text-[24px]">
+                        {stat.value}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -127,27 +140,33 @@ export default function GovernancePage() {
                   {/* Active Proposals */}
                   <div className="col-span-2 space-y-6">
                     <div className="flex items-center justify-between [@media(max-width:650px)]:flex-col [@media(max-width:650px)]:items-start [@media(max-width:650px)]:gap-4">
-                      <h2 className="text-xl font-medium text-white [@media(max-width:650px)]:text-lg">Active Proposals</h2>
-                      <Button 
-                        className="bg-blue-600 text-white hover:bg-blue-700 [@media(max-width:650px)]:w-full"
-                      >
+                      <h2 className="text-xl font-medium text-white [@media(max-width:650px)]:text-lg">
+                        Active Proposals
+                      </h2>
+                      <Button className="bg-blue-600 text-white hover:bg-blue-700 [@media(max-width:650px)]:w-full">
                         Create Proposal
                       </Button>
                     </div>
 
                     <div className="space-y-4">
                       {ACTIVE_PROPOSALS.map((proposal) => (
-                        <div 
+                        <div
                           key={proposal.id}
                           className="rounded-xl bg-[#1F2021] p-6 [@media(max-width:650px)]:p-4"
                         >
                           <div className="mb-4 flex items-center justify-between [@media(max-width:650px)]:flex-col [@media(max-width:650px)]:items-start [@media(max-width:650px)]:gap-3">
                             <div>
                               <div className="flex items-center gap-3 [@media(max-width:650px)]:flex-wrap">
-                                <span className="text-sm text-gray-400 [@media(max-width:650px)]:text-xs">{proposal.id}</span>
-                                <h3 className="text-lg font-medium text-white [@media(max-width:650px)]:text-base">{proposal.title}</h3>
+                                <span className="text-sm text-gray-400 [@media(max-width:650px)]:text-xs">
+                                  {proposal.id}
+                                </span>
+                                <h3 className="text-lg font-medium text-white [@media(max-width:650px)]:text-base">
+                                  {proposal.title}
+                                </h3>
                               </div>
-                              <p className="mt-1 text-sm text-gray-400 [@media(max-width:650px)]:text-xs">{proposal.description}</p>
+                              <p className="mt-1 text-sm text-gray-400 [@media(max-width:650px)]:text-xs">
+                                {proposal.description}
+                              </p>
                             </div>
                             <div className="flex h-[30px] items-center justify-center rounded-lg border border-green-500/30 px-3 [@media(max-width:650px)]:h-[24px]">
                               <span className="font-inter text-[16px] font-light text-[#4CFF46] [@media(max-width:650px)]:text-sm">
@@ -158,24 +177,24 @@ export default function GovernancePage() {
 
                           <div className="space-y-2">
                             <div className="flex items-center justify-between text-sm [@media(max-width:650px)]:text-xs">
-                              <span className="text-gray-400">Quorum Progress</span>
-                              <span className="text-white">{proposal.quorum}%</span>
+                              <span className="text-gray-400">
+                                Quorum Progress
+                              </span>
+                              <span className="text-white">
+                                {proposal.quorum}%
+                              </span>
                             </div>
-                            <Progress 
-                              value={proposal.quorum} 
-                              className="h-2 bg-[#1a1f2e] [&>div]:bg-gradient-to-r [&>div]:from-white [&>div]:to-[#122BEA]" 
+                            <Progress
+                              value={proposal.quorum}
+                              className="h-2 bg-[#1a1f2e] [&>div]:bg-gradient-to-r [&>div]:from-white [&>div]:to-[#122BEA]"
                             />
                           </div>
 
                           <div className="mt-4 flex items-center gap-4 [@media(max-width:650px)]:flex-col">
-                            <Button 
-                              className="flex-1 bg-[#4CFF46] text-white hover:bg-[#4CFF46]/90 [@media(max-width:650px)]:w-full"
-                            >
+                            <Button className="flex-1 bg-[#4CFF46] text-white hover:bg-[#4CFF46]/90 [@media(max-width:650px)]:w-full">
                               Vote For
                             </Button>
-                            <Button 
-                              className="flex-1 bg-blue-600 text-white hover:bg-blue-700 [@media(max-width:650px)]:w-full"
-                            >
+                            <Button className="flex-1 bg-blue-600 text-white hover:bg-blue-700 [@media(max-width:650px)]:w-full">
                               Vote Against
                             </Button>
                           </div>
@@ -183,11 +202,15 @@ export default function GovernancePage() {
                           <div className="mt-4 grid grid-cols-2 gap-4 text-sm [@media(max-width:650px)]:text-xs">
                             <div>
                               <div className="text-gray-400">Votes For</div>
-                              <div className="text-white">{proposal.votesFor.toLocaleString()} OPENX</div>
+                              <div className="text-white">
+                                {proposal.votesFor.toLocaleString()} OPENX
+                              </div>
                             </div>
                             <div>
                               <div className="text-gray-400">Votes Against</div>
-                              <div className="text-white">{proposal.votesAgainst.toLocaleString()} OPENX</div>
+                              <div className="text-white">
+                                {proposal.votesAgainst.toLocaleString()} OPENX
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -199,15 +222,25 @@ export default function GovernancePage() {
                   <div className="space-y-6">
                     {/* Voting Power */}
                     <div className="rounded-xl bg-[#1F2021] p-6 [@media(max-width:650px)]:p-4">
-                      <h3 className="mb-4 text-lg font-medium text-white [@media(max-width:650px)]:text-base">Your Voting Power</h3>
+                      <h3 className="mb-4 text-lg font-medium text-white [@media(max-width:650px)]:text-base">
+                        Your Voting Power
+                      </h3>
                       <div className="space-y-4">
                         <div>
-                          <div className="text-sm text-gray-400 [@media(max-width:650px)]:text-xs">OPENX Balance</div>
-                          <div className="text-2xl font-medium text-white [@media(max-width:650px)]:text-xl">0</div>
+                          <div className="text-sm text-gray-400 [@media(max-width:650px)]:text-xs">
+                            OPENX Balance
+                          </div>
+                          <div className="text-2xl font-medium text-white [@media(max-width:650px)]:text-xl">
+                            0
+                          </div>
                         </div>
                         <div>
-                          <div className="text-sm text-gray-400 [@media(max-width:650px)]:text-xs">Delegated to You</div>
-                          <div className="text-2xl font-medium text-white [@media(max-width:650px)]:text-xl">0</div>
+                          <div className="text-sm text-gray-400 [@media(max-width:650px)]:text-xs">
+                            Delegated to You
+                          </div>
+                          <div className="text-2xl font-medium text-white [@media(max-width:650px)]:text-xl">
+                            0
+                          </div>
                         </div>
                         <Button className="w-full bg-blue-600 text-white hover:bg-blue-700 [@media(max-width:650px)]:text-sm">
                           Delegated Votes
@@ -217,19 +250,29 @@ export default function GovernancePage() {
 
                     {/* Recent Activity */}
                     <div className="rounded-xl bg-[#1F2021] p-6 [@media(max-width:650px)]:p-4">
-                      <h3 className="mb-4 text-lg font-medium text-white [@media(max-width:650px)]:text-base">Recent Activity</h3>
+                      <h3 className="mb-4 text-lg font-medium text-white [@media(max-width:650px)]:text-base">
+                        Recent Activity
+                      </h3>
                       <div className="space-y-4">
                         <div className="flex cursor-pointer items-center justify-between rounded-lg p-2 transition-colors hover:bg-white/5">
                           <div>
-                            <div className="text-sm text-white [@media(max-width:650px)]:text-xs">Voting on OXAI-1</div>
-                            <div className="text-xs text-gray-400 [@media(max-width:650px)]:text-[10px]">2 hours ago</div>
+                            <div className="text-sm text-white [@media(max-width:650px)]:text-xs">
+                              Voting on OXAI-1
+                            </div>
+                            <div className="text-xs text-gray-400 [@media(max-width:650px)]:text-[10px]">
+                              2 hours ago
+                            </div>
                           </div>
                           <ChevronRight className="text-gray-400 [@media(max-width:650px)]:size-4" />
                         </div>
                         <div className="flex cursor-pointer items-center justify-between rounded-lg p-2 transition-colors hover:bg-white/5">
                           <div>
-                            <div className="text-sm text-white [@media(max-width:650px)]:text-xs">Delegated 1000 OPENX</div>
-                            <div className="text-xs text-gray-400 [@media(max-width:650px)]:text-[10px]">1 day ago</div>
+                            <div className="text-sm text-white [@media(max-width:650px)]:text-xs">
+                              Delegated 1000 OPENX
+                            </div>
+                            <div className="text-xs text-gray-400 [@media(max-width:650px)]:text-[10px]">
+                              1 day ago
+                            </div>
                           </div>
                           <ChevronRight className="text-gray-400 [@media(max-width:650px)]:size-4" />
                         </div>
@@ -238,22 +281,24 @@ export default function GovernancePage() {
 
                     {/* Resources */}
                     <div className="rounded-xl bg-[#1F2021] p-6 [@media(max-width:650px)]:p-4">
-                      <h3 className="mb-4 text-lg font-medium text-white [@media(max-width:650px)]:text-base">Resources</h3>
+                      <h3 className="mb-4 text-lg font-medium text-white [@media(max-width:650px)]:text-base">
+                        Resources
+                      </h3>
                       <div className="space-y-2">
-                        <a 
-                          href="#" 
+                        <a
+                          href="#"
                           className="block rounded-lg p-2 text-sm text-gray-400 transition-colors hover:bg-white/5 hover:text-white [@media(max-width:650px)]:text-xs"
                         >
                           Governance documentation
                         </a>
-                        <a 
-                          href="#" 
+                        <a
+                          href="#"
                           className="block rounded-lg p-2 text-sm text-gray-400 transition-colors hover:bg-white/5 hover:text-white [@media(max-width:650px)]:text-xs"
                         >
                           Proposal guidelines
                         </a>
-                        <a 
-                          href="#" 
+                        <a
+                          href="#"
                           className="block rounded-lg p-2 text-sm text-gray-400 transition-colors hover:bg-white/5 hover:text-white [@media(max-width:650px)]:text-xs"
                         >
                           Voting FAQ
@@ -267,6 +312,6 @@ export default function GovernancePage() {
           </div>
         </div>
       </div>
-    </MobileResponsiveWrapper>
+    </>
   )
 }

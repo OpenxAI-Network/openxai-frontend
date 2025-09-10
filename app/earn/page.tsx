@@ -1,32 +1,33 @@
 "use client"
 
 import React from "react"
+import Image from "next/image"
+import { ChevronDown } from "lucide-react"
+
+import { Button } from "@/components/ui/button"
 import { SideMenu } from "@/components/genesis/SideMenu"
 import { Header } from "@/components/Header"
-import { Button } from "@/components/ui/button"
-import { ChevronDown } from "lucide-react"
-import Image from "next/image"
 import { MobileResponsiveWrapper } from "@/components/layouts/MobileResponsiveWrapper"
 
 // Define task types and data
 const TASKS = [
-  { 
+  {
     platform: "Zealy",
     name: "Read OpenxAI Vision",
     icon: "/logo/zealy-icon.png",
     reward: "OPENX / USDT",
     bgColor: "bg-[#1F2021]",
     gradient: "from-[#829ED1] to-[#0059FE]",
-    link: "https://zealy.io/cw/openxai/questboard/0de467db-b4d6-47e5-b295-ee7abec02b84/7a480ae5-be87-4ee6-b7c5-13cf1ba36ef4"
+    link: "https://zealy.io/cw/openxai/questboard/0de467db-b4d6-47e5-b295-ee7abec02b84/7a480ae5-be87-4ee6-b7c5-13cf1ba36ef4",
   },
-  { 
+  {
     platform: "Zealy",
     name: "Follow OpenxAI on X",
     icon: "/logo/zealy-icon.png",
     reward: "OPENX / USDT",
     bgColor: "bg-[#1F2021]",
     gradient: "from-[#829ED1] to-[#0059FE]",
-    link: "https://zealy.io/cw/openxai/questboard/0de467db-b4d6-47e5-b295-ee7abec02b84/f10b4da6-cce4-4c68-9656-3a76935c1e4a"
+    link: "https://zealy.io/cw/openxai/questboard/0de467db-b4d6-47e5-b295-ee7abec02b84/f10b4da6-cce4-4c68-9656-3a76935c1e4a",
   },
   {
     platform: "Zealy",
@@ -35,7 +36,7 @@ const TASKS = [
     reward: "OPENX / USDT",
     bgColor: "bg-[#1F2021]",
     gradient: "from-[#B2FE00] to-[#829ED1]",
-    link: "https://zealy.io/cw/openxai/questboard/0de467db-b4d6-47e5-b295-ee7abec02b84/1834439f-62e4-45ba-babd-289114804d41"
+    link: "https://zealy.io/cw/openxai/questboard/0de467db-b4d6-47e5-b295-ee7abec02b84/1834439f-62e4-45ba-babd-289114804d41",
   },
   {
     platform: "Zealy",
@@ -44,7 +45,7 @@ const TASKS = [
     reward: "OPENX / USDT",
     bgColor: "bg-[#1F2021]",
     gradient: "from-[#5865F2] to-[#829ED1]",
-    link: "https://zealy.io/cw/openxai/questboard/0de467db-b4d6-47e5-b295-ee7abec02b84/a27fd2b3-7645-4976-8753-a5c5ceec42d3"
+    link: "https://zealy.io/cw/openxai/questboard/0de467db-b4d6-47e5-b295-ee7abec02b84/a27fd2b3-7645-4976-8753-a5c5ceec42d3",
   },
   {
     platform: "Zealy",
@@ -53,7 +54,7 @@ const TASKS = [
     reward: "OPENX / USDT",
     bgColor: "bg-[#1F2021]",
     gradient: "from-[#0A66C2] to-[#829ED1]",
-    link: "https://zealy.io/cw/openxai/questboard/0de467db-b4d6-47e5-b295-ee7abec02b84/914bf14e-2f16-44c4-ac27-e2ff332d260e"
+    link: "https://zealy.io/cw/openxai/questboard/0de467db-b4d6-47e5-b295-ee7abec02b84/914bf14e-2f16-44c4-ac27-e2ff332d260e",
   },
   {
     platform: "Zealy",
@@ -62,7 +63,7 @@ const TASKS = [
     reward: "OPENX / USDT",
     bgColor: "bg-[#1F2021]",
     gradient: "from-[#000000] to-[#829ED1]",
-    link: "https://zealy.io/cw/openxai/questboard/0de467db-b4d6-47e5-b295-ee7abec02b84/479d5371-e1ab-4572-a030-288ba5612eb2"
+    link: "https://zealy.io/cw/openxai/questboard/0de467db-b4d6-47e5-b295-ee7abec02b84/479d5371-e1ab-4572-a030-288ba5612eb2",
   },
   {
     platform: "Zealy",
@@ -71,76 +72,82 @@ const TASKS = [
     reward: "OPENX / USDT",
     bgColor: "bg-[#1F2021]",
     gradient: "from-[#FF0000] to-[#829ED1]",
-    link: "https://zealy.io/cw/openxai/questboard/0de467db-b4d6-47e5-b295-ee7abec02b84/a6250092-c6a2-4986-bdc2-6aabf4ac3c82"
-  }
+    link: "https://zealy.io/cw/openxai/questboard/0de467db-b4d6-47e5-b295-ee7abec02b84/a6250092-c6a2-4986-bdc2-6aabf4ac3c82",
+  },
 ]
 
 const FILTER_OPTIONS = ["All", "Zealy", "Tally"]
 
 const TOP_EARNERS = Array(5).fill({
   address: "0",
-  points: "0"
+  points: "0",
 })
 
 export default function EarnPage() {
   const [selectedFilter, setSelectedFilter] = React.useState("All")
   const [isHighlighted, setIsHighlighted] = React.useState(false)
-  const [isComingSoonHighlighted, setIsComingSoonHighlighted] = React.useState(false)
+  const [isComingSoonHighlighted, setIsComingSoonHighlighted] =
+    React.useState(false)
 
   // Filter tasks based on selected platform
   const filteredTasks = React.useMemo(() => {
     if (selectedFilter === "All") return TASKS
-    return TASKS.filter(task => task.platform === selectedFilter)
+    return TASKS.filter((task) => task.platform === selectedFilter)
   }, [selectedFilter])
 
   React.useEffect(() => {
     if (isHighlighted) {
-      const timer = setTimeout(() => setIsHighlighted(false), 1000);
-      return () => clearTimeout(timer);
+      const timer = setTimeout(() => setIsHighlighted(false), 1000)
+      return () => clearTimeout(timer)
     }
-  }, [isHighlighted]);
-  
+  }, [isHighlighted])
+
   React.useEffect(() => {
     if (isComingSoonHighlighted) {
-      const timer = setTimeout(() => setIsComingSoonHighlighted(false), 1000);
-      return () => clearTimeout(timer);
+      const timer = setTimeout(() => setIsComingSoonHighlighted(false), 1000)
+      return () => clearTimeout(timer)
     }
-  }, [isComingSoonHighlighted]);
-  
+  }, [isComingSoonHighlighted])
+
   return (
-    <MobileResponsiveWrapper>
+    <>
       {/* Banner notification */}
-      <div className={`mb-6 rounded-lg bg-blue-900/30 p-4 text-center transition-all duration-300 ${isHighlighted ? 'ring-1 ring-white' : ''}`}>
+      <div
+        className={`mb-6 rounded-lg bg-blue-900/30 p-4 text-center transition-all duration-300 ${isHighlighted ? "ring-1 ring-white" : ""}`}
+      >
         <span className="text-sm text-white md:text-base">
           More tasks will be going live soon! Please follow{" "}
           <a
-            href="https://x.com/OpenxAINetwork" target="_blank"
+            href="https://x.com/OpenxAINetwork"
+            target="_blank"
             className="pointer-events-auto font-bold underline hover:text-blue-300"
           >
             OpenxAI
-          </a>
-          {" "} for updates.
+          </a>{" "}
+          for updates.
         </span>
       </div>
 
       {/* Content with disabled interactions */}
       <div className="relative">
         {/* Coming Soon overlay */}
-        <div 
+        <div
           className="absolute -inset-1 z-50 flex cursor-pointer items-start justify-center rounded-lg bg-black/90"
           onClick={() => setIsComingSoonHighlighted(true)}
         >
-          <div className={`mt-20 rounded-lg bg-black/80 px-8 py-4 text-center transition-all duration-300 ${isComingSoonHighlighted ? 'scale-110 ring-2 ring-white' : ''}`}>
+          <div
+            className={`mt-20 rounded-lg bg-black/80 px-8 py-4 text-center transition-all duration-300 ${isComingSoonHighlighted ? "scale-110 ring-2 ring-white" : ""}`}
+          >
             <h2 className="text-2xl font-bold text-white md:text-3xl">
               Coming Soon
             </h2>
             <p className="mt-2 text-gray-300">
               Follow{" "}
-              <a 
-                href="https://x.com/OpenxAINetwork" 
-                target="_blank" 
+              <a
+                href="https://x.com/OpenxAINetwork"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-blue-300 underline"
+                className="underline hover:text-blue-300"
               >
                 OpenxAI
               </a>{" "}
@@ -151,9 +158,10 @@ export default function EarnPage() {
 
         {/* Existing content with pointer-events disabled */}
         <div className="pointer-events-none">
-          <div style={{ backgroundColor: 'transparent' }}>
+          <div style={{ backgroundColor: "transparent" }}>
             <h2 className="mb-6 text-xl font-semibold text-white [@media(max-width:960px)]:text-lg">
-              Earn more $OPENX & $USDT by completing tasks on the following platforms
+              Earn more $OPENX & $USDT by completing tasks on the following
+              platforms
             </h2>
 
             {/* Filter buttons */}
@@ -163,27 +171,30 @@ export default function EarnPage() {
                   key={filter}
                   onClick={() => setSelectedFilter(filter)}
                   className={`rounded-lg px-6 py-3 text-lg font-bold text-white transition-all
-                    ${selectedFilter === filter 
-                      ? 'bg-blue-600' 
-                      : 'bg-[#1F2021] hover:bg-[#2a2a2a]'
+                    ${
+                      selectedFilter === filter
+                        ? "bg-blue-600"
+                        : "bg-[#1F2021] hover:bg-[#2a2a2a]"
                     }`}
                 >
                   {filter}
                 </button>
               ))}
             </div>
-            
+
             {/* Tasks grid */}
             <div className="grid grid-cols-2 gap-4 [@media(max-width:960px)]:grid-cols-1">
               {filteredTasks.map((task, index) => (
-                <a 
+                <a
                   key={index}
                   href={task.link}
-                  target="_blank" 
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="relative block"
                 >
-                  <div className={`absolute -inset-px rounded-lg bg-gradient-to-t ${task.gradient}`} />
+                  <div
+                    className={`absolute -inset-px rounded-lg bg-gradient-to-t ${task.gradient}`}
+                  />
                   <div className="relative flex h-[60px] items-center justify-between rounded-lg bg-[#1F2021] px-6 hover:bg-[#2a2a2a] [@media(max-width:400px)]:h-[40px] [@media(max-width:650px)]:h-[50px] [@media(max-width:960px)]:px-4">
                     <div className="flex items-center gap-3">
                       <Image
@@ -257,6 +268,6 @@ export default function EarnPage() {
           </div>
         </div>
       </div>
-    </MobileResponsiveWrapper>
+    </>
   )
 }

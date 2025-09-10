@@ -2,17 +2,9 @@
 
 import React, { useEffect, useMemo, useState } from "react"
 import Image from "next/image"
-import Link from "next/link"
-import { redirect } from "next/navigation"
-import { projects } from "@/data/projects"
-import { ObjectFilter } from "@/openxai-indexer/nodejs-app/api/filter"
-import { FilterEventsReturn } from "@/openxai-indexer/nodejs-app/api/return-types"
-import { OpenxAIContract } from "@/openxai-indexer/nodejs-app/contracts/OpenxAI"
-import { OpenxAIGenesisContract } from "@/openxai-indexer/nodejs-app/contracts/OpenxAIGenesis"
-import { Participated } from "@/openxai-indexer/nodejs-app/types/genesis/events"
-import { replacer, reviver } from "@/openxai-indexer/nodejs-app/utils/json"
+import { OpenxAIContract } from "@/contracts/OpenxAI"
+import { OpenxAIGenesisContract } from "@/contracts/OpenxAIGenesis"
 import { useWeb3Modal } from "@web3modal/wagmi/react"
-import axios from "axios"
 import { AlertTriangleIcon } from "lucide-react"
 import {
   Address,
@@ -21,19 +13,18 @@ import {
   parseAbi,
   parseEther,
   parseUnits,
+  zeroAddress,
 } from "viem"
-import { mainnet, sepolia } from "viem/chains"
-import { useAccount, useBalance, useChainId, useReadContract } from "wagmi"
-import { useQuery } from "wagmi/query"
+import { base, baseSepolia } from "viem/chains"
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
-import { Info } from "lucide-react"
+  useAccount,
+  useBalance,
+  useChainId,
+  useReadContract,
+  useReadContracts,
+} from "wagmi"
 
-import { formatNumber, PROJECT_RATE } from "@/lib/openxai"
+import { formatNumber } from "@/lib/openxai"
 import { cn } from "@/lib/utils"
 import { usePerformTransaction } from "@/hooks/usePerformTransaction"
 import { Button } from "@/components/ui/button"
@@ -41,112 +32,58 @@ import { Input } from "@/components/ui/input"
 import { Progress } from "@/components/ui/progress"
 import { chains } from "@/components/custom/web3-provider"
 import SuccessModal from "@/components/genesis/Success"
-import { MobileResponsiveWrapper } from "@/components/layouts/MobileResponsiveWrapper"
 
-// Calculate positions with padding at start/end
-const MILESTONES = projects.map((project, index) => {
-  // Use 10% padding on each end (start at 10%, end at 90%)
-  const position = 10 + (80 / (projects.length - 1)) * index
-  return {
-    position: `calc(${position}% - 4px)`,
-    projectId: project.id,
-    name: project.name,
-  }
-})
-
-const PAYMENT_METHODS = [
-  { id: "eth", name: "ETH", icon: "/eth.png" },
-  { id: "weth", name: "WETH", icon: "/weth.png" },
-  { id: "usdc", name: "USDC", icon: "/usdc.png" },
-  { id: "usdt", name: "USDT", icon: "/usdt.png" },
+const TIERS = [
+  { amount: parseUnits("10000", 6), openx_rate: 10.0, credits_rate: 0.1559 },
+  { amount: parseUnits("10000", 6), openx_rate: 9.8522, credits_rate: 0.1102 },
+  { amount: parseUnits("10000", 6), openx_rate: 9.7087, credits_rate: 0.09 },
+  { amount: parseUnits("10000", 6), openx_rate: 9.5694, credits_rate: 0.078 },
+  { amount: parseUnits("10000", 6), openx_rate: 9.434, credits_rate: 0.0697 },
+  { amount: parseUnits("10000", 6), openx_rate: 9.3023, credits_rate: 0.0637 },
+  { amount: parseUnits("10000", 6), openx_rate: 9.1743, credits_rate: 0.0589 },
+  { amount: parseUnits("10000", 6), openx_rate: 9.0498, credits_rate: 0.0551 },
+  { amount: parseUnits("10000", 6), openx_rate: 8.9286, credits_rate: 0.052 },
+  { amount: parseUnits("10000", 6), openx_rate: 8.8106, credits_rate: 0.0493 },
+  { amount: parseUnits("10000", 6), openx_rate: 8.6957, credits_rate: 0.047 },
+  { amount: parseUnits("10000", 6), openx_rate: 8.5837, credits_rate: 0.045 },
+  { amount: parseUnits("10000", 6), openx_rate: 8.4746, credits_rate: 0.0432 },
+  { amount: parseUnits("10000", 6), openx_rate: 8.3682, credits_rate: 0.0417 },
+  { amount: parseUnits("10000", 6), openx_rate: 8.2645, credits_rate: 0.0403 },
+  { amount: parseUnits("142000", 6), openx_rate: 8.0, credits_rate: 0 },
 ]
 
 const CHAIN_INFO = {
-  [mainnet.id]: {
-    ethOracle: "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419",
+  [base.id]: {
+    ethOracle: "0x71041dddad3595F9CEd3DcCFBe3D1F4b0a16Bb70",
     wrappedEth: {
-      address: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+      address: "0x4200000000000000000000000000000000000006",
       decimals: 18,
     },
     USDC: {
-      address: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+      address: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
       decimals: 6,
     },
     USDT: {
-      address: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+      address: "0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2",
       decimals: 6,
     },
   },
-  [sepolia.id]: {
-    ethOracle: "0x694AA1769357215DE4FAC081bf1f309aDC325306",
-    wrappedEth: {
-      address: "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9",
-      decimals: 18,
-    },
+  [baseSepolia.id]: {
+    ethOracle: "0x4aDC67696bA383F43DD60A9e78F2C97Fbbfc7cb1",
     USDC: {
-      address: "0xC69258C33cCFD5d2F862CAE48D4F869Db59Abc6A",
+      address: "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
       decimals: 6,
     },
     USDT: {
-      address: "0xC69258C33cCFD5d2F862CAE48D4F869Db59Abc6A",
+      address: "0xEE5b5633B8fa453bD1a4A24973c742BD0488D1C6",
       decimals: 6,
     },
   },
 } as const
 
-const FAQS = [
-  {
-    question: "What is the OpenxAI Genesis Event?",
-    answer:
-      "The OpenxAI Genesis Event is a milestone-based funding initiative that supports the development of the OpenxAI ecosystem. It uses a secure escrow contract system to ensure funds are properly allocated as development milestones are achieved.",
-  },
-  {
-    question: "What is milestone-based funding?",
-    answer:
-      "Milestone-based funding releases funds in stages based on predetermined project milestones. This ensures continuous progress, reduces risk, and maintains accountability throughout the project's lifecycle.",
-  },
-  {
-    question: "How does the funding mechanism work?",
-    answer:
-      "Funds are held in a secure escrow contract until each milestone is completed. Once a milestone is achieved and verified, the corresponding portion of funds is released to support the next phase of development.",
-  },
-  {
-    question: "What are the funding limits per wallet?",
-    answer:
-      "During the initial critical milestone funding phase, there is no limit per wallet. Once the critical milestone funding target is reached, a maximum limit of $1,000 per wallet will be implemented to ensure fair distribution of allocation.",
-  },
-  {
-    question: "What happens if a milestone is not reached?",
-    answer:
-      "If a milestone is not achieved, the remaining funds stay locked in the escrow contract, protecting contributors' investments. This ensures project accountability and proper resource management.",
-  },
-  {
-    question: "How are milestone completions verified?",
-    answer:
-      "Each milestone has specific deliverables and criteria that must be met. The completion is verified through transparent on-chain mechanisms and community governance processes.",
-  },
-  {
-    question: "What are the benefits of this funding model?",
-    answer:
-      "This model provides greater security for contributors, ensures project accountability, enables steady development progress, and allows for community oversight of fund utilization.",
-  },
-  {
-    question: "How can I track milestone progress?",
-    answer:
-      "Progress can be tracked through our transparent dashboard showing milestone status, fund allocation, and project updates. The escrow contract is publicly viewable on Etherscan.",
-  },
-  {
-    question: "Where can I learn more about OpenxAI?",
-    answer:
-      'Check out our <a href="https://docs.openxai.org" target="_blank" rel="noopener noreferrer" class="text-blue-500 underline hover:opacity-80">documentation portal</a> to learn more about the OpenxAI ecosystem or products and the OPENX token.',
-  },
-]
-
 export default function GenesisPage() {
-  redirect("/dashboard")
-
-  const [selectedMilestone, setSelectedMilestone] = useState<string | null>(
-    null
+  const [selectedTier, setSelectedTier] = useState<number | undefined>(
+    undefined
   )
   const [selectedPayment, setSelectedPayment] = useState<
     "eth" | "weth" | "usdc" | "usdt"
@@ -156,63 +93,49 @@ export default function GenesisPage() {
   const [showSuccessModal, setShowSuccessModal] = useState(false)
   const { address } = useAccount()
   const chainId = useChainId()
-  const chainInfo =
-    chainId === mainnet.id || chainId == sepolia.id
-      ? CHAIN_INFO[chainId as keyof typeof CHAIN_INFO]
-      : undefined
-  const { open } = useWeb3Modal()
-  const [countdown, setCountdown] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-  })
-  const [highlightedProject, setHighlightedProject] = useState<string | null>(
-    null
+  const chainInfo = useMemo(
+    () =>
+      chainId === base.id || chainId == baseSepolia.id
+        ? CHAIN_INFO[chainId as keyof typeof CHAIN_INFO]
+        : undefined,
+    [chainId]
   )
-
-  // Wallet icon rotation state
-  const [currentIconIndex, setCurrentIconIndex] = useState(0);
-  const walletIcons = [
-    "/wallets/coinbase.webp",
-    "/wallets/wallet-connect.webp",
-    "/wallets/ledger.webp",
-    "/wallets/metamask.webp",
-    "/wallets/trust.webp"
-  ];
-  
-  // Set up wallet icon rotation interval
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIconIndex((prevIndex: number) => 
-        (prevIndex + 1) % walletIcons.length
-      );
-    }, 2000);
-    
-    return () => clearInterval(interval);
-  }, [walletIcons.length]);
+  const paymentMethods = useMemo(
+    () =>
+      [
+        { id: "eth", name: "ETH", icon: "/eth.png" },
+        { id: "usdc", name: "USDC", icon: "/usdc.png" },
+        { id: "usdt", name: "USDT", icon: "/usdt.png" },
+      ].concat(
+        chainInfo && "wrappedEth" in chainInfo
+          ? [{ id: "weth", name: "WETH", icon: "/weth.png" }]
+          : []
+      ),
+    [chainInfo]
+  )
+  const { open } = useWeb3Modal()
 
   const { performTransaction, performingTransaction, loggers } =
     usePerformTransaction({})
 
-  const { data: ethBalance } = useBalance({
+  const { data: ethBalance, refetch: refetchEth } = useBalance({
     address,
     query: {
       enabled: !!address,
       refetchInterval: 10_000, // 10s
     },
   })
-  const { data: wethBalance } = useReadContract({
+  const { data: wethBalance, refetch: refetchWeth } = useReadContract({
     abi: erc20Abi,
-    address: chainInfo?.wrappedEth?.address as Address,
+    address: (chainInfo as any)?.wrappedEth?.address as Address,
     functionName: "balanceOf",
     args: [address as Address],
     query: {
-      enabled: !!chainInfo && !!address,
+      enabled: !!chainInfo && !!address && !!(chainInfo as any)?.wrappedEth,
       refetchInterval: 10_000, // 10s
     },
   })
-  const { data: usdcBalance } = useReadContract({
+  const { data: usdcBalance, refetch: refetchUsdc } = useReadContract({
     abi: erc20Abi,
     address: chainInfo?.USDC?.address as Address,
     functionName: "balanceOf",
@@ -222,7 +145,7 @@ export default function GenesisPage() {
       refetchInterval: 10_000, // 10s
     },
   })
-  const { data: usdtBalance } = useReadContract({
+  const { data: usdtBalance, refetch: refetchUsdt } = useReadContract({
     abi: erc20Abi,
     address: chainInfo?.USDT?.address as Address,
     functionName: "balanceOf",
@@ -245,11 +168,12 @@ export default function GenesisPage() {
     },
   })
   const ethPrice = useMemo(() => {
-    if (ethPriceRaw) {
-      return parseFloat(formatUnits(ethPriceRaw![1], 8));
+    if (!ethPriceRaw) {
+      return undefined
     }
-    return undefined;
-  }, [ethPriceRaw]);
+
+    return parseFloat(formatUnits(ethPriceRaw![1], 8))
+  }, [ethPriceRaw])
 
   const selectedToken = useMemo(() => {
     return selectedPayment === "eth"
@@ -258,13 +182,15 @@ export default function GenesisPage() {
           isEth: true,
           balance: ethBalance?.value,
           decimals: 18,
+          refetch: refetchEth,
         }
       : selectedPayment === "weth"
         ? {
             symbol: "WETH",
             isEth: true,
             balance: wethBalance,
-            decimals: chainInfo?.wrappedEth.decimals ?? 18,
+            decimals: (chainInfo as any)?.wrappedEth.decimals ?? 18,
+            refetch: refetchWeth,
           }
         : selectedPayment === "usdc"
           ? {
@@ -272,6 +198,7 @@ export default function GenesisPage() {
               isEth: false,
               balance: usdcBalance,
               decimals: chainInfo?.USDC?.decimals ?? 6,
+              refetch: refetchUsdc,
             }
           : selectedPayment === "usdt"
             ? {
@@ -279,28 +206,27 @@ export default function GenesisPage() {
                 isEth: false,
                 balance: usdtBalance,
                 decimals: chainInfo?.USDT?.decimals ?? 6,
+                refetch: refetchUsdt,
               }
             : {
                 symbol: "UNKNOWN",
                 isEth: false,
                 balance: BigInt(0),
                 decimals: 0,
+                refetch: () => {},
               }
-  }, [selectedPayment, wethBalance, usdcBalance, usdtBalance, chainInfo, ethBalance?.value])
-  useEffect(() => {
-    if (selectedToken.balance !== undefined) {
-      const newPaymentAmount =
-        selectedPayment === "eth"
-          ? selectedToken.balance - parseEther("0.001") // Keep some eth to pay for gas fee
-          : selectedToken.balance
-      setPaymentAmount(newPaymentAmount)
-      setPaymentAmountInput(
-        parseFloat(
-          formatUnits(newPaymentAmount, selectedToken.decimals)
-        ).toFixed(selectedToken.isEth ? 4 : 2)
-      )
-    }
-  }, [selectedPayment, selectedToken])
+  }, [
+    selectedPayment,
+    wethBalance,
+    usdcBalance,
+    usdtBalance,
+    chainInfo,
+    ethBalance?.value,
+    refetchEth,
+    refetchWeth,
+    refetchUsdc,
+    refetchUsdt,
+  ])
 
   const usdValue = useMemo(
     () =>
@@ -313,113 +239,60 @@ export default function GenesisPage() {
     [selectedToken, ethPrice, paymentAmount]
   )
 
-  const { data: participateEvents, refetch: participateRefretch } = useQuery({
-    queryKey: ["participate"],
-    refetchInterval: 10_000, // 10s
-    queryFn: async () => {
-      const filter: ObjectFilter = {
-        chainId: {
-          equal: chainId,
-        },
-        type: {
-          equal: "Participated",
-        },
-      }
-      return await axios
-        .post(
-          "https://indexer.openxai.org/filterEvents",
-          JSON.parse(JSON.stringify(filter, replacer))
-        )
-        .then((res: any) => res.data)
-        .then(
-          (data: any) =>
-            JSON.parse(JSON.stringify(data), reviver) as FilterEventsReturn
-        )
-    },
-  }) as { data: Participated[]; refetch: () => {} }
+  const { data: tiers, refetch: refetchTiers } = useReadContracts({
+    contracts: TIERS.map((_, i) => {
+      return {
+        abi: OpenxAIGenesisContract.abi,
+        address: OpenxAIGenesisContract.address,
+        functionName: "tiers",
+        args: [BigInt(i)],
+      } as const
+    }),
+    allowFailure: false,
+  })
 
   const currentUsd = useMemo(
     () =>
-      participateEvents
+      tiers
         ? parseFloat(
             formatUnits(
-              participateEvents.reduce(
-                (prev, cur) => prev + cur.amount,
-                BigInt(0)
-              ),
+              TIERS.reduce((prev, cur) => prev + cur.amount, BigInt(0)) -
+                tiers.reduce((prev, cur) => prev + cur, BigInt(0)),
               6
             )
           )
         : 0,
-    [participateEvents]
-  )
-  const myUsd = useMemo(
-    () =>
-      participateEvents && address
-        ? parseFloat(
-            formatUnits(
-              participateEvents
-                .filter(
-                  (e) => e.account.toLowerCase() === address!.toLowerCase()
-                )
-                .reduce((prev, cur) => prev + cur.amount, BigInt(0)),
-              6
-            )
-          )
-        : 0,
-    [participateEvents, address]
-  )
-  const currentProject = useMemo(
-    () =>
-      participateEvents
-        ? participateEvents.reduce(
-            (prev, cur) => Math.max(prev, Number(cur.tier)), // NOTE: tier is 0 indexed, while projects "id" is 1 indexed
-            0
-          )
-        : 0,
-    [participateEvents]
+    [tiers]
   )
 
-  const receiveOpenx = useMemo(() => {
-    if (!usdValue) {
-      return { openx: 0, valueLeft: 0 }
+  const currentTier = useMemo(
+    () =>
+      tiers ? tiers.findIndex((tier) => tier !== BigInt(0), 0) : undefined,
+    [tiers]
+  )
+
+  const receive = useMemo(() => {
+    if (!usdValue || !tiers) {
+      return { openx: 0, credits: 0, valueLeft: 0 }
     }
 
-    const tiers = projects
-      .filter((p) => parseInt(p.id) > currentProject)
-      .map((p) => {
-        let usd = parseInt(p.fundingGoal)
-        const id = parseInt(p.id) - 1
-        if (id === currentProject) {
-          usd -= parseFloat(
-            formatUnits(
-              participateEvents
-                ?.filter((p) => p.tier === BigInt(id))
-                ?.reduce((prev, cur) => prev + cur.amount, BigInt(0)) ??
-                BigInt(0),
-              6
-            )
-          )
-        }
-        return {
-          usd,
-          rate: PROJECT_RATE[id],
-        }
-      })
-
-    let valueLeft = usdValue ?? 0;
+    let valueLeft = usdValue
     let openx = 0
+    let credits = 0
     let tierIndex = 0
-    while (valueLeft > 0 && tierIndex < tiers.length) {
-      const tier = tiers[tierIndex]
-      const amountInTier = Math.min(valueLeft, tier.usd)
-      openx += amountInTier * tier.rate
+    while (valueLeft > 0 && tierIndex < TIERS.length) {
+      const amountInTier = Math.min(
+        valueLeft,
+        parseFloat(formatUnits(tiers[tierIndex], 6))
+      )
+      openx += amountInTier * TIERS[tierIndex].openx_rate
+      credits += amountInTier * TIERS[tierIndex].credits_rate
       valueLeft -= amountInTier
       tierIndex++
     }
 
-    return { openx, valueLeft }
-  }, [usdValue, currentProject, participateEvents])
+    return { openx, credits, valueLeft }
+  }, [usdValue, tiers])
 
   const tokenAddress = useMemo(() => {
     if (!chainInfo || selectedPayment === "eth") return undefined
@@ -427,17 +300,18 @@ export default function GenesisPage() {
     let erc20Address: Address
     switch (selectedPayment) {
       case "weth":
-        erc20Address = chainInfo!.wrappedEth.address
+        erc20Address =
+          "wrappedEth" in chainInfo ? chainInfo.wrappedEth.address : zeroAddress
         break
       case "usdc":
-        erc20Address = chainInfo!.USDC.address
+        erc20Address = chainInfo.USDC.address
         break
       case "usdt":
-        erc20Address = chainInfo!.USDT.address
+        erc20Address = chainInfo.USDT.address
         break
       default:
         // This case should be unreachable given the type of selectedPayment
-        throw new Error(`Unexpected payment method: ${selectedPayment}`);
+        throw new Error(`Unexpected payment method: ${selectedPayment}`)
     }
     return erc20Address
   }, [chainInfo, selectedPayment])
@@ -453,112 +327,46 @@ export default function GenesisPage() {
       },
     })
 
-    useEffect(() => {
-      // Use fixed zero values to prevent calculation of negative times
-      setCountdown({
-        days: 0,
-        hours: 0,
-        minutes: 0,
-        seconds: 0
-      })
-      
-      // No need for interval timers
-      return () => {}
-    }, [])
-
-  // Set the first FAQ open by default (index 0)
-  const [openFaqIndex, setOpenFaqIndex] = useState<number>(0)
+  useEffect(() => {
+    const allowance =
+      selectedPayment === "eth" ? BigInt(0) : (tokenAllowance ?? BigInt(0))
+    if (selectedToken.balance !== undefined) {
+      const balance = allowance ? allowance : selectedToken.balance
+      const newPaymentAmount =
+        selectedPayment === "eth"
+          ? balance - parseEther("0.001") // Keep some eth to pay for gas fee
+          : balance
+      setPaymentAmount(newPaymentAmount)
+      setPaymentAmountInput(
+        parseFloat(
+          formatUnits(newPaymentAmount, selectedToken.decimals)
+        ).toFixed(selectedToken.isEth ? 4 : 2)
+      )
+    }
+  }, [selectedPayment, selectedToken, tokenAllowance])
 
   const [expectedContribution, setExpectedContribution] = useState({
     currency: "",
     openx: "",
+    credits: "",
   })
 
-  // Add this state for table visibility
-  const [isTableVisible, setIsTableVisible] = useState(false)
-
-  // First 100k is unlimited, afterward max 1000 per address
-  const maxAmount = useMemo(() => {
-    return Math.max(100_000 - currentUsd, Math.max(0, 1_000 - myUsd))
-  }, [currentUsd, myUsd])
-  const overMaxAmount = useMemo(() => {
-    if (typeof usdValue === 'number') {
-      // usdValue is confirmed to be a number here - use non-null assertion
-      return usdValue! > maxAmount;
-    }
-    // If usdValue is not a number (e.g., undefined), it's not over the max amount
-    return false;
-  }, [usdValue, maxAmount])
-
   return (
-    <MobileResponsiveWrapper>
-      {/* Disable interactions but without visual overlay */}
-      <div
-        className="pointer-events-auto"
-        style={{ backgroundColor: "transparent" }}
-      >
-        <div className="[@media(max-width:960px)]:mt-16">
-          <main
-            className="min-w-[320px] flex-1 overflow-x-auto p-4 pt-0 [@media(max-width:500px)]:pt-0 
-            [@media(max-width:960px)]:pt-0 
-            [@media(min-width:960px)]:p-8 [@media(min-width:960px)]:pt-2"
-          >
+    <>
+      <div style={{ backgroundColor: "transparent" }}>
+        <div>
+          <main>
             <div className="px-safe">
               {/* Main content */}
               <div className="relative z-[5]">
-                {/* Connect Wallet Button - Top Right - Fixed CSS conflict */}
-                <div className="-mt-2 mb-6 hidden items-center justify-end pr-5 [@media(min-width:960px)]:flex">
-                  <div className="mr-3 flex size-[40px] items-center justify-center overflow-hidden rounded-md">
-                    {/* Rotating wallet icons - moved logic to component level */}
-                    <Image 
-                      src={walletIcons[currentIconIndex]} 
-                      alt="Wallet" 
-                      width={40} 
-                      height={40} 
-                      className="h-[40px] w-auto object-cover transition-opacity duration-300"
-                    />
-                  </div>
-                  <Button
-                    className="h-[40px] bg-[#2D63F6] text-lg font-bold text-white hover:opacity-90"
-                    onClick={() => open()}
-                  >
-                    Connect Wallet
-                  </Button>
-                </div>
-                
-                {/* Gradient Text Section - minimal top spacing */}
-                <div className="mb-16 mt-0 text-center">
-                  <h2 className="font-inter text-3xl font-medium leading-tight [@media(min-width:960px)]:text-4xl">
-                    <div className="bg-gradient-to-r from-white to-[#2D63F6] bg-clip-text text-transparent">
-                    AI is no longer limited to mega corporations.
-                    </div>
-                    <div className="mt-3 bg-gradient-to-r from-white to-[#2D63F6] bg-clip-text text-transparent">
-                    OpenxAI Genesis is a milestone-based fair launch initiative.
-                    </div>
-                    <div className="mt-3 bg-gradient-to-r from-white to-[#2D63F6] bg-clip-text text-transparent">
-                    <a 
-                      href="https://www.youtube.com/live/noYv3W0eZvA" 
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-3 text-2xl text-gray-400 underline transition-colors hover:opacity-80"
-                    >
-                      Watch the Genesis Livestream
-                    </a>
-                    </div>
-
-                  </h2>
-                </div>
-
+                <div className="h-8 max-lg:hidden" />
                 {/* Main stats and info container */}
                 <div className="grid grid-cols-1 gap-4 [@media(min-width:960px)]:grid-cols-6">
                   {/* Amount section */}
-                  <div className="[@media(min-width:960px)]:col-span-3">
+                  <div className="[@media(min-width:960px)]:col-span-4">
                     <h1 className="inline-flex items-baseline gap-4 text-4xl [@media(min-width:960px)]:text-7xl">
                       <span className="text-white">
                         ${formatNumber(currentUsd)}
-                      </span>
-                      <span className="text-base text-white [@media(min-width:960px)]:text-lg">
-                        ${Math.round((1000 - currentUsd) / 1000)}M remaining
                       </span>
                     </h1>
                   </div>
@@ -566,38 +374,26 @@ export default function GenesisPage() {
                   {/* Info boxes */}
                   <div className="relative flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:inset-[-0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-[''] [@media(min-width:960px)]:col-span-1 [@media(min-width:960px)_and_(max-width:1200px)]:px-2 [@media(min-width:960px)_and_(max-width:1560px)]:h-[90px]">
                     <div className="relative z-10 flex w-full flex-col justify-center text-center">
-                      <div className="text-white [@media(min-width:960px)_and_(max-width:1200px)]:text-sm">Ticker</div>
-                      <div className="text-white [@media(min-width:960px)_and_(max-width:1200px)]:text-sm">$OPENX (ERC20)</div>
-                    </div>
-                  </div>
-                  <div className="relative flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:inset-[-0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-[''] [@media(min-width:960px)]:col-span-1 [@media(min-width:960px)_and_(max-width:1200px)]:px-2 [@media(min-width:960px)_and_(max-width:1560px)]:h-[90px]">
-                    <div className="relative z-10 flex w-full flex-col justify-center text-center">
-                      <div className="text-white [@media(min-width:960px)_and_(max-width:1200px)]:text-sm">Min / Max per wallet</div>
-                      <div className="mx-auto flex items-center justify-center text-white [@media(min-width:960px)_and_(max-width:1200px)]:text-sm">
-                        <span>$50 / $1,000</span>
-                        <TooltipProvider>
-                          <Tooltip>
-                            <TooltipTrigger>
-                              <Info className="ml-2 size-4 text-[#6A6A6A] [@media(min-width:960px)_and_(max-width:1200px)]:size-3" />
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              <p>We want the $OPENX token to be as widely distributed as possible and fair for the community! After 50% of our funding goal has been achieved, we will restrict min & max contibutions.</p>
-                            </TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
+                      <div className="text-white [@media(min-width:960px)_and_(max-width:1200px)]:text-sm">
+                        Ticker
+                      </div>
+                      <div className="text-white [@media(min-width:960px)_and_(max-width:1200px)]:text-sm">
+                        $OPENX (ERC20)
                       </div>
                     </div>
                   </div>
                   <div className="relative flex h-[58px] rounded-lg bg-[#0B1120] px-4 before:absolute before:inset-[-0.5px] before:rounded-lg before:border-0 before:bg-gradient-to-t before:from-[#829ED1] before:to-[#0059FE] before:content-[''] after:absolute after:inset-px after:rounded-lg after:bg-[#1F2021] after:content-[''] [@media(min-width:960px)]:col-span-1 [@media(min-width:960px)_and_(max-width:1200px)]:px-2 [@media(min-width:960px)_and_(max-width:1560px)]:h-[90px]">
                     <div className="relative z-10 flex w-full flex-col justify-center text-center">
-                      <div className="text-white [@media(min-width:960px)_and_(max-width:1200px)]:text-sm">Contract</div>
+                      <div className="text-white [@media(min-width:960px)_and_(max-width:1200px)]:text-sm">
+                        Contract
+                      </div>
                       <a
-                        href={`${chains.find((c) => c.id === chainId)?.blockExplorers.default.url ?? "https://etherscan.io"}/token/${OpenxAIContract.address}`}
+                        href={`${chains.find((c) => c.id === chainId)?.blockExplorers.default.url ?? "https://basescan.org"}/token/${OpenxAIContract.address}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-white underline hover:opacity-80 [@media(min-width:960px)_and_(max-width:1200px)]:text-sm"
                       >
-                        0x32f...953d
+                        0xa734...aA32
                       </a>
                     </div>
                   </div>
@@ -605,400 +401,76 @@ export default function GenesisPage() {
 
                 {/* Progress bar section */}
                 <div className="my-8 h-px w-full bg-[#505050]" />
-                <div className="mt-6">
-                  <div className="mb-6 flex flex-col items-start justify-between text-base [@media(min-width:400px)]:flex-row [@media(min-width:400px)]:items-center">
-                    <div className="mb-2 [@media(min-width:400px)]:mb-0">
-                      <span className="text-white">
-                        {/* Commented out dynamic calculation: {(1 / PROJECT_RATE[currentProject]).toFixed(3)} USD = 1 OPENX */}
-                        1 ETH = 1,476,947 OPENX (-78%)
+                <div className="flex flex-col gap-2">
+                  <div className="flex place-content-between place-items-center">
+                    <div className="flex flex-col text-white">
+                      <span>
+                        ${(selectedTier ?? currentTier ?? 0) * 10}K - $
+                        {((selectedTier ?? currentTier ?? 0) + 1) * 10}K
                       </span>
+                      <span>
+                        1 USD ={" "}
+                        {selectedTier !== undefined
+                          ? TIERS[selectedTier].openx_rate
+                          : currentTier !== undefined
+                            ? TIERS[currentTier].openx_rate
+                            : "..."}{" "}
+                        OPENX +{" "}
+                        {selectedTier !== undefined
+                          ? TIERS[selectedTier].credits_rate
+                          : currentTier !== undefined
+                            ? TIERS[currentTier].credits_rate
+                            : "..."}{" "}
+                        GPU Credits
+                      </span>
+                      <span>xx% Discount</span>
+                    </div>
+
+                    <div className="flex flex-col items-end text-white">
+                      <span className="text-xl font-bold">$150K</span>
+                      <span className="text-sm">(target)</span>
                     </div>
                   </div>
 
-                  <div className="relative mb-8">
-                    {/* Improved responsive positioning for the $500K text */}
-                    <div className="absolute -top-14 hidden flex-col items-center [@media(min-width:500px)]:flex" style={{ left: '75%', transform: 'translateX(-50%)' }}>
-                      <span className="text-xl font-bold text-white">$500K</span>
-                      <span className="text-sm font-normal text-green-400">(Softcap)</span>
-                    </div>
-                    
-                    {/* Mobile version of $500K text (right-aligned) */}
-                    <div className="absolute -top-14 right-0 flex flex-col items-end [@media(min-width:500px)]:hidden">
-                      <span className="text-xl font-bold text-white">$500K</span>
-                      <span className="text-sm font-normal text-green-400">(Softcap)</span>
-                    </div>
-                    
-                    <Progress
-                      value={100 * (currentUsd / 500_000)}
-                      className="h-6 cursor-pointer border border-white bg-[#1F2021] [&>div]:bg-gradient-to-r [&>div]:from-white [&>div]:to-[#122BEA]"
-                      onClick={() => setIsTableVisible(!isTableVisible)}
-                    />
-
-                    {/* Milestone markers */}
-                    {MILESTONES.map((milestone, index) => (
-                      <div
-                        key={index}
-                        className="absolute top-0"
-                        style={{ left: milestone.position }}
-                      >
-                        {/* Vertical dotted line - added extra height for mobile */}
-                        <div className="h-6 w-px border-l border-dotted border-white/30 [@media(max-width:660px)]:h-[25px]" />
-
-                        {/* Enhanced pulsating circle with ring - properly aligned */}
-                        {index < 3 ? (
-                          <div
-                            title={milestone.name}
-                            className="relative ml-[-4px] mt-2 flex items-center justify-center cursor-pointer [@media(max-width:660px)]:mt-3"
-                            onMouseEnter={() =>
-                              setHighlightedProject(milestone.projectId)
-                            }
-                            onMouseLeave={() =>
-                              !selectedMilestone && setHighlightedProject(null)
-                            }
-                            onClick={() => {
-                              if (selectedMilestone === milestone.projectId) {
-                                // Toggle off both selection and table visibility when clicking same milestone
-                                setSelectedMilestone(null)
-                                setHighlightedProject(null)
-                                setIsTableVisible(false)
-                              } else {
-                                setSelectedMilestone(milestone.projectId)
-                                setHighlightedProject(milestone.projectId)
-                                setIsTableVisible(true)
-                              }
-                            }}
-                          >
-                            {/* Outer pulsating ring - better centered and smaller */}
-                            <div
-                              className={cn(
-                                "absolute size-3 rounded-full",
-                                selectedMilestone === milestone.projectId
-                                  ? "bg-white/30"
-                                  : "animate-outer-ring-pulse bg-transparent"
-                              )}
-                            />
-                            {/* Inner dot - perfectly centered */}
-                            <div
-                              className={cn(
-                                "size-2 rounded-full",
-                                selectedMilestone === milestone.projectId
-                                  ? "bg-white shadow-[0_0_4px_rgba(255,255,255,0.8)]" // Reduced glow size
-                                  : "animate-pulse-ring bg-white/80 hover:animate-none hover:bg-white"
-                              )}
-                            />
-                          </div>
-                        ) : (
-                          <div
-                            onClick={() => {
-                              // Toggle milestone table visibility when clicking future milestones
-                              setIsTableVisible(!isTableVisible)
-                            }}
-                            className="relative ml-[-4px] mt-2 flex items-center justify-center cursor-pointer [@media(max-width:660px)]:mt-3"
-                            title={milestone.name}
-                          >
-                            {/* Outer pulsating ring for future milestones - better aligned */}
-                            <div className="absolute size-3 animate-outer-ring-pulse rounded-full bg-transparent" />
-                            {/* Inner dot for future milestones - perfectly centered */}
-                            <div className="size-2 animate-pulse-ring rounded-full bg-white/50 hover:animate-none hover:bg-white/90" />
-                          </div>
+                  <div className="grid grid-cols-15">
+                    {TIERS.slice(0, 15).map((tier, i) => (
+                      <Progress
+                        key={i}
+                        onPointerEnter={() => {
+                          setSelectedTier(i)
+                        }}
+                        onPointerLeave={() => {
+                          setSelectedTier(undefined)
+                        }}
+                        value={
+                          100 *
+                          ((parseFloat(formatUnits(tier.amount, 6)) -
+                            parseFloat(
+                              formatUnits(
+                                tiers?.at(i) ?? parseUnits("10000", 6),
+                                6
+                              )
+                            )) /
+                            parseFloat(formatUnits(tier.amount, 6)))
+                        }
+                        className={cn(
+                          "h-6 rounded-none border border-white bg-[#1F2021] text-[#122BEA]",
+                          i === 0 && "rounded-l-full",
+                          i === 14 && "rounded-r-full",
+                          i === selectedTier && "border-4"
                         )}
-                      </div>
+                      />
                     ))}
                   </div>
 
-                  {/* Toggle button for table - added margin bottom when expanded */}
-                  <div
-                    className={`mb-2 flex justify-end pr-8 ${isTableVisible ? "mb-4" : ""}`}
-                  >
-                    <button
-                      onClick={() => setIsTableVisible(!isTableVisible)}
-                      className="flex items-center gap-2 text-base text-white hover:opacity-80"
-                    >
-                      {isTableVisible ? (
-                        <>
-                          <svg
-                            className="size-4"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M5 15l7-7 7 7"
-                            />
-                          </svg>
-                          Hide project milestones
-                        </>
-                      ) : (
-                        <>
-                          <svg
-                            className="size-4"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M19 9l-7 7-7-7"
-                            />
-                          </svg>
-                          View project milestones
-                        </>
-                      )}
-                    </button>
-                  </div>
-
-                  {/* Milestone table with animation */}
-                  <div
-                    className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                      isTableVisible
-                        ? "max-h-[500px] opacity-100"
-                        : "max-h-0 opacity-0"
-                    }`}
-                  >
-                    <div className="relative -mx-4 w-full overflow-x-auto px-4">
-                      <div className="min-w-[800px]">
-                        <div className="w-full align-middle">
-                          <div className="overflow-hidden rounded-lg border border-[#454545]">
-                            <table className="w-full table-auto border-collapse bg-[#1F2021]">
-                              <thead>
-                                <tr>
-                                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                                    Project Name
-                                  </th>
-                                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                                    Funding Goal
-                                  </th>
-                                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                                    Deadline
-                                  </th>
-                                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                                    Backers Rewards
-                                  </th>
-                                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                                    Flash Bonus
-                                  </th>
-                                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                                    Reward APY
-                                  </th>
-                                  <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                                    Status
-                                  </th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {projects.slice(0, 3).map((project, index) => (
-                                  <tr
-                                    key={index}
-                                    className={cn(
-                                      "text-sm transition-colors",
-                                      highlightedProject === project.id ||
-                                        selectedMilestone === project.id
-                                        ? "bg-white/10"
-                                        : "hover:bg-white/5"
-                                    )}
-                                  >
-                                    <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                                      {project.name}
-                                    </td>
-                                    <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                                      $
-                                      {Number(
-                                        project.fundingGoal
-                                      ).toLocaleString()}
-                                    </td>
-                                    <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                                      {project.deadline}
-                                    </td>
-                                    <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                                      {Number(
-                                        project.backersRewards
-                                      ).toLocaleString()}{" "}
-                                      OPENX
-                                    </td>
-                                    <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                                      {Number(
-                                        project.flashBonus
-                                      ).toLocaleString()}{" "}
-                                      OPENX
-                                    </td>
-                                    <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
-                                      {project.rewardAPY}%
-                                    </td>
-                                    <td className="border-0 p-4 [@media(max-width:400px)]:p-[2px] [@media(max-width:650px)]:p-1 [@media(max-width:960px)]:p-2">
-                                      <span className="bg-gradient-to-r from-white to-blue-500 bg-clip-text text-sm text-transparent [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:text-xs">
-                                        {project.status}
-                                      </span>
-                                    </td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mt-4 flex justify-end">
-                        <Link
-                          href="/projects"
-                          className="text-base text-white underline hover:opacity-80"
-                        >
-                          View all project milestones
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* 1. Social Media Buttons Section */}
-                  <div className="my-16 w-full">
-                    <h3 className="mb-8 text-2xl font-bold text-white">1. Be part of the community</h3>
-                    {/* Social Media Buttons - Desktop (≥960px) */}
-                    <div className="mb-8 flex w-full justify-center gap-12 [@media(max-width:960px)]:hidden [@media(min-width:960px)]:w-1/2">
-                      {/* Twitter/X Button with gradient */}
-                      <a
-                        href="https://x.com/OpenxAINetwork"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="relative block"
-                      >
-                        <div className="relative">
-                          <div className="absolute -inset-px rounded-lg bg-gradient-to-t from-[#829ED1] to-[#0059FE]" />
-                          <div className="relative flex flex-col items-center rounded-lg bg-[#1F2021] px-6 py-3 hover:bg-[#2a2a2a]">
-                            <div className="flex items-center gap-2">
-                              <svg
-                                className="size-6 text-white"
-                                fill="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231z" />
-                              </svg>
-                              <span className="text-lg text-white">
-                                Follow @OpenxAI
-                              </span>
-                            </div>
-                            <div className="mt-2 text-sm text-gray-400">
-                              500 OPENX (Points)
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-
-                      {/* Telegram Button with gradient */}
-                      <a
-                        href="https://t.me/OpenxAINetwork"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="relative block"
-                      >
-                        <div className="relative">
-                          <div className="absolute -inset-px rounded-lg bg-gradient-to-t from-[#B2FE00] to-[#829ED1]" />
-                          <div className="relative flex flex-col items-center rounded-lg bg-[#1F2021] px-6 py-3 hover:bg-[#2a2a2a]">
-                            <div className="flex items-center gap-2">
-                              <svg
-                                className="size-6 text-white"
-                                fill="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <path d="M21.93 3.24l-3.35 17.52A1.51 1.51 0 0117.12 22a1.53 1.53 0 01-1.09-.45l-6.9-6.89-3.35 3.35a.49.49 0 01-.35.15.5.5 0 01-.5-.5v-4.29l12.45-12.46a.5.5 0 01-.7.71L4.55 13.75l-2.85-1a1.51 1.51 0 01.1-2.89l18.59-7.15a1.51 1.51 0 011.54 2.53z" />
-                              </svg>
-                              <span className="text-lg text-white">
-                                Join @OpenxAI
-                              </span>
-                            </div>
-                            <div className="mt-2 text-sm text-gray-400">
-                              500 OPENX (Points)
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-
-                    {/* Social Media Buttons - Mobile (<960px) */}
-                    <div className="flex max-w-full flex-col gap-4 px-4 [@media(min-width:960px)]:hidden">
-                      {/* Mobile Twitter/X Box */}
-                      <a
-                        href="https://x.com/OpenxAINetwork"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="relative block w-full hover:opacity-80"
-                      >
-                        <div className="relative w-full">
-                          <div className="absolute -inset-px rounded-lg bg-gradient-to-t from-[#829ED1] to-[#0059FE]" />
-                          <div className="relative flex h-[80px] items-center rounded-lg bg-[#1F2021] p-6">
-                            <span className="absolute left-6 text-2xl font-bold text-white">
-                              1.
-                            </span>
-                            <div className="ml-12 flex w-full flex-col items-center">
-                              <div className="flex items-center gap-2">
-                                <svg
-                                  className="size-6 text-white"
-                                  fill="currentColor"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231z" />
-                                </svg>
-                                <span className="text-lg text-white [@media(max-width:400px)]:text-sm">
-                                  Follow @OpenXAI
-                                </span>
-                              </div>
-                              <div className="mt-2 text-sm text-gray-400 [@media(max-width:400px)]:text-xs">
-                                500 OPENX (Points)
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-
-                      {/* Mobile Telegram Box */}
-                      <a
-                        href="https://t.me/OpenxAINetwork"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="relative block w-full hover:opacity-80"
-                      >
-                        <div className="relative w-full">
-                          <div className="absolute -inset-px rounded-lg bg-gradient-to-b from-[#B2FE00] to-[#829ED1]" />
-                          <div className="relative flex h-[80px] items-center rounded-lg bg-[#1F2021] p-6">
-                            <span className="absolute left-6 text-2xl font-bold text-white">
-                              2.
-                            </span>
-                            <div className="ml-12 flex w-full flex-col items-center">
-                              <div className="flex items-center gap-2">
-                                <svg
-                                  className="size-6 text-white"
-                                  fill="currentColor"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path d="M21.93 3.24l-3.35 17.52A1.51 1.51 0 0117.12 22a1.53 1.53 0 01-1.09-.45l-6.9-6.89-3.35 3.35a.49.49 0 01-.35.15.5.5 0 01-.5-.5v-4.29l12.45-12.46a.5.5 0 01-.7.71L4.55 13.75l-2.85-1a1.51 1.51 0 01.1-2.89l18.59-7.15a1.51 1.51 0 011.54 2.53z" />
-                                </svg>
-                                <span className="text-lg text-white [@media(max-width:400px)]:text-sm">
-                                  Join @OpenXAI
-                                </span>
-                              </div>
-                              <div className="mt-2 text-sm text-gray-400 [@media(max-width:400px)]:text-xs">
-                                500 OPENX (Points)
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-
-                  {/* 2. Contributions/Payment Section */}
                   <div className="w-full">
-                    <h3 className="mb-8 text-2xl font-bold text-white">2. Contributions</h3>
-                    
                     {/* Payment method buttons container */}
                     <div className="mb-8 w-full [@media(min-width:960px)]:w-1/2">
                       <div className="my-10 text-xl font-bold text-white">
                         Your deposit
                       </div>
                       <div className="grid grid-cols-4 gap-4">
-                        {PAYMENT_METHODS.map((method) => (
+                        {paymentMethods.map((method) => (
                           <button
                             key={method.id}
                             onClick={() =>
@@ -1056,7 +528,9 @@ export default function GenesisPage() {
                           {selectedToken.symbol}
                         </span>
                       ) : (
-                        <span className="text-white">please connect wallet</span>
+                        <span className="text-white">
+                          please connect wallet
+                        </span>
                       )}
                     </div>
 
@@ -1103,18 +577,6 @@ export default function GenesisPage() {
                             </div>
                           </div>
                         </div>
-
-                        <div className="flex items-center gap-2">
-                          <span className="text-gray-400">Max Amount:</span>
-                          <span
-                            className={cn(
-                              "rounded-md bg-[#5C5C5C] px-2 py-1 text-white",
-                              overMaxAmount && "bg-red-600"
-                            )}
-                          >
-                            ${formatNumber(maxAmount)}
-                          </span>
-                        </div>
                       </div>
                     </div>
 
@@ -1122,15 +584,8 @@ export default function GenesisPage() {
                     <div className="my-8 w-full [@media(min-width:960px)]:w-1/2">
                       <div className="flex items-center gap-4">
                         <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#454545] to-transparent" />
-                        <div className="font-inter text-[13px] font-normal text-[#6A6A6A]">
+                        <div className="font-inter text-sm font-normal text-[#6A6A6A]">
                           You will receive
-                          <span className="text-lg text-white">
-                            {" "}
-                            {formatNumber(receiveOpenx.openx)}{" "}
-                          </span>
-                          <span className="bg-gradient-to-r from-white to-[#2D63F6] bg-clip-text text-lg font-medium text-transparent">
-                            OPENX
-                          </span>
                         </div>
                         <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#454545] to-transparent" />
                       </div>
@@ -1146,24 +601,26 @@ export default function GenesisPage() {
                           height={28}
                         />
                         <span className="text-lg text-white">
-                          {formatNumber(receiveOpenx.openx)} OPENX
+                          {formatNumber(receive.openx)} OPENX +{" "}
+                          {formatNumber(receive.credits)} GPU Credits
                         </span>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                {receiveOpenx.valueLeft && (
+                {receive.valueLeft && (
                   <div className="flex gap-2">
                     <AlertTriangleIcon className="text-white" />
                     <span className="text-white">
-                      Contribution is more than remaining milestones! Oversupplied
-                      ${formatNumber(receiveOpenx.valueLeft)} will be send back.
+                      Contribution is more than remaining milestones!
+                      Oversupplied ${formatNumber(receive.valueLeft)} will be
+                      send back.
                     </span>
                   </div>
                 )}
 
-                <div className="flex flex-col">
+                <div className="flex gap-5">
                   {selectedPayment !== "eth" &&
                     (tokenAllowance ?? BigInt(0)) < paymentAmount && (
                       <Button
@@ -1194,7 +651,7 @@ export default function GenesisPage() {
                                   ],
                                 }
                               },
-                              onConfirmed(receipt: any) {
+                              onConfirmed() {
                                 refetchTokenAllowance()
                               },
                             })
@@ -1202,14 +659,7 @@ export default function GenesisPage() {
                             open()
                           }
                         }}
-                        disabled={
-                          countdown.days > 0 ||
-                          countdown.hours > 0 ||
-                          countdown.minutes > 0 ||
-                          countdown.seconds > 0 ||
-                          performingTransaction ||
-                          overMaxAmount
-                        }
+                        disabled={performingTransaction}
                       >
                         Approve
                       </Button>
@@ -1243,7 +693,8 @@ export default function GenesisPage() {
 
                             setExpectedContribution({
                               currency: `${parseFloat(formatUnits(paymentAmount, selectedToken.decimals)).toFixed(selectedToken.isEth ? 4 : 2)} ${selectedToken.symbol}`,
-                              openx: `${formatNumber(receiveOpenx.openx)} OPENX`,
+                              openx: `${formatNumber(receive.openx)} OPENX`,
+                              credits: `${formatNumber(receive.credits)} GPU Credits`,
                             })
 
                             return {
@@ -1253,61 +704,25 @@ export default function GenesisPage() {
                               args: [tokenAddress, paymentAmount],
                             }
                           },
-                          onConfirmed(receipt: any) {
+                          onConfirmed() {
                             setShowSuccessModal(true)
-                            axios.post(
-                              "https://indexer.openxai.org/sync",
-                              JSON.parse(
-                                JSON.stringify(
-                                  {
-                                    chainId,
-                                    fromBlock: receipt.blockNumber - BigInt(1),
-                                    toBlock: receipt.blockNumber,
-                                  },
-                                  replacer
-                                )
-                              )
-                            )
-                            participateRefretch()
+                            refetchTiers()
+                            selectedToken.refetch()
                           },
                         })
                       } else {
                         open()
                       }
                     }}
-                    disabled={true /* Disabled permanently */}
+                    disabled={
+                      performingTransaction ||
+                      (selectedPayment !== "eth" &&
+                        (tokenAllowance ?? BigInt(0)) < paymentAmount)
+                    }
                   >
                     Participate
                   </Button>
                 </div>
-              </div>
-            </div>
-
-            {/* FAQ Section */}
-            <div className="mt-32 w-full px-4">
-              <h2 className="mb-8 text-center text-3xl font-bold text-white">
-                OpenxAI Genesis Event - Frequently Asked Questions
-              </h2>
-              <div className="space-y-4">
-                {FAQS.map((faq, index) => (
-                  <div key={index} className="rounded-lg bg-[#1F2021] p-4">
-                    <button
-                      onClick={() =>
-                        setOpenFaqIndex(openFaqIndex === index ? -1 : index)
-                      }
-                      className="flex w-full justify-between text-left text-lg font-semibold text-white focus:outline-none"
-                    >
-                      <span className="mb-6">{faq.question}</span>
-                      <span>{openFaqIndex === index ? "-" : "+"}</span>
-                    </button>
-                    {openFaqIndex === index && (
-                      <div
-                        dangerouslySetInnerHTML={{ __html: faq.answer }}
-                        className="text-[#6A6A6A]"
-                      />
-                    )}
-                  </div>
-                ))}
               </div>
             </div>
           </main>
@@ -1317,9 +732,10 @@ export default function GenesisPage() {
         <SuccessModal
           depositAmount={expectedContribution.currency}
           tokenAmount={expectedContribution.openx}
+          creditsAmount={expectedContribution.credits}
           onClose={() => setShowSuccessModal(false)}
         />
       )}
-    </MobileResponsiveWrapper>
+    </>
   )
 }
