@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import { useState } from "react"
 import axios from "axios"
 import { useAccount, useSignMessage } from "wagmi"
 
@@ -128,6 +128,76 @@ export default function ManualTokensPage() {
                 return { ...token, starting_from: date }
               })
             }
+          />
+        </div>
+        <div className="flex gap-3 place-items-center">
+          <Label className="text-lg">Time</Label>
+          <Input
+            className="bg-transparent"
+            type="number"
+            value={Math.floor(
+              (pendingToken.starting_from.getTime() % (24 * 60 * 60 * 1000)) /
+                (60 * 60 * 1000)
+            )}
+            onChange={(e) => {
+              const hours = parseInt(e.target.value)
+              if (!isNaN(hours)) {
+                setPendingToken((token) => {
+                  return {
+                    ...token,
+                    starting_from: new Date(
+                      Math.floor(
+                        pendingToken.starting_from.getTime() /
+                          (24 * 60 * 60 * 1000)
+                      ) *
+                        (24 * 60 * 60 * 1000) +
+                        hours * (60 * 60 * 1000) +
+                        Math.floor(
+                          ((pendingToken.starting_from.getTime() %
+                            (24 * 60 * 60 * 1000)) %
+                            (60 * 60 * 1000)) /
+                            (60 * 1000)
+                        ) *
+                          (60 * 1000)
+                    ),
+                  }
+                })
+              }
+            }}
+          />
+          <span>:</span>
+          <Input
+            className="bg-transparent"
+            type="number"
+            value={Math.floor(
+              ((pendingToken.starting_from.getTime() % (24 * 60 * 60 * 1000)) %
+                (60 * 60 * 1000)) /
+                (60 * 1000)
+            )}
+            onChange={(e) => {
+              const minutes = parseInt(e.target.value)
+              if (!isNaN(minutes)) {
+                setPendingToken((token) => {
+                  return {
+                    ...token,
+                    starting_from: new Date(
+                      Math.floor(
+                        pendingToken.starting_from.getTime() /
+                          (24 * 60 * 60 * 1000)
+                      ) *
+                        (24 * 60 * 60 * 1000) +
+                        minutes * (60 * 1000) +
+                        Math.floor(
+                          (pendingToken.starting_from.getTime() %
+                            (24 * 60 * 60 * 1000)) /
+                            (60 * 60 * 1000)
+                        ) *
+                          (60 * 60 * 1000)
+                    ),
+                  }
+                })
+              }
+            }}
           />
         </div>
         <div className="flex gap-3 place-items-center">
