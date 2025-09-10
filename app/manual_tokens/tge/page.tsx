@@ -64,12 +64,6 @@ const tge: TGEManualToken[] = [
     vestingDays: 60,
   },
   {
-    account: "0x500abED5D0E3FBB1aB79bc5a50EaBeF82F16774b",
-    amount: 0.05 * totalSupply,
-    atTGE: 0.5,
-    vestingDays: 60,
-  },
-  {
     account: "0x113be2A0Dd0b6d7808D30c8F5CfC3fA2232bbD06",
     amount: 0.36 * totalSupply,
     atTGE: 0.5,
@@ -83,19 +77,13 @@ const tge: TGEManualToken[] = [
   },
   {
     account: "0x6Ff837a1a5587D7877DA43F72898D2f64A3DC347",
-    amount: 0.36 * totalSupply,
+    amount: 0.135 * totalSupply,
     atTGE: 0.5,
     vestingDays: 60,
   },
   {
     account: "0x6E01Ba971675DB2596557698A3f95B8D3e7E2612",
-    amount: 0.36 * totalSupply,
-    atTGE: 0.5,
-    vestingDays: 60,
-  },
-  {
-    account: "0x1AF3E4cB78E350E02f637D33C6d57188d5041E6F",
-    amount: 0.45 * totalSupply,
+    amount: 0.135 * totalSupply,
     atTGE: 0.5,
     vestingDays: 60,
   },
@@ -118,6 +106,24 @@ const tge: TGEManualToken[] = [
     vestingDays: 60,
   },
   {
+    account: "0x19243697ba923539223f0CC777B55fBd4118F5cA",
+    amount: 0.135 * totalSupply,
+    atTGE: 0.5,
+    vestingDays: 60,
+  },
+  {
+    account: "0xd24aF87D8adC73529491faF0d9D56cDC46886Be0",
+    amount: 0.36 * totalSupply,
+    atTGE: 0.5,
+    vestingDays: 60,
+  },
+  {
+    account: "0xa56bBD51250A29149161e8e4e617528A014597cb",
+    amount: 0.4 * totalSupply,
+    atTGE: 0.5,
+    vestingDays: 60,
+  },
+  {
     account: "0xcc669A9F057C1E69dE1BfebB26E4489AD94cE529",
     amount: 0.5 * totalSupply,
     atTGE: 0.5,
@@ -128,6 +134,18 @@ const tge: TGEManualToken[] = [
     amount: 0.7 * totalSupply,
     atTGE: 0.5,
     vestingDays: 60,
+  },
+  {
+    account: "0x4662E43E5fe849c6F1aBB502b2B806edC1f2A769",
+    amount: 0.5 * totalSupply,
+    atTGE: 1,
+    vestingDays: 0,
+  },
+  {
+    account: "0x95cC955915950DBE8cd2620A1A222374193DF3fC",
+    amount: 0.5 * totalSupply,
+    atTGE: 1,
+    vestingDays: 0,
   },
   {
     account: "0x53475662D4c11dA9AdC1a8664965D73bDbf07b1f",
@@ -143,7 +161,8 @@ const tokens: ManualToken[] = tge.flatMap((token) => {
   const amount = Math.round(token.amount)
   const atTGE = Math.round(amount * token.atTGE)
   const vested = amount - atTGE
-  const perDay = Math.round(vested / token.vestingDays)
+  const perDay =
+    token.vestingDays === 0 ? 0 : Math.round(vested / token.vestingDays)
   return [
     {
       account: token.account,
