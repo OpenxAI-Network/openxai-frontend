@@ -89,9 +89,11 @@ export default function ClaimsPage() {
           <div className="w-full flex place-content-center text-white">
             <span className="text-3xl">
               Claiming starts at 10 September 2025 17:00:00 UTC (in{" "}
-              {openIn > 60 * 1000
-                ? `${Math.round(openIn / (60 * 1000))}m`
-                : `${Math.round(openIn / 1000)}s`}
+              {openIn > 60 * 60 * 1000
+                ? `${Math.round(openIn / (60 * 60 * 1000))}h`
+                : openIn > 60 * 1000
+                  ? `${Math.round(openIn / (60 * 1000))}m`
+                  : `${Math.round(openIn / 1000)}s`}
               )
             </span>
           </div>
