@@ -29,21 +29,21 @@ const SIDE_MENU_ITEMS = [
     href: "/dashboard",
     icon: <FontAwesomeIcon icon={faCircleCheck} className="size-4" />,
   },
-  {
-    name: "Genesis",
-    href: "/genesis",
-    icon: <FontAwesomeIcon icon={faRocket} className="size-4" />,
-  },
+  // {
+  //   name: "Genesis",
+  //   href: "/genesis",
+  //   icon: <FontAwesomeIcon icon={faRocket} className="size-4" />,
+  // },
   {
     name: "Claims",
     href: "/claims",
     icon: <FontAwesomeIcon icon={faFlagCheckered} className="size-4" />,
   },
-  {
-    name: "Stake",
-    href: "/stake",
-    icon: <FontAwesomeIcon icon={faCoins} className="size-4" />,
-  },
+  // {
+  //   name: "Stake",
+  //   href: "/stake",
+  //   icon: <FontAwesomeIcon icon={faCoins} className="size-4" />,
+  // },
   {
     name: "Earn",
     href: "/earn",

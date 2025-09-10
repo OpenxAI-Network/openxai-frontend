@@ -14,7 +14,9 @@ export default function StakePage() {
     enabled: !!address,
     queryFn: async () => {
       return await axios
-        .get(`https://indexer.core.openxai.org/api/${address}/total_staking`)
+        .get(
+          `https://indexer.core.openxai.org/api/${address}/total_nft_staking`
+        )
         .then((res) => res.data as number)
     },
   })
@@ -23,7 +25,7 @@ export default function StakePage() {
     queryKey: ["leaderboard"],
     queryFn: async () => {
       return await axios
-        .get("https://indexer.core.openxai.org/api/staking/leaderboard")
+        .get("https://indexer.core.openxai.org/api/nft_staking/leaderboard")
         .then((res) => res.data as { account: string; total: number }[])
     },
   })
