@@ -2,6 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from "react"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 import { OpenxAIContract } from "@/contracts/OpenxAI"
 import { OpenxAIGenesisContract } from "@/contracts/OpenxAIGenesis"
 import { useWeb3Modal } from "@web3modal/wagmi/react"
@@ -82,6 +83,11 @@ const CHAIN_INFO = {
 } as const
 
 export default function GenesisPage() {
+  const { replace } = useRouter()
+  useEffect(() => {
+    replace("/dashboard")
+  })
+
   const [selectedTier, setSelectedTier] = useState<number | undefined>(
     undefined
   )

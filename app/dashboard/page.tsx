@@ -999,7 +999,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Line chart */}
-        <div className="mt-10">
+        {/* <div className="mt-10">
           <div className="mb-4 text-2xl font-bold text-white">
             Token Release Schedule
           </div>
@@ -1107,7 +1107,7 @@ export default function DashboardPage() {
               ]}
             />
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   )
