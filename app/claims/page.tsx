@@ -76,7 +76,7 @@ export default function ClaimsPage() {
     },
   })
 
-  const openAt = Date.UTC(2025, 9 - 1, 10, 17, 0, 0, 0)
+  const openAt = Date.UTC(2025, 9 - 1, 10, 18, 0, 0, 0)
   const [openIn, setOpenIn] = useState<number>(openAt - Date.now())
   useEffect(() => {
     setInterval(() => setOpenIn(openAt - Date.now()), 1000)
@@ -88,7 +88,7 @@ export default function ClaimsPage() {
         {openIn > 0 ? (
           <div className="w-full flex place-content-center text-white">
             <span className="text-3xl">
-              Claiming starts at 10 September 2025 17:00:00 UTC (in{" "}
+              Claiming starts at 10 September 2025 18:00:00 UTC (in{" "}
               {openIn > 60 * 60 * 1000
                 ? `${Math.round(openIn / (60 * 60 * 1000))}h`
                 : openIn > 60 * 1000
