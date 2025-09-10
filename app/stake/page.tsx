@@ -1,5 +1,7 @@
 "use client"
 
+import { useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 import axios from "axios"
 import { useAccount } from "wagmi"
@@ -7,6 +9,11 @@ import { useAccount } from "wagmi"
 import { formatNumber } from "@/lib/openxai"
 
 export default function StakePage() {
+  const { replace } = useRouter()
+  useEffect(() => {
+    replace("/dashboard")
+  })
+
   const { address } = useAccount()
 
   const { data: total } = useQuery({
