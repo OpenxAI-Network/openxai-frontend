@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation"
 import { OpenxAIContract } from "@/contracts/OpenxAI"
 import {
   faCircleCheck,
+  faClipboardList,
   faCoins,
   faDollarSign,
   faFlagCheckered,
@@ -52,6 +53,11 @@ const SIDE_MENU_ITEMS = [
     name: "Governance",
     href: "/governance",
     icon: <FontAwesomeIcon icon={faScaleBalanced} className="size-4" />,
+  },
+  {
+    name: "Roadmap",
+    href: "https://changelog.openxai.org/planned",
+    icon: <FontAwesomeIcon icon={faClipboardList} className="size-4" />,
   },
 ]
 
@@ -221,6 +227,7 @@ export function SideMenu({ className, ...props }: SideMenuProps) {
           <NextLink
             key={item.name}
             href={item.href}
+            target={item.href.startsWith("https://") ? "_blank" : undefined}
             className={`mb-4 flex items-center space-x-3 rounded-lg p-2 text-white hover:bg-gray-800 ${
               pathname === item.href ? "bg-blue-600" : ""
             }`}
