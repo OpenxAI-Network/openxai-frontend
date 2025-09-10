@@ -1,20 +1,10 @@
 export const OpenxAIClaimerContract = {
-  address: "0xc749169dB9C231E1797Aa9cD7f5B7a88AeD25b08",
+  address: "0x1D2A4145bf920E674D05C26DE57Aad5eAFF3772f",
   abi: [
     {
       type: "constructor",
       inputs: [
-        { name: "_token", type: "address", internalType: "contract IMintable" },
-        {
-          name: "_tokenSpendingLimit",
-          type: "uint256",
-          internalType: "uint256",
-        },
-        {
-          name: "_spendingPeriodDuration",
-          type: "uint256",
-          internalType: "uint256",
-        },
+        { name: "_token", type: "address", internalType: "contract IERC20" },
         { name: "_signer", type: "address", internalType: "address" },
       ],
       stateMutability: "nonpayable",
@@ -37,20 +27,6 @@ export const OpenxAIClaimerContract = {
       name: "claimed",
       inputs: [{ name: "account", type: "address", internalType: "address" }],
       outputs: [{ name: "claimed", type: "uint256", internalType: "uint256" }],
-      stateMutability: "view",
-    },
-    {
-      type: "function",
-      name: "currentSpendingPeriod",
-      inputs: [],
-      outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
-      stateMutability: "view",
-    },
-    {
-      type: "function",
-      name: "currentTokenSpending",
-      inputs: [],
-      outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
       stateMutability: "view",
     },
     {
@@ -95,25 +71,9 @@ export const OpenxAIClaimerContract = {
     },
     {
       type: "function",
-      name: "spendingPeriodDuration",
-      inputs: [],
-      outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
-      stateMutability: "view",
-    },
-    {
-      type: "function",
       name: "token",
       inputs: [],
-      outputs: [
-        { name: "", type: "address", internalType: "contract IMintable" },
-      ],
-      stateMutability: "view",
-    },
-    {
-      type: "function",
-      name: "tokenSpendingLimit",
-      inputs: [],
-      outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
+      outputs: [{ name: "", type: "address", internalType: "contract IERC20" }],
       stateMutability: "view",
     },
     {
@@ -213,7 +173,7 @@ export const OpenxAIClaimerContract = {
       name: "OwnableUnauthorizedAccount",
       inputs: [{ name: "account", type: "address", internalType: "address" }],
     },
-    { type: "error", name: "ProofAlreadyClaimed", inputs: [] },
+    { type: "error", name: "RescueNotAllowed", inputs: [] },
     {
       type: "error",
       name: "SafeERC20FailedOperation",
@@ -224,6 +184,5 @@ export const OpenxAIClaimerContract = {
       name: "StringTooLong",
       inputs: [{ name: "str", type: "string", internalType: "string" }],
     },
-    { type: "error", name: "TokenSpendingLimitReached", inputs: [] },
   ],
-} as const;
+} as const
