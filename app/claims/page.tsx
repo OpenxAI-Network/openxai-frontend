@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
 import { OpenxAIClaimerContract } from "@/contracts/OpenxAIClaimer"
 import { useQuery } from "@tanstack/react-query"
+import { useWeb3Modal } from "@web3modal/wagmi/react"
 import axios from "axios"
 import { Address, formatUnits, Hex, parseSignature } from "viem"
 import { useAccount, useReadContract } from "wagmi"
@@ -15,6 +16,7 @@ import { chains } from "@/components/custom/web3-provider"
 
 export default function ClaimsPage() {
   const { address } = useAccount()
+  const { open } = useWeb3Modal()
   const { performTransaction, performingTransaction, loggers } =
     usePerformTransaction({ chainId: chains[0].id })
 
@@ -114,7 +116,8 @@ export default function ClaimsPage() {
               onClick={async () => {
                 try {
                   if (!address) {
-                    throw new Error("Connect wallet to claim")
+                    open()
+                    return
                   }
 
                   if (total === undefined) {
@@ -156,12 +159,13 @@ export default function ClaimsPage() {
                 }
               }}
               disabled={
-                claimable === undefined ||
-                claimable <= BigInt(0) ||
-                performingTransaction
+                address &&
+                (claimable === undefined ||
+                  claimable <= BigInt(0) ||
+                  performingTransaction)
               }
             >
-              Claim
+              {address ? "Claim" : "Connect Wallet"}
             </Button>
           </div>
         )}
