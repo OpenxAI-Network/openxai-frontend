@@ -180,16 +180,24 @@ const DONUT_DATA = {
   segments: [
     {
       color: "#3384FF",
-      percentage: 46,
-      label: "OpenxAI Protocol and Ecosystem Development",
+      percentage: 24,
+      label: "Current & Future Teams & advisors",
     },
     {
       color: "#00FF94",
-      percentage: 18,
-      label: "Core Protocol, Infrastructure & Future Expansions",
+      percentage: 30,
+      label: "Core network development, infrastructure & scaling",
     },
-    { color: "#FF00FF", percentage: 24, label: "Community & Governance" },
-    { color: "#FFFF00", percentage: 12, label: "Genesis Event" },
+    {
+      color: "#FF00FF",
+      percentage: 30,
+      label: "Marketing, Community & Ecosystem Development",
+    },
+    {
+      color: "#FFFF00",
+      percentage: 16,
+      label: "Genesis Event, Treasury & DAO Reserves",
+    },
   ],
 }
 
@@ -717,7 +725,7 @@ export default function DashboardPage() {
                       fill="none"
                       stroke="#3384FF"
                       strokeWidth="20"
-                      strokeDasharray="46 100"
+                      strokeDasharray="24 100"
                       strokeDashoffset="0"
                       pathLength="100"
                       style={{
@@ -751,8 +759,8 @@ export default function DashboardPage() {
                       fill="none"
                       stroke="#00FF94"
                       strokeWidth="20"
-                      strokeDasharray="18 100"
-                      strokeDashoffset="-46"
+                      strokeDasharray="30 100"
+                      strokeDashoffset="-24"
                       pathLength="100"
                       style={{
                         cursor: "pointer",
@@ -785,8 +793,8 @@ export default function DashboardPage() {
                       fill="none"
                       stroke="#FF00FF"
                       strokeWidth="20"
-                      strokeDasharray="24 100"
-                      strokeDashoffset="-64"
+                      strokeDasharray="30 100"
+                      strokeDashoffset="-54"
                       pathLength="100"
                       style={{
                         cursor: "pointer",
@@ -819,8 +827,8 @@ export default function DashboardPage() {
                       fill="none"
                       stroke="#FFFF00"
                       strokeWidth="20"
-                      strokeDasharray="12 100"
-                      strokeDashoffset="-88"
+                      strokeDasharray="16 100"
+                      strokeDashoffset="-84"
                       pathLength="100"
                       style={{
                         cursor: "pointer",
@@ -862,22 +870,22 @@ export default function DashboardPage() {
                 {/* Tooltips for each segment */}
                 {activeSegment === 0 && (
                   <div className="absolute left-[60%] top-[40%] z-20 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded bg-black/80 px-2 py-1 text-sm text-white">
-                    46% - OpenxAI Protocol and Ecosystem Development
+                    24% - Current & Future Teams & advisors
                   </div>
                 )}
                 {activeSegment === 1 && (
                   <div className="absolute left-[60%] top-[70%] z-20 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded bg-black/80 px-2 py-1 text-sm text-white">
-                    18% - Core Protocol, Infrastructure & Future Expansions
+                    30% - Core network development, infrastructure & scaling
                   </div>
                 )}
                 {activeSegment === 2 && (
                   <div className="absolute left-[40%] top-[70%] z-20 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded bg-black/80 px-2 py-1 text-sm text-white">
-                    24% - Community & Governance
+                    30% - Marketing, Community & Ecosystem
                   </div>
                 )}
                 {activeSegment === 3 && (
                   <div className="absolute left-[30%] top-[40%] z-20 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded bg-black/80 px-2 py-1 text-sm text-white">
-                    12% - Genesis Event
+                    16% - Genesis Event, Treasury & DAO Reserves
                   </div>
                 )}
               </div>
@@ -897,19 +905,17 @@ export default function DashboardPage() {
                 <span
                   className={`bg-gradient-to-r from-white to-[#3384FF] bg-clip-text text-5xl font-bold text-transparent transition-all duration-300 ${activeSegment === 0 ? "scale-110" : ""}`}
                 >
-                  46%
+                  24%
                 </span>
               </div>
               <div className="flex-1">
                 <div
                   className={`text-2xl text-white transition-all duration-300 ${activeSegment === 0 ? "text-[#3384FF]" : ""}`}
                 >
-                  OpenxAI Protocol and Ecosystem Development
+                  Current & Future Teams & advisors
                 </div>
                 <div className="mt-1 text-lg text-[#6A6A6A]">
-                  Core protocol development, infrastructure scaling, AI model
-                  development, decentralized compute, AI model monetization,
-                  OpenxAI marketplace, and ecosystem security.
+                  Compensation for people supporting and improving the project.
                 </div>
               </div>
             </div>
@@ -925,14 +931,14 @@ export default function DashboardPage() {
                 <span
                   className={`bg-gradient-to-r from-white to-[#00FF94] bg-clip-text text-5xl font-bold text-transparent transition-all duration-300 ${activeSegment === 1 ? "scale-110" : ""}`}
                 >
-                  18%
+                  30%
                 </span>
               </div>
               <div className="flex-1">
                 <div
                   className={`text-2xl text-white transition-all duration-300 ${activeSegment === 1 ? "text-[#00FF94]" : ""}`}
                 >
-                  Core Protocol, Infrastructure & Future Expansions
+                  Core network development, infrastructure &
                 </div>
                 <div className="mt-1 text-lg text-[#6A6A6A]">
                   Funding for developers building AI models, enhancing OpenxAI
@@ -953,14 +959,14 @@ export default function DashboardPage() {
                 <span
                   className={`bg-gradient-to-r from-white to-[#FF00FF] bg-clip-text text-5xl font-bold text-transparent transition-all duration-300 ${activeSegment === 2 ? "scale-110" : ""}`}
                 >
-                  24%
+                  30%
                 </span>
               </div>
               <div className="flex-1">
                 <div
                   className={`text-2xl text-white transition-all duration-300 ${activeSegment === 2 ? "text-[#FF00FF]" : ""}`}
                 >
-                  Community & Governance
+                  Marketing, Community & Ecosystem
                 </div>
                 <div className="mt-1 text-lg text-[#6A6A6A]">
                   Community incentives, governance mechanisms, staking, and
@@ -980,14 +986,14 @@ export default function DashboardPage() {
                 <span
                   className={`bg-gradient-to-r from-white to-[#FFFF00] bg-clip-text text-5xl font-bold text-transparent transition-all duration-300 ${activeSegment === 3 ? "scale-110" : ""}`}
                 >
-                  12%
+                  16%
                 </span>
               </div>
               <div className="flex-1">
                 <div
                   className={`text-2xl text-white transition-all duration-300 ${activeSegment === 3 ? "text-[#FFFF00]" : ""}`}
                 >
-                  Genesis Event
+                  Genesis Event, Treasury & DAO Reserves
                 </div>
                 <div className="mt-1 text-lg text-[#6A6A6A]">
                   Initial fundraising event, Uniswap liquidity provisioning, and
