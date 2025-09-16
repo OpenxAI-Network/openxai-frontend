@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import React from "react"
 import Image from "next/image"
 import NextLink from "next/link"
 import { usePathname } from "next/navigation"
@@ -11,6 +11,7 @@ import {
   faCoins,
   faDollarSign,
   faFlagCheckered,
+  faMoneyCheckDollar,
   faRocket,
   faScaleBalanced,
 } from "@fortawesome/free-solid-svg-icons"
@@ -34,6 +35,11 @@ const SIDE_MENU_ITEMS = [
   //   href: "/genesis",
   //   icon: <FontAwesomeIcon icon={faRocket} className="size-4" />,
   // },
+  {
+    name: "Token",
+    href: "/token",
+    icon: <FontAwesomeIcon icon={faMoneyCheckDollar} className="size-4" />,
+  },
   {
     name: "Claims",
     href: "/claims",
