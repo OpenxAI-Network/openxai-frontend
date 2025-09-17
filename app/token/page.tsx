@@ -334,8 +334,7 @@ export default function TokenPage() {
           </TableHeader>
           <TableBody>
             {contracts
-              .entries()
-              .toArray()
+              .map((contract, i) => [i, contract] as const)
               .filter((contract) => contract[1].showBalance)
               .map((contract) => (
                 <TableRow className="hover:bg-black/20">
