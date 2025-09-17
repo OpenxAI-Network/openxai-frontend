@@ -575,8 +575,10 @@ function Stat({ value, label }: { value: string; label: string }) {
   return (
     <Card className="bg-[#1F2021]/50 text-center place-content-center">
       <CardHeader>
-        <CardTitle className="text-white">{value}</CardTitle>
-        <CardDescription className="text-base text-white/60">
+        <CardTitle className="text-2xl text-white max-md:text-xl">
+          {value}
+        </CardTitle>
+        <CardDescription className="text-base text-white/60 max-md:text-sm">
           {label}
         </CardDescription>
       </CardHeader>

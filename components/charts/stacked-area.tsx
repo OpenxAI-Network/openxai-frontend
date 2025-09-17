@@ -39,7 +39,7 @@ export function StackedArea({
       )}
     >
       <ChartContainer
-        className="aspect-[3/1]"
+        className="aspect-[3/1] max-md:aspect-[2/1]"
         config={params.reduce((prev, cur) => {
           prev[cur] = { label: cur }
           return prev
