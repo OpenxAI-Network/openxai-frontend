@@ -6,7 +6,7 @@ import { OpenxAIContract } from "@/contracts/OpenxAI"
 import { OpenxAIClaimerContract } from "@/contracts/OpenxAIClaimer"
 import { OpenxAINonCirculatingSupplyVestingContract } from "@/contracts/OpenxAINonCirculatingSupplyVesting"
 import { UniswapV2Contract } from "@/contracts/UniswapV2"
-import { Address, formatUnits } from "viem"
+import { Address, formatUnits, parseUnits } from "viem"
 import { useReadContract, useReadContracts } from "wagmi"
 
 import { Button } from "@/components/ui/button"
@@ -238,10 +238,10 @@ export default function TokenPage() {
           <Stat
             value={
               totalSupply !== undefined && totalNonCirculating !== undefined
-                ? formatBigInt({
-                    number: totalSupply - totalNonCirculating,
+                ? `<${formatBigInt({
+                    number: parseUnits("10000000", 18), //totalSupply - totalNonCirculating,
                     maximumFractionDigits: 2,
-                  })
+                  })}`
                 : "..."
             }
             label="Circulating Supply"
@@ -271,13 +271,11 @@ export default function TokenPage() {
               totalSupply !== undefined &&
               totalNonCirculating !== undefined &&
               prices !== undefined
-                ? `$${formatNumber({
-                    number:
-                      prices.ethPerOpenx *
-                      prices.usdcPerEth *
-                      parseFloat(
-                        formatUnits(totalSupply - totalNonCirculating, 18)
-                      ),
+                ? `<$${formatNumber({
+                    number: prices.ethPerOpenx * prices.usdcPerEth * 10_000_000,
+                    // parseFloat(
+                    //   formatUnits(totalSupply - totalNonCirculating, 18)
+                    // ),
                     maximumFractionDigits: 0,
                   })}`
                 : "..."
@@ -360,7 +358,6 @@ export default function TokenPage() {
               ))}
           </TableBody>
         </Table>
-        {/* filter claimer vault opportunity liquidity, table | label | balance | view on explorer */}
       </div>
       <div className="flex flex-col gap-5">
         <span className="text-4xl text-white">Vesting Contracts</span>
@@ -569,7 +566,6 @@ export default function TokenPage() {
               ))}
           </TableBody>
         </Table>
-        {/* filter starts with vesting, table | label | total | unvested | claimed | view on explorer */}
       </div>
     </div>
   )

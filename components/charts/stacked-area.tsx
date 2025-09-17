@@ -11,14 +11,14 @@ import {
 } from "@/components/ui/chart"
 
 const colors = [
-  "#2AA63E",
-  "#FE9A37",
+  "#00FF94",
+  "#33CCFF",
+  "#FFCC00",
+  "#9933FF",
+  "#FF00FF",
   "#E1712B",
-  "#FB2C36",
-  "#2AA63E",
-  "#FE9A37",
-  "#E1712B",
-  "#FB2C36",
+  "#3384FF",
+  "#FF5161",
 ]
 
 export function StackedArea({
