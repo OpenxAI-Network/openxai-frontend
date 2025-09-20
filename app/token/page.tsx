@@ -6,6 +6,7 @@ import { OpenxAIContract } from "@/contracts/OpenxAI"
 import { OpenxAIClaimerContract } from "@/contracts/OpenxAIClaimer"
 import { OpenxAINonCirculatingSupplyVestingContract } from "@/contracts/OpenxAINonCirculatingSupplyVesting"
 import { UniswapV2Contract } from "@/contracts/UniswapV2"
+import { CheckCircle, CheckCircle2 } from "lucide-react"
 import { Address, formatUnits, parseUnits } from "viem"
 import { useReadContract, useReadContracts } from "wagmi"
 
@@ -317,6 +318,54 @@ export default function TokenPage() {
         </div>
       </div>
       <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-1">
+          <span className="text-4xl text-white">Token Contract</span>
+          <span className="text-white/60">
+            The main token contract is fully immutable with no proxies or admin
+            overrides. Its rules cannot be changed by the team or anyone else,
+            ensuring it remains decentralized and permanent. All token
+            allocations follow a long 8-year vesting schedule to support the
+            protoco&apos;s long-term viability and sustainability.
+          </span>
+        </div>
+        <div className="grid grid-cols-4 gap-3 max-md:grid-cols-2 max-xl:grid-cols-3">
+          <Link
+            className="col-span-full"
+            href={`${chains[0].blockExplorers.default.url}/token/${OpenxAIContract.address}`}
+            target="_blank"
+          >
+            <Stat value={OpenxAIContract.address} label="Contract Address" />
+          </Link>
+          <Stat value="ERC20" label="Tokenization Standard" />
+          <Stat value="Base" label="Blockchain" />
+          <Link
+            href="https://github.com/OpenxAI-Network/openxai-token/blob/main/src/OpenxAI.sol"
+            target="_blank"
+          >
+            <Stat value="Open Source" label="On GitHub" />
+          </Link>
+          <Link
+            href="https://github.com/OpenxAI-Network/openxai-token/blob/main/audit%2FCyberscope.pdf"
+            target="_blank"
+          >
+            <Stat value="Audited" label="By Cyberscope" />
+          </Link>
+          <Stat value="Trustless" label="No proxy, no admin permissions" />
+          <Stat
+            value="Burnable"
+            label="Token holders can reduce the total supply"
+          />
+          <Stat
+            value="EIP-712"
+            label="Token transfers and approvals can be gas sponsored"
+          />
+          <Stat
+            value="Governance"
+            label="Token can be used for on-chain voting"
+          />
+        </div>
+      </div>
+      <div className="flex flex-col gap-5">
         <span className="text-4xl text-white">Contract Balances</span>
         <Table>
           <TableHeader>
@@ -361,6 +410,10 @@ export default function TokenPage() {
       </div>
       <div className="flex flex-col gap-5">
         <span className="text-4xl text-white">Vesting Contracts</span>
+        <span className="text-white/60">
+          Vesting is handled by immutable smart contracts, ensuring that no one,
+          not even the team, can alter it in any way.
+        </span>
         {vesting && (
           <StackedArea
             chartData={[
@@ -571,7 +624,13 @@ export default function TokenPage() {
   )
 }
 
-function Stat({ value, label }: { value: string; label: string }) {
+function Stat({
+  value,
+  label,
+}: {
+  value: string | JSX.Element
+  label: string
+}) {
   return (
     <Card className="bg-[#1F2021]/50 text-center place-content-center">
       <CardHeader>
