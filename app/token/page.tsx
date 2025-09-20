@@ -334,7 +334,12 @@ export default function TokenPage() {
             href={`${chains[0].blockExplorers.default.url}/token/${OpenxAIContract.address}`}
             target="_blank"
           >
-            <Stat value={OpenxAIContract.address} label="Contract Address" />
+            <Stat
+              value={
+                <span className="break-all">{OpenxAIContract.address}</span>
+              }
+              label="Contract Address"
+            />
           </Link>
           <Stat value="ERC20" label="Tokenization Standard" />
           <Stat value="Base" label="Blockchain" />
