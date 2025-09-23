@@ -201,6 +201,18 @@ const tge: TGEManualToken[] = [
   //   atTGE: 0.5,
   //   vestingDays: 60,
   // },
+  // {
+  //   account: "0xF3e3697304Bf8176d66BaC48Baa6A98f4adC36fa",
+  //   amount: 0.5 * totalSupply,
+  //   atTGE: 0,
+  //   vestingDays: 30,
+  // },
+  // {
+  //   account: "0x99418D8731108C1AA7c05392c0F2676fF9425CBa",
+  //   amount: 1 * totalSupply,
+  //   atTGE: 0,
+  //   vestingDays: 90,
+  // },
 ]
 
 const tgeDate = Math.round(Date.UTC(2025, 9 - 1, 10, 17, 59, 0, 0) / 1000)
@@ -211,14 +223,18 @@ const tokens: ManualToken[] = tge.flatMap((token) => {
   const vested = amount - atTGE
   const perDay =
     token.vestingDays === 0 ? 0 : Math.round(vested / token.vestingDays)
-  return [
-    {
-      account: token.account,
-      amount: atTGE,
-      description: "TGE deal",
-      release_after: tgeDate,
-    },
-  ].concat(
+  return (
+    atTGE === 0
+      ? []
+      : [
+          {
+            account: token.account,
+            amount: atTGE,
+            description: "TGE deal",
+            release_after: tgeDate,
+          },
+        ]
+  ).concat(
     ...Array.from({ length: token.vestingDays }).map((_, i) => {
       return {
         account: token.account,
