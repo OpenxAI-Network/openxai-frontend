@@ -230,7 +230,7 @@ export default function TokenPage() {
     <div className="flex flex-col gap-10">
       <div className="flex flex-col gap-5">
         <div className="flex flex-col gap-1">
-          <span className="text-5xl text-white">Live Tokennomics</span>
+          <span className="text-5xl text-white">Live Tokenomics</span>
           <span className="text-white/60">
             All displayed data comes directly from onchain smart contracts.
           </span>
