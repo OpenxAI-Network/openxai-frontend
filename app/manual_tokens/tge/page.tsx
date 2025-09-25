@@ -94,7 +94,7 @@ const tge: TGEManualToken[] = [
   //   vestingDays: 60,
   // },
   // {
-  //   account: "0x72230606639BB743Cc7C07FfebBE1F767a0eD2dB",
+  //   account: "0x72230606639BB743Cc7C07FfebBE1F767a0eD2dB", // Stopped 25 September due to violation
   //   amount: 0.05 * totalSupply,
   //   atTGE: 0.5,
   //   vestingDays: 60,
@@ -212,6 +212,30 @@ const tge: TGEManualToken[] = [
   //   amount: 1 * totalSupply,
   //   atTGE: 0,
   //   vestingDays: 90,
+  // },
+  // {
+  //   account: "0x0eFa61AB978FafCa3ec83517c91B791E58556906",
+  //   amount: 0.25 * totalSupply,
+  //   atTGE: 0.5,
+  //   vestingDays: 60,
+  // },
+  // {
+  //   account: "0xa5574d507dC08c4E625fbD3A824c4cb1F4df8cf4",
+  //   amount: 0.25 * totalSupply,
+  //   atTGE: 0.5,
+  //   vestingDays: 60,
+  // },
+  // {
+  //   account: "0xb96443214a5dF3b4C6800912f2Cbf21B540233A0",
+  //   amount: 0.25 * totalSupply,
+  //   atTGE: 0.5,
+  //   vestingDays: 60,
+  // },
+  // {
+  //   account: "0x748d4D812aDDC7EA9b9309f34bA86e623fA73d3A",
+  //   amount: 0.25 * totalSupply,
+  //   atTGE: 0.5,
+  //   vestingDays: 60,
   // },
 ]
 
