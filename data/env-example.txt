@@ -1,0 +1,17 @@
+# YouTube Data Collection Environment Variables
+# Copy this file to .env.local and fill in your values
+
+# YouTube Data API v3
+# Get API key from: https://console.developers.google.com/
+# Enable YouTube Data API v3 for your project
+YOUTUBE_API_KEY=your_youtube_api_key_here
+
+# YouTube Channel ID
+# Find your channel ID at: https://www.youtube.com/account_advanced
+# Or use @username format
+YOUTUBE_CHANNEL_ID=your_channel_id_here
+
+# Example:
+# YOUTUBE_API_KEY=AIzaSyBxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# YOUTUBE_CHANNEL_ID=UCxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+

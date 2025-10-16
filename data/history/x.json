@@ -1,0 +1,68 @@
+{
+  "platform": "x",
+  "data": [
+    {
+      "date": "Wed, Oct 15, 2025",
+      "followers": 26083,
+      "impressions": 13009,
+      "engagements": 9998,
+      "likes": 303,
+      "shares": 2,
+      "replies": 112
+    },
+    {
+      "date": "Tue, Oct 14, 2025",
+      "followers": 26083,
+      "impressions": 12206,
+      "engagements": 13655,
+      "likes": 313,
+      "shares": 1,
+      "replies": 111
+    },
+    {
+      "date": "Mon, Oct 13, 2025",
+      "followers": 26083,
+      "impressions": 16626,
+      "engagements": 18587,
+      "likes": 311,
+      "shares": 4,
+      "replies": 109
+    },
+    {
+      "date": "Sun, Oct 12, 2025",
+      "followers": 26083,
+      "impressions": 28766,
+      "engagements": 3092,
+      "likes": 378,
+      "shares": 3,
+      "replies": 108
+    },
+    {
+      "date": "Sat, Oct 11, 2025",
+      "followers": 26083,
+      "impressions": 24704,
+      "engagements": 21126,
+      "likes": 503,
+      "shares": 3,
+      "replies": 165
+    },
+    {
+      "date": "Fri, Oct 10, 2025",
+      "followers": 26083,
+      "impressions": 21757,
+      "engagements": 1757,
+      "likes": 518,
+      "shares": 2,
+      "replies": 109
+    },
+    {
+      "date": "Thu, Oct 9, 2025",
+      "followers": 26083,
+      "impressions": 32894,
+      "engagements": 1652,
+      "likes": 382,
+      "shares": 3,
+      "replies": 75
+    }
+  ]
+}

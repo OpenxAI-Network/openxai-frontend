@@ -1,0 +1,68 @@
+{
+  "platform": "linkedin",
+  "data": [
+    {
+      "date": "2025-10-15",
+      "followers": 1250,
+      "impressions": 8500,
+      "engagements": 420,
+      "clicks": 180,
+      "shares": 25,
+      "comments": 35
+    },
+    {
+      "date": "2025-10-14",
+      "followers": 1248,
+      "impressions": 9200,
+      "engagements": 380,
+      "clicks": 165,
+      "shares": 22,
+      "comments": 28
+    },
+    {
+      "date": "2025-10-13",
+      "followers": 1245,
+      "impressions": 7800,
+      "engagements": 450,
+      "clicks": 195,
+      "shares": 30,
+      "comments": 42
+    },
+    {
+      "date": "2025-10-12",
+      "followers": 1242,
+      "impressions": 10500,
+      "engagements": 520,
+      "clicks": 220,
+      "shares": 35,
+      "comments": 48
+    },
+    {
+      "date": "2025-10-11",
+      "followers": 1240,
+      "impressions": 6800,
+      "engagements": 320,
+      "clicks": 140,
+      "shares": 18,
+      "comments": 25
+    },
+    {
+      "date": "2025-10-10",
+      "followers": 1238,
+      "impressions": 9500,
+      "engagements": 480,
+      "clicks": 200,
+      "shares": 28,
+      "comments": 38
+    },
+    {
+      "date": "2025-10-09",
+      "followers": 1235,
+      "impressions": 8200,
+      "engagements": 390,
+      "clicks": 175,
+      "shares": 24,
+      "comments": 32
+    }
+  ]
+}

@@ -34,3 +34,7 @@ yarn-error.log*
 
 .contentlayer
 .env
+
+# Data exports (raw CSVs and manual downloads)
+data/exports/
+data/export-*/
