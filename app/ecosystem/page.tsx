@@ -62,7 +62,7 @@ function UnifiedEcosystemChart({ selectedTimeframe, visiblePlatforms, xStatVisib
   selectedTimeframe: string
   visiblePlatforms: { [key: string]: boolean }
   xStatVisibility: { followers: boolean; impressions: boolean; engagements: boolean; likes: boolean }
-  linkedinStatVisibility: { followers: boolean; impressions: boolean; engagements: boolean }
+  linkedinStatVisibility: { followers: boolean }
 }) {
   const [youtubeData, setYoutubeData] = useState<any>(null)
   const [xData, setXData] = useState<any>(null)
