@@ -2,67 +2,1462 @@
   "platform": "linkedin",
   "data": [
     {
-      "date": "2025-10-15",
-      "followers": 1250,
-      "impressions": 8500,
-      "engagements": 420,
-      "clicks": 180,
-      "shares": 25,
-      "comments": 35
+      "date": "2025-02-15",
+      "followers": 0,
+      "impressions": 0,
+      "engagements": 0
     },
     {
-      "date": "2025-10-14",
-      "followers": 1248,
-      "impressions": 9200,
-      "engagements": 380,
-      "clicks": 165,
-      "shares": 22,
-      "comments": 28
+      "date": "2025-02-15",
+      "followers": 3,
+      "impressions": 0,
+      "engagements": 0
     },
     {
-      "date": "2025-10-13",
-      "followers": 1245,
-      "impressions": 7800,
-      "engagements": 450,
-      "clicks": 195,
-      "shares": 30,
-      "comments": 42
+      "date": "2025-02-16",
+      "followers": 3,
+      "impressions": 0,
+      "engagements": 0
     },
     {
-      "date": "2025-10-12",
-      "followers": 1242,
-      "impressions": 10500,
-      "engagements": 520,
-      "clicks": 220,
-      "shares": 35,
-      "comments": 48
+      "date": "2025-02-17",
+      "followers": 3,
+      "impressions": 0,
+      "engagements": 0
     },
     {
-      "date": "2025-10-11",
-      "followers": 1240,
-      "impressions": 6800,
-      "engagements": 320,
-      "clicks": 140,
-      "shares": 18,
-      "comments": 25
+      "date": "2025-02-18",
+      "followers": 4,
+      "impressions": 0,
+      "engagements": 0
     },
     {
-      "date": "2025-10-10",
-      "followers": 1238,
-      "impressions": 9500,
-      "engagements": 480,
-      "clicks": 200,
-      "shares": 28,
-      "comments": 38
+      "date": "2025-02-19",
+      "followers": 5,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-02-20",
+      "followers": 5,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-02-21",
+      "followers": 5,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-02-22",
+      "followers": 5,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-02-23",
+      "followers": 5,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-02-24",
+      "followers": 16,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-02-25",
+      "followers": 19,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-02-26",
+      "followers": 105,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-02-27",
+      "followers": 201,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-02-28",
+      "followers": 231,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-03-01",
+      "followers": 250,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-03-02",
+      "followers": 269,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-03-03",
+      "followers": 295,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-03-04",
+      "followers": 311,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-03-05",
+      "followers": 327,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-03-06",
+      "followers": 335,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-03-07",
+      "followers": 345,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-03-08",
+      "followers": 346,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-03-09",
+      "followers": 350,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-03-10",
+      "followers": 352,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-03-11",
+      "followers": 355,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-03-12",
+      "followers": 358,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-03-13",
+      "followers": 358,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-03-14",
+      "followers": 362,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-03-15",
+      "followers": 364,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-03-16",
+      "followers": 366,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-03-17",
+      "followers": 367,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-03-18",
+      "followers": 371,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-03-19",
+      "followers": 375,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-03-20",
+      "followers": 376,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-03-21",
+      "followers": 379,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-03-22",
+      "followers": 383,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-03-23",
+      "followers": 385,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-03-24",
+      "followers": 389,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-03-25",
+      "followers": 391,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-03-26",
+      "followers": 391,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-03-27",
+      "followers": 391,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-03-28",
+      "followers": 392,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-03-29",
+      "followers": 392,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-03-30",
+      "followers": 393,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-03-31",
+      "followers": 393,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-04-01",
+      "followers": 394,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-04-02",
+      "followers": 394,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-04-03",
+      "followers": 395,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-04-04",
+      "followers": 395,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-04-05",
+      "followers": 395,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-04-06",
+      "followers": 396,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-04-07",
+      "followers": 396,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-04-08",
+      "followers": 397,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-04-09",
+      "followers": 397,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-04-10",
+      "followers": 397,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-04-11",
+      "followers": 398,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-04-12",
+      "followers": 398,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-04-13",
+      "followers": 398,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-04-14",
+      "followers": 399,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-04-15",
+      "followers": 399,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-04-16",
+      "followers": 400,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-04-17",
+      "followers": 401,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-04-18",
+      "followers": 401,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-04-19",
+      "followers": 401,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-04-20",
+      "followers": 401,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-04-21",
+      "followers": 401,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-04-22",
+      "followers": 402,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-04-23",
+      "followers": 404,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-04-24",
+      "followers": 404,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-04-25",
+      "followers": 409,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-04-26",
+      "followers": 410,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-04-27",
+      "followers": 415,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-04-28",
+      "followers": 418,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-04-29",
+      "followers": 419,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-04-30",
+      "followers": 419,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-05-01",
+      "followers": 424,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-05-02",
+      "followers": 426,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-05-03",
+      "followers": 428,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-05-04",
+      "followers": 438,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-05-05",
+      "followers": 446,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-05-06",
+      "followers": 451,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-05-07",
+      "followers": 454,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-05-08",
+      "followers": 456,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-05-09",
+      "followers": 456,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-05-10",
+      "followers": 456,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-05-11",
+      "followers": 458,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-05-12",
+      "followers": 458,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-05-13",
+      "followers": 460,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-05-14",
+      "followers": 460,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-05-15",
+      "followers": 460,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-05-16",
+      "followers": 460,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-05-17",
+      "followers": 462,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-05-18",
+      "followers": 462,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-05-19",
+      "followers": 462,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-05-20",
+      "followers": 462,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-05-21",
+      "followers": 462,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-05-22",
+      "followers": 462,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-05-23",
+      "followers": 461,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-05-24",
+      "followers": 461,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-05-25",
+      "followers": 462,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-05-26",
+      "followers": 465,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-05-27",
+      "followers": 465,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-05-28",
+      "followers": 466,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-05-29",
+      "followers": 466,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-05-30",
+      "followers": 466,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-05-31",
+      "followers": 466,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-06-01",
+      "followers": 466,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-06-02",
+      "followers": 466,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-06-03",
+      "followers": 466,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-06-04",
+      "followers": 466,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-06-05",
+      "followers": 467,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-06-06",
+      "followers": 466,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-06-07",
+      "followers": 466,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-06-08",
+      "followers": 466,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-06-09",
+      "followers": 466,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-06-10",
+      "followers": 466,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-06-11",
+      "followers": 466,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-06-12",
+      "followers": 466,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-06-13",
+      "followers": 466,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-06-14",
+      "followers": 466,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-06-15",
+      "followers": 466,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-06-16",
+      "followers": 466,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-06-17",
+      "followers": 466,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-06-18",
+      "followers": 466,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-06-19",
+      "followers": 467,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-06-20",
+      "followers": 467,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-06-21",
+      "followers": 468,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-06-22",
+      "followers": 468,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-06-23",
+      "followers": 470,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-06-24",
+      "followers": 472,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-06-25",
+      "followers": 473,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-06-26",
+      "followers": 474,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-06-27",
+      "followers": 475,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-06-28",
+      "followers": 475,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-06-29",
+      "followers": 496,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-06-30",
+      "followers": 499,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-07-01",
+      "followers": 499,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-07-02",
+      "followers": 500,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-07-03",
+      "followers": 503,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-07-04",
+      "followers": 504,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-07-05",
+      "followers": 505,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-07-06",
+      "followers": 506,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-07-07",
+      "followers": 508,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-07-08",
+      "followers": 519,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-07-09",
+      "followers": 527,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-07-10",
+      "followers": 529,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-07-11",
+      "followers": 531,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-07-12",
+      "followers": 534,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-07-13",
+      "followers": 534,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-07-14",
+      "followers": 538,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-07-15",
+      "followers": 539,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-07-16",
+      "followers": 539,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-07-17",
+      "followers": 550,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-07-18",
+      "followers": 552,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-07-19",
+      "followers": 552,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-07-20",
+      "followers": 553,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-07-21",
+      "followers": 554,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-07-22",
+      "followers": 555,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-07-23",
+      "followers": 556,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-07-24",
+      "followers": 556,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-07-25",
+      "followers": 557,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-07-26",
+      "followers": 557,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-07-27",
+      "followers": 557,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-07-28",
+      "followers": 557,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-07-29",
+      "followers": 557,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-07-30",
+      "followers": 559,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-07-31",
+      "followers": 592,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-08-01",
+      "followers": 592,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-08-02",
+      "followers": 593,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-08-03",
+      "followers": 593,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-08-04",
+      "followers": 598,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-08-05",
+      "followers": 598,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-08-06",
+      "followers": 603,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-08-07",
+      "followers": 615,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-08-08",
+      "followers": 618,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-08-09",
+      "followers": 623,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-08-10",
+      "followers": 626,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-08-11",
+      "followers": 641,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-08-12",
+      "followers": 704,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-08-13",
+      "followers": 753,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-08-14",
+      "followers": 794,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-08-15",
+      "followers": 827,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-08-16",
+      "followers": 846,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-08-17",
+      "followers": 860,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-08-18",
+      "followers": 892,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-08-19",
+      "followers": 906,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-08-20",
+      "followers": 942,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-08-21",
+      "followers": 954,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-08-22",
+      "followers": 961,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-08-23",
+      "followers": 974,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-08-24",
+      "followers": 977,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-08-25",
+      "followers": 983,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-08-26",
+      "followers": 987,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-08-27",
+      "followers": 994,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-08-28",
+      "followers": 998,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-08-29",
+      "followers": 1002,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-08-30",
+      "followers": 1005,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-08-31",
+      "followers": 1010,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-09-01",
+      "followers": 1011,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-09-02",
+      "followers": 1014,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-09-03",
+      "followers": 1021,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-09-04",
+      "followers": 1025,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-09-05",
+      "followers": 1029,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-09-06",
+      "followers": 1032,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-09-07",
+      "followers": 1037,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-09-08",
+      "followers": 1046,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-09-09",
+      "followers": 1049,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-09-10",
+      "followers": 1050,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-09-11",
+      "followers": 1056,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-09-12",
+      "followers": 1062,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-09-13",
+      "followers": 1066,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-09-14",
+      "followers": 1068,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-09-15",
+      "followers": 1077,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-09-16",
+      "followers": 1085,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-09-17",
+      "followers": 1089,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-09-18",
+      "followers": 1090,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-09-19",
+      "followers": 1096,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-09-20",
+      "followers": 1103,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-09-21",
+      "followers": 1105,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-09-22",
+      "followers": 1108,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-09-23",
+      "followers": 1110,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-09-24",
+      "followers": 1114,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-09-25",
+      "followers": 1115,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-09-26",
+      "followers": 1116,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-09-27",
+      "followers": 1117,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-09-28",
+      "followers": 1122,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-09-29",
+      "followers": 1125,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-09-30",
+      "followers": 1127,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-10-01",
+      "followers": 1129,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-10-02",
+      "followers": 1131,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-10-03",
+      "followers": 1135,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-10-04",
+      "followers": 1136,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-10-05",
+      "followers": 1139,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-10-06",
+      "followers": 1158,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-10-07",
+      "followers": 1161,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-10-08",
+      "followers": 1167,
+      "impressions": 0,
+      "engagements": 0
     },
     {
       "date": "2025-10-09",
-      "followers": 1235,
-      "impressions": 8200,
-      "engagements": 390,
-      "clicks": 175,
-      "shares": 24,
-      "comments": 32
+      "followers": 1169,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-10-10",
+      "followers": 1170,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-10-11",
+      "followers": 1173,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-10-12",
+      "followers": 1172,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-10-13",
+      "followers": 1175,
+      "impressions": 0,
+      "engagements": 0
+    },
+    {
+      "date": "2025-10-14",
+      "followers": 1178,
+      "impressions": 0,
+      "engagements": 0
     }
   ]
 }

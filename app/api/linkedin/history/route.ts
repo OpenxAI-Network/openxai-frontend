@@ -12,24 +12,10 @@ export async function GET() {
     
     const data = JSON.parse(fs.readFileSync(historyPath, 'utf-8'))
     
-    // Format data for Chart.js with proper timeline
+    // Return only Followers series for Chart.js
     const chartData = {
       labels: data.data.map((item: any) => item.date),
       datasets: [
-        {
-          label: 'LinkedIn Impressions',
-          data: data.data.map((item: any) => item.impressions),
-          borderColor: 'rgb(0, 119, 181)',
-          backgroundColor: 'rgba(0, 119, 181, 0.1)',
-          tension: 0.1,
-        },
-        {
-          label: 'LinkedIn Engagements',
-          data: data.data.map((item: any) => item.engagements),
-          borderColor: 'rgb(255, 165, 0)',
-          backgroundColor: 'rgba(255, 165, 0, 0.1)',
-          tension: 0.1,
-        },
         {
           label: 'LinkedIn Followers',
           data: data.data.map((item: any) => item.followers),

@@ -49,10 +49,20 @@ type VisiblePlatforms = {
   github: boolean
 }
 
-function UnifiedEcosystemChart({ selectedTimeframe, visiblePlatforms, xStatVisibility }: { 
+type XStatVisibility = {
+  followers: boolean
+  impressions: boolean
+  engagements: boolean
+  likes: boolean
+}
+
+type LinkedinStatVisibility = { followers: boolean }
+
+function UnifiedEcosystemChart({ selectedTimeframe, visiblePlatforms, xStatVisibility, linkedinStatVisibility }: { 
   selectedTimeframe: string
   visiblePlatforms: { [key: string]: boolean }
   xStatVisibility: { followers: boolean; impressions: boolean; engagements: boolean; likes: boolean }
+  linkedinStatVisibility: { followers: boolean; impressions: boolean; engagements: boolean }
 }) {
   const [youtubeData, setYoutubeData] = useState<any>(null)
   const [xData, setXData] = useState<any>(null)
@@ -225,7 +235,9 @@ function UnifiedEcosystemChart({ selectedTimeframe, visiblePlatforms, xStatVisib
       datasets.push({
         ...dataset,
         data: alignedData,
-        hidden: !visiblePlatforms.linkedin,
+        hidden: !visiblePlatforms.linkedin || (
+          (dataset.label === 'LinkedIn Followers' ? !linkedinStatVisibility.followers : false)
+        ),
       })
     })
   }
@@ -235,10 +247,13 @@ function UnifiedEcosystemChart({ selectedTimeframe, visiblePlatforms, xStatVisib
     datasets
   }
 
-  // Dynamically scale Y axis based on visible data
-  const allValues: number[] = datasets.flatMap(d => d.data || [])
-  const maxVal = allValues.length ? Math.max(...allValues) : 0
-  const minVal = allValues.length ? Math.min(...allValues) : 0
+  // Dynamically scale Y axis based on VISIBLE datasets only (and numeric values)
+  const visibleValues: number[] = datasets
+    .filter(d => !d.hidden)
+    .flatMap(d => (Array.isArray(d.data) ? d.data : []))
+    .filter((v): v is number => typeof v === 'number' && !Number.isNaN(v))
+  const maxVal = visibleValues.length ? Math.max(...visibleValues) : 0
+  const minVal = visibleValues.length ? Math.min(...visibleValues) : 0
 
   const dynamicOptions = {
     ...chartOptions,
@@ -297,7 +312,8 @@ const chartOptions = {
       ticks: {
         color: "#6A6A6A",
         callback: function (value: any) {
-          return value >= 1000 ? `${(value / 1000).toFixed(0)}K` : value
+          // Avoid K-abbreviation for smaller ranges so subtle changes are visible
+          return value >= 10000 ? `${(value / 1000).toFixed(0)}K` : value
         },
         font: {
           size: 12,
@@ -317,17 +333,18 @@ const chartOptions = {
       borderWidth: 1,
       cornerRadius: 8,
       displayColors: true,
-      callbacks: {
-        label: function(context: any) {
-          let label = context.dataset.label || ''
-          if (label) {
-            label += ': '
+        callbacks: {
+          label: function(context: any) {
+            let label = context.dataset.label || ''
+            if (label) {
+              label += ': '
+            }
+            const value = context.parsed.y
+            // Avoid K-abbreviation under 10k so week-scale changes are readable
+            label += value >= 10000 ? `${(value / 1000).toFixed(1)}K` : value
+            return label
           }
-          const value = context.parsed.y
-          label += value >= 1000 ? `${(value / 1000).toFixed(1)}K` : value
-          return label
         }
-      }
     },
   },
 }
@@ -342,13 +359,25 @@ export default function EcosystemPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [xLatestFollowers, setXLatestFollowers] = useState<number | null>(null)
-  const [xStatVisibility, setXStatVisibility] = useState(() => {
+  const [xLatestImpressions, setXLatestImpressions] = useState<number | null>(null)
+  const [xLatestEngagements, setXLatestEngagements] = useState<number | null>(null)
+  const [xLatestLikes, setXLatestLikes] = useState<number | null>(null)
+  const [linkedinLatestFollowers, setLinkedinLatestFollowers] = useState<number | null>(null)
+  const [xStatVisibility, setXStatVisibility] = useState<XStatVisibility>(() => {
     if (typeof window === 'undefined') return { followers: true, impressions: false, engagements: false, likes: false }
     try {
       const saved = localStorage.getItem('ecos-x-visibility')
       if (saved) return JSON.parse(saved)
     } catch {}
     return { followers: true, impressions: false, engagements: false, likes: false }
+  })
+  const [linkedinStatVisibility, setLinkedinStatVisibility] = useState<LinkedinStatVisibility>(() => {
+    if (typeof window === 'undefined') return { followers: true }
+    try {
+      const saved = localStorage.getItem('ecos-linkedin-visibility')
+      if (saved) return JSON.parse(saved)
+    } catch {}
+    return { followers: true }
   })
   const [visiblePlatforms, setVisiblePlatforms] = useState<VisiblePlatforms>(() => {
     const defaults = {
@@ -384,7 +413,7 @@ export default function EcosystemPage() {
       const saved = localStorage.getItem('ecos-x-visibility')
       if (saved) {
         const parsed = JSON.parse(saved)
-        setXStatVisibility((prev) => ({
+        setXStatVisibility((prev: XStatVisibility) => ({
           followers: typeof parsed.followers === 'boolean' ? parsed.followers : prev.followers,
           impressions: typeof parsed.impressions === 'boolean' ? parsed.impressions : prev.impressions,
           engagements: typeof parsed.engagements === 'boolean' ? parsed.engagements : prev.engagements,
@@ -392,6 +421,13 @@ export default function EcosystemPage() {
         }))
       }
       const savedPlatforms = localStorage.getItem('ecos-platform-visibility')
+      const savedLinkedin = localStorage.getItem('ecos-linkedin-visibility')
+      if (savedLinkedin) {
+        const parsed = JSON.parse(savedLinkedin)
+        setLinkedinStatVisibility((prev) => ({
+          followers: typeof parsed.followers === 'boolean' ? parsed.followers : prev.followers,
+        }))
+      }
       if (savedPlatforms) {
         const parsed = JSON.parse(savedPlatforms)
         setVisiblePlatforms((prev) => ({ ...prev, ...parsed }))
@@ -426,6 +462,10 @@ export default function EcosystemPage() {
   }, [xStatVisibility])
 
   useEffect(() => {
+    try { localStorage.setItem('ecos-linkedin-visibility', JSON.stringify(linkedinStatVisibility)) } catch {}
+  }, [linkedinStatVisibility])
+
+  useEffect(() => {
     try { localStorage.setItem('ecos-platform-visibility', JSON.stringify(visiblePlatforms)) } catch {}
   }, [visiblePlatforms])
 
@@ -433,7 +473,7 @@ export default function EcosystemPage() {
     try { localStorage.setItem('ecos-timeframe', selectedTimeframe) } catch {}
   }, [selectedTimeframe])
 
-  // Fetch latest X followers from history API (computed series)
+  // Fetch latest X stats from history API (computed series)
   useEffect(() => {
     async function fetchXFollowers() {
       try {
@@ -443,16 +483,52 @@ export default function EcosystemPage() {
         if (!res.ok) return
         const chart = await res.json()
         const followersDataset = chart?.datasets?.find((d: any) => d.label === 'X Followers')
-        if (followersDataset && Array.isArray(followersDataset.data) && followersDataset.data.length > 0) {
-          // API returns newest-first; take the first element as latest
-          const latest = followersDataset.data[0]
-          if (typeof latest === 'number') setXLatestFollowers(latest)
+        const impressionsDataset = chart?.datasets?.find((d: any) => d.label === 'X Impressions')
+        const engagementsDataset = chart?.datasets?.find((d: any) => d.label === 'X Engagements')
+        const likesDataset = chart?.datasets?.find((d: any) => d.label === 'X Likes')
+
+        const getNewestNumber = (arr: any[]) => {
+          if (!Array.isArray(arr)) return null
+          for (let i = 0; i < arr.length; i++) {
+            const v = arr[i]
+            if (typeof v === 'number' && !Number.isNaN(v)) return v
+          }
+          return null
         }
+
+        if (followersDataset) setXLatestFollowers(getNewestNumber(followersDataset.data))
+        if (impressionsDataset) setXLatestImpressions(getNewestNumber(impressionsDataset.data))
+        if (engagementsDataset) setXLatestEngagements(getNewestNumber(engagementsDataset.data))
+        if (likesDataset) setXLatestLikes(getNewestNumber(likesDataset.data))
       } catch (e) {
         console.error('Failed to fetch X followers history', e)
       }
     }
     fetchXFollowers()
+  }, [])
+
+  // Fetch latest LinkedIn followers from history API
+  useEffect(() => {
+    async function fetchLinkedinFollowers() {
+      try {
+        const origin = typeof window !== 'undefined' ? window.location.origin : ''
+        const url = origin ? `${origin}/api/linkedin/history` : '/api/linkedin/history'
+        const res = await fetch(url, { cache: 'no-store' })
+        if (!res.ok) return
+        const chart = await res.json()
+        const followersDataset = chart?.datasets?.find((d: any) => d.label === 'LinkedIn Followers')
+        if (followersDataset && Array.isArray(followersDataset.data) && followersDataset.data.length > 0) {
+          // find last numeric
+          for (let i = followersDataset.data.length - 1; i >= 0; i--) {
+            const v = followersDataset.data[i]
+            if (typeof v === 'number' && !Number.isNaN(v)) { setLinkedinLatestFollowers(v); break }
+          }
+        }
+      } catch (e) {
+        console.error('Failed to fetch LinkedIn followers history', e)
+      }
+    }
+    fetchLinkedinFollowers()
   }, [])
 
   if (loading) {
@@ -525,7 +601,7 @@ export default function EcosystemPage() {
       color: "bg-blue-600",
       borderColor: "border-blue-600",
       url: "https://www.linkedin.com/company/openxainetwork/posts/?feedView=all",
-      primaryMetric: formatNumber(1176),
+      primaryMetric: formatNumber(linkedinLatestFollowers ?? 1176),
       primaryLabel: "Followers",
       secondaryMetric: formatNumber(60500),
       secondaryLabel: "Impressions",
@@ -620,8 +696,8 @@ export default function EcosystemPage() {
       {/* Platform Controls Section */}
       <div className="flex flex-col gap-4">
         {/* Timeframe Selector Buttons */}
-        <div className="flex items-center gap-2">
-          <Filter className="size-4 text-white/60" />
+          <div className="flex items-center gap-2">
+            <Filter className="size-4 text-white/60" />
           <div className="flex gap-2">
             {[
               { value: "24h", label: "24h" },
@@ -666,12 +742,13 @@ export default function EcosystemPage() {
                     }`}
                   >
                     <div className="flex items-center justify-between mb-2 -m-2 px-2 py-2 rounded-t-md bg-[#141516]/70">
-                      <label className="flex items-center gap-2">
+                      <label className={`flex items-center gap-2 ${hasGraphData ? 'cursor-pointer' : 'cursor-not-allowed'}`}>
                         <input
                           type="checkbox"
                           checked={isActive}
                           onChange={() => hasGraphData ? handlePlatformToggle(platform.key) : null}
                           onClick={(e) => e.stopPropagation()}
+                          disabled={!hasGraphData}
                         />
                         <span className={`text-xs font-semibold ${hasGraphData ? 'text-white' : 'text-white/40'}`}>{platform.name}</span>
                       </label>
@@ -688,48 +765,71 @@ export default function EcosystemPage() {
                       >
                         ↗
                       </a>
-                    </div>
+      </div>
 
                     <div className="space-y-1 mt-1">
                       {platform.key === 'x' && (
                         <>
-                          <label className="flex items-center gap-2 text-xs text-white/80" onClick={(e) => e.stopPropagation()}>
-                            <input type="checkbox" checked={xStatVisibility.followers} onChange={(e) => setXStatVisibility(prev => ({...prev, followers: e.target.checked}))} onClick={(e) => e.stopPropagation()} />
-                            <span className="flex items-center gap-2">Followers<div className="w-2 h-2 rounded-full bg-black" /></span>
+                          <label className="flex items-center justify-between gap-2 text-xs text-white/80" onClick={(e) => e.stopPropagation()}>
+                            <span className="flex items-center gap-2">
+                              <input type="checkbox" checked={xStatVisibility.followers} onChange={(e) => setXStatVisibility(prev => ({...prev, followers: e.target.checked}))} onClick={(e) => e.stopPropagation()} />
+                              <span className="flex items-center gap-2">Followers<div className="w-2 h-2 rounded-full bg-black" /></span>
+                            </span>
+                            <span className="font-semibold text-white">{formatNumber(xLatestFollowers ?? 0)}</span>
                           </label>
-                          <label className="flex items-center gap-2 text-xs text-white/80" onClick={(e) => e.stopPropagation()}>
-                            <input type="checkbox" checked={xStatVisibility.impressions} onChange={(e) => setXStatVisibility(prev => ({...prev, impressions: e.target.checked}))} onClick={(e) => e.stopPropagation()} />
-                            <span className="flex items-center gap-2">Impressions<div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'rgb(29, 155, 240)' }} /></span>
+                          <label className="flex items-center justify-between gap-2 text-xs text-white/80" onClick={(e) => e.stopPropagation()}>
+                            <span className="flex items-center gap-2">
+                              <input type="checkbox" checked={xStatVisibility.impressions} onChange={(e) => setXStatVisibility(prev => ({...prev, impressions: e.target.checked}))} onClick={(e) => e.stopPropagation()} />
+                              <span className="flex items-center gap-2">Impressions<div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'rgb(29, 155, 240)' }} /></span>
+                            </span>
+                            <span className="font-medium text-white/90">{formatNumber(xLatestImpressions ?? 0)}</span>
                           </label>
-                          <label className="flex items-center gap-2 text-xs text-white/80" onClick={(e) => e.stopPropagation()}>
-                            <input type="checkbox" checked={xStatVisibility.engagements} onChange={(e) => setXStatVisibility(prev => ({...prev, engagements: e.target.checked}))} onClick={(e) => e.stopPropagation()} />
-                            <span className="flex items-center gap-2">Engagements<div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'rgb(255, 99, 132)' }} /></span>
+                          <label className="flex items-center justify-between gap-2 text-xs text-white/80" onClick={(e) => e.stopPropagation()}>
+                            <span className="flex items-center gap-2">
+                              <input type="checkbox" checked={xStatVisibility.engagements} onChange={(e) => setXStatVisibility(prev => ({...prev, engagements: e.target.checked}))} onClick={(e) => e.stopPropagation()} />
+                              <span className="flex items-center gap-2">Engagements<div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'rgb(255, 99, 132)' }} /></span>
+                            </span>
+                            <span className="font-medium text-white/90">{formatNumber(xLatestEngagements ?? 0)}</span>
                           </label>
-                          <label className="flex items-center gap-2 text-xs text-white/80" onClick={(e) => e.stopPropagation()}>
-                            <input type="checkbox" checked={xStatVisibility.likes} onChange={(e) => setXStatVisibility(prev => ({...prev, likes: e.target.checked}))} onClick={(e) => e.stopPropagation()} />
-                            <span className="flex items-center gap-2">Likes<div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'rgb(75, 192, 192)' }} /></span>
+                          <label className="flex items-center justify-between gap-2 text-xs text-white/80" onClick={(e) => e.stopPropagation()}>
+                            <span className="flex items-center gap-2">
+                              <input type="checkbox" checked={xStatVisibility.likes} onChange={(e) => setXStatVisibility(prev => ({...prev, likes: e.target.checked}))} onClick={(e) => e.stopPropagation()} />
+                              <span className="flex items-center gap-2">Likes<div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'rgb(75, 192, 192)' }} /></span>
+                            </span>
+                            <span className="font-medium text-white/90">{formatNumber(xLatestLikes ?? 0)}</span>
                           </label>
                         </>
                       )}
-                      {platform.key !== 'x' && (
+                      {platform.key !== 'x' && platform.key !== 'linkedin' && (
                         <>
-                          <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between">
                             <span className={`text-xs ${hasGraphData ? 'text-white/60' : 'text-white/30'}`}>{platform.primaryLabel}</span>
                             <span className={`text-xs font-semibold ${hasGraphData ? 'text-white' : 'text-white/40'}`}>{platform.primaryMetric}</span>
-                          </div>
+                  </div>
                           <div className="flex items-center justify-between">
                             <span className={`text-xs ${hasGraphData ? 'text-white/60' : 'text-white/30'}`}>{platform.secondaryLabel}</span>
                             <span className={`text-xs font-medium ${hasGraphData ? 'text-white/80' : 'text-white/40'}`}>{platform.secondaryMetric}</span>
-                          </div>
+                  </div>
+                        </>
+                      )}
+                      {platform.key === 'linkedin' && (
+                        <>
+                          <label className="flex items-center justify-between gap-2 text-xs text-white/80" onClick={(e) => e.stopPropagation()}>
+                            <span className="flex items-center gap-2">
+                              <input type="checkbox" checked={linkedinStatVisibility.followers} onChange={(e) => setLinkedinStatVisibility(prev => ({...prev, followers: e.target.checked}))} onClick={(e) => e.stopPropagation()} />
+                              <span className="flex items-center gap-2">Followers<div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'rgb(34, 197, 94)' }} /></span>
+                            </span>
+                            <span className="font-semibold text-white">{formatNumber(linkedinLatestFollowers ?? 0)}</span>
+                          </label>
                         </>
                       )}
 
                       {platform.key === 'x' && null}
-                    </div>
+                </div>
               </button>
             )
           })}
-        </div>
+              </div>
       </div>
 
       {/* Unified Ecosystem Performance Chart */}
@@ -744,6 +844,7 @@ export default function EcosystemPage() {
               selectedTimeframe={selectedTimeframe} 
               visiblePlatforms={visiblePlatforms}
               xStatVisibility={xStatVisibility}
+              linkedinStatVisibility={linkedinStatVisibility}
             />
           </div>
         </CardContent>
