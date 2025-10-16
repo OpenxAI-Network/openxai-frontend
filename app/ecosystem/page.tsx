@@ -36,6 +36,19 @@ ChartJS.register(
   Filler
 )
 
+type VisiblePlatforms = {
+  youtube: boolean
+  x: boolean
+  linkedin: boolean
+  instagram: boolean
+  tiktok: boolean
+  discord: boolean
+  telegram: boolean
+  farcaster: boolean
+  medium: boolean
+  github: boolean
+}
+
 function UnifiedEcosystemChart({ selectedTimeframe, visiblePlatforms, xStatVisibility }: { 
   selectedTimeframe: string
   visiblePlatforms: { [key: string]: boolean }
@@ -337,7 +350,7 @@ export default function EcosystemPage() {
     } catch {}
     return { followers: true, impressions: false, engagements: false, likes: false }
   })
-  const [visiblePlatforms, setVisiblePlatforms] = useState(() => {
+  const [visiblePlatforms, setVisiblePlatforms] = useState<VisiblePlatforms>(() => {
     const defaults = {
       youtube: true,
       x: true,
@@ -359,9 +372,9 @@ export default function EcosystemPage() {
   })
 
   const handlePlatformToggle = (platform: string) => {
-    setVisiblePlatforms(prev => ({
+    setVisiblePlatforms((prev: VisiblePlatforms) => ({
       ...prev,
-      [platform]: !prev[platform as keyof typeof prev]
+      [platform]: !prev[platform as keyof VisiblePlatforms]
     }))
   }
 
