@@ -36,10 +36,10 @@ ChartJS.register(
   Filler
 )
 
-function UnifiedEcosystemChart({ selectedTimeframe, visiblePlatforms, onPlatformToggle }: { 
+function UnifiedEcosystemChart({ selectedTimeframe, visiblePlatforms, xStatVisibility }: { 
   selectedTimeframe: string
   visiblePlatforms: { [key: string]: boolean }
-  onPlatformToggle: (platform: string) => void
+  xStatVisibility: { followers: boolean; impressions: boolean; engagements: boolean; likes: boolean }
 }) {
   const [youtubeData, setYoutubeData] = useState<any>(null)
   const [xData, setXData] = useState<any>(null)
@@ -108,10 +108,11 @@ function UnifiedEcosystemChart({ selectedTimeframe, visiblePlatforms, onPlatform
       setError(null)
       
       try {
+        const origin = typeof window !== 'undefined' ? window.location.origin : ''
         const [youtubeRes, xRes, linkedinRes] = await Promise.allSettled([
-          fetch('/api/youtube/history'),
-          fetch('/api/x/history'),
-          fetch('/api/linkedin/history')
+          fetch(origin ? `${origin}/api/youtube/history` : '/api/youtube/history', { cache: 'no-store' }),
+          fetch(origin ? `${origin}/api/x/history` : '/api/x/history', { cache: 'no-store' }),
+          fetch(origin ? `${origin}/api/linkedin/history` : '/api/linkedin/history', { cache: 'no-store' })
         ])
 
         if (youtubeRes.status === 'fulfilled' && youtubeRes.value.ok) {
@@ -191,7 +192,12 @@ function UnifiedEcosystemChart({ selectedTimeframe, visiblePlatforms, onPlatform
       datasets.push({
         ...dataset,
         data: alignedData,
-        hidden: !visiblePlatforms.x,
+        hidden: !visiblePlatforms.x || (
+          (dataset.label === 'X Followers' ? !xStatVisibility.followers : false) ||
+          (dataset.label === 'X Impressions' ? !xStatVisibility.impressions : false) ||
+          (dataset.label === 'X Engagements' ? !xStatVisibility.engagements : false) ||
+          (dataset.label === 'X Likes' ? !xStatVisibility.likes : false)
+        ),
       })
     })
   }
@@ -314,21 +320,42 @@ const chartOptions = {
 }
 
 export default function EcosystemPage() {
-  const [selectedTimeframe, setSelectedTimeframe] = useState("7d")
+  const [selectedTimeframe, setSelectedTimeframe] = useState(() => {
+    if (typeof window === 'undefined') return "7d"
+    const tf = localStorage.getItem('ecos-timeframe')
+    return tf || "7d"
+  })
   const [metrics, setMetrics] = useState<EcosystemMetrics | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [visiblePlatforms, setVisiblePlatforms] = useState({
-    youtube: true,
-    x: true,
-    linkedin: true,
-    instagram: true,
-    tiktok: false,
-    discord: true,
-    telegram: true,
-    farcaster: true,
-    medium: true,
-    github: true,
+  const [xLatestFollowers, setXLatestFollowers] = useState<number | null>(null)
+  const [xStatVisibility, setXStatVisibility] = useState(() => {
+    if (typeof window === 'undefined') return { followers: true, impressions: false, engagements: false, likes: false }
+    try {
+      const saved = localStorage.getItem('ecos-x-visibility')
+      if (saved) return JSON.parse(saved)
+    } catch {}
+    return { followers: true, impressions: false, engagements: false, likes: false }
+  })
+  const [visiblePlatforms, setVisiblePlatforms] = useState(() => {
+    const defaults = {
+      youtube: true,
+      x: true,
+      linkedin: true,
+      instagram: true,
+      tiktok: false,
+      discord: true,
+      telegram: true,
+      farcaster: true,
+      medium: true,
+      github: true,
+    }
+    if (typeof window === 'undefined') return defaults
+    try {
+      const saved = localStorage.getItem('ecos-platform-visibility')
+      if (saved) return { ...defaults, ...JSON.parse(saved) }
+    } catch {}
+    return defaults
   })
 
   const handlePlatformToggle = (platform: string) => {
@@ -339,6 +366,29 @@ export default function EcosystemPage() {
   }
 
   useEffect(() => {
+    // Load saved preferences
+    try {
+      const saved = localStorage.getItem('ecos-x-visibility')
+      if (saved) {
+        const parsed = JSON.parse(saved)
+        setXStatVisibility((prev) => ({
+          followers: typeof parsed.followers === 'boolean' ? parsed.followers : prev.followers,
+          impressions: typeof parsed.impressions === 'boolean' ? parsed.impressions : prev.impressions,
+          engagements: typeof parsed.engagements === 'boolean' ? parsed.engagements : prev.engagements,
+          likes: typeof parsed.likes === 'boolean' ? parsed.likes : prev.likes,
+        }))
+      }
+      const savedPlatforms = localStorage.getItem('ecos-platform-visibility')
+      if (savedPlatforms) {
+        const parsed = JSON.parse(savedPlatforms)
+        setVisiblePlatforms((prev) => ({ ...prev, ...parsed }))
+      }
+      const savedTf = localStorage.getItem('ecos-timeframe')
+      if (savedTf && typeof savedTf === 'string') {
+        setSelectedTimeframe(savedTf)
+      }
+    } catch {}
+
     async function fetchMetrics() {
       try {
         const response = await fetch('/api/ecosystem')
@@ -355,6 +405,41 @@ export default function EcosystemPage() {
     }
 
     fetchMetrics()
+  }, [])
+
+  // Persist preferences
+  useEffect(() => {
+    try { localStorage.setItem('ecos-x-visibility', JSON.stringify(xStatVisibility)) } catch {}
+  }, [xStatVisibility])
+
+  useEffect(() => {
+    try { localStorage.setItem('ecos-platform-visibility', JSON.stringify(visiblePlatforms)) } catch {}
+  }, [visiblePlatforms])
+
+  useEffect(() => {
+    try { localStorage.setItem('ecos-timeframe', selectedTimeframe) } catch {}
+  }, [selectedTimeframe])
+
+  // Fetch latest X followers from history API (computed series)
+  useEffect(() => {
+    async function fetchXFollowers() {
+      try {
+        const origin = typeof window !== 'undefined' ? window.location.origin : ''
+        const url = origin ? `${origin}/api/x/history` : '/api/x/history'
+        const res = await fetch(url, { cache: 'no-store' })
+        if (!res.ok) return
+        const chart = await res.json()
+        const followersDataset = chart?.datasets?.find((d: any) => d.label === 'X Followers')
+        if (followersDataset && Array.isArray(followersDataset.data) && followersDataset.data.length > 0) {
+          // API returns newest-first; take the first element as latest
+          const latest = followersDataset.data[0]
+          if (typeof latest === 'number') setXLatestFollowers(latest)
+        }
+      } catch (e) {
+        console.error('Failed to fetch X followers history', e)
+      }
+    }
+    fetchXFollowers()
   }, [])
 
   if (loading) {
@@ -416,7 +501,7 @@ export default function EcosystemPage() {
       color: "bg-black",
       borderColor: "border-gray-600",
       url: X_URL,
-      primaryMetric: formatNumber(26083),
+      primaryMetric: formatNumber(xLatestFollowers ?? 26083),
       primaryLabel: "Followers",
       secondaryMetric: formatNumber(151958),
       secondaryLabel: "Impressions",
@@ -548,7 +633,7 @@ export default function EcosystemPage() {
         </div>
 
             {/* Platform Toggle Buttons */}
-            <div className="grid grid-cols-3 gap-2 sm:grid-cols-5 lg:grid-cols-10">
+            <div className="grid grid-cols-4 gap-2 sm:grid-cols-6 lg:grid-cols-12" style={{ gridAutoRows: '1fr' }}>
               {platformData.map((platform) => {
                 // Only platforms with historical graph data should be clickable
                 const hasGraphData = ['youtube', 'x', 'linkedin'].includes(platform.key)
@@ -559,7 +644,7 @@ export default function EcosystemPage() {
                     key={platform.key}
                     onClick={() => hasGraphData ? handlePlatformToggle(platform.key) : null}
                     disabled={!hasGraphData}
-                    className={`relative p-2 rounded-md transition-all text-left ${
+                    className={`col-span-2 relative p-2 rounded-md transition-all text-left h-full flex flex-col ${
                       !hasGraphData
                         ? 'bg-[#1F2021]/30 border border-[#454545] opacity-40 cursor-not-allowed'
                         : isActive
@@ -567,13 +652,16 @@ export default function EcosystemPage() {
                           : 'bg-[#1F2021]/50 border border-[#454545] opacity-60 hover:bg-[#1F2021]/70'
                     }`}
                   >
-                    <div className="flex items-center justify-between mb-1">
-                      <div className="flex items-center gap-1">
-                        <div className={`w-1.5 h-1.5 rounded-full ${platform.color}`} />
-                        <span className={`text-xs font-semibold ${hasGraphData ? 'text-white' : 'text-white/40'}`}>
-                          {platform.name}
-                        </span>
-                      </div>
+                    <div className="flex items-center justify-between mb-2 -m-2 px-2 py-2 rounded-t-md bg-[#141516]/70">
+                      <label className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={isActive}
+                          onChange={() => hasGraphData ? handlePlatformToggle(platform.key) : null}
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                        <span className={`text-xs font-semibold ${hasGraphData ? 'text-white' : 'text-white/40'}`}>{platform.name}</span>
+                      </label>
                       <a
                         href={platform.url}
                         target="_blank"
@@ -589,23 +677,41 @@ export default function EcosystemPage() {
                       </a>
                     </div>
 
-                    <div className="space-y-0.5">
-                      <div className="flex items-center justify-between">
-                        <span className={`text-xs ${hasGraphData ? 'text-white/60' : 'text-white/30'}`}>
-                          {platform.primaryLabel}
-                        </span>
-                        <span className={`text-xs font-semibold ${hasGraphData ? 'text-white' : 'text-white/40'}`}>
-                          {platform.primaryMetric}
-                        </span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className={`text-xs ${hasGraphData ? 'text-white/60' : 'text-white/30'}`}>
-                          {platform.secondaryLabel}
-                        </span>
-                        <span className={`text-xs font-medium ${hasGraphData ? 'text-white/80' : 'text-white/40'}`}>
-                          {platform.secondaryMetric}
-                        </span>
-                      </div>
+                    <div className="space-y-1 mt-1">
+                      {platform.key === 'x' && (
+                        <>
+                          <label className="flex items-center gap-2 text-xs text-white/80" onClick={(e) => e.stopPropagation()}>
+                            <input type="checkbox" checked={xStatVisibility.followers} onChange={(e) => setXStatVisibility(prev => ({...prev, followers: e.target.checked}))} onClick={(e) => e.stopPropagation()} />
+                            <span className="flex items-center gap-2">Followers<div className="w-2 h-2 rounded-full bg-black" /></span>
+                          </label>
+                          <label className="flex items-center gap-2 text-xs text-white/80" onClick={(e) => e.stopPropagation()}>
+                            <input type="checkbox" checked={xStatVisibility.impressions} onChange={(e) => setXStatVisibility(prev => ({...prev, impressions: e.target.checked}))} onClick={(e) => e.stopPropagation()} />
+                            <span className="flex items-center gap-2">Impressions<div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'rgb(29, 155, 240)' }} /></span>
+                          </label>
+                          <label className="flex items-center gap-2 text-xs text-white/80" onClick={(e) => e.stopPropagation()}>
+                            <input type="checkbox" checked={xStatVisibility.engagements} onChange={(e) => setXStatVisibility(prev => ({...prev, engagements: e.target.checked}))} onClick={(e) => e.stopPropagation()} />
+                            <span className="flex items-center gap-2">Engagements<div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'rgb(255, 99, 132)' }} /></span>
+                          </label>
+                          <label className="flex items-center gap-2 text-xs text-white/80" onClick={(e) => e.stopPropagation()}>
+                            <input type="checkbox" checked={xStatVisibility.likes} onChange={(e) => setXStatVisibility(prev => ({...prev, likes: e.target.checked}))} onClick={(e) => e.stopPropagation()} />
+                            <span className="flex items-center gap-2">Likes<div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'rgb(75, 192, 192)' }} /></span>
+                          </label>
+                        </>
+                      )}
+                      {platform.key !== 'x' && (
+                        <>
+                          <div className="flex items-center justify-between">
+                            <span className={`text-xs ${hasGraphData ? 'text-white/60' : 'text-white/30'}`}>{platform.primaryLabel}</span>
+                            <span className={`text-xs font-semibold ${hasGraphData ? 'text-white' : 'text-white/40'}`}>{platform.primaryMetric}</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className={`text-xs ${hasGraphData ? 'text-white/60' : 'text-white/30'}`}>{platform.secondaryLabel}</span>
+                            <span className={`text-xs font-medium ${hasGraphData ? 'text-white/80' : 'text-white/40'}`}>{platform.secondaryMetric}</span>
+                          </div>
+                        </>
+                      )}
+
+                      {platform.key === 'x' && null}
                     </div>
               </button>
             )
@@ -624,7 +730,7 @@ export default function EcosystemPage() {
             <UnifiedEcosystemChart 
               selectedTimeframe={selectedTimeframe} 
               visiblePlatforms={visiblePlatforms}
-              onPlatformToggle={handlePlatformToggle}
+              xStatVisibility={xStatVisibility}
             />
           </div>
         </CardContent>

@@ -65,7 +65,11 @@ export async function GET() {
       ],
     }
     
-    return NextResponse.json(chartData)
+    return NextResponse.json(chartData, {
+      headers: {
+        'Cache-Control': 'no-store, max-age=0',
+      }
+    })
   } catch (error) {
     console.error('Error fetching X history:', error)
     return NextResponse.json({ error: 'Failed to fetch X data' }, { status: 500 })

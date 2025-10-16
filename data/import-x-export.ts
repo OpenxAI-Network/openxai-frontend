@@ -89,21 +89,53 @@ function calculateFollowers(data: XDataPoint[]): number {
 }
 
 function convertToHistoryFormat(data: XDataPoint[]): XHistoryData {
-  // Use static follower count as mentioned by user
-  const staticFollowers = 26083
-  
-  const historyData = data.map((point) => {
-    return {
-      date: point.date,
-      followers: staticFollowers, // Keep static as requested
-      impressions: point.impressions,
-      engagements: point.engagements,
-      likes: point.likes,
-      shares: point.shares,
-      replies: point.replies,
-    }
+  // Build a real follower time series that ends at the current follower count
+  const currentFollowers = 26083
+
+  // CSV is already chronological (oldest → newest) per your export
+  let chronological = [...data]
+
+  // Baseline from account creation: drop leading rows with all-zero activity
+  const firstActiveIdx = chronological.findIndex((p) => {
+    return (
+      (p.newFollows || 0) > 0 ||
+      (p.unfollows || 0) > 0 ||
+      (p.impressions || 0) > 0 ||
+      (p.engagements || 0) > 0 ||
+      (p.likes || 0) > 0 ||
+      (p.replies || 0) > 0 ||
+      (p.reposts || 0) > 0 ||
+      (p.profileVisits || 0) > 0 ||
+      (p.videoViews || 0) > 0 ||
+      (p.mediaViews || 0) > 0
+    )
   })
-  
+  if (firstActiveIdx > 0) {
+    chronological = chronological.slice(firstActiveIdx)
+  }
+
+  // Compute cumulative followers starting from 0 on first active day
+  const dailyNet = chronological.map(p => Math.max(0, (p.newFollows || 0) - (p.unfollows || 0)))
+  const cumulative: number[] = []
+  let acc = 0
+  for (const v of dailyNet) {
+    acc += v
+    cumulative.push(acc)
+  }
+
+  const totalNet = cumulative.length ? cumulative[cumulative.length - 1] : 0
+  const scale = totalNet > 0 ? currentFollowers / totalNet : 0
+
+  const historyData = chronological.map((point, idx) => ({
+    date: point.date,
+    followers: Math.round(cumulative[idx] * scale),
+    impressions: point.impressions,
+    engagements: point.engagements,
+    likes: point.likes,
+    shares: point.shares,
+    replies: point.replies,
+  }))
+
   return {
     platform: 'x',
     data: historyData
@@ -114,7 +146,10 @@ async function importXData() {
   try {
     console.log('📊 Importing X (Twitter) data...')
     
-    const csvPath = path.join(__dirname, 'export-x', 'account_overview_analytics.csv')
+    // Prefer the yearly CSV with daily new followers if present, otherwise fall back
+    const yearlyCsvPath = path.join(__dirname, 'export-x', 'account_overview_analytics-x-yearly-new-followers.csv')
+    const defaultCsvPath = path.join(__dirname, 'export-x', 'account_overview_analytics.csv')
+    const csvPath = fs.existsSync(yearlyCsvPath) ? yearlyCsvPath : defaultCsvPath
     
     if (!fs.existsSync(csvPath)) {
       throw new Error(`X CSV file not found at ${csvPath}`)
@@ -139,9 +174,10 @@ async function importXData() {
     fs.writeFileSync(historyPath, JSON.stringify(historyData, null, 2))
     
     console.log(`✅ X data saved to ${historyPath}`)
-    console.log(`📊 Latest follower count: ${historyData.data[0].followers.toLocaleString()}`)
-    console.log(`📊 Latest impressions: ${historyData.data[0].impressions.toLocaleString()}`)
-    console.log(`📊 Latest engagements: ${historyData.data[0].engagements.toLocaleString()}`)
+    const latest = historyData.data[historyData.data.length - 1]
+    console.log(`📊 Latest follower count: ${latest.followers.toLocaleString()}`)
+    console.log(`📊 Latest impressions: ${latest.impressions.toLocaleString()}`)
+    console.log(`📊 Latest engagements: ${latest.engagements.toLocaleString()}`)
     
   } catch (error) {
     console.error('❌ Error importing X data:', error)

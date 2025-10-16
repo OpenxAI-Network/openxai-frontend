@@ -2,67 +2,2254 @@
   "platform": "x",
   "data": [
     {
-      "date": "Wed, Oct 15, 2025",
-      "followers": 26083,
-      "impressions": 13009,
-      "engagements": 9998,
-      "likes": 303,
+      "date": "Sun Feb 09 2025",
+      "followers": 1,
+      "impressions": 0,
+      "engagements": 7,
+      "likes": 0,
+      "shares": 0,
+      "replies": 0
+    },
+    {
+      "date": "Mon Feb 10 2025",
+      "followers": 3,
+      "impressions": 0,
+      "engagements": 12,
+      "likes": 0,
+      "shares": 0,
+      "replies": 0
+    },
+    {
+      "date": "Tue Feb 11 2025",
+      "followers": 3,
+      "impressions": 0,
+      "engagements": 5,
+      "likes": 0,
+      "shares": 0,
+      "replies": 0
+    },
+    {
+      "date": "Wed Feb 12 2025",
+      "followers": 4,
+      "impressions": 0,
+      "engagements": 1,
+      "likes": 0,
+      "shares": 0,
+      "replies": 0
+    },
+    {
+      "date": "Thu Feb 13 2025",
+      "followers": 4,
+      "impressions": 0,
+      "engagements": 1,
+      "likes": 0,
+      "shares": 0,
+      "replies": 0
+    },
+    {
+      "date": "Fri Feb 14 2025",
+      "followers": 4,
+      "impressions": 0,
+      "engagements": 2,
+      "likes": 0,
+      "shares": 0,
+      "replies": 0
+    },
+    {
+      "date": "Sat Feb 15 2025",
+      "followers": 4,
+      "impressions": 0,
+      "engagements": 0,
+      "likes": 0,
+      "shares": 0,
+      "replies": 0
+    },
+    {
+      "date": "Sun Feb 16 2025",
+      "followers": 4,
+      "impressions": 0,
+      "engagements": 1,
+      "likes": 0,
+      "shares": 0,
+      "replies": 0
+    },
+    {
+      "date": "Mon Feb 17 2025",
+      "followers": 5,
+      "impressions": 0,
+      "engagements": 5,
+      "likes": 0,
+      "shares": 0,
+      "replies": 0
+    },
+    {
+      "date": "Tue Feb 18 2025",
+      "followers": 5,
+      "impressions": 0,
+      "engagements": 4,
+      "likes": 0,
+      "shares": 0,
+      "replies": 0
+    },
+    {
+      "date": "Wed Feb 19 2025",
+      "followers": 5,
+      "impressions": 0,
+      "engagements": 1,
+      "likes": 0,
+      "shares": 0,
+      "replies": 0
+    },
+    {
+      "date": "Thu Feb 20 2025",
+      "followers": 7,
+      "impressions": 0,
+      "engagements": 12,
+      "likes": 0,
+      "shares": 0,
+      "replies": 0
+    },
+    {
+      "date": "Fri Feb 21 2025",
+      "followers": 10,
+      "impressions": 0,
+      "engagements": 18,
+      "likes": 0,
+      "shares": 0,
+      "replies": 0
+    },
+    {
+      "date": "Sat Feb 22 2025",
+      "followers": 10,
+      "impressions": 0,
+      "engagements": 4,
+      "likes": 0,
+      "shares": 0,
+      "replies": 0
+    },
+    {
+      "date": "Sun Feb 23 2025",
+      "followers": 10,
+      "impressions": 0,
+      "engagements": 1,
+      "likes": 0,
+      "shares": 0,
+      "replies": 0
+    },
+    {
+      "date": "Mon Feb 24 2025",
+      "followers": 27,
+      "impressions": 2093,
+      "engagements": 654,
+      "likes": 148,
+      "shares": 0,
+      "replies": 66
+    },
+    {
+      "date": "Tue Feb 25 2025",
+      "followers": 30,
+      "impressions": 2117,
+      "engagements": 419,
+      "likes": 92,
+      "shares": 1,
+      "replies": 23
+    },
+    {
+      "date": "Wed Feb 26 2025",
+      "followers": 35,
+      "impressions": 3448,
+      "engagements": 1142,
+      "likes": 221,
       "shares": 2,
+      "replies": 153
+    },
+    {
+      "date": "Thu Feb 27 2025",
+      "followers": 35,
+      "impressions": 7860,
+      "engagements": 2556,
+      "likes": 621,
+      "shares": 1,
+      "replies": 491
+    },
+    {
+      "date": "Fri Feb 28 2025",
+      "followers": 35,
+      "impressions": 6052,
+      "engagements": 1564,
+      "likes": 401,
+      "shares": 0,
+      "replies": 315
+    },
+    {
+      "date": "Sat Mar 01 2025",
+      "followers": 35,
+      "impressions": 2648,
+      "engagements": 694,
+      "likes": 179,
+      "shares": 0,
+      "replies": 145
+    },
+    {
+      "date": "Sun Mar 02 2025",
+      "followers": 68,
+      "impressions": 5351,
+      "engagements": 1305,
+      "likes": 242,
+      "shares": 0,
+      "replies": 155
+    },
+    {
+      "date": "Mon Mar 03 2025",
+      "followers": 200,
+      "impressions": 9750,
+      "engagements": 2794,
+      "likes": 411,
+      "shares": 0,
+      "replies": 245
+    },
+    {
+      "date": "Tue Mar 04 2025",
+      "followers": 284,
+      "impressions": 16496,
+      "engagements": 3577,
+      "likes": 669,
+      "shares": 0,
+      "replies": 401
+    },
+    {
+      "date": "Wed Mar 05 2025",
+      "followers": 288,
+      "impressions": 18031,
+      "engagements": 4114,
+      "likes": 786,
+      "shares": 0,
+      "replies": 533
+    },
+    {
+      "date": "Thu Mar 06 2025",
+      "followers": 318,
+      "impressions": 7864,
+      "engagements": 1425,
+      "likes": 335,
+      "shares": 0,
+      "replies": 145
+    },
+    {
+      "date": "Fri Mar 07 2025",
+      "followers": 332,
+      "impressions": 4495,
+      "engagements": 1248,
+      "likes": 225,
+      "shares": 1,
+      "replies": 148
+    },
+    {
+      "date": "Sat Mar 08 2025",
+      "followers": 357,
+      "impressions": 2999,
+      "engagements": 430,
+      "likes": 94,
+      "shares": 0,
+      "replies": 29
+    },
+    {
+      "date": "Sun Mar 09 2025",
+      "followers": 357,
+      "impressions": 3967,
+      "engagements": 1381,
+      "likes": 327,
+      "shares": 0,
+      "replies": 269
+    },
+    {
+      "date": "Mon Mar 10 2025",
+      "followers": 357,
+      "impressions": 5548,
+      "engagements": 1630,
+      "likes": 460,
+      "shares": 1,
+      "replies": 356
+    },
+    {
+      "date": "Tue Mar 11 2025",
+      "followers": 359,
+      "impressions": 2507,
+      "engagements": 379,
+      "likes": 101,
+      "shares": 0,
+      "replies": 64
+    },
+    {
+      "date": "Wed Mar 12 2025",
+      "followers": 359,
+      "impressions": 3106,
+      "engagements": 638,
+      "likes": 155,
+      "shares": 0,
+      "replies": 102
+    },
+    {
+      "date": "Thu Mar 13 2025",
+      "followers": 361,
+      "impressions": 3640,
+      "engagements": 528,
+      "likes": 159,
+      "shares": 1,
+      "replies": 79
+    },
+    {
+      "date": "Fri Mar 14 2025",
+      "followers": 367,
+      "impressions": 4111,
+      "engagements": 562,
+      "likes": 144,
+      "shares": 1,
+      "replies": 59
+    },
+    {
+      "date": "Sat Mar 15 2025",
+      "followers": 369,
+      "impressions": 2310,
+      "engagements": 436,
+      "likes": 101,
+      "shares": 0,
+      "replies": 83
+    },
+    {
+      "date": "Sun Mar 16 2025",
+      "followers": 376,
+      "impressions": 1185,
+      "engagements": 220,
+      "likes": 42,
+      "shares": 0,
+      "replies": 30
+    },
+    {
+      "date": "Mon Mar 17 2025",
+      "followers": 381,
+      "impressions": 2205,
+      "engagements": 265,
+      "likes": 65,
+      "shares": 0,
+      "replies": 31
+    },
+    {
+      "date": "Tue Mar 18 2025",
+      "followers": 385,
+      "impressions": 2419,
+      "engagements": 345,
+      "likes": 102,
+      "shares": 1,
+      "replies": 41
+    },
+    {
+      "date": "Wed Mar 19 2025",
+      "followers": 385,
+      "impressions": 4667,
+      "engagements": 1494,
+      "likes": 489,
+      "shares": 0,
+      "replies": 316
+    },
+    {
+      "date": "Thu Mar 20 2025",
+      "followers": 385,
+      "impressions": 4265,
+      "engagements": 1222,
+      "likes": 350,
+      "shares": 0,
+      "replies": 279
+    },
+    {
+      "date": "Fri Mar 21 2025",
+      "followers": 385,
+      "impressions": 2312,
+      "engagements": 460,
+      "likes": 147,
+      "shares": 0,
+      "replies": 90
+    },
+    {
+      "date": "Sat Mar 22 2025",
+      "followers": 385,
+      "impressions": 1819,
+      "engagements": 614,
+      "likes": 113,
+      "shares": 0,
+      "replies": 80
+    },
+    {
+      "date": "Sun Mar 23 2025",
+      "followers": 385,
+      "impressions": 4908,
+      "engagements": 3987,
+      "likes": 837,
+      "shares": 0,
+      "replies": 792
+    },
+    {
+      "date": "Mon Mar 24 2025",
+      "followers": 385,
+      "impressions": 5241,
+      "engagements": 1492,
+      "likes": 373,
+      "shares": 0,
+      "replies": 304
+    },
+    {
+      "date": "Tue Mar 25 2025",
+      "followers": 390,
+      "impressions": 4254,
+      "engagements": 322,
+      "likes": 103,
+      "shares": 3,
+      "replies": 31
+    },
+    {
+      "date": "Wed Mar 26 2025",
+      "followers": 396,
+      "impressions": 2679,
+      "engagements": 323,
+      "likes": 139,
+      "shares": 2,
+      "replies": 29
+    },
+    {
+      "date": "Thu Mar 27 2025",
+      "followers": 400,
+      "impressions": 2353,
+      "engagements": 265,
+      "likes": 73,
+      "shares": 0,
+      "replies": 19
+    },
+    {
+      "date": "Fri Mar 28 2025",
+      "followers": 404,
+      "impressions": 2901,
+      "engagements": 320,
+      "likes": 99,
+      "shares": 0,
+      "replies": 28
+    },
+    {
+      "date": "Sat Mar 29 2025",
+      "followers": 410,
+      "impressions": 1309,
+      "engagements": 160,
+      "likes": 55,
+      "shares": 0,
+      "replies": 13
+    },
+    {
+      "date": "Sun Mar 30 2025",
+      "followers": 416,
+      "impressions": 1376,
+      "engagements": 110,
+      "likes": 26,
+      "shares": 0,
+      "replies": 7
+    },
+    {
+      "date": "Mon Mar 31 2025",
+      "followers": 428,
+      "impressions": 14302,
+      "engagements": 984,
+      "likes": 241,
+      "shares": 0,
+      "replies": 52
+    },
+    {
+      "date": "Tue Apr 01 2025",
+      "followers": 434,
+      "impressions": 7343,
+      "engagements": 538,
+      "likes": 136,
+      "shares": 0,
+      "replies": 25
+    },
+    {
+      "date": "Wed Apr 02 2025",
+      "followers": 434,
+      "impressions": 3106,
+      "engagements": 337,
+      "likes": 81,
+      "shares": 0,
+      "replies": 30
+    },
+    {
+      "date": "Thu Apr 03 2025",
+      "followers": 436,
+      "impressions": 3753,
+      "engagements": 485,
+      "likes": 169,
+      "shares": 0,
+      "replies": 44
+    },
+    {
+      "date": "Fri Apr 04 2025",
+      "followers": 438,
+      "impressions": 2300,
+      "engagements": 242,
+      "likes": 75,
+      "shares": 0,
+      "replies": 19
+    },
+    {
+      "date": "Sat Apr 05 2025",
+      "followers": 438,
+      "impressions": 2443,
+      "engagements": 274,
+      "likes": 95,
+      "shares": 2,
+      "replies": 45
+    },
+    {
+      "date": "Sun Apr 06 2025",
+      "followers": 444,
+      "impressions": 1584,
+      "engagements": 131,
+      "likes": 17,
+      "shares": 0,
+      "replies": 5
+    },
+    {
+      "date": "Mon Apr 07 2025",
+      "followers": 446,
+      "impressions": 2301,
+      "engagements": 240,
+      "likes": 64,
+      "shares": 0,
+      "replies": 29
+    },
+    {
+      "date": "Tue Apr 08 2025",
+      "followers": 447,
+      "impressions": 2091,
+      "engagements": 234,
+      "likes": 60,
+      "shares": 0,
+      "replies": 23
+    },
+    {
+      "date": "Wed Apr 09 2025",
+      "followers": 451,
+      "impressions": 1752,
+      "engagements": 140,
+      "likes": 59,
+      "shares": 0,
+      "replies": 4
+    },
+    {
+      "date": "Thu Apr 10 2025",
+      "followers": 455,
+      "impressions": 1777,
+      "engagements": 85,
+      "likes": 25,
+      "shares": 0,
+      "replies": 1
+    },
+    {
+      "date": "Fri Apr 11 2025",
+      "followers": 458,
+      "impressions": 1014,
+      "engagements": 59,
+      "likes": 12,
+      "shares": 0,
+      "replies": 0
+    },
+    {
+      "date": "Sat Apr 12 2025",
+      "followers": 461,
+      "impressions": 610,
+      "engagements": 44,
+      "likes": 7,
+      "shares": 0,
+      "replies": 0
+    },
+    {
+      "date": "Sun Apr 13 2025",
+      "followers": 465,
+      "impressions": 805,
+      "engagements": 49,
+      "likes": 6,
+      "shares": 0,
+      "replies": 4
+    },
+    {
+      "date": "Mon Apr 14 2025",
+      "followers": 465,
+      "impressions": 946,
+      "engagements": 70,
+      "likes": 26,
+      "shares": 0,
+      "replies": 0
+    },
+    {
+      "date": "Tue Apr 15 2025",
+      "followers": 465,
+      "impressions": 1121,
+      "engagements": 112,
+      "likes": 48,
+      "shares": 0,
+      "replies": 14
+    },
+    {
+      "date": "Wed Apr 16 2025",
+      "followers": 465,
+      "impressions": 1162,
+      "engagements": 137,
+      "likes": 50,
+      "shares": 0,
+      "replies": 30
+    },
+    {
+      "date": "Thu Apr 17 2025",
+      "followers": 465,
+      "impressions": 1286,
+      "engagements": 103,
+      "likes": 35,
+      "shares": 0,
+      "replies": 20
+    },
+    {
+      "date": "Fri Apr 18 2025",
+      "followers": 465,
+      "impressions": 1297,
+      "engagements": 187,
+      "likes": 58,
+      "shares": 0,
+      "replies": 22
+    },
+    {
+      "date": "Sat Apr 19 2025",
+      "followers": 465,
+      "impressions": 1571,
+      "engagements": 103,
+      "likes": 29,
+      "shares": 0,
+      "replies": 8
+    },
+    {
+      "date": "Sun Apr 20 2025",
+      "followers": 465,
+      "impressions": 759,
+      "engagements": 90,
+      "likes": 34,
+      "shares": 0,
+      "replies": 22
+    },
+    {
+      "date": "Mon Apr 21 2025",
+      "followers": 465,
+      "impressions": 940,
+      "engagements": 100,
+      "likes": 37,
+      "shares": 0,
+      "replies": 20
+    },
+    {
+      "date": "Tue Apr 22 2025",
+      "followers": 465,
+      "impressions": 1796,
+      "engagements": 187,
+      "likes": 74,
+      "shares": 1,
+      "replies": 18
+    },
+    {
+      "date": "Wed Apr 23 2025",
+      "followers": 465,
+      "impressions": 3544,
+      "engagements": 608,
+      "likes": 281,
+      "shares": 1,
+      "replies": 77
+    },
+    {
+      "date": "Thu Apr 24 2025",
+      "followers": 465,
+      "impressions": 3892,
+      "engagements": 514,
+      "likes": 233,
+      "shares": 1,
+      "replies": 33
+    },
+    {
+      "date": "Fri Apr 25 2025",
+      "followers": 465,
+      "impressions": 7785,
+      "engagements": 994,
+      "likes": 527,
+      "shares": 0,
+      "replies": 64
+    },
+    {
+      "date": "Sat Apr 26 2025",
+      "followers": 465,
+      "impressions": 3246,
+      "engagements": 258,
+      "likes": 119,
+      "shares": 0,
+      "replies": 17
+    },
+    {
+      "date": "Sun Apr 27 2025",
+      "followers": 465,
+      "impressions": 3445,
+      "engagements": 358,
+      "likes": 154,
+      "shares": 0,
+      "replies": 45
+    },
+    {
+      "date": "Mon Apr 28 2025",
+      "followers": 465,
+      "impressions": 3311,
+      "engagements": 359,
+      "likes": 149,
+      "shares": 0,
+      "replies": 47
+    },
+    {
+      "date": "Tue Apr 29 2025",
+      "followers": 465,
+      "impressions": 2614,
+      "engagements": 380,
+      "likes": 155,
+      "shares": 0,
+      "replies": 63
+    },
+    {
+      "date": "Wed Apr 30 2025",
+      "followers": 465,
+      "impressions": 3770,
+      "engagements": 342,
+      "likes": 116,
+      "shares": 0,
+      "replies": 58
+    },
+    {
+      "date": "Thu May 01 2025",
+      "followers": 465,
+      "impressions": 24492,
+      "engagements": 2379,
+      "likes": 412,
+      "shares": 8,
+      "replies": 132
+    },
+    {
+      "date": "Fri May 02 2025",
+      "followers": 465,
+      "impressions": 16067,
+      "engagements": 853,
+      "likes": 203,
+      "shares": 3,
+      "replies": 62
+    },
+    {
+      "date": "Sat May 03 2025",
+      "followers": 465,
+      "impressions": 6770,
+      "engagements": 278,
+      "likes": 49,
+      "shares": 0,
+      "replies": 16
+    },
+    {
+      "date": "Sun May 04 2025",
+      "followers": 465,
+      "impressions": 3400,
+      "engagements": 136,
+      "likes": 13,
+      "shares": 0,
+      "replies": 5
+    },
+    {
+      "date": "Mon May 05 2025",
+      "followers": 465,
+      "impressions": 5484,
+      "engagements": 391,
+      "likes": 127,
+      "shares": 1,
+      "replies": 56
+    },
+    {
+      "date": "Tue May 06 2025",
+      "followers": 465,
+      "impressions": 11795,
+      "engagements": 709,
+      "likes": 218,
+      "shares": 2,
+      "replies": 77
+    },
+    {
+      "date": "Wed May 07 2025",
+      "followers": 465,
+      "impressions": 9262,
+      "engagements": 389,
+      "likes": 132,
+      "shares": 3,
+      "replies": 54
+    },
+    {
+      "date": "Thu May 08 2025",
+      "followers": 465,
+      "impressions": 4655,
+      "engagements": 251,
+      "likes": 68,
+      "shares": 0,
+      "replies": 40
+    },
+    {
+      "date": "Fri May 09 2025",
+      "followers": 465,
+      "impressions": 2410,
+      "engagements": 200,
+      "likes": 55,
+      "shares": 0,
+      "replies": 40
+    },
+    {
+      "date": "Sat May 10 2025",
+      "followers": 465,
+      "impressions": 1189,
+      "engagements": 78,
+      "likes": 14,
+      "shares": 0,
+      "replies": 7
+    },
+    {
+      "date": "Sun May 11 2025",
+      "followers": 466,
+      "impressions": 553,
+      "engagements": 49,
+      "likes": 15,
+      "shares": 0,
+      "replies": 10
+    },
+    {
+      "date": "Mon May 12 2025",
+      "followers": 466,
+      "impressions": 1430,
+      "engagements": 194,
+      "likes": 52,
+      "shares": 0,
+      "replies": 20
+    },
+    {
+      "date": "Tue May 13 2025",
+      "followers": 466,
+      "impressions": 6933,
+      "engagements": 355,
+      "likes": 150,
+      "shares": 1,
+      "replies": 38
+    },
+    {
+      "date": "Wed May 14 2025",
+      "followers": 466,
+      "impressions": 2491,
+      "engagements": 178,
+      "likes": 51,
+      "shares": 1,
+      "replies": 15
+    },
+    {
+      "date": "Thu May 15 2025",
+      "followers": 466,
+      "impressions": 2533,
+      "engagements": 368,
+      "likes": 140,
+      "shares": 1,
+      "replies": 34
+    },
+    {
+      "date": "Fri May 16 2025",
+      "followers": 466,
+      "impressions": 2277,
+      "engagements": 331,
+      "likes": 86,
+      "shares": 4,
+      "replies": 18
+    },
+    {
+      "date": "Sat May 17 2025",
+      "followers": 467,
+      "impressions": 1360,
+      "engagements": 163,
+      "likes": 15,
+      "shares": 1,
+      "replies": 3
+    },
+    {
+      "date": "Sun May 18 2025",
+      "followers": 467,
+      "impressions": 766,
+      "engagements": 101,
+      "likes": 3,
+      "shares": 0,
+      "replies": 1
+    },
+    {
+      "date": "Mon May 19 2025",
+      "followers": 467,
+      "impressions": 1536,
+      "engagements": 211,
+      "likes": 45,
+      "shares": 0,
+      "replies": 22
+    },
+    {
+      "date": "Tue May 20 2025",
+      "followers": 467,
+      "impressions": 1435,
+      "engagements": 117,
+      "likes": 27,
+      "shares": 0,
+      "replies": 9
+    },
+    {
+      "date": "Wed May 21 2025",
+      "followers": 467,
+      "impressions": 1646,
+      "engagements": 170,
+      "likes": 54,
+      "shares": 1,
+      "replies": 23
+    },
+    {
+      "date": "Thu May 22 2025",
+      "followers": 467,
+      "impressions": 1468,
+      "engagements": 119,
+      "likes": 42,
+      "shares": 0,
+      "replies": 14
+    },
+    {
+      "date": "Fri May 23 2025",
+      "followers": 467,
+      "impressions": 1358,
+      "engagements": 163,
+      "likes": 39,
+      "shares": 0,
+      "replies": 18
+    },
+    {
+      "date": "Sat May 24 2025",
+      "followers": 467,
+      "impressions": 1459,
+      "engagements": 136,
+      "likes": 38,
+      "shares": 0,
+      "replies": 21
+    },
+    {
+      "date": "Sun May 25 2025",
+      "followers": 467,
+      "impressions": 945,
+      "engagements": 87,
+      "likes": 18,
+      "shares": 0,
+      "replies": 9
+    },
+    {
+      "date": "Mon May 26 2025",
+      "followers": 467,
+      "impressions": 1510,
+      "engagements": 190,
+      "likes": 39,
+      "shares": 0,
+      "replies": 22
+    },
+    {
+      "date": "Tue May 27 2025",
+      "followers": 467,
+      "impressions": 1210,
+      "engagements": 115,
+      "likes": 47,
+      "shares": 0,
+      "replies": 16
+    },
+    {
+      "date": "Wed May 28 2025",
+      "followers": 467,
+      "impressions": 1013,
+      "engagements": 83,
+      "likes": 21,
+      "shares": 0,
+      "replies": 11
+    },
+    {
+      "date": "Thu May 29 2025",
+      "followers": 467,
+      "impressions": 1254,
+      "engagements": 197,
+      "likes": 55,
+      "shares": 0,
+      "replies": 37
+    },
+    {
+      "date": "Fri May 30 2025",
+      "followers": 467,
+      "impressions": 1859,
+      "engagements": 277,
+      "likes": 81,
+      "shares": 0,
+      "replies": 53
+    },
+    {
+      "date": "Sat May 31 2025",
+      "followers": 467,
+      "impressions": 1129,
+      "engagements": 140,
+      "likes": 45,
+      "shares": 0,
+      "replies": 31
+    },
+    {
+      "date": "Sun Jun 01 2025",
+      "followers": 467,
+      "impressions": 1763,
+      "engagements": 193,
+      "likes": 61,
+      "shares": 0,
+      "replies": 19
+    },
+    {
+      "date": "Mon Jun 02 2025",
+      "followers": 467,
+      "impressions": 1845,
+      "engagements": 277,
+      "likes": 72,
+      "shares": 0,
+      "replies": 50
+    },
+    {
+      "date": "Tue Jun 03 2025",
+      "followers": 467,
+      "impressions": 2086,
+      "engagements": 232,
+      "likes": 76,
+      "shares": 0,
+      "replies": 33
+    },
+    {
+      "date": "Wed Jun 04 2025",
+      "followers": 467,
+      "impressions": 1504,
+      "engagements": 207,
+      "likes": 73,
+      "shares": 0,
+      "replies": 33
+    },
+    {
+      "date": "Thu Jun 05 2025",
+      "followers": 467,
+      "impressions": 1299,
+      "engagements": 229,
+      "likes": 77,
+      "shares": 0,
+      "replies": 38
+    },
+    {
+      "date": "Fri Jun 06 2025",
+      "followers": 467,
+      "impressions": 4278,
+      "engagements": 447,
+      "likes": 84,
+      "shares": 2,
+      "replies": 32
+    },
+    {
+      "date": "Sat Jun 07 2025",
+      "followers": 467,
+      "impressions": 2323,
+      "engagements": 118,
+      "likes": 27,
+      "shares": 0,
+      "replies": 16
+    },
+    {
+      "date": "Sun Jun 08 2025",
+      "followers": 468,
+      "impressions": 763,
+      "engagements": 43,
+      "likes": 7,
+      "shares": 1,
+      "replies": 1
+    },
+    {
+      "date": "Mon Jun 09 2025",
+      "followers": 468,
+      "impressions": 1975,
+      "engagements": 226,
+      "likes": 83,
+      "shares": 1,
+      "replies": 39
+    },
+    {
+      "date": "Tue Jun 10 2025",
+      "followers": 468,
+      "impressions": 1418,
+      "engagements": 227,
+      "likes": 85,
+      "shares": 1,
+      "replies": 34
+    },
+    {
+      "date": "Wed Jun 11 2025",
+      "followers": 468,
+      "impressions": 1266,
+      "engagements": 119,
+      "likes": 34,
+      "shares": 5,
+      "replies": 13
+    },
+    {
+      "date": "Thu Jun 12 2025",
+      "followers": 468,
+      "impressions": 976,
+      "engagements": 160,
+      "likes": 54,
+      "shares": 0,
+      "replies": 28
+    },
+    {
+      "date": "Fri Jun 13 2025",
+      "followers": 468,
+      "impressions": 2315,
+      "engagements": 222,
+      "likes": 59,
+      "shares": 0,
+      "replies": 32
+    },
+    {
+      "date": "Sat Jun 14 2025",
+      "followers": 468,
+      "impressions": 2316,
+      "engagements": 361,
+      "likes": 76,
+      "shares": 4,
+      "replies": 45
+    },
+    {
+      "date": "Sun Jun 15 2025",
+      "followers": 468,
+      "impressions": 1521,
+      "engagements": 106,
+      "likes": 27,
+      "shares": 2,
+      "replies": 15
+    },
+    {
+      "date": "Mon Jun 16 2025",
+      "followers": 468,
+      "impressions": 1459,
+      "engagements": 158,
+      "likes": 46,
+      "shares": 1,
+      "replies": 26
+    },
+    {
+      "date": "Tue Jun 17 2025",
+      "followers": 469,
+      "impressions": 1220,
+      "engagements": 88,
+      "likes": 24,
+      "shares": 0,
+      "replies": 5
+    },
+    {
+      "date": "Wed Jun 18 2025",
+      "followers": 469,
+      "impressions": 1099,
+      "engagements": 164,
+      "likes": 46,
+      "shares": 0,
+      "replies": 26
+    },
+    {
+      "date": "Thu Jun 19 2025",
+      "followers": 469,
+      "impressions": 2126,
+      "engagements": 326,
+      "likes": 97,
+      "shares": 0,
+      "replies": 54
+    },
+    {
+      "date": "Fri Jun 20 2025",
+      "followers": 469,
+      "impressions": 1464,
+      "engagements": 179,
+      "likes": 64,
+      "shares": 0,
+      "replies": 33
+    },
+    {
+      "date": "Sat Jun 21 2025",
+      "followers": 469,
+      "impressions": 1813,
+      "engagements": 314,
+      "likes": 100,
+      "shares": 3,
+      "replies": 46
+    },
+    {
+      "date": "Sun Jun 22 2025",
+      "followers": 469,
+      "impressions": 1922,
+      "engagements": 226,
+      "likes": 62,
+      "shares": 1,
+      "replies": 43
+    },
+    {
+      "date": "Mon Jun 23 2025",
+      "followers": 469,
+      "impressions": 2333,
+      "engagements": 272,
+      "likes": 80,
+      "shares": 0,
+      "replies": 44
+    },
+    {
+      "date": "Tue Jun 24 2025",
+      "followers": 469,
+      "impressions": 988,
+      "engagements": 139,
+      "likes": 41,
+      "shares": 0,
+      "replies": 23
+    },
+    {
+      "date": "Wed Jun 25 2025",
+      "followers": 469,
+      "impressions": 1120,
+      "engagements": 181,
+      "likes": 64,
+      "shares": 0,
+      "replies": 34
+    },
+    {
+      "date": "Thu Jun 26 2025",
+      "followers": 469,
+      "impressions": 1689,
+      "engagements": 196,
+      "likes": 54,
+      "shares": 0,
+      "replies": 36
+    },
+    {
+      "date": "Fri Jun 27 2025",
+      "followers": 469,
+      "impressions": 1214,
+      "engagements": 170,
+      "likes": 59,
+      "shares": 0,
+      "replies": 32
+    },
+    {
+      "date": "Sat Jun 28 2025",
+      "followers": 469,
+      "impressions": 1474,
+      "engagements": 209,
+      "likes": 60,
+      "shares": 0,
+      "replies": 31
+    },
+    {
+      "date": "Sun Jun 29 2025",
+      "followers": 470,
+      "impressions": 757,
+      "engagements": 40,
+      "likes": 12,
+      "shares": 0,
+      "replies": 2
+    },
+    {
+      "date": "Mon Jun 30 2025",
+      "followers": 470,
+      "impressions": 1760,
+      "engagements": 183,
+      "likes": 52,
+      "shares": 0,
+      "replies": 29
+    },
+    {
+      "date": "Tue Jul 01 2025",
+      "followers": 490,
+      "impressions": 107002,
+      "engagements": 2216,
+      "likes": 1177,
+      "shares": 1,
+      "replies": 115
+    },
+    {
+      "date": "Wed Jul 02 2025",
+      "followers": 493,
+      "impressions": 86592,
+      "engagements": 1373,
+      "likes": 679,
+      "shares": 0,
+      "replies": 101
+    },
+    {
+      "date": "Thu Jul 03 2025",
+      "followers": 499,
+      "impressions": 42381,
+      "engagements": 1311,
+      "likes": 550,
+      "shares": 1,
+      "replies": 89
+    },
+    {
+      "date": "Fri Jul 04 2025",
+      "followers": 513,
+      "impressions": 83170,
+      "engagements": 2237,
+      "likes": 955,
+      "shares": 0,
+      "replies": 113
+    },
+    {
+      "date": "Sat Jul 05 2025",
+      "followers": 551,
+      "impressions": 39213,
+      "engagements": 1347,
+      "likes": 512,
+      "shares": 0,
+      "replies": 66
+    },
+    {
+      "date": "Sun Jul 06 2025",
+      "followers": 604,
+      "impressions": 62586,
+      "engagements": 973,
+      "likes": 248,
+      "shares": 0,
+      "replies": 42
+    },
+    {
+      "date": "Mon Jul 07 2025",
+      "followers": 659,
+      "impressions": 4173,
+      "engagements": 1080,
+      "likes": 340,
+      "shares": 22,
+      "replies": 29
+    },
+    {
+      "date": "Tue Jul 08 2025",
+      "followers": 688,
+      "impressions": 2679,
+      "engagements": 371,
+      "likes": 44,
+      "shares": 4,
+      "replies": 13
+    },
+    {
+      "date": "Wed Jul 09 2025",
+      "followers": 698,
+      "impressions": 113671,
+      "engagements": 1274,
+      "likes": 592,
+      "shares": 0,
+      "replies": 68
+    },
+    {
+      "date": "Thu Jul 10 2025",
+      "followers": 732,
+      "impressions": 3014,
+      "engagements": 876,
+      "likes": 377,
+      "shares": 0,
+      "replies": 37
+    },
+    {
+      "date": "Fri Jul 11 2025",
+      "followers": 764,
+      "impressions": 2712,
+      "engagements": 1142,
+      "likes": 724,
+      "shares": 0,
+      "replies": 35
+    },
+    {
+      "date": "Sat Jul 12 2025",
+      "followers": 796,
+      "impressions": 2704,
+      "engagements": 740,
+      "likes": 184,
+      "shares": 0,
+      "replies": 39
+    },
+    {
+      "date": "Sun Jul 13 2025",
+      "followers": 828,
+      "impressions": 220355,
+      "engagements": 903,
+      "likes": 568,
+      "shares": 0,
+      "replies": 25
+    },
+    {
+      "date": "Mon Jul 14 2025",
+      "followers": 843,
+      "impressions": 1531,
+      "engagements": 247,
+      "likes": 21,
+      "shares": 0,
+      "replies": 6
+    },
+    {
+      "date": "Tue Jul 15 2025",
+      "followers": 862,
+      "impressions": 3188,
+      "engagements": 541,
+      "likes": 252,
+      "shares": 0,
+      "replies": 88
+    },
+    {
+      "date": "Wed Jul 16 2025",
+      "followers": 862,
+      "impressions": 2493,
+      "engagements": 220,
+      "likes": 87,
+      "shares": 0,
+      "replies": 41
+    },
+    {
+      "date": "Thu Jul 17 2025",
+      "followers": 862,
+      "impressions": 2696,
+      "engagements": 608,
+      "likes": 476,
+      "shares": 0,
+      "replies": 45
+    },
+    {
+      "date": "Fri Jul 18 2025",
+      "followers": 865,
+      "impressions": 1972,
+      "engagements": 159,
+      "likes": 56,
+      "shares": 0,
+      "replies": 12
+    },
+    {
+      "date": "Sat Jul 19 2025",
+      "followers": 865,
+      "impressions": 169854,
+      "engagements": 1071,
+      "likes": 942,
+      "shares": 0,
+      "replies": 49
+    },
+    {
+      "date": "Sun Jul 20 2025",
+      "followers": 865,
+      "impressions": 1808,
+      "engagements": 204,
+      "likes": 55,
+      "shares": 2,
+      "replies": 3
+    },
+    {
+      "date": "Mon Jul 21 2025",
+      "followers": 867,
+      "impressions": 1723,
+      "engagements": 41,
+      "likes": 9,
+      "shares": 0,
+      "replies": 0
+    },
+    {
+      "date": "Tue Jul 22 2025",
+      "followers": 869,
+      "impressions": 2417,
+      "engagements": 215,
+      "likes": 148,
+      "shares": 0,
+      "replies": 3
+    },
+    {
+      "date": "Wed Jul 23 2025",
+      "followers": 869,
+      "impressions": 1663,
+      "engagements": 246,
+      "likes": 179,
+      "shares": 1,
+      "replies": 20
+    },
+    {
+      "date": "Thu Jul 24 2025",
+      "followers": 869,
+      "impressions": 83042,
+      "engagements": 550,
+      "likes": 449,
+      "shares": 0,
+      "replies": 37
+    },
+    {
+      "date": "Fri Jul 25 2025",
+      "followers": 869,
+      "impressions": 1611,
+      "engagements": 394,
+      "likes": 314,
+      "shares": 0,
+      "replies": 10
+    },
+    {
+      "date": "Sat Jul 26 2025",
+      "followers": 869,
+      "impressions": 1273,
+      "engagements": 258,
+      "likes": 169,
+      "shares": 0,
+      "replies": 6
+    },
+    {
+      "date": "Sun Jul 27 2025",
+      "followers": 869,
+      "impressions": 60461,
+      "engagements": 267,
+      "likes": 171,
+      "shares": 0,
+      "replies": 41
+    },
+    {
+      "date": "Mon Jul 28 2025",
+      "followers": 869,
+      "impressions": 2104,
+      "engagements": 369,
+      "likes": 197,
+      "shares": 0,
+      "replies": 41
+    },
+    {
+      "date": "Tue Jul 29 2025",
+      "followers": 875,
+      "impressions": 1354,
+      "engagements": 227,
+      "likes": 47,
+      "shares": 0,
+      "replies": 34
+    },
+    {
+      "date": "Wed Jul 30 2025",
+      "followers": 882,
+      "impressions": 19188,
+      "engagements": 806,
+      "likes": 399,
+      "shares": 0,
+      "replies": 46
+    },
+    {
+      "date": "Thu Jul 31 2025",
+      "followers": 890,
+      "impressions": 76605,
+      "engagements": 797,
+      "likes": 355,
+      "shares": 0,
+      "replies": 61
+    },
+    {
+      "date": "Fri Aug 01 2025",
+      "followers": 906,
+      "impressions": 29798,
+      "engagements": 784,
+      "likes": 334,
+      "shares": 1,
+      "replies": 49
+    },
+    {
+      "date": "Sat Aug 02 2025",
+      "followers": 913,
+      "impressions": 19842,
+      "engagements": 626,
+      "likes": 212,
+      "shares": 2,
+      "replies": 64
+    },
+    {
+      "date": "Sun Aug 03 2025",
+      "followers": 919,
+      "impressions": 3145,
+      "engagements": 892,
+      "likes": 492,
+      "shares": 0,
+      "replies": 73
+    },
+    {
+      "date": "Mon Aug 04 2025",
+      "followers": 930,
+      "impressions": 2927,
+      "engagements": 665,
+      "likes": 222,
+      "shares": 0,
+      "replies": 71
+    },
+    {
+      "date": "Tue Aug 05 2025",
+      "followers": 946,
+      "impressions": 2368,
+      "engagements": 568,
+      "likes": 106,
+      "shares": 1,
+      "replies": 77
+    },
+    {
+      "date": "Wed Aug 06 2025",
+      "followers": 958,
+      "impressions": 2442,
+      "engagements": 726,
+      "likes": 134,
+      "shares": 0,
+      "replies": 106
+    },
+    {
+      "date": "Thu Aug 07 2025",
+      "followers": 967,
+      "impressions": 2345,
+      "engagements": 411,
+      "likes": 83,
+      "shares": 1,
+      "replies": 66
+    },
+    {
+      "date": "Fri Aug 08 2025",
+      "followers": 967,
+      "impressions": 2951,
+      "engagements": 549,
+      "likes": 149,
+      "shares": 0,
+      "replies": 113
+    },
+    {
+      "date": "Sat Aug 09 2025",
+      "followers": 967,
+      "impressions": 2842,
+      "engagements": 540,
+      "likes": 139,
+      "shares": 0,
+      "replies": 101
+    },
+    {
+      "date": "Sun Aug 10 2025",
+      "followers": 967,
+      "impressions": 2149,
+      "engagements": 455,
+      "likes": 112,
+      "shares": 0,
+      "replies": 91
+    },
+    {
+      "date": "Mon Aug 11 2025",
+      "followers": 967,
+      "impressions": 2457,
+      "engagements": 444,
+      "likes": 116,
+      "shares": 1,
+      "replies": 99
+    },
+    {
+      "date": "Tue Aug 12 2025",
+      "followers": 967,
+      "impressions": 3640,
+      "engagements": 763,
+      "likes": 150,
+      "shares": 2,
+      "replies": 125
+    },
+    {
+      "date": "Wed Aug 13 2025",
+      "followers": 967,
+      "impressions": 2462,
+      "engagements": 272,
+      "likes": 51,
+      "shares": 4,
+      "replies": 28
+    },
+    {
+      "date": "Thu Aug 14 2025",
+      "followers": 1080,
+      "impressions": 2580,
+      "engagements": 1178,
+      "likes": 173,
+      "shares": 0,
+      "replies": 40
+    },
+    {
+      "date": "Fri Aug 15 2025",
+      "followers": 1225,
+      "impressions": 3646,
+      "engagements": 2353,
+      "likes": 969,
+      "shares": 0,
+      "replies": 97
+    },
+    {
+      "date": "Sat Aug 16 2025",
+      "followers": 1244,
+      "impressions": 5511,
+      "engagements": 1163,
+      "likes": 246,
+      "shares": 0,
+      "replies": 160
+    },
+    {
+      "date": "Sun Aug 17 2025",
+      "followers": 1273,
+      "impressions": 3848,
+      "engagements": 818,
+      "likes": 150,
+      "shares": 0,
+      "replies": 92
+    },
+    {
+      "date": "Mon Aug 18 2025",
+      "followers": 1346,
+      "impressions": 5470,
+      "engagements": 2113,
+      "likes": 807,
+      "shares": 0,
+      "replies": 155
+    },
+    {
+      "date": "Tue Aug 19 2025",
+      "followers": 1346,
+      "impressions": 5759,
+      "engagements": 872,
+      "likes": 206,
+      "shares": 0,
+      "replies": 170
+    },
+    {
+      "date": "Wed Aug 20 2025",
+      "followers": 1346,
+      "impressions": 6028,
+      "engagements": 1270,
+      "likes": 334,
+      "shares": 1,
+      "replies": 263
+    },
+    {
+      "date": "Thu Aug 21 2025",
+      "followers": 1346,
+      "impressions": 3847,
+      "engagements": 1173,
+      "likes": 305,
+      "shares": 2,
+      "replies": 212
+    },
+    {
+      "date": "Fri Aug 22 2025",
+      "followers": 1346,
+      "impressions": 6329,
+      "engagements": 1488,
+      "likes": 374,
+      "shares": 0,
+      "replies": 293
+    },
+    {
+      "date": "Sat Aug 23 2025",
+      "followers": 1346,
+      "impressions": 3937,
+      "engagements": 675,
+      "likes": 181,
+      "shares": 2,
+      "replies": 118
+    },
+    {
+      "date": "Sun Aug 24 2025",
+      "followers": 1346,
+      "impressions": 7362,
+      "engagements": 1436,
+      "likes": 443,
+      "shares": 1,
+      "replies": 357
+    },
+    {
+      "date": "Mon Aug 25 2025",
+      "followers": 1346,
+      "impressions": 8786,
+      "engagements": 1271,
+      "likes": 300,
+      "shares": 3,
+      "replies": 221
+    },
+    {
+      "date": "Tue Aug 26 2025",
+      "followers": 1346,
+      "impressions": 6342,
+      "engagements": 1253,
+      "likes": 379,
+      "shares": 0,
+      "replies": 283
+    },
+    {
+      "date": "Wed Aug 27 2025",
+      "followers": 1346,
+      "impressions": 4951,
+      "engagements": 994,
+      "likes": 219,
+      "shares": 0,
+      "replies": 167
+    },
+    {
+      "date": "Thu Aug 28 2025",
+      "followers": 1346,
+      "impressions": 4122,
+      "engagements": 762,
+      "likes": 195,
+      "shares": 0,
+      "replies": 136
+    },
+    {
+      "date": "Fri Aug 29 2025",
+      "followers": 1346,
+      "impressions": 3560,
+      "engagements": 630,
+      "likes": 174,
+      "shares": 0,
+      "replies": 124
+    },
+    {
+      "date": "Sat Aug 30 2025",
+      "followers": 1346,
+      "impressions": 2361,
+      "engagements": 532,
+      "likes": 132,
+      "shares": 0,
+      "replies": 97
+    },
+    {
+      "date": "Sun Aug 31 2025",
+      "followers": 1346,
+      "impressions": 4212,
+      "engagements": 822,
+      "likes": 245,
+      "shares": 0,
+      "replies": 166
+    },
+    {
+      "date": "Mon Sep 01 2025",
+      "followers": 1346,
+      "impressions": 4490,
+      "engagements": 871,
+      "likes": 217,
+      "shares": 1,
+      "replies": 130
+    },
+    {
+      "date": "Tue Sep 02 2025",
+      "followers": 1346,
+      "impressions": 5002,
+      "engagements": 683,
+      "likes": 183,
+      "shares": 0,
+      "replies": 110
+    },
+    {
+      "date": "Wed Sep 03 2025",
+      "followers": 1346,
+      "impressions": 3739,
+      "engagements": 738,
+      "likes": 197,
+      "shares": 0,
+      "replies": 128
+    },
+    {
+      "date": "Thu Sep 04 2025",
+      "followers": 1346,
+      "impressions": 2984,
+      "engagements": 516,
+      "likes": 131,
+      "shares": 0,
+      "replies": 90
+    },
+    {
+      "date": "Fri Sep 05 2025",
+      "followers": 1346,
+      "impressions": 3666,
+      "engagements": 696,
+      "likes": 154,
+      "shares": 1,
+      "replies": 98
+    },
+    {
+      "date": "Sat Sep 06 2025",
+      "followers": 1346,
+      "impressions": 2010,
+      "engagements": 309,
+      "likes": 70,
+      "shares": 0,
+      "replies": 41
+    },
+    {
+      "date": "Sun Sep 07 2025",
+      "followers": 1346,
+      "impressions": 2816,
+      "engagements": 555,
+      "likes": 161,
+      "shares": 0,
       "replies": 112
     },
     {
-      "date": "Tue, Oct 14, 2025",
-      "followers": 26083,
-      "impressions": 12206,
-      "engagements": 13655,
-      "likes": 313,
-      "shares": 1,
-      "replies": 111
+      "date": "Mon Sep 08 2025",
+      "followers": 1346,
+      "impressions": 3398,
+      "engagements": 553,
+      "likes": 165,
+      "shares": 0,
+      "replies": 99
     },
     {
-      "date": "Mon, Oct 13, 2025",
-      "followers": 26083,
-      "impressions": 16626,
-      "engagements": 18587,
-      "likes": 311,
-      "shares": 4,
-      "replies": 109
+      "date": "Tue Sep 09 2025",
+      "followers": 1346,
+      "impressions": 4256,
+      "engagements": 774,
+      "likes": 215,
+      "shares": 0,
+      "replies": 161
     },
     {
-      "date": "Sun, Oct 12, 2025",
-      "followers": 26083,
-      "impressions": 28766,
-      "engagements": 3092,
-      "likes": 378,
+      "date": "Wed Sep 10 2025",
+      "followers": 1346,
+      "impressions": 40566,
+      "engagements": 3526,
+      "likes": 552,
+      "shares": 9,
+      "replies": 270
+    },
+    {
+      "date": "Thu Sep 11 2025",
+      "followers": 1346,
+      "impressions": 47302,
+      "engagements": 4251,
+      "likes": 992,
+      "shares": 11,
+      "replies": 510
+    },
+    {
+      "date": "Fri Sep 12 2025",
+      "followers": 1346,
+      "impressions": 20055,
+      "engagements": 1864,
+      "likes": 485,
+      "shares": 2,
+      "replies": 250
+    },
+    {
+      "date": "Sat Sep 13 2025",
+      "followers": 1346,
+      "impressions": 13042,
+      "engagements": 1097,
+      "likes": 299,
+      "shares": 10,
+      "replies": 129
+    },
+    {
+      "date": "Sun Sep 14 2025",
+      "followers": 1359,
+      "impressions": 32016,
+      "engagements": 1582,
+      "likes": 282,
       "shares": 3,
+      "replies": 83
+    },
+    {
+      "date": "Mon Sep 15 2025",
+      "followers": 1420,
+      "impressions": 78057,
+      "engagements": 3064,
+      "likes": 439,
+      "shares": 8,
+      "replies": 177
+    },
+    {
+      "date": "Tue Sep 16 2025",
+      "followers": 1442,
+      "impressions": 66736,
+      "engagements": 4028,
+      "likes": 846,
+      "shares": 5,
+      "replies": 473
+    },
+    {
+      "date": "Wed Sep 17 2025",
+      "followers": 1509,
+      "impressions": 37668,
+      "engagements": 2552,
+      "likes": 422,
+      "shares": 5,
+      "replies": 192
+    },
+    {
+      "date": "Thu Sep 18 2025",
+      "followers": 1564,
+      "impressions": 26587,
+      "engagements": 2060,
+      "likes": 336,
+      "shares": 7,
+      "replies": 161
+    },
+    {
+      "date": "Fri Sep 19 2025",
+      "followers": 1697,
+      "impressions": 26728,
+      "engagements": 3115,
+      "likes": 555,
+      "shares": 6,
+      "replies": 333
+    },
+    {
+      "date": "Sat Sep 20 2025",
+      "followers": 1755,
+      "impressions": 19617,
+      "engagements": 1869,
+      "likes": 423,
+      "shares": 2,
+      "replies": 123
+    },
+    {
+      "date": "Sun Sep 21 2025",
+      "followers": 1928,
+      "impressions": 23907,
+      "engagements": 3242,
+      "likes": 541,
+      "shares": 3,
+      "replies": 215
+    },
+    {
+      "date": "Mon Sep 22 2025",
+      "followers": 2128,
+      "impressions": 70792,
+      "engagements": 4419,
+      "likes": 527,
+      "shares": 13,
+      "replies": 210
+    },
+    {
+      "date": "Tue Sep 23 2025",
+      "followers": 2149,
+      "impressions": 37148,
+      "engagements": 3032,
+      "likes": 740,
+      "shares": 7,
+      "replies": 368
+    },
+    {
+      "date": "Wed Sep 24 2025",
+      "followers": 2149,
+      "impressions": 25892,
+      "engagements": 1536,
+      "likes": 491,
+      "shares": 5,
+      "replies": 95
+    },
+    {
+      "date": "Thu Sep 25 2025",
+      "followers": 2156,
+      "impressions": 18918,
+      "engagements": 621,
+      "likes": 94,
+      "shares": 4,
+      "replies": 26
+    },
+    {
+      "date": "Fri Sep 26 2025",
+      "followers": 2156,
+      "impressions": 21982,
+      "engagements": 1951,
+      "likes": 556,
+      "shares": 4,
+      "replies": 301
+    },
+    {
+      "date": "Sat Sep 27 2025",
+      "followers": 2156,
+      "impressions": 30983,
+      "engagements": 2202,
+      "likes": 664,
+      "shares": 4,
+      "replies": 296
+    },
+    {
+      "date": "Sun Sep 28 2025",
+      "followers": 2156,
+      "impressions": 16381,
+      "engagements": 1148,
+      "likes": 275,
+      "shares": 4,
       "replies": 108
     },
     {
-      "date": "Sat, Oct 11, 2025",
-      "followers": 26083,
-      "impressions": 24704,
-      "engagements": 21126,
-      "likes": 503,
+      "date": "Mon Sep 29 2025",
+      "followers": 2245,
+      "impressions": 25345,
+      "engagements": 2415,
+      "likes": 499,
+      "shares": 4,
+      "replies": 298
+    },
+    {
+      "date": "Tue Sep 30 2025",
+      "followers": 5561,
+      "impressions": 26182,
+      "engagements": 25399,
+      "likes": 464,
+      "shares": 8,
+      "replies": 245
+    },
+    {
+      "date": "Wed Oct 01 2025",
+      "followers": 6313,
+      "impressions": 16289,
+      "engagements": 6204,
+      "likes": 263,
       "shares": 3,
-      "replies": 165
+      "replies": 155
     },
     {
-      "date": "Fri, Oct 10, 2025",
-      "followers": 26083,
-      "impressions": 21757,
-      "engagements": 1757,
-      "likes": 518,
+      "date": "Thu Oct 02 2025",
+      "followers": 9095,
+      "impressions": 17279,
+      "engagements": 21392,
+      "likes": 506,
+      "shares": 1,
+      "replies": 170
+    },
+    {
+      "date": "Fri Oct 03 2025",
+      "followers": 10855,
+      "impressions": 15830,
+      "engagements": 13792,
+      "likes": 392,
       "shares": 2,
-      "replies": 109
+      "replies": 241
     },
     {
-      "date": "Thu, Oct 9, 2025",
-      "followers": 26083,
+      "date": "Sat Oct 04 2025",
+      "followers": 12530,
+      "impressions": 17022,
+      "engagements": 13232,
+      "likes": 345,
+      "shares": 2,
+      "replies": 132
+    },
+    {
+      "date": "Sun Oct 05 2025",
+      "followers": 14290,
+      "impressions": 15238,
+      "engagements": 13417,
+      "likes": 233,
+      "shares": 6,
+      "replies": 65
+    },
+    {
+      "date": "Mon Oct 06 2025",
+      "followers": 16799,
+      "impressions": 33894,
+      "engagements": 19810,
+      "likes": 445,
+      "shares": 11,
+      "replies": 155
+    },
+    {
+      "date": "Tue Oct 07 2025",
+      "followers": 17555,
+      "impressions": 35450,
+      "engagements": 7063,
+      "likes": 377,
+      "shares": 7,
+      "replies": 136
+    },
+    {
+      "date": "Wed Oct 08 2025",
+      "followers": 17638,
+      "impressions": 30257,
+      "engagements": 3379,
+      "likes": 649,
+      "shares": 7,
+      "replies": 275
+    },
+    {
+      "date": "Thu Oct 09 2025",
+      "followers": 17658,
       "impressions": 32894,
       "engagements": 1652,
       "likes": 382,
       "shares": 3,
-      "replies": 75
+      "replies": 196
+    },
+    {
+      "date": "Fri Oct 10 2025",
+      "followers": 17658,
+      "impressions": 21757,
+      "engagements": 1757,
+      "likes": 518,
+      "shares": 2,
+      "replies": 282
+    },
+    {
+      "date": "Sat Oct 11 2025",
+      "followers": 20378,
+      "impressions": 24704,
+      "engagements": 21126,
+      "likes": 503,
+      "shares": 3,
+      "replies": 193
+    },
+    {
+      "date": "Sun Oct 12 2025",
+      "followers": 20621,
+      "impressions": 28766,
+      "engagements": 3092,
+      "likes": 378,
+      "shares": 3,
+      "replies": 114
+    },
+    {
+      "date": "Mon Oct 13 2025",
+      "followers": 23084,
+      "impressions": 16626,
+      "engagements": 18587,
+      "likes": 311,
+      "shares": 4,
+      "replies": 116
+    },
+    {
+      "date": "Tue Oct 14 2025",
+      "followers": 24846,
+      "impressions": 12206,
+      "engagements": 13655,
+      "likes": 313,
+      "shares": 1,
+      "replies": 134
+    },
+    {
+      "date": "Wed Oct 15 2025",
+      "followers": 26083,
+      "impressions": 21754,
+      "engagements": 10885,
+      "likes": 621,
+      "shares": 5,
+      "replies": 330
+    },
+    {
+      "date": "Thu Oct 16 2025",
+      "followers": 26083,
+      "impressions": 3337,
+      "engagements": 176,
+      "likes": 32,
+      "shares": 3,
+      "replies": 15
     }
   ]
 }
