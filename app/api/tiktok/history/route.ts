@@ -21,7 +21,8 @@ export async function GET() {
           label: 'TikTok Followers',
           data: json.data.map(d => d.followers),
           borderColor: '#CCCCCC',
-          backgroundColor: 'rgba(204, 204, 204, 0.1)',
+          backgroundColor: 'rgba(204, 204, 204, 0.15)',
+          fill: true,
           tension: 0.2,
         },
         {
@@ -29,6 +30,7 @@ export async function GET() {
           data: json.data.map(d => d.likes),
           borderColor: 'rgb(75, 192, 192)',
           backgroundColor: 'rgba(75, 192, 192, 0.1)',
+          fill: true,
           tension: 0.2,
         },
         {
@@ -36,6 +38,7 @@ export async function GET() {
           data: json.data.map(d => d.videoViews),
           borderColor: 'rgb(255, 205, 86)',
           backgroundColor: 'rgba(255, 205, 86, 0.1)',
+          fill: true,
           tension: 0.2,
         },
         {
@@ -43,6 +46,7 @@ export async function GET() {
           data: json.data.map(d => d.profileViews),
           borderColor: 'rgb(153, 102, 255)',
           backgroundColor: 'rgba(153, 102, 255, 0.1)',
+          fill: true,
           tension: 0.2,
         },
       ],
