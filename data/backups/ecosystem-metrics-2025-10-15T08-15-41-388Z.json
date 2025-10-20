@@ -1,0 +1,225 @@
+{
+  "lastUpdated": "2025-10-15T08:03:11.536Z",
+  "timeframes": {
+    "24h": {
+      "date": "2025-10-15",
+      "summary": {
+        "totalFollowers": 0,
+        "totalViews": 0,
+        "totalEngagement": 0,
+        "totalClicks": 0
+      },
+      "platforms": {
+        "youtube": {
+          "name": "YouTube",
+          "subscribers": 0,
+          "views": 0,
+          "metricsCount": 2,
+          "color": "bg-red-500"
+        }
+      }
+    },
+    "7d": {
+      "date": "2025-01-15",
+      "summary": {
+        "totalFollowers": 131900,
+        "totalViews": 1050000,
+        "totalEngagement": 3000,
+        "totalClicks": 12000
+      },
+      "platforms": {
+        "x": {
+          "name": "X (Twitter)",
+          "followers": 15200,
+          "engagementRate": 4,
+          "metricsCount": 2,
+          "color": "bg-black"
+        },
+        "instagram": {
+          "name": "Instagram",
+          "followers": 28500,
+          "likes": 3000,
+          "metricsCount": 2,
+          "color": "bg-gradient-to-r from-purple-500 to-pink-500"
+        },
+        "youtube": {
+          "name": "YouTube",
+          "subscribers": 12100,
+          "views": 140000,
+          "metricsCount": 2,
+          "color": "bg-red-500"
+        },
+        "tiktok": {
+          "name": "TikTok",
+          "followers": 45000,
+          "views": 870000,
+          "metricsCount": 2,
+          "color": "bg-gradient-to-r from-red-500 to-purple-500"
+        },
+        "facebook": {
+          "name": "Facebook",
+          "followers": 18400,
+          "metricsCount": 1,
+          "color": "bg-blue-600"
+        },
+        "discord": {
+          "name": "Discord",
+          "members": 3300,
+          "metricsCount": 1,
+          "color": "bg-indigo-600"
+        }
+      }
+    },
+    "1m": {
+      "date": "2025-01-15",
+      "summary": {
+        "totalFollowers": 128000,
+        "totalViews": 930000,
+        "totalEngagement": 2700,
+        "totalClicks": 11000
+      },
+      "platforms": {
+        "x": {
+          "name": "X (Twitter)",
+          "followers": 14800,
+          "engagementRate": 3.7,
+          "metricsCount": 2,
+          "color": "bg-black"
+        },
+        "instagram": {
+          "name": "Instagram",
+          "followers": 27000,
+          "likes": 2800,
+          "metricsCount": 2,
+          "color": "bg-gradient-to-r from-purple-500 to-pink-500"
+        },
+        "youtube": {
+          "name": "YouTube",
+          "subscribers": 11500,
+          "views": 120000,
+          "metricsCount": 2,
+          "color": "bg-red-500"
+        },
+        "tiktok": {
+          "name": "TikTok",
+          "followers": 43000,
+          "views": 800000,
+          "metricsCount": 2,
+          "color": "bg-gradient-to-r from-red-500 to-purple-500"
+        },
+        "facebook": {
+          "name": "Facebook",
+          "followers": 17500,
+          "metricsCount": 1,
+          "color": "bg-blue-600"
+        },
+        "discord": {
+          "name": "Discord",
+          "members": 3100,
+          "metricsCount": 1,
+          "color": "bg-indigo-600"
+        }
+      }
+    },
+    "3m": {
+      "date": "2025-01-15",
+      "summary": {
+        "totalFollowers": 120000,
+        "totalViews": 800000,
+        "totalEngagement": 2200,
+        "totalClicks": 9500
+      },
+      "platforms": {
+        "x": {
+          "name": "X (Twitter)",
+          "followers": 14000,
+          "engagementRate": 3.2,
+          "metricsCount": 2,
+          "color": "bg-black"
+        },
+        "instagram": {
+          "name": "Instagram",
+          "followers": 25000,
+          "likes": 2500,
+          "metricsCount": 2,
+          "color": "bg-gradient-to-r from-purple-500 to-pink-500"
+        },
+        "youtube": {
+          "name": "YouTube",
+          "subscribers": 11000,
+          "views": 100000,
+          "metricsCount": 2,
+          "color": "bg-red-500"
+        },
+        "tiktok": {
+          "name": "TikTok",
+          "followers": 40000,
+          "views": 700000,
+          "metricsCount": 2,
+          "color": "bg-gradient-to-r from-red-500 to-purple-500"
+        },
+        "facebook": {
+          "name": "Facebook",
+          "followers": 16000,
+          "metricsCount": 1,
+          "color": "bg-blue-600"
+        },
+        "discord": {
+          "name": "Discord",
+          "members": 2900,
+          "metricsCount": 1,
+          "color": "bg-indigo-600"
+        }
+      }
+    }
+  },
+  "performanceTrends": {
+    "labels": [
+      "Jan 1",
+      "Jan 2",
+      "Jan 3",
+      "Jan 4",
+      "Jan 5",
+      "Jan 6",
+      "Jan 7",
+      "Jan 8",
+      "Jan 9",
+      "Jan 10",
+      "Jan 11",
+      "Jan 12",
+      "Jan 13",
+      "Jan 14",
+      "Jan 15"
+    ],
+    "datasets": [
+      {
+        "label": "value",
+        "data": [
+          25000,
+          30000,
+          45000,
+          35000,
+          60000,
+          55000,
+          70000,
+          85000,
+          90000,
+          75000,
+          80000,
+          65000,
+          70000,
+          75000,
+          80000
+        ],
+        "borderColor": "#8B5CF6",
+        "backgroundColor": "rgba(139, 92, 246, 0.1)",
+        "borderWidth": 2,
+        "fill": true,
+        "tension": 0.4,
+        "pointBackgroundColor": "#8B5CF6",
+        "pointBorderColor": "#8B5CF6",
+        "pointRadius": 4
+      }
+    ]
+  }
+}

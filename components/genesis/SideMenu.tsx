@@ -14,6 +14,7 @@ import {
   faMoneyCheckDollar,
   faRocket,
   faScaleBalanced,
+  faChartLine,
 } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useWeb3Modal } from "@web3modal/wagmi/react"
@@ -29,6 +30,11 @@ const SIDE_MENU_ITEMS = [
     name: "Dashboard",
     href: "/dashboard",
     icon: <FontAwesomeIcon icon={faCircleCheck} className="size-4" />,
+  },
+  {
+    name: "Ecosystem",
+    href: "/ecosystem",
+    icon: <FontAwesomeIcon icon={faChartLine} className="size-4" />,
   },
   // {
   //   name: "Genesis",
