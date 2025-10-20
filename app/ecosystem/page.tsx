@@ -57,16 +57,21 @@ type XStatVisibility = {
 }
 
 type LinkedinStatVisibility = { followers: boolean }
+type YouTubeStatVisibility = { subscribers: boolean }
+type TikTokStatVisibility = { followers: boolean; likes: boolean; videoViews: boolean; profileViews: boolean }
 
-function UnifiedEcosystemChart({ selectedTimeframe, visiblePlatforms, xStatVisibility, linkedinStatVisibility }: { 
+function UnifiedEcosystemChart({ selectedTimeframe, visiblePlatforms, xStatVisibility, linkedinStatVisibility, tiktokStatVisibility, youtubeStatVisibility }: { 
   selectedTimeframe: string
   visiblePlatforms: { [key: string]: boolean }
   xStatVisibility: { followers: boolean; impressions: boolean; engagements: boolean; likes: boolean }
   linkedinStatVisibility: { followers: boolean }
+  tiktokStatVisibility: { followers: boolean; likes: boolean; videoViews: boolean; profileViews: boolean }
+  youtubeStatVisibility: { subscribers: boolean }
 }) {
   const [youtubeData, setYoutubeData] = useState<any>(null)
   const [xData, setXData] = useState<any>(null)
   const [linkedinData, setLinkedinData] = useState<any>(null)
+  const [tiktokData, setTikTokData] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -132,10 +137,11 @@ function UnifiedEcosystemChart({ selectedTimeframe, visiblePlatforms, xStatVisib
       
       try {
         const origin = typeof window !== 'undefined' ? window.location.origin : ''
-        const [youtubeRes, xRes, linkedinRes] = await Promise.allSettled([
+        const [youtubeRes, xRes, linkedinRes, tiktokRes] = await Promise.allSettled([
           fetch(origin ? `${origin}/api/youtube/history` : '/api/youtube/history', { cache: 'no-store' }),
           fetch(origin ? `${origin}/api/x/history` : '/api/x/history', { cache: 'no-store' }),
-          fetch(origin ? `${origin}/api/linkedin/history` : '/api/linkedin/history', { cache: 'no-store' })
+          fetch(origin ? `${origin}/api/linkedin/history` : '/api/linkedin/history', { cache: 'no-store' }),
+          fetch(origin ? `${origin}/api/tiktok/history` : '/api/tiktok/history', { cache: 'no-store' })
         ])
 
         if (youtubeRes.status === 'fulfilled' && youtubeRes.value.ok) {
@@ -148,6 +154,9 @@ function UnifiedEcosystemChart({ selectedTimeframe, visiblePlatforms, xStatVisib
         
         if (linkedinRes.status === 'fulfilled' && linkedinRes.value.ok) {
           setLinkedinData(await linkedinRes.value.json())
+        }
+        if (tiktokRes.status === 'fulfilled' && tiktokRes.value.ok) {
+          setTikTokData(await tiktokRes.value.json())
         }
       } catch (e: any) {
         setError(e?.message ?? 'Failed to load data')
@@ -166,6 +175,7 @@ function UnifiedEcosystemChart({ selectedTimeframe, visiblePlatforms, xStatVisib
   const filteredYoutubeData = filterDataByTimeframe(youtubeData, selectedTimeframe)
   const filteredXData = filterDataByTimeframe(xData, selectedTimeframe)
   const filteredLinkedinData = filterDataByTimeframe(linkedinData, selectedTimeframe)
+  const filteredTikTokData = filterDataByTimeframe(tiktokData, selectedTimeframe)
 
   const datasets: any[] = []
   let labels: string[] = []
@@ -182,6 +192,9 @@ function UnifiedEcosystemChart({ selectedTimeframe, visiblePlatforms, xStatVisib
   if (filteredLinkedinData?.labels) {
     filteredLinkedinData.labels.forEach((date: string) => allDates.add(date))
   }
+  if (filteredTikTokData?.labels) {
+    filteredTikTokData.labels.forEach((date: string) => allDates.add(date))
+  }
   
   // Sort dates chronologically
   labels = Array.from(allDates).sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
@@ -196,11 +209,8 @@ function UnifiedEcosystemChart({ selectedTimeframe, visiblePlatforms, xStatVisib
       
       datasets.push({
         ...dataset,
-        label: 'YouTube Subscribers',
-        borderColor: 'rgb(255, 0, 0)',
-        backgroundColor: 'rgba(255, 0, 0, 0.1)',
         data: alignedData,
-        hidden: !visiblePlatforms.youtube,
+        hidden: !visiblePlatforms.youtube || !youtubeStatVisibility.subscribers,
       })
     })
   }
@@ -237,6 +247,35 @@ function UnifiedEcosystemChart({ selectedTimeframe, visiblePlatforms, xStatVisib
         data: alignedData,
         hidden: !visiblePlatforms.linkedin || (
           (dataset.label === 'LinkedIn Followers' ? !linkedinStatVisibility.followers : false)
+        ),
+      })
+    })
+  }
+
+  if (filteredTikTokData?.labels?.length > 0 && visiblePlatforms.tiktok) {
+    filteredTikTokData.datasets.forEach((dataset: any) => {
+      const alignedData = labels.map((label: string) => {
+        const idx = filteredTikTokData.labels.indexOf(label)
+        return idx >= 0 ? dataset.data[idx] : null
+      })
+      const colors: Record<string, { border: string; bg: string; name: string }> = {
+        'TikTok Followers': { border: '#CCCCCC', bg: 'rgba(204, 204, 204, 0.1)', name: 'TikTok Followers' },
+        'TikTok Likes': { border: 'rgb(75, 192, 192)', bg: 'rgba(75, 192, 192, 0.1)', name: 'TikTok Likes' },
+        'TikTok Video Views': { border: 'rgb(255, 205, 86)', bg: 'rgba(255, 205, 86, 0.1)', name: 'TikTok Video Views' },
+        'TikTok Profile Views': { border: 'rgb(153, 102, 255)', bg: 'rgba(153, 102, 255, 0.1)', name: 'TikTok Profile Views' },
+      }
+      const meta = colors[dataset.label] ?? { border: '#CCCCCC', bg: 'rgba(204, 204, 204, 0.1)', name: dataset.label }
+      datasets.push({
+        ...dataset,
+        label: meta.name,
+        borderColor: meta.border,
+        backgroundColor: meta.bg,
+        data: alignedData,
+        hidden: !visiblePlatforms.tiktok || (
+          (dataset.label === 'TikTok Followers' ? !tiktokStatVisibility.followers : false) ||
+          (dataset.label === 'TikTok Likes' ? !tiktokStatVisibility.likes : false) ||
+          (dataset.label === 'TikTok Video Views' ? !tiktokStatVisibility.videoViews : false) ||
+          (dataset.label === 'TikTok Profile Views' ? !tiktokStatVisibility.profileViews : false)
         ),
       })
     })
@@ -363,6 +402,23 @@ export default function EcosystemPage() {
   const [xLatestEngagements, setXLatestEngagements] = useState<number | null>(null)
   const [xLatestLikes, setXLatestLikes] = useState<number | null>(null)
   const [linkedinLatestFollowers, setLinkedinLatestFollowers] = useState<number | null>(null)
+  const [youtubeLatestSubscribers, setYoutubeLatestSubscribers] = useState<number | null>(null)
+  const [youtubeStatVisibility, setYoutubeStatVisibility] = useState<YouTubeStatVisibility>(() => {
+    if (typeof window === 'undefined') return { subscribers: true }
+    try {
+      const saved = localStorage.getItem('ecos-youtube-visibility')
+      if (saved) return JSON.parse(saved)
+    } catch {}
+    return { subscribers: true }
+  })
+  const [tiktokStatVisibility, setTiktokStatVisibility] = useState<TikTokStatVisibility>(() => {
+    if (typeof window === 'undefined') return { followers: true, likes: false, videoViews: false, profileViews: false }
+    try {
+      const saved = localStorage.getItem('ecos-tiktok-visibility')
+      if (saved) return JSON.parse(saved)
+    } catch {}
+    return { followers: true, likes: false, videoViews: false, profileViews: false }
+  })
   const [xStatVisibility, setXStatVisibility] = useState<XStatVisibility>(() => {
     if (typeof window === 'undefined') return { followers: true, impressions: false, engagements: false, likes: false }
     try {
@@ -385,7 +441,7 @@ export default function EcosystemPage() {
       x: true,
       linkedin: true,
       instagram: true,
-      tiktok: false,
+      tiktok: true,
       discord: true,
       telegram: true,
       farcaster: true,
@@ -422,14 +478,36 @@ export default function EcosystemPage() {
       }
       const savedPlatforms = localStorage.getItem('ecos-platform-visibility')
       const savedLinkedin = localStorage.getItem('ecos-linkedin-visibility')
+      const savedTiktok = localStorage.getItem('ecos-tiktok-visibility')
+      const savedYoutube = localStorage.getItem('ecos-youtube-visibility')
       if (savedLinkedin) {
         const parsed = JSON.parse(savedLinkedin)
         setLinkedinStatVisibility((prev) => ({
           followers: typeof parsed.followers === 'boolean' ? parsed.followers : prev.followers,
         }))
       }
+      if (savedYoutube) {
+        const parsed = JSON.parse(savedYoutube)
+        setYoutubeStatVisibility((prev) => ({
+          subscribers: typeof parsed.subscribers === 'boolean' ? parsed.subscribers : prev.subscribers,
+        }))
+      }
+      if (savedTiktok) {
+        const parsed = JSON.parse(savedTiktok)
+        // Migration: ensure only followers is selected by default
+        setTiktokStatVisibility({
+          followers: typeof parsed.followers === 'boolean' ? parsed.followers : true,
+          likes: false,
+          videoViews: false,
+          profileViews: false,
+        })
+      }
       if (savedPlatforms) {
         const parsed = JSON.parse(savedPlatforms)
+        // Migration: ensure TikTok is visible by default even if an older pref had it off
+        if (parsed && typeof parsed === 'object') {
+          parsed.tiktok = true
+        }
         setVisiblePlatforms((prev) => ({ ...prev, ...parsed }))
       }
       const savedTf = localStorage.getItem('ecos-timeframe')
@@ -464,6 +542,15 @@ export default function EcosystemPage() {
   useEffect(() => {
     try { localStorage.setItem('ecos-linkedin-visibility', JSON.stringify(linkedinStatVisibility)) } catch {}
   }, [linkedinStatVisibility])
+
+  useEffect(() => {
+    try { localStorage.setItem('ecos-youtube-visibility', JSON.stringify(youtubeStatVisibility)) } catch {}
+  }, [youtubeStatVisibility])
+
+  useEffect(() => {
+    try { localStorage.setItem('ecos-tiktok-visibility', JSON.stringify(tiktokStatVisibility)) } catch {}
+  }, [tiktokStatVisibility])
+
 
   useEffect(() => {
     try { localStorage.setItem('ecos-platform-visibility', JSON.stringify(visiblePlatforms)) } catch {}
@@ -531,6 +618,30 @@ export default function EcosystemPage() {
     fetchLinkedinFollowers()
   }, [])
 
+  // Fetch latest YouTube stats from history API
+  useEffect(() => {
+    async function fetchYouTubeSubscribers() {
+      try {
+        const origin = typeof window !== 'undefined' ? window.location.origin : ''
+        const url = origin ? `${origin}/api/youtube/history` : '/api/youtube/history'
+        const res = await fetch(url, { cache: 'no-store' })
+        if (!res.ok) return
+        const chart = await res.json()
+        const subscribersDataset = chart?.datasets?.find((d: any) => d.label === 'YouTube Subscribers')
+        if (subscribersDataset && Array.isArray(subscribersDataset.data) && subscribersDataset.data.length > 0) {
+          // find last numeric value
+          for (let i = subscribersDataset.data.length - 1; i >= 0; i--) {
+            const v = subscribersDataset.data[i]
+            if (typeof v === 'number' && !Number.isNaN(v)) { setYoutubeLatestSubscribers(v); break }
+          }
+        }
+      } catch (e) {
+        console.error('Failed to fetch YouTube subscribers history', e)
+      }
+    }
+    fetchYouTubeSubscribers()
+  }, [])
+
   if (loading) {
     return (
       <div className="flex flex-col gap-6">
@@ -579,10 +690,10 @@ export default function EcosystemPage() {
       color: "bg-red-500",
       borderColor: "border-red-500",
       url: YOUTUBE_URL,
-      primaryMetric: formatNumber(youtubeSubscribers),
+      primaryMetric: formatNumber(youtubeLatestSubscribers ?? 0),
       primaryLabel: "Subscribers",
-      secondaryMetric: formatNumber(youtubeViews),
-      secondaryLabel: "Views",
+      secondaryMetric: "N/A",
+      secondaryLabel: "Videos",
     },
     {
       key: "x",
@@ -617,17 +728,17 @@ export default function EcosystemPage() {
       secondaryMetric: "N/A",
       secondaryLabel: "Posts",
     },
-        {
-          key: "tiktok",
-          name: "TikTok",
-          color: "bg-gradient-to-r from-red-500 to-purple-500",
-          borderColor: "border-red-500",
-          url: "https://www.tiktok.com/@openxai",
-          primaryMetric: formatNumber(25),
-          primaryLabel: "Followers",
-          secondaryMetric: formatNumber(91),
-          secondaryLabel: "Likes",
-        },
+    {
+      key: "tiktok",
+      name: "TikTok",
+      color: "bg-gradient-to-r from-red-500 to-purple-500",
+      borderColor: "border-red-500",
+      url: "https://www.tiktok.com/@openxai",
+      primaryMetric: formatNumber(25),
+      primaryLabel: "Followers",
+      secondaryMetric: formatNumber(91),
+      secondaryLabel: "Likes",
+    },
     {
       key: "discord",
       name: "Discord",
@@ -722,10 +833,10 @@ export default function EcosystemPage() {
         </div>
 
             {/* Platform Toggle Buttons */}
-            <div className="grid grid-cols-4 gap-2 sm:grid-cols-6 lg:grid-cols-12" style={{ gridAutoRows: '1fr' }}>
+            <div className="grid grid-cols-4 gap-2 sm:grid-cols-6 lg:grid-cols-10" style={{ gridAutoRows: '1fr' }}>
               {platformData.map((platform) => {
                 // Only platforms with historical graph data should be clickable
-                const hasGraphData = ['youtube', 'x', 'linkedin'].includes(platform.key)
+                const hasGraphData = ['youtube', 'x', 'linkedin', 'tiktok'].includes(platform.key)
                 const isActive = visiblePlatforms[platform.key as keyof typeof visiblePlatforms]
 
                 return (
@@ -800,7 +911,7 @@ export default function EcosystemPage() {
                           </label>
                         </>
                       )}
-                      {platform.key !== 'x' && platform.key !== 'linkedin' && (
+                      {platform.key !== 'x' && platform.key !== 'linkedin' && platform.key !== 'tiktok' && platform.key !== 'youtube' && (
                         <>
               <div className="flex items-center justify-between">
                             <span className={`text-xs ${hasGraphData ? 'text-white/60' : 'text-white/30'}`}>{platform.primaryLabel}</span>
@@ -823,8 +934,48 @@ export default function EcosystemPage() {
                           </label>
                         </>
                       )}
+                      {platform.key === 'youtube' && (
+                        <>
+                          <label className="flex items-center justify-between gap-2 text-xs text-white/80" onClick={(e) => e.stopPropagation()}>
+                            <span className="flex items-center gap-2">
+                              <input type="checkbox" checked={youtubeStatVisibility.subscribers} onChange={(e) => setYoutubeStatVisibility(prev => ({...prev, subscribers: e.target.checked}))} onClick={(e) => e.stopPropagation()} />
+                              <span className="flex items-center gap-2">Subscribers<div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'rgb(255, 0, 0)' }} /></span>
+                            </span>
+                            <span className="font-semibold text-white">{formatNumber(youtubeLatestSubscribers ?? 0)}</span>
+                          </label>
+                        </>
+                      )}
 
                       {platform.key === 'x' && null}
+
+                      {platform.key === 'tiktok' && (
+                        <>
+                          <label className="flex items-center justify-between gap-2 text-xs text-white/80" onClick={(e) => e.stopPropagation()}>
+                            <span className="flex items-center gap-2">
+                              <input type="checkbox" checked={tiktokStatVisibility.followers} onChange={(e) => setTiktokStatVisibility(prev => ({...prev, followers: e.target.checked}))} onClick={(e) => e.stopPropagation()} />
+                              <span className="flex items-center gap-2">Followers<div className="w-2 h-2 rounded-full" style={{ backgroundColor: '#CCCCCC' }} /></span>
+                            </span>
+                          </label>
+                          <label className="flex items-center justify-between gap-2 text-xs text-white/80" onClick={(e) => e.stopPropagation()}>
+                            <span className="flex items-center gap-2">
+                              <input type="checkbox" checked={tiktokStatVisibility.likes} onChange={(e) => setTiktokStatVisibility(prev => ({...prev, likes: e.target.checked}))} onClick={(e) => e.stopPropagation()} />
+                              <span className="flex items-center gap-2">Likes<div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'rgb(75, 192, 192)' }} /></span>
+                            </span>
+                          </label>
+                          <label className="flex items-center justify-between gap-2 text-xs text-white/80" onClick={(e) => e.stopPropagation()}>
+                            <span className="flex items-center gap-2">
+                              <input type="checkbox" checked={tiktokStatVisibility.videoViews} onChange={(e) => setTiktokStatVisibility(prev => ({...prev, videoViews: e.target.checked}))} onClick={(e) => e.stopPropagation()} />
+                              <span className="flex items-center gap-2">Video Views<div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'rgb(255, 205, 86)' }} /></span>
+                            </span>
+                          </label>
+                          <label className="flex items-center justify-between gap-2 text-xs text-white/80" onClick={(e) => e.stopPropagation()}>
+                            <span className="flex items-center gap-2">
+                              <input type="checkbox" checked={tiktokStatVisibility.profileViews} onChange={(e) => setTiktokStatVisibility(prev => ({...prev, profileViews: e.target.checked}))} onClick={(e) => e.stopPropagation()} />
+                              <span className="flex items-center gap-2">Profile Views<div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'rgb(153, 102, 255)' }} /></span>
+                            </span>
+                          </label>
+                        </>
+                      )}
                 </div>
               </button>
             )
@@ -840,12 +991,14 @@ export default function EcosystemPage() {
         </CardHeader>
         <CardContent>
           <div className="h-[500px]">
-            <UnifiedEcosystemChart 
-              selectedTimeframe={selectedTimeframe} 
-              visiblePlatforms={visiblePlatforms}
-              xStatVisibility={xStatVisibility}
-              linkedinStatVisibility={linkedinStatVisibility}
-            />
+        <UnifiedEcosystemChart 
+          selectedTimeframe={selectedTimeframe} 
+          visiblePlatforms={visiblePlatforms}
+          xStatVisibility={xStatVisibility}
+          linkedinStatVisibility={linkedinStatVisibility}
+          tiktokStatVisibility={tiktokStatVisibility}
+          youtubeStatVisibility={youtubeStatVisibility}
+        />
           </div>
         </CardContent>
       </Card>
