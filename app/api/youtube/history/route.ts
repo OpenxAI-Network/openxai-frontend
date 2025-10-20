@@ -9,20 +9,20 @@ export async function GET() {
       return NextResponse.json({ labels: [], datasets: [] })
     }
     const content = fs.readFileSync(historyPath, 'utf8')
-    const rows = JSON.parse(content) as Array<{ date: string; subscribers?: number; views?: number }>
+    const rows = JSON.parse(content) as Array<{ date: string; subscribers?: number; views?: number; videos?: number }>
 
-    // Build a simple chart dataset for subscribers over time
+    // Build chart dataset for YouTube subscribers only
     const labels = rows.map((r) => r.date)
-    const data = rows.map((r) => Number(r.subscribers ?? 0))
+    const subscribersData = rows.map((r) => Number(r.subscribers ?? 0))
 
     return NextResponse.json({
       labels,
       datasets: [
         {
-          label: 'Subscribers',
-          data,
-          borderColor: '#8B5CF6',
-          backgroundColor: 'rgba(139, 92, 246, 0.1)',
+          label: 'YouTube Subscribers',
+          data: subscribersData,
+          borderColor: 'rgb(255, 0, 0)',
+          backgroundColor: 'rgba(255, 0, 0, 0.1)',
           borderWidth: 2,
           fill: true,
           tension: 0.3,

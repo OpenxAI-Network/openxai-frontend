@@ -57,26 +57,32 @@ type XStatVisibility = {
 }
 
 type LinkedinStatVisibility = { followers: boolean }
+type YouTubeStatVisibility = { subscribers: boolean }
+type TikTokStatVisibility = { followers: boolean; likes: boolean; videoViews: boolean; profileViews: boolean }
 
-function UnifiedEcosystemChart({ selectedTimeframe, visiblePlatforms, xStatVisibility, linkedinStatVisibility }: { 
+function UnifiedEcosystemChart({ selectedTimeframe, visiblePlatforms, xStatVisibility, linkedinStatVisibility, tiktokStatVisibility, youtubeStatVisibility }: { 
   selectedTimeframe: string
   visiblePlatforms: { [key: string]: boolean }
   xStatVisibility: { followers: boolean; impressions: boolean; engagements: boolean; likes: boolean }
   linkedinStatVisibility: { followers: boolean }
+  tiktokStatVisibility: { followers: boolean; likes: boolean; videoViews: boolean; profileViews: boolean }
+  youtubeStatVisibility: { subscribers: boolean }
 }) {
   const [youtubeData, setYoutubeData] = useState<any>(null)
   const [xData, setXData] = useState<any>(null)
   const [linkedinData, setLinkedinData] = useState<any>(null)
+  const [tiktokData, setTikTokData] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   // Helper function to filter data based on timeframe
-  const filterDataByTimeframe = useCallback((data: any, timeframe: string) => {
+  const filterDataByTimeframe = useCallback((data: any, timeframe: string, anchorMostRecent?: Date) => {
     if (!data || !data.labels || !data.datasets) return null
 
-    // Instead of filtering from today, filter from the most recent available data
+    // Filter relative to a shared most-recent date across all platforms when provided
     const availableDates = data.labels.map((label: string) => new Date(label))
-    const mostRecentDate = new Date(Math.max(...availableDates.map((d: Date) => d.getTime())))
+    const datasetMostRecent = new Date(Math.max(...availableDates.map((d: Date) => d.getTime())))
+    const mostRecentDate = anchorMostRecent ?? datasetMostRecent
     
     let daysBack = 0
     switch (timeframe) {
@@ -132,10 +138,11 @@ function UnifiedEcosystemChart({ selectedTimeframe, visiblePlatforms, xStatVisib
       
       try {
         const origin = typeof window !== 'undefined' ? window.location.origin : ''
-        const [youtubeRes, xRes, linkedinRes] = await Promise.allSettled([
+        const [youtubeRes, xRes, linkedinRes, tiktokRes] = await Promise.allSettled([
           fetch(origin ? `${origin}/api/youtube/history` : '/api/youtube/history', { cache: 'no-store' }),
           fetch(origin ? `${origin}/api/x/history` : '/api/x/history', { cache: 'no-store' }),
-          fetch(origin ? `${origin}/api/linkedin/history` : '/api/linkedin/history', { cache: 'no-store' })
+          fetch(origin ? `${origin}/api/linkedin/history` : '/api/linkedin/history', { cache: 'no-store' }),
+          fetch(origin ? `${origin}/api/tiktok/history` : '/api/tiktok/history', { cache: 'no-store' })
         ])
 
         if (youtubeRes.status === 'fulfilled' && youtubeRes.value.ok) {
@@ -148,6 +155,9 @@ function UnifiedEcosystemChart({ selectedTimeframe, visiblePlatforms, xStatVisib
         
         if (linkedinRes.status === 'fulfilled' && linkedinRes.value.ok) {
           setLinkedinData(await linkedinRes.value.json())
+        }
+        if (tiktokRes.status === 'fulfilled' && tiktokRes.value.ok) {
+          setTikTokData(await tiktokRes.value.json())
         }
       } catch (e: any) {
         setError(e?.message ?? 'Failed to load data')
@@ -162,10 +172,24 @@ function UnifiedEcosystemChart({ selectedTimeframe, visiblePlatforms, xStatVisib
   if (loading) return <div className="text-white/60">Loading ecosystem data…</div>
   if (error) return <div className="text-red-400">Error: {error}</div>
 
-  // Filter data based on selected timeframe
-  const filteredYoutubeData = filterDataByTimeframe(youtubeData, selectedTimeframe)
-  const filteredXData = filterDataByTimeframe(xData, selectedTimeframe)
-  const filteredLinkedinData = filterDataByTimeframe(linkedinData, selectedTimeframe)
+  // Determine a shared most-recent date across all platforms to align the window
+  const mostRecentCandidates: Date[] = []
+  ;[youtubeData, xData, linkedinData, tiktokData].forEach((d: any) => {
+    if (d?.labels?.length) {
+      const dates = d.labels.map((label: string) => new Date(label))
+      const mr = new Date(Math.max(...dates.map((dt: Date) => dt.getTime())))
+      if (!Number.isNaN(mr.getTime())) mostRecentCandidates.push(mr)
+    }
+  })
+  const sharedMostRecent = mostRecentCandidates.length
+    ? new Date(Math.max(...mostRecentCandidates.map((d: Date) => d.getTime())))
+    : undefined
+
+  // Filter data based on selected timeframe (using shared anchor date)
+  const filteredYoutubeData = filterDataByTimeframe(youtubeData, selectedTimeframe, sharedMostRecent)
+  const filteredXData = filterDataByTimeframe(xData, selectedTimeframe, sharedMostRecent)
+  const filteredLinkedinData = filterDataByTimeframe(linkedinData, selectedTimeframe, sharedMostRecent)
+  const filteredTikTokData = filterDataByTimeframe(tiktokData, selectedTimeframe, sharedMostRecent)
 
   const datasets: any[] = []
   let labels: string[] = []
@@ -182,64 +206,122 @@ function UnifiedEcosystemChart({ selectedTimeframe, visiblePlatforms, xStatVisib
   if (filteredLinkedinData?.labels) {
     filteredLinkedinData.labels.forEach((date: string) => allDates.add(date))
   }
+  if (filteredTikTokData?.labels) {
+    filteredTikTokData.labels.forEach((date: string) => allDates.add(date))
+  }
   
   // Sort dates chronologically
   labels = Array.from(allDates).sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
 
-  // Map each platform's data to the unified timeline
+  // Map each platform's data to the unified timeline (single primary metric only)
   if (filteredYoutubeData?.labels?.length > 0 && visiblePlatforms.youtube) {
-    filteredYoutubeData.datasets.forEach((dataset: any) => {
+    const dataset = filteredYoutubeData.datasets.find((d: any) => d.label === 'YouTube Subscribers')
+    if (dataset) {
       const alignedData = labels.map((label: string) => {
         const youtubeIndex = filteredYoutubeData.labels.indexOf(label)
         return youtubeIndex >= 0 ? dataset.data[youtubeIndex] : null
       })
-      
+      let lastKnown: number | null = null
+      for (let i = 0; i < alignedData.length; i++) {
+        const v = alignedData[i]
+        if (v == null && lastKnown != null) alignedData[i] = lastKnown
+        else if (typeof v === 'number') lastKnown = v
+      }
+      let firstNonNull: number | null = null
+      for (let i = 0; i < alignedData.length; i++) {
+        if (typeof alignedData[i] === 'number') { firstNonNull = alignedData[i] as number; break }
+      }
+      if (firstNonNull != null) {
+        for (let i = 0; i < alignedData.length && alignedData[i] == null; i++) alignedData[i] = firstNonNull
+      }
       datasets.push({
         ...dataset,
-        label: 'YouTube Subscribers',
-        borderColor: 'rgb(255, 0, 0)',
-        backgroundColor: 'rgba(255, 0, 0, 0.1)',
         data: alignedData,
+        fill: true,
         hidden: !visiblePlatforms.youtube,
       })
-    })
+    }
   }
 
   if (filteredXData?.labels?.length > 0 && visiblePlatforms.x) {
-    filteredXData.datasets.forEach((dataset: any) => {
+    const dataset = filteredXData.datasets.find((d: any) => d.label === 'X Followers')
+    if (dataset) {
       const alignedData = labels.map((label: string) => {
         const xIndex = filteredXData.labels.indexOf(label)
         return xIndex >= 0 ? dataset.data[xIndex] : null
       })
-      
+      let lastKnown: number | null = null
+      for (let i = 0; i < alignedData.length; i++) {
+        const v = alignedData[i]
+        if (v == null && lastKnown != null) alignedData[i] = lastKnown
+        else if (typeof v === 'number') lastKnown = v
+      }
+      let firstNonNull: number | null = null
+      for (let i = 0; i < alignedData.length; i++) {
+        if (typeof alignedData[i] === 'number') { firstNonNull = alignedData[i] as number; break }
+      }
+      if (firstNonNull != null) {
+        for (let i = 0; i < alignedData.length && alignedData[i] == null; i++) alignedData[i] = firstNonNull
+      }
       datasets.push({
         ...dataset,
         data: alignedData,
-        hidden: !visiblePlatforms.x || (
-          (dataset.label === 'X Followers' ? !xStatVisibility.followers : false) ||
-          (dataset.label === 'X Impressions' ? !xStatVisibility.impressions : false) ||
-          (dataset.label === 'X Engagements' ? !xStatVisibility.engagements : false) ||
-          (dataset.label === 'X Likes' ? !xStatVisibility.likes : false)
-        ),
+        hidden: !visiblePlatforms.x,
       })
-    })
+    }
   }
 
   if (filteredLinkedinData?.labels?.length > 0 && visiblePlatforms.linkedin) {
-    filteredLinkedinData.datasets.forEach((dataset: any) => {
+    const dataset = filteredLinkedinData.datasets.find((d: any) => d.label === 'LinkedIn Followers')
+    if (dataset) {
       const alignedData = labels.map((label: string) => {
         const linkedinIndex = filteredLinkedinData.labels.indexOf(label)
         return linkedinIndex >= 0 ? dataset.data[linkedinIndex] : null
       })
-      
+      {
+        let last: number | null = null
+        for (let i = 0; i < alignedData.length; i++) {
+          const v = alignedData[i]
+          if (v == null && last != null) alignedData[i] = last
+          else if (typeof v === 'number') last = v
+        }
+        let first: number | null = null
+        for (let i = 0; i < alignedData.length; i++) if (typeof alignedData[i] === 'number') { first = alignedData[i] as number; break }
+        if (first != null) for (let i = 0; i < alignedData.length && alignedData[i] == null; i++) alignedData[i] = first
+      }
       datasets.push({
         ...dataset,
         data: alignedData,
-        hidden: !visiblePlatforms.linkedin || (
-          (dataset.label === 'LinkedIn Followers' ? !linkedinStatVisibility.followers : false)
-        ),
+        hidden: !visiblePlatforms.linkedin,
       })
-    })
+    }
+  }
+
+  if (filteredTikTokData?.labels?.length > 0 && visiblePlatforms.tiktok) {
+    const dataset = filteredTikTokData.datasets.find((d: any) => d.label === 'TikTok Followers')
+    if (dataset) {
+      const alignedData = labels.map((label: string) => {
+        const idx = filteredTikTokData.labels.indexOf(label)
+        return idx >= 0 ? dataset.data[idx] : null
+      })
+      {
+        let last: number | null = null
+        for (let i = 0; i < alignedData.length; i++) {
+          const v = alignedData[i]
+          if (v == null && last != null) alignedData[i] = last
+          else if (typeof v === 'number') last = v
+        }
+        let first: number | null = null
+        for (let i = 0; i < alignedData.length; i++) if (typeof alignedData[i] === 'number') { first = alignedData[i] as number; break }
+        if (first != null) for (let i = 0; i < alignedData.length && alignedData[i] == null; i++) alignedData[i] = first
+      }
+      datasets.push({
+        ...dataset,
+        fill: true,
+        data: alignedData,
+        hidden: !visiblePlatforms.tiktok,
+      })
+    }
   }
 
   const chartData = {
@@ -283,7 +365,7 @@ const chartOptions = {
   },
   elements: {
     line: {
-      spanGaps: false, // Don't connect points across gaps (missing data)
+      spanGaps: true,
     },
     point: {
       radius: 2,
@@ -351,9 +433,9 @@ const chartOptions = {
 
 export default function EcosystemPage() {
   const [selectedTimeframe, setSelectedTimeframe] = useState(() => {
-    if (typeof window === 'undefined') return "7d"
+    if (typeof window === 'undefined') return "1m"
     const tf = localStorage.getItem('ecos-timeframe')
-    return tf || "7d"
+    return tf || "1m"
   })
   const [metrics, setMetrics] = useState<EcosystemMetrics | null>(null)
   const [loading, setLoading] = useState(true)
@@ -363,6 +445,23 @@ export default function EcosystemPage() {
   const [xLatestEngagements, setXLatestEngagements] = useState<number | null>(null)
   const [xLatestLikes, setXLatestLikes] = useState<number | null>(null)
   const [linkedinLatestFollowers, setLinkedinLatestFollowers] = useState<number | null>(null)
+  const [youtubeLatestSubscribers, setYoutubeLatestSubscribers] = useState<number | null>(null)
+  const [youtubeStatVisibility, setYoutubeStatVisibility] = useState<YouTubeStatVisibility>(() => {
+    if (typeof window === 'undefined') return { subscribers: true }
+    try {
+      const saved = localStorage.getItem('ecos-youtube-visibility')
+      if (saved) return JSON.parse(saved)
+    } catch {}
+    return { subscribers: true }
+  })
+  const [tiktokStatVisibility, setTiktokStatVisibility] = useState<TikTokStatVisibility>(() => {
+    if (typeof window === 'undefined') return { followers: true, likes: false, videoViews: false, profileViews: false }
+    try {
+      const saved = localStorage.getItem('ecos-tiktok-visibility')
+      if (saved) return JSON.parse(saved)
+    } catch {}
+    return { followers: true, likes: false, videoViews: false, profileViews: false }
+  })
   const [xStatVisibility, setXStatVisibility] = useState<XStatVisibility>(() => {
     if (typeof window === 'undefined') return { followers: true, impressions: false, engagements: false, likes: false }
     try {
@@ -385,7 +484,7 @@ export default function EcosystemPage() {
       x: true,
       linkedin: true,
       instagram: true,
-      tiktok: false,
+      tiktok: true,
       discord: true,
       telegram: true,
       farcaster: true,
@@ -399,6 +498,13 @@ export default function EcosystemPage() {
     } catch {}
     return defaults
   })
+
+  // Carousel window index for top platform cards
+  const [startIndex, setStartIndex] = useState<number>(0) // start at 0 so first is YouTube
+  const shiftWindow = (delta: number) => {
+    const total = platformData.length
+    setStartIndex((prev) => (prev + delta + total) % total)
+  }
 
   const handlePlatformToggle = (platform: string) => {
     setVisiblePlatforms((prev: VisiblePlatforms) => ({
@@ -422,14 +528,36 @@ export default function EcosystemPage() {
       }
       const savedPlatforms = localStorage.getItem('ecos-platform-visibility')
       const savedLinkedin = localStorage.getItem('ecos-linkedin-visibility')
+      const savedTiktok = localStorage.getItem('ecos-tiktok-visibility')
+      const savedYoutube = localStorage.getItem('ecos-youtube-visibility')
       if (savedLinkedin) {
         const parsed = JSON.parse(savedLinkedin)
         setLinkedinStatVisibility((prev) => ({
           followers: typeof parsed.followers === 'boolean' ? parsed.followers : prev.followers,
         }))
       }
+      if (savedYoutube) {
+        const parsed = JSON.parse(savedYoutube)
+        setYoutubeStatVisibility((prev) => ({
+          subscribers: typeof parsed.subscribers === 'boolean' ? parsed.subscribers : prev.subscribers,
+        }))
+      }
+      if (savedTiktok) {
+        const parsed = JSON.parse(savedTiktok)
+        // Migration: ensure only followers is selected by default
+        setTiktokStatVisibility({
+          followers: typeof parsed.followers === 'boolean' ? parsed.followers : true,
+          likes: false,
+          videoViews: false,
+          profileViews: false,
+        })
+      }
       if (savedPlatforms) {
         const parsed = JSON.parse(savedPlatforms)
+        // Migration: ensure TikTok is visible by default even if an older pref had it off
+        if (parsed && typeof parsed === 'object') {
+          parsed.tiktok = true
+        }
         setVisiblePlatforms((prev) => ({ ...prev, ...parsed }))
       }
       const savedTf = localStorage.getItem('ecos-timeframe')
@@ -464,6 +592,15 @@ export default function EcosystemPage() {
   useEffect(() => {
     try { localStorage.setItem('ecos-linkedin-visibility', JSON.stringify(linkedinStatVisibility)) } catch {}
   }, [linkedinStatVisibility])
+
+  useEffect(() => {
+    try { localStorage.setItem('ecos-youtube-visibility', JSON.stringify(youtubeStatVisibility)) } catch {}
+  }, [youtubeStatVisibility])
+
+  useEffect(() => {
+    try { localStorage.setItem('ecos-tiktok-visibility', JSON.stringify(tiktokStatVisibility)) } catch {}
+  }, [tiktokStatVisibility])
+
 
   useEffect(() => {
     try { localStorage.setItem('ecos-platform-visibility', JSON.stringify(visiblePlatforms)) } catch {}
@@ -531,6 +668,30 @@ export default function EcosystemPage() {
     fetchLinkedinFollowers()
   }, [])
 
+  // Fetch latest YouTube stats from history API
+  useEffect(() => {
+    async function fetchYouTubeSubscribers() {
+      try {
+        const origin = typeof window !== 'undefined' ? window.location.origin : ''
+        const url = origin ? `${origin}/api/youtube/history` : '/api/youtube/history'
+        const res = await fetch(url, { cache: 'no-store' })
+        if (!res.ok) return
+        const chart = await res.json()
+        const subscribersDataset = chart?.datasets?.find((d: any) => d.label === 'YouTube Subscribers')
+        if (subscribersDataset && Array.isArray(subscribersDataset.data) && subscribersDataset.data.length > 0) {
+          // find last numeric value
+          for (let i = subscribersDataset.data.length - 1; i >= 0; i--) {
+            const v = subscribersDataset.data[i]
+            if (typeof v === 'number' && !Number.isNaN(v)) { setYoutubeLatestSubscribers(v); break }
+          }
+        }
+      } catch (e) {
+        console.error('Failed to fetch YouTube subscribers history', e)
+      }
+    }
+    fetchYouTubeSubscribers()
+  }, [])
+
   if (loading) {
     return (
       <div className="flex flex-col gap-6">
@@ -579,10 +740,10 @@ export default function EcosystemPage() {
       color: "bg-red-500",
       borderColor: "border-red-500",
       url: YOUTUBE_URL,
-      primaryMetric: formatNumber(youtubeSubscribers),
+      primaryMetric: formatNumber(youtubeLatestSubscribers ?? 0),
       primaryLabel: "Subscribers",
-      secondaryMetric: formatNumber(youtubeViews),
-      secondaryLabel: "Views",
+      secondaryMetric: "N/A",
+      secondaryLabel: "Videos",
     },
     {
       key: "x",
@@ -607,6 +768,17 @@ export default function EcosystemPage() {
       secondaryLabel: "Impressions",
     },
     {
+      key: "tiktok",
+      name: "TikTok",
+      color: "bg-gradient-to-r from-red-500 to-purple-500",
+      borderColor: "border-red-500",
+      url: "https://www.tiktok.com/@openxai",
+      primaryMetric: formatNumber(25),
+      primaryLabel: "Followers",
+      secondaryMetric: formatNumber(91),
+      secondaryLabel: "Likes",
+    },
+    {
       key: "instagram",
       name: "Instagram",
       color: "bg-gradient-to-r from-purple-500 to-pink-500",
@@ -617,17 +789,6 @@ export default function EcosystemPage() {
       secondaryMetric: "N/A",
       secondaryLabel: "Posts",
     },
-        {
-          key: "tiktok",
-          name: "TikTok",
-          color: "bg-gradient-to-r from-red-500 to-purple-500",
-          borderColor: "border-red-500",
-          url: "https://www.tiktok.com/@openxai",
-          primaryMetric: formatNumber(25),
-          primaryLabel: "Followers",
-          secondaryMetric: formatNumber(91),
-          secondaryLabel: "Likes",
-        },
     {
       key: "discord",
       name: "Discord",
@@ -694,7 +855,7 @@ export default function EcosystemPage() {
       </div>
 
       {/* Platform Controls Section */}
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-3">
         {/* Timeframe Selector Buttons */}
           <div className="flex items-center gap-2">
             <Filter className="size-4 text-white/60" />
@@ -721,11 +882,22 @@ export default function EcosystemPage() {
           </div>
         </div>
 
-            {/* Platform Toggle Buttons */}
-            <div className="grid grid-cols-4 gap-2 sm:grid-cols-6 lg:grid-cols-12" style={{ gridAutoRows: '1fr' }}>
-              {platformData.map((platform) => {
+            {/* Platform Toggle Buttons (single row carousel with 4 cards) */}
+            <div className="flex items-center gap-2 w-full">
+              <button
+                type="button"
+                onClick={() => shiftWindow(-1)}
+                className="shrink-0 h-14 w-7 flex items-center justify-center rounded-md bg-[#1F2021]/60 border border-[#454545] text-white/70 hover:text-white"
+                aria-label="Previous platforms"
+              >
+                ‹
+              </button>
+              <div className="flex-1 overflow-hidden">
+                <div className="flex flex-nowrap gap-2 w-full">
+              {Array.from({ length: 4 }).map((_, i) => {
+                const platform = platformData[(startIndex + i) % platformData.length]
                 // Only platforms with historical graph data should be clickable
-                const hasGraphData = ['youtube', 'x', 'linkedin'].includes(platform.key)
+                const hasGraphData = ['youtube', 'x', 'linkedin', 'tiktok'].includes(platform.key)
                 const isActive = visiblePlatforms[platform.key as keyof typeof visiblePlatforms]
 
                 return (
@@ -733,102 +905,57 @@ export default function EcosystemPage() {
                     key={platform.key}
                     onClick={() => hasGraphData ? handlePlatformToggle(platform.key) : null}
                     disabled={!hasGraphData}
-                    className={`col-span-2 relative p-2 rounded-md transition-all text-left h-full flex flex-col ${
+                    className={`relative p-2 rounded-md transition-all text-left flex flex-col h-14 basis-1/4 shrink-0 ${
                       !hasGraphData
                         ? 'bg-[#1F2021]/30 border border-[#454545] opacity-40 cursor-not-allowed'
                         : isActive
-                          ? `${platform.color} bg-opacity-20 border ${platform.borderColor}`
+                          ? `bg-[#1F2021]/60 border ${platform.borderColor}`
                           : 'bg-[#1F2021]/50 border border-[#454545] opacity-60 hover:bg-[#1F2021]/70'
                     }`}
                   >
-                    <div className="flex items-center justify-between mb-2 -m-2 px-2 py-2 rounded-t-md bg-[#141516]/70">
-                      <label className={`flex items-center gap-2 ${hasGraphData ? 'cursor-pointer' : 'cursor-not-allowed'}`}>
-                        <input
-                          type="checkbox"
-                          checked={isActive}
-                          onChange={() => hasGraphData ? handlePlatformToggle(platform.key) : null}
-                          onClick={(e) => e.stopPropagation()}
-                          disabled={!hasGraphData}
-                        />
-                        <span className={`text-xs font-semibold ${hasGraphData ? 'text-white' : 'text-white/40'}`}>{platform.name}</span>
-                      </label>
-                      <a
-                        href={platform.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`text-xs transition-colors ${
-                          hasGraphData
-                            ? 'text-blue-400 hover:text-blue-300'
-                            : 'text-gray-500 cursor-not-allowed'
-                        }`}
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        ↗
-                      </a>
-      </div>
+                    {/* corner link triangle */}
+                    <a
+                      href={platform.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="absolute right-0 top-0 size-8 rounded-tr-md overflow-hidden"
+                      style={{
+                        backgroundColor: 'rgba(255,255,255,0.12)',
+                        clipPath: 'polygon(0 0, 100% 0, 100% 100%)'
+                      }}
+                      aria-label={`${platform.name} link`}
+                    >
+                      <span className="absolute right-1 top-0.5 text-[10px] text-white/85">↗</span>
+                    </a>
 
-                    <div className="space-y-1 mt-1">
-                      {platform.key === 'x' && (
-                        <>
-                          <label className="flex items-center justify-between gap-2 text-xs text-white/80" onClick={(e) => e.stopPropagation()}>
-                            <span className="flex items-center gap-2">
-                              <input type="checkbox" checked={xStatVisibility.followers} onChange={(e) => setXStatVisibility(prev => ({...prev, followers: e.target.checked}))} onClick={(e) => e.stopPropagation()} />
-                              <span className="flex items-center gap-2">Followers<div className="w-2 h-2 rounded-full bg-black" /></span>
-                            </span>
-                            <span className="font-semibold text-white">{formatNumber(xLatestFollowers ?? 0)}</span>
-                          </label>
-                          <label className="flex items-center justify-between gap-2 text-xs text-white/80" onClick={(e) => e.stopPropagation()}>
-                            <span className="flex items-center gap-2">
-                              <input type="checkbox" checked={xStatVisibility.impressions} onChange={(e) => setXStatVisibility(prev => ({...prev, impressions: e.target.checked}))} onClick={(e) => e.stopPropagation()} />
-                              <span className="flex items-center gap-2">Impressions<div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'rgb(29, 155, 240)' }} /></span>
-                            </span>
-                            <span className="font-medium text-white/90">{formatNumber(xLatestImpressions ?? 0)}</span>
-                          </label>
-                          <label className="flex items-center justify-between gap-2 text-xs text-white/80" onClick={(e) => e.stopPropagation()}>
-                            <span className="flex items-center gap-2">
-                              <input type="checkbox" checked={xStatVisibility.engagements} onChange={(e) => setXStatVisibility(prev => ({...prev, engagements: e.target.checked}))} onClick={(e) => e.stopPropagation()} />
-                              <span className="flex items-center gap-2">Engagements<div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'rgb(255, 99, 132)' }} /></span>
-                            </span>
-                            <span className="font-medium text-white/90">{formatNumber(xLatestEngagements ?? 0)}</span>
-                          </label>
-                          <label className="flex items-center justify-between gap-2 text-xs text-white/80" onClick={(e) => e.stopPropagation()}>
-                            <span className="flex items-center gap-2">
-                              <input type="checkbox" checked={xStatVisibility.likes} onChange={(e) => setXStatVisibility(prev => ({...prev, likes: e.target.checked}))} onClick={(e) => e.stopPropagation()} />
-                              <span className="flex items-center gap-2">Likes<div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'rgb(75, 192, 192)' }} /></span>
-                            </span>
-                            <span className="font-medium text-white/90">{formatNumber(xLatestLikes ?? 0)}</span>
-                          </label>
-                        </>
-                      )}
-                      {platform.key !== 'x' && platform.key !== 'linkedin' && (
-                        <>
-              <div className="flex items-center justify-between">
-                            <span className={`text-xs ${hasGraphData ? 'text-white/60' : 'text-white/30'}`}>{platform.primaryLabel}</span>
-                            <span className={`text-xs font-semibold ${hasGraphData ? 'text-white' : 'text-white/40'}`}>{platform.primaryMetric}</span>
-                  </div>
-                          <div className="flex items-center justify-between">
-                            <span className={`text-xs ${hasGraphData ? 'text-white/60' : 'text-white/30'}`}>{platform.secondaryLabel}</span>
-                            <span className={`text-xs font-medium ${hasGraphData ? 'text-white/80' : 'text-white/40'}`}>{platform.secondaryMetric}</span>
-                  </div>
-                        </>
-                      )}
-                      {platform.key === 'linkedin' && (
-                        <>
-                          <label className="flex items-center justify-between gap-2 text-xs text-white/80" onClick={(e) => e.stopPropagation()}>
-                            <span className="flex items-center gap-2">
-                              <input type="checkbox" checked={linkedinStatVisibility.followers} onChange={(e) => setLinkedinStatVisibility(prev => ({...prev, followers: e.target.checked}))} onClick={(e) => e.stopPropagation()} />
-                              <span className="flex items-center gap-2">Followers<div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'rgb(34, 197, 94)' }} /></span>
-                            </span>
-                            <span className="font-semibold text-white">{formatNumber(linkedinLatestFollowers ?? 0)}</span>
-                          </label>
-                        </>
-                      )}
-
-                      {platform.key === 'x' && null}
-                </div>
+                    <div className="flex-1 flex flex-col justify-center">
+                      <div className="text-[10px] text-white/70 leading-none">{platform.name}</div>
+                      <div className="flex items-baseline gap-1 mt-0.5">
+                        <div className="text-lg font-semibold text-white leading-none">
+                          {platform.key === 'youtube' ? formatNumber(youtubeLatestSubscribers ?? 0)
+                            : platform.key === 'x' ? formatNumber(xLatestFollowers ?? 0)
+                            : platform.key === 'linkedin' ? formatNumber(linkedinLatestFollowers ?? 0)
+                            : platform.primaryMetric}
+                        </div>
+                        <div className="text-[10px] text-white/60 leading-none">
+                          {platform.key === 'youtube' ? 'Subscribers' : 'Followers'}
+                        </div>
+                      </div>
+                    </div>
               </button>
             )
           })}
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => shiftWindow(1)}
+                className="shrink-0 h-14 w-7 flex items-center justify-center rounded-md bg-[#1F2021]/60 border border-[#454545] text-white/70 hover:text-white"
+                aria-label="Next platforms"
+              >
+                ›
+              </button>
               </div>
       </div>
 
@@ -840,15 +967,120 @@ export default function EcosystemPage() {
         </CardHeader>
         <CardContent>
           <div className="h-[500px]">
-            <UnifiedEcosystemChart 
-              selectedTimeframe={selectedTimeframe} 
-              visiblePlatforms={visiblePlatforms}
-              xStatVisibility={xStatVisibility}
-              linkedinStatVisibility={linkedinStatVisibility}
-            />
+        <UnifiedEcosystemChart 
+          selectedTimeframe={selectedTimeframe} 
+          visiblePlatforms={visiblePlatforms}
+          xStatVisibility={xStatVisibility}
+          linkedinStatVisibility={linkedinStatVisibility}
+          tiktokStatVisibility={tiktokStatVisibility}
+          youtubeStatVisibility={youtubeStatVisibility}
+        />
           </div>
         </CardContent>
       </Card>
+
+      {/* Platform Breakdown (responsive grid, calculated for selected timeframe) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-5 gap-3 items-stretch mb-8">
+        {platformData.map((p) => {
+          const curr = currentData?.platforms?.[p.key] as any
+          const prev = previousData?.platforms?.[p.key] as any
+          if (!curr) {
+            // Fallback to static metrics provided in platformData
+            return (
+              <div key={`breakdown-${p.key}`} className="relative bg-[#1F2021]/50 border border-[#454545] rounded-md p-3 h-28 flex flex-col">
+                <a
+                  href={p.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="absolute right-0 top-0 size-8 rounded-tr-md overflow-hidden"
+                  style={{ backgroundColor: 'rgba(255,255,255,0.12)', clipPath: 'polygon(0 0, 100% 0, 100% 100%)' }}
+                  aria-label={`${p.name} link`}
+                >
+                  <span className="absolute right-1 top-0.5 text-[10px] text-white/85">↗</span>
+                </a>
+                <div className="flex items-center justify-between mb-2 pr-7">
+                  <div className="text-sm text-white/80">{p.name}</div>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-baseline justify-between">
+                    <div className="flex items-baseline gap-1">
+                      <div className="text-white text-sm font-medium">{p.primaryMetric}</div>
+                      <div className="text-[11px] text-white/60">{p.primaryLabel}</div>
+                    </div>
+                    <div className="text-xs text-white/40">N/A</div>
+                  </div>
+                  {p.secondaryMetric !== 'N/A' && (
+                    <div className="flex items-baseline justify-between">
+                      <div className="flex items-baseline gap-1">
+                        <div className="text-white text-sm font-medium">{p.secondaryMetric}</div>
+                        <div className="text-[11px] text-white/60">{p.secondaryLabel}</div>
+                      </div>
+                      <div className="text-xs text-white/40">N/A</div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )
+          }
+
+          const metricsToShow: Array<{ label: string; key: 'subscribers' | 'followers' | 'members' | 'likes' | 'views'; value: number | undefined; prev: number | undefined }>
+            = []
+          const pushIf = (label: string, key: any) => {
+            if (typeof curr?.[key] === 'number') metricsToShow.push({ label, key, value: curr[key], prev: typeof prev?.[key] === 'number' ? prev[key] : undefined })
+          }
+          if (p.key === 'youtube') {
+            pushIf('Subscribers', 'subscribers')
+            pushIf('Views', 'views')
+          } else if (p.key === 'x' || p.key === 'linkedin' || p.key === 'farcaster' || p.key === 'medium' || p.key === 'github' || p.key === 'instagram' || p.key === 'tiktok') {
+            pushIf('Followers', 'followers')
+            pushIf('Likes', 'likes')
+            pushIf('Views', 'views')
+          } else if (p.key === 'discord' || p.key === 'telegram') {
+            pushIf('Members', 'members')
+          }
+
+          const formatChange = (val?: number, prevVal?: number) => {
+            if (typeof val !== 'number' || typeof prevVal !== 'number') return 'N/A'
+            const prevNonZero = prevVal === 0 ? 1 : prevVal
+            const deltaPct = ((val - prevNonZero) / prevNonZero) * 100
+            const pct = Math.abs(deltaPct).toFixed(1) + '%'
+            const up = deltaPct >= 0
+            return `${up ? '↗' : '↘'} ${pct}`
+          }
+
+          return (
+              <div key={`breakdown-${p.key}`} className="relative bg-[#1F2021]/50 border border-[#454545] rounded-md p-3 h-28 flex flex-col">
+              {/* Corner link triangle */}
+              <a
+                href={p.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="absolute right-0 top-0 size-8 rounded-tr-md overflow-hidden"
+                style={{ backgroundColor: 'rgba(255,255,255,0.12)', clipPath: 'polygon(0 0, 100% 0, 100% 100%)' }}
+                aria-label={`${p.name} link`}
+              >
+                <span className="absolute right-1 top-0.5 text-[10px] text-white/85">↗</span>
+              </a>
+              <div className="flex items-center justify-between mb-2 pr-7">
+                <div className="text-base font-semibold text-white/90">{p.name}</div>
+              </div>
+              <div className="space-y-2">
+                {metricsToShow.slice(0, 3).map((m) => (
+                  <div key={`${p.key}-${m.key}`} className="flex items-baseline justify-between">
+                    <div className="flex items-baseline gap-1">
+                      <div className="text-white text-sm font-medium">{formatNumber(m.value ?? 0)}</div>
+                      <div className="text-[11px] text-white/60">{m.label}</div>
+                    </div>
+                    <div className={`text-xs ${typeof m.prev === 'number' && typeof m.value === 'number' && (m.value - (m.prev === 0 ? 1 : m.prev)) >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                      {formatChange(m.value, m.prev)}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
 }
