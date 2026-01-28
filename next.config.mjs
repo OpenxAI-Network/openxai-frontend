@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  assetPrefix: "/dashboard",
   reactStrictMode: true,
   webpack: (webpackConfig) => {
     // For web3modal
