@@ -39,7 +39,7 @@ const config = defaultWagmiConfig({
   ssr: true,
   storage: createStorage({
     storage: cookieStorage,
-  }),
+  }) as any,
   transports: {
     [base.id]: fallback([
       http("https://base-rpc.publicnode.com"),

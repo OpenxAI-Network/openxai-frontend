@@ -654,7 +654,7 @@ export default function GenesisPage() {
                                   args: [
                                     OpenxAIGenesisContract.address,
                                     paymentAmount,
-                                  ],
+                                  ] as const,
                                 }
                               },
                               onConfirmed() {

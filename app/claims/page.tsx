@@ -81,8 +81,9 @@ export default function ClaimsPage() {
   const openAt = Date.UTC(2025, 9 - 1, 10, 18, 0, 0, 0)
   const [openIn, setOpenIn] = useState<number>(openAt - Date.now())
   useEffect(() => {
-    setInterval(() => setOpenIn(openAt - Date.now()), 1000)
-  }, [])
+    const interval = setInterval(() => setOpenIn(openAt - Date.now()), 1000)
+    return () => clearInterval(interval)
+  }, [openAt])
 
   return (
     <div>
