@@ -23,53 +23,49 @@ import {
   ChevronDown,
   ChevronRight,
   Menu,
-  X
+  X,
+  Settings,
+  User
 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
 const MENU_GROUPS = [
   {
-    label: "DASHBOARD",
+    label: "LEARN",
     items: [
-      { name: "Dashboard", href: "/dashboard", icon: <Layout size={16} /> },
-      { name: "Ecosystem", href: "/ecosystem", icon: <Globe size={16} /> },
-      { name: "Token", href: "/token", icon: <Coins size={16} /> },
-      { name: "Claims", href: "/claims", icon: <Ticket size={16} /> },
-      { name: "Earn", href: "/earn", icon: <DollarSign size={16} /> },
+      { name: "Documentation", href: "/docs", icon: <FileText size={16} /> },
+      { name: "Courses", href: "/courses", icon: <GraduationCap size={16} /> },
+      { name: "Build & Grow", href: "/build-grow", icon: <Wand2 size={16} /> },
+      { name: "Contributors", href: "/contributors", icon: <UserCircle size={16} /> },
+      { name: "Forums", href: "/forums", icon: <Terminal size={16} /> },
+      { name: "Activity", href: "/activity", icon: <Globe size={16} /> },
       { name: "Roadmap", href: "/roadmap", icon: <FileText size={16} /> },
-    ],
-  },
-  {
-    label: "MARKETPLACE",
-    items: [
-      { name: "Discover", href: "https://openxai-studio-demo.vercel.app/marketplace/discover", icon: <Search size={16} />, external: true },
     ],
   },
   {
     label: "BUILD",
     items: [
+      { name: "Discover", href: "/discover", icon: <Search size={16} /> },
       { name: "AI Models", href: "/models", icon: <Cpu size={16} /> },
       { name: "tGPUs", href: "/tgpu", icon: <Box size={16} /> },
-      { name: "App Builder", href: "/builder", icon: <Wand2 size={16} /> },
       { name: "Agents", href: "/agents", icon: <Terminal size={16} /> },
       { name: "Compute", href: "/compute", icon: <LayoutDashboard size={16} /> },
       { name: "Data", href: "/data", icon: <Database size={16} /> },
       { name: "Apps", href: "/apps", icon: <AppWindow size={16} /> },
       { name: "Network", href: "/network", icon: <Globe size={16} /> },
       { name: "Compare", href: "/compare", icon: <Layout size={16} /> },
+      { name: "App Builder", href: "/builder", icon: <Wand2 size={16} /> },
     ],
   },
   {
-    label: "LEARN",
+    label: "EARN",
     items: [
-      { name: "Courses", href: "/community/courses", icon: <GraduationCap size={16} /> },
-      { name: "Documentation", href: "/docs", icon: <FileText size={16} /> },
-      { name: "Build & Grow", href: "/build-grow", icon: <Wand2 size={16} /> },
-      { name: "Contributors", href: "/contributors", icon: <UserCircle size={16} /> },
-      { name: "Forums", href: "/forums", icon: <Terminal size={16} /> },
-      { name: "Activity", href: "/activity", icon: <Globe size={16} /> },
-      { name: "Profile", href: "http://localhost:3002/community/profile", icon: <UserCircle size={16} />, external: true },
+      { name: "Dashboard", href: "/dashboard", icon: <Layout size={16} /> },
+      { name: "Ecosystem", href: "/ecosystem", icon: <Globe size={16} /> },
+      { name: "Token", href: "/token", icon: <Coins size={16} /> },
+      { name: "Claims", href: "/claims", icon: <Ticket size={16} /> },
+      { name: "Earn", href: "/earn", icon: <DollarSign size={16} /> },
     ],
   },
 ]
@@ -78,6 +74,7 @@ export function V10SidebarStandalone() {
   const pathname = usePathname()
   const [isOpen, setIsOpen] = React.useState(false)
   const [collapsedGroups, setCollapsedGroups] = React.useState<string[]>([])
+  const [isConnected, setIsConnected] = React.useState(false) // Mock
 
   const toggleGroup = (label: string) => {
     setCollapsedGroups(prev => 
@@ -88,137 +85,109 @@ export function V10SidebarStandalone() {
   }
 
   const SidebarContent = () => (
-    <div style={{
-      height: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-      padding: '16px',
-      position: 'relative'
-    }}>
-      {/* V10 Portal Indicator Strip - Matched to Portal Shell */}
-      <div style={{
-        position: 'absolute',
-        left: 0,
-        top: 0,
-        bottom: 0,
-        width: '4px',
-        backgroundColor: '#2563eb',
-        boxShadow: '0 0 15px rgba(37,99,235,0.8)'
-      }} />
+    <div className="flex h-full flex-col p-4">
+      {/* V10 Portal Indicator Strip */}
+      <div className="absolute left-0 top-0 bottom-0 w-1 bg-blue-600 shadow-[0_0_15px_rgba(37,99,235,0.8)]" />
       
       {/* Logo Section */}
-      <div style={{ marginBottom: '24px', marginTop: '16px', padding: '0 8px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-        <div style={{
-          width: '32px',
-          height: '32px',
-          borderRadius: '8px',
-          backgroundColor: '#2563eb',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontWeight: 900,
-          color: 'white',
-          fontStyle: 'italic',
-          boxShadow: '0 4px 10px rgba(37,99,235,0.2)'
-        }}>V</div>
-        <div style={{ fontSize: '20px', fontWeight: 'bold', letterSpacing: '-0.05em', color: 'white' }}>
-          V10 <span style={{ color: '#60a5fa' }}>PORTAL</span>
+      <div className="mb-6 mt-4 flex px-2 items-center gap-3">
+        <div className="size-8 rounded-lg flex items-center justify-center shadow-lg overflow-hidden">
+          <img src="/icon.png" alt="V10 Logo" className="w-full h-full object-contain" />
+        </div>
+        <div className="text-xl font-bold tracking-tighter text-white">
+          V10 <span className="text-blue-400">PORTAL</span>
         </div>
       </div>
 
       {/* Wallet Connect Card */}
-      <div style={{
-        position: 'relative',
-        marginBottom: '32px',
-        width: '100%',
-        borderRadius: '8px',
-        backgroundColor: '#1F2021',
-        padding: '16px',
-        border: '1px solid rgba(255,255,255,0.05)'
-      }}>
-        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
-          <span style={{ fontSize: '40px', fontWeight: 300, color: 'white', lineHeight: 1 }}>0</span>
-          <span style={{ fontSize: '12px', fontWeight: 'bold', color: 'rgba(255,255,255,0.5)', letterSpacing: '0.1em' }}>OPENX</span>
+      <div className="relative mb-8 w-full rounded-lg bg-[#1F2021] p-4 border border-white/5">
+        {/* Profile Avatar & Settings Widget */}
+        <div className={cn(
+          "mb-4 flex items-center justify-between border-b border-white/5 pb-4 transition-all",
+          !isConnected && "opacity-40 grayscale pointer-events-none"
+        )}>
+          <div className="flex items-center gap-3">
+            <div className="size-10 rounded-full bg-gradient-to-br from-gray-600 to-gray-700 border-2 border-white/10 flex items-center justify-center text-xs font-bold text-white shadow-lg overflow-hidden">
+              {isConnected ? (
+                <img 
+                  src="https://api.dicebear.com/7.x/avataaars/svg?seed=v10-studio" 
+                  alt="Profile" 
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <User className="size-5 text-white/40" />
+              )}
+            </div>
+            <div className="flex flex-col">
+              <span className="text-[11px] font-bold text-white tracking-tight">
+                {isConnected ? "0x12...abcd" : "Unauthorized"}
+              </span>
+              <span className="text-[9px] font-medium text-blue-400 uppercase tracking-widest">
+                {isConnected ? "Pilot" : "Guest Access"}
+              </span>
+            </div>
+          </div>
+          <button className="p-1.5 rounded-md hover:bg-white/5 text-white/40 hover:text-white transition-all">
+            <Settings className="size-4" />
+          </button>
         </div>
-        <button style={{
-          marginTop: '16px',
-          width: '100%',
-          borderRadius: '12px',
-          backgroundColor: '#2563eb',
-          padding: '10px 0',
-          fontSize: '14px',
-          fontWeight: 'bold',
-          color: 'white',
-          border: 'none',
-          cursor: 'pointer'
-        }}>
-          Connect Wallet
+
+        <div className="flex items-end justify-between">
+          <span className="text-[40px] font-light leading-none text-white">0</span>
+          <span className="text-[12px] font-bold text-white/50 tracking-wider">OPENX</span>
+        </div>
+        <button 
+          onClick={() => setIsConnected(!isConnected)}
+          className="mt-4 w-full rounded-xl bg-blue-600 py-2.5 text-sm font-bold text-white transition-all hover:bg-blue-500 active:scale-95 shadow-lg shadow-blue-900/20"
+        >
+          {isConnected ? "Connected" : "Connect Wallet"}
         </button>
       </div>
 
       {/* Navigation Groups */}
-      <nav style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '16px', overflowY: 'auto' }}>
+      <nav className="flex-1 space-y-4 overflow-y-auto pr-2 scrollbar-hide">
         {MENU_GROUPS.map((group) => {
           const isCollapsed = collapsedGroups.includes(group.label)
           return (
-            <div key={group.label} style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <div key={group.label} className="space-y-2">
               <button 
                 onClick={() => toggleGroup(group.label)}
-                style={{
-                  width: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  padding: '4px 8px',
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer'
-                }}
+                className="w-full flex items-center justify-between px-2 py-1 group/header"
               >
-                <h3 style={{
-                  fontSize: '10px',
-                  fontWeight: 'bold',
-                  letterSpacing: '0.2em',
-                  color: 'rgba(255,255,255,0.4)',
-                  textTransform: 'uppercase'
-                }}>
+                <h3 className="text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase">
                   {group.label}
                 </h3>
-                <span style={{ color: 'rgba(255,255,255,0.2)' }}>
-                  {isCollapsed ? <ChevronRight size={12} /> : <ChevronDown size={12} />}
+                <span className="text-white/20 group-hover/header:text-white/60 transition-colors">
+                  {isCollapsed ? <ChevronRight className="size-3" /> : <ChevronDown className="size-3" />}
                 </span>
               </button>
               
               {!isCollapsed && (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <div className="space-y-1 animate-in fade-in slide-in-from-top-1 duration-200">
                   {group.items.map((item) => {
+                    if (item.name === "App Builder" && process.env.NODE_ENV === 'production') return null;
+
                     const isActive = pathname === item.href
                     
                     return (
                       <NextLink
                         key={item.name}
                         href={item.href}
-                        target={item.external ? "_blank" : undefined}
                         onClick={() => setIsOpen(false)}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '12px',
-                          borderRadius: '8px',
-                          padding: '8px 12px',
-                          fontSize: '14px',
-                          fontWeight: 500,
-                          textDecoration: 'none',
-                          transition: 'all 0.2s',
-                          color: isActive ? 'white' : 'rgba(255,255,255,0.7)',
-                          backgroundColor: isActive ? '#2563eb' : 'transparent',
-                          boxShadow: isActive ? '0 4px 12px rgba(37,99,235,0.3)' : 'none'
-                        }}
+                        className={cn(
+                          "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200",
+                          isActive 
+                            ? "bg-[#2563eb] text-white shadow-lg shadow-blue-900/30" 
+                            : "text-white/70 hover:bg-white/5 hover:text-white"
+                        )}
                       >
-                        <span style={{ color: isActive ? 'white' : 'rgba(255,255,255,0.4)', display: 'flex', alignItems: 'center' }}>
+                        <span className={cn(
+                          "transition-colors",
+                          isActive ? "text-white" : "text-white/40 group-hover:text-white/80"
+                        )}>
                           {item.icon}
                         </span>
-                        <span style={{ color: 'white', fontWeight: 500 }}>{item.name}</span>
+                        <span className="text-white font-medium">{item.name}</span>
                       </NextLink>
                     )
                   })}
@@ -230,18 +199,11 @@ export function V10SidebarStandalone() {
       </nav>
 
       {/* Footer Branding */}
-      <div style={{
-        marginTop: 'auto',
-        paddingTop: '16px',
-        borderTop: '1px solid rgba(255,255,255,0.05)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '8px',
-        opacity: 0.4
-      }}>
-        <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#3b82f6' }} />
-        <span style={{ fontSize: '10px', fontWeight: 'bold', color: 'white', letterSpacing: '0.2em', textTransform: 'uppercase' }}>V10 Bare Metal Forge</span>
+      <div className="mt-auto pt-4 border-t border-white/5 flex items-center justify-center gap-1 opacity-40">
+        <div className="size-1.5 rounded-full bg-blue-500 animate-pulse mr-1" />
+        <span className="text-[10px] font-bold text-white tracking-tight uppercase">
+          Studio v10 by <a href="https://openxai.org" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 underline decoration-blue-400/30 underline-offset-2 transition-colors">OpenxAI</a>
+        </span>
       </div>
     </div>
   )

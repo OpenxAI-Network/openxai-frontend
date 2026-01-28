@@ -138,7 +138,7 @@ export default function ClaimsPage() {
                         abi: OpenxAIClaimerContract.abi,
                         address: OpenxAIClaimerContract.address,
                         functionName: "claim",
-                        args: [v ? Number(v) : yParity, r, s, address, total],
+                        args: [v ? Number(v) : yParity, r, s, address, total] as const,
                       }
                     },
                     onConfirmed() {
