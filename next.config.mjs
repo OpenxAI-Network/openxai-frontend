@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  assetPrefix: "/dashboard",
+  assetPrefix: process.env.NODE_ENV === "production" ? "/dashboard" : undefined,
   reactStrictMode: true,
   webpack: (webpackConfig) => {
     // For web3modal
