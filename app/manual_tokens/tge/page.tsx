@@ -237,6 +237,12 @@ const tge: TGEManualToken[] = [
   //   atTGE: 0.5,
   //   vestingDays: 60,
   // },
+  // {
+  //   account: "0xb18FE40C79343523cC85C0778D8C39116846cF9d",
+  //   amount: 0.5 * totalSupply,
+  //   atTGE: 1,
+  //   vestingDays: 0,
+  // },
 ]
 
 const tgeDate = Math.round(Date.UTC(2025, 9 - 1, 10, 17, 59, 0, 0) / 1000)
