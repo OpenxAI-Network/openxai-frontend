@@ -1,0 +1,172 @@
+export const OpenxAINFTClaimerContract = {
+  address: "0x19aBE353b21A6e1B4857680A35295DbF3782e15a",
+  abi: [
+    {
+      type: "constructor",
+      inputs: [{ name: "_signer", type: "address", internalType: "address" }],
+      stateMutability: "nonpayable",
+    },
+    {
+      type: "function",
+      name: "claim",
+      inputs: [
+        { name: "_v", type: "uint8", internalType: "uint8" },
+        { name: "_r", type: "bytes32", internalType: "bytes32" },
+        { name: "_s", type: "bytes32", internalType: "bytes32" },
+        { name: "_token", type: "address", internalType: "contract IERC721" },
+        { name: "_claimer", type: "address", internalType: "address" },
+        { name: "_tokenId", type: "uint256", internalType: "uint256" },
+      ],
+      outputs: [],
+      stateMutability: "nonpayable",
+    },
+    {
+      type: "function",
+      name: "eip712Domain",
+      inputs: [],
+      outputs: [
+        { name: "fields", type: "bytes1", internalType: "bytes1" },
+        { name: "name", type: "string", internalType: "string" },
+        { name: "version", type: "string", internalType: "string" },
+        { name: "chainId", type: "uint256", internalType: "uint256" },
+        { name: "verifyingContract", type: "address", internalType: "address" },
+        { name: "salt", type: "bytes32", internalType: "bytes32" },
+        { name: "extensions", type: "uint256[]", internalType: "uint256[]" },
+      ],
+      stateMutability: "view",
+    },
+    {
+      type: "function",
+      name: "owner",
+      inputs: [],
+      outputs: [{ name: "", type: "address", internalType: "address" }],
+      stateMutability: "view",
+    },
+    {
+      type: "function",
+      name: "renounceOwnership",
+      inputs: [],
+      outputs: [],
+      stateMutability: "nonpayable",
+    },
+    {
+      type: "function",
+      name: "rescue",
+      inputs: [
+        { name: "_token", type: "address", internalType: "contract IERC20" },
+        { name: "_receiver", type: "address", internalType: "address payable" },
+        { name: "_amount", type: "uint256", internalType: "uint256" },
+      ],
+      outputs: [],
+      stateMutability: "nonpayable",
+    },
+    {
+      type: "function",
+      name: "transferOwnership",
+      inputs: [{ name: "newOwner", type: "address", internalType: "address" }],
+      outputs: [],
+      stateMutability: "nonpayable",
+    },
+    {
+      type: "event",
+      name: "EIP712DomainChanged",
+      inputs: [],
+      anonymous: false,
+    },
+    {
+      type: "event",
+      name: "NFTClaimed",
+      inputs: [
+        {
+          name: "token",
+          type: "address",
+          indexed: true,
+          internalType: "address",
+        },
+        {
+          name: "account",
+          type: "address",
+          indexed: true,
+          internalType: "address",
+        },
+        {
+          name: "tokenId",
+          type: "uint256",
+          indexed: true,
+          internalType: "uint256",
+        },
+      ],
+      anonymous: false,
+    },
+    {
+      type: "event",
+      name: "OwnershipTransferred",
+      inputs: [
+        {
+          name: "previousOwner",
+          type: "address",
+          indexed: true,
+          internalType: "address",
+        },
+        {
+          name: "newOwner",
+          type: "address",
+          indexed: true,
+          internalType: "address",
+        },
+      ],
+      anonymous: false,
+    },
+    { type: "error", name: "ECDSAInvalidSignature", inputs: [] },
+    {
+      type: "error",
+      name: "ECDSAInvalidSignatureLength",
+      inputs: [{ name: "length", type: "uint256", internalType: "uint256" }],
+    },
+    {
+      type: "error",
+      name: "ECDSAInvalidSignatureS",
+      inputs: [{ name: "s", type: "bytes32", internalType: "bytes32" }],
+    },
+    { type: "error", name: "FailedCall", inputs: [] },
+    {
+      type: "error",
+      name: "InsufficientBalance",
+      inputs: [
+        { name: "balance", type: "uint256", internalType: "uint256" },
+        { name: "needed", type: "uint256", internalType: "uint256" },
+      ],
+    },
+    { type: "error", name: "InvalidProof", inputs: [] },
+    { type: "error", name: "InvalidShortString", inputs: [] },
+    {
+      type: "error",
+      name: "NotRescue",
+      inputs: [
+        { name: "caller", type: "address", internalType: "address" },
+        { name: "rescue", type: "address", internalType: "address" },
+      ],
+    },
+    {
+      type: "error",
+      name: "OwnableInvalidOwner",
+      inputs: [{ name: "owner", type: "address", internalType: "address" }],
+    },
+    {
+      type: "error",
+      name: "OwnableUnauthorizedAccount",
+      inputs: [{ name: "account", type: "address", internalType: "address" }],
+    },
+    { type: "error", name: "RescueNotAllowed", inputs: [] },
+    {
+      type: "error",
+      name: "SafeERC20FailedOperation",
+      inputs: [{ name: "token", type: "address", internalType: "address" }],
+    },
+    {
+      type: "error",
+      name: "StringTooLong",
+      inputs: [{ name: "str", type: "string", internalType: "string" }],
+    },
+  ],
+} as const

@@ -7,7 +7,7 @@ import { OpenxAIClaimerContract } from "@/contracts/OpenxAIClaimer"
 import { OpenxAINonCirculatingSupplyVestingContract } from "@/contracts/OpenxAINonCirculatingSupplyVesting"
 import { UniswapV2Contract } from "@/contracts/UniswapV2"
 import { CheckCircle, CheckCircle2 } from "lucide-react"
-import { Address, formatUnits, parseUnits } from "viem"
+import { Address, erc721Abi, formatUnits, parseUnits } from "viem"
 import { useReadContract, useReadContracts } from "wagmi"
 
 import { Button } from "@/components/ui/button"
@@ -240,7 +240,7 @@ export default function TokenPage() {
             value={
               totalSupply !== undefined && totalNonCirculating !== undefined
                 ? `<${formatBigInt({
-                    number: parseUnits("10000000", 18), //totalSupply - totalNonCirculating,
+                    number: totalSupply - totalNonCirculating,
                     maximumFractionDigits: 2,
                   })}`
                 : "..."

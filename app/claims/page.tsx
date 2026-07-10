@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
 import { OpenxAIClaimerContract } from "@/contracts/OpenxAIClaimer"
+import { OpenxAINFTClaimerContract } from "@/contracts/OpenxAINFTClaimer"
 import { useQuery } from "@tanstack/react-query"
 import { useWeb3Modal } from "@web3modal/wagmi/react"
 import axios from "axios"
@@ -83,6 +84,25 @@ export default function ClaimsPage() {
   useEffect(() => {
     setInterval(() => setOpenIn(openAt - Date.now()), 1000)
   }, [])
+
+  const { data: nftclaim, refetch: refetchNftclaim } = useQuery({
+    queryKey: ["nftclaim", address ?? ""],
+    enabled: !!address,
+    queryFn: async () => {
+      return await axios
+        .get(`https://indexer.core.openxai.org/api/nftclaim/${address}`)
+        .then(
+          (res) =>
+            res.data as {
+              collection: `0x${string}`
+              token_id: string
+              account: string
+              description: string
+              transaction_hash?: string
+            }[]
+        )
+    },
+  })
 
   return (
     <div>
@@ -247,6 +267,115 @@ export default function ClaimsPage() {
                         View on explorer
                       </Link>
                     </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div className="my-8 h-px w-full bg-[#505050]" />
+
+      <h2 className="my-10 text-xl font-bold text-white">NFT Claims</h2>
+      <div className="w-full overflow-x-auto">
+        <div className="min-w-[400px]">
+          <table className="mb-10 w-full border-collapse rounded-lg border border-[#454545] bg-[#1F2021]">
+            <thead>
+              <tr>
+                <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                  Collection
+                </th>
+                <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                  ID
+                </th>
+                <th className="border-0 border-b border-[#454545] p-4 text-left text-base font-bold text-[#D9D9D9] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                  Status
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {nftclaim?.map((claim, index) => (
+                <tr
+                  key={index}
+                  className="text-sm transition-colors hover:bg-white/5"
+                >
+                  <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                    {claim.collection ===
+                    "0x25e27C666F1E306B254d9cb3A15Bf23145E60706"
+                      ? "OPENX-GEN"
+                      : claim.collection}
+                  </td>
+                  <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                    {claim.token_id}
+                  </td>
+                  <td className="border-0 p-4 text-[#6A6A6A] [@media(max-width:400px)]:p-[2px] [@media(max-width:400px)]:text-[3px] [@media(max-width:650px)]:p-1 [@media(max-width:650px)]:text-[6px] [@media(max-width:960px)]:p-2 [@media(max-width:960px)]:text-xs">
+                    {claim.transaction_hash ? (
+                      <Button variant="outline" asChild>
+                        <Link
+                          href={`${chains[0].blockExplorers.default.url}/tx/${claim.transaction_hash}`}
+                          target="_blank"
+                        >
+                          View on explorer
+                        </Link>
+                      </Button>
+                    ) : (
+                      <Button
+                        onClick={async () => {
+                          try {
+                            if (!address) {
+                              open()
+                              return
+                            }
+
+                            const signature = await axios
+                              .post(
+                                `https://indexer.core.openxai.org/api/nftclaim/${address}/${claim.collection}/${claim.token_id}`
+                              )
+                              .then((res) => res.data as Hex)
+
+                            await performTransaction({
+                              transactionName: "Claiming proof",
+                              transaction: async () => {
+                                const { v, yParity, r, s } =
+                                  parseSignature(signature)
+                                return {
+                                  abi: OpenxAINFTClaimerContract.abi,
+                                  address: OpenxAINFTClaimerContract.address,
+                                  functionName: "claim",
+                                  args: [
+                                    v ? Number(v) : yParity,
+                                    r,
+                                    s,
+                                    claim.collection,
+                                    address,
+                                    BigInt(claim.token_id),
+                                  ],
+                                }
+                              },
+                              onConfirmed() {
+                                Promise.all([
+                                  refetchClaimed(),
+                                  new Promise(
+                                    (resolve) => setTimeout(resolve, 3000) // wait 3 seconds
+                                  ).then(() => refetchNftclaim()),
+                                ]).catch(console.error)
+                              },
+                            })
+                          } catch (e: any) {
+                            loggers?.onError?.({
+                              title: "Error",
+                              description:
+                                e?.message ?? "An unexpected error occurred.",
+                              error: e,
+                            })
+                          }
+                        }}
+                        disabled={performingTransaction}
+                      >
+                        Claim
+                      </Button>
+                    )}
                   </td>
                 </tr>
               ))}
